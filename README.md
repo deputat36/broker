@@ -16,7 +16,7 @@ SEO-сайт ипотечного брокера Татьяны Стерлико
   - Поворино и Поворинский район.
 - FAQ с микроразметкой FAQPage.
 - Контакты с телефоном, MAX через телефон и ссылкой ВКонтакте.
-- `robots.txt`, `sitemap.xml`, `.nojekyll`, `404.html`.
+- Jekyll-шаблон `_layouts/default.html`, стили, `robots.txt`, `sitemap.xml`, `404.html`.
 
 ## Публикация на GitHub Pages
 
@@ -40,8 +40,9 @@ SEO-сайт ипотечного брокера Татьяны Стерлико
 
 1. Добавить файл `CNAME` со строкой `sterlikova-ipoteka.ru`.
 2. В настройках DNS домена прописать записи для GitHub Pages.
-3. Заменить в HTML, `robots.txt` и `sitemap.xml` адрес `https://deputat36.github.io/broker/` на основной домен.
-4. Включить HTTPS в настройках GitHub Pages.
+3. В `_config.yml` заменить `url` и `baseurl` под основной домен.
+4. Проверить canonical, `robots.txt` и `sitemap.xml` после сборки.
+5. Включить HTTPS в настройках GitHub Pages.
 
 ## Что желательно добавить перед активной рекламой
 
