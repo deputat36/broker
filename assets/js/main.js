@@ -1,6 +1,6 @@
 const navToggle = document.querySelector('.nav-toggle');
 const mainNav = document.querySelector('#main-nav');
-const copyPhoneButton = document.querySelector('[data-copy-phone]');
+const copyPhoneButtons = document.querySelectorAll('[data-copy-phone]');
 const calcForm = document.querySelector('[data-mortgage-calc]');
 
 if (navToggle && mainNav) {
@@ -10,17 +10,17 @@ if (navToggle && mainNav) {
   });
 }
 
-if (copyPhoneButton) {
-  copyPhoneButton.addEventListener('click', async () => {
+copyPhoneButtons.forEach((button) => {
+  button.addEventListener('click', async () => {
     const phone = '89030250807';
     try {
       await navigator.clipboard.writeText(phone);
-      copyPhoneButton.textContent = 'Телефон скопирован';
+      button.textContent = 'Телефон скопирован';
     } catch (error) {
-      copyPhoneButton.textContent = phone;
+      button.textContent = phone;
     }
   });
-}
+});
 
 function formatRub(value) {
   return new Intl.NumberFormat('ru-RU', {
