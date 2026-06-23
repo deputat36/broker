@@ -148,6 +148,20 @@
   box-shadow: 0 24px 70px rgba(20,20,20,.1);
 }
 .card, .price-item, .scenario-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.text-button {
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-weight: inherit;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: rgba(181,18,27,.35);
+  text-underline-offset: 5px;
+}
+.text-button:hover { color: var(--red); }
 .notice {
   position: relative;
   overflow: hidden;
