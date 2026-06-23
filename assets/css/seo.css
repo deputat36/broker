@@ -99,10 +99,84 @@
 }
 .inline-cta p { margin-bottom: 0; color: rgba(255,255,255,.78); }
 
+/* Visual polish for the first screen and conversion blocks. */
+.hero {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 82% 16%, rgba(255,255,255,.2), transparent 24%),
+    radial-gradient(circle at 12% 88%, rgba(181,18,27,.72), transparent 32%),
+    linear-gradient(135deg, #101010 0%, #231013 42%, #8f0d15 100%);
+}
+.hero-content h1 {
+  text-wrap: balance;
+  text-shadow: 0 18px 48px rgba(0,0,0,.28);
+}
+.hero-card-photo {
+  position: relative;
+  overflow: visible;
+  border: 1px solid rgba(255,255,255,.42);
+  box-shadow: 0 34px 90px rgba(0,0,0,.32), 0 0 0 10px rgba(255,255,255,.08);
+  transform: rotate(.8deg);
+}
+.hero-card-photo::before {
+  position: absolute;
+  inset: -18px;
+  z-index: -1;
+  background: linear-gradient(135deg, rgba(255,255,255,.3), rgba(255,255,255,0) 48%, rgba(181,18,27,.28));
+  border-radius: 16px;
+  content: "";
+}
+.portrait-frame { border-radius: var(--radius) var(--radius) 0 0; }
+.portrait-frame img {
+  filter: saturate(1.03) contrast(1.03);
+  object-position: center top;
+}
+.hero-card-body {
+  background:
+    linear-gradient(180deg, #fff, #fff7f7);
+}
+.rate-board {
+  border-color: rgba(181,18,27,.2);
+  background: #fff;
+}
+.scenario-card, .card, .price-item, .notice, .calc-card {
+  box-shadow: 0 18px 55px rgba(20,20,20,.06);
+}
+.scenario-card:hover, .card:hover, .price-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(181,18,27,.24);
+  box-shadow: 0 24px 70px rgba(20,20,20,.1);
+}
+.card, .price-item, .scenario-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.notice {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(181,18,27,.2);
+}
+.notice::after {
+  position: absolute;
+  right: -48px;
+  bottom: -64px;
+  width: 190px;
+  height: 190px;
+  border: 1px solid rgba(181,18,27,.16);
+  border-radius: 50%;
+  content: "";
+}
+.cta-section {
+  background:
+    radial-gradient(circle at 78% 30%, rgba(255,255,255,.16), transparent 28%),
+    linear-gradient(135deg, #151515, #2b0c10 58%, #8f0d15);
+}
+.cta-section .btn-secondary { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.22); }
+
 @media (max-width: 1040px) {
   .intent-grid, .trust-panel { grid-template-columns: 1fr; }
+  .hero-card-photo { max-width: 520px; margin-inline: auto; }
 }
 @media (max-width: 760px) {
   .intent-grid, .proof-grid { grid-template-columns: 1fr; }
   .inline-cta { flex-direction: column; align-items: flex-start; }
+  .hero-card-photo { transform: none; box-shadow: 0 24px 60px rgba(0,0,0,.24); }
+  .hero-card-photo::before { inset: -10px; }
 }
