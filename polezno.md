@@ -1,0 +1,11 @@
+---
+layout: default
+title: Полезные материалы по ипотеке | Татьяна Стерликова
+description: Полезные статьи по ипотеке в Борисоглебске: подготовка к заявке, отказы банков, материнский капитал, семейная ипотека и выбор программы.
+permalink: /polezno/
+og_type: article
+---
+
+<section class="page-hero section"><div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / Полезно</div><p class="eyebrow">Полезные материалы</p><h1>Разборы по ипотеке простым языком</h1><p class="lead">Статьи для тех, кто хочет заранее понять свои шансы, не испортить заявку и спокойно подготовиться к покупке жилья.</p></section>
+<section class="section"><div class="section-head"><p class="eyebrow">Что почитать перед консультацией</p><h2>Популярные вопросы покупателей</h2><p>Эти материалы закрывают частые поисковые запросы и помогают человеку прийти на консультацию уже с понятной задачей.</p></div><div class="grid cards-4"><article class="card"><h3><a href="{{ '/polezno/kak-podgotovitsya-k-ipoteke/' | relative_url }}">Как подготовиться к ипотеке</a></h3><p>Что проверить до подачи заявки: доход, нагрузку, взнос, документы и кредитную историю.</p></article><article class="card"><h3><a href="{{ '/polezno/chto-delat-posle-otkaza/' | relative_url }}">Что делать после отказа банка</a></h3><p>Почему банки отказывают и как не усугубить ситуацию повторными заявками.</p></article><article class="card"><h3><a href="{{ '/polezno/matkapital-v-ipoteke/' | relative_url }}">Материнский капитал в ипотеке</a></h3><p>Как использовать сертификат и какие нюансы важно учитывать заранее.</p></article><article class="card"><h3><a href="{{ '/polezno/semeynaya-ipoteka-voprosy/' | relative_url }}">Семейная ипотека: вопросы</a></h3><p>Что важно уточнить по семье, объекту, взносу и требованиям банка.</p></article></div></section>
+<section class="section cta-section"><div><p class="eyebrow">Не хотите разбираться самостоятельно?</p><h2>Позвоните, и я разберу вашу ситуацию</h2><p>Для первичного разговора достаточно описать город, объект, доход, первоначальный взнос и были ли заявки в банки.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить</a><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
