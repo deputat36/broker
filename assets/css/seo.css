@@ -170,13 +170,48 @@
 }
 .cta-section .btn-secondary { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.22); }
 
+.site-footer {
+  grid-template-columns: minmax(240px, .72fr) minmax(0, 1.6fr);
+  gap: clamp(28px, 5vw, 64px);
+  padding-top: clamp(42px, 6vw, 70px);
+  padding-bottom: 30px;
+  background:
+    radial-gradient(circle at 90% 0, rgba(181,18,27,.28), transparent 28%),
+    linear-gradient(135deg, #121212, #1c0b0d);
+}
+.footer-brand p { max-width: 320px; margin: 10px 0 18px; }
+.footer-phone {
+  display: inline-flex;
+  padding: 11px 14px;
+  color: #fff;
+  background: var(--red);
+  border-radius: var(--radius);
+  font-weight: 900;
+  text-decoration: none;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(145px, 1fr));
+  gap: 22px;
+}
+.footer-col { display: grid; align-content: start; gap: 8px; }
+.footer-col strong { margin-bottom: 6px; font-size: 15px; }
+.footer-col a {
+  color: rgba(255,255,255,.72);
+  font-size: 14px;
+  text-decoration: none;
+}
+.footer-col a:hover { color: #fff; }
+
 @media (max-width: 1040px) {
   .intent-grid, .trust-panel { grid-template-columns: 1fr; }
   .hero-card-photo { max-width: 520px; margin-inline: auto; }
+  .site-footer, .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
   .intent-grid, .proof-grid { grid-template-columns: 1fr; }
   .inline-cta { flex-direction: column; align-items: flex-start; }
   .hero-card-photo { transform: none; box-shadow: 0 24px 60px rgba(0,0,0,.24); }
   .hero-card-photo::before { inset: -10px; }
+  .site-footer, .footer-grid { grid-template-columns: 1fr; }
 }
