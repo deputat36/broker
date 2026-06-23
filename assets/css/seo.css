@@ -250,6 +250,25 @@
 }
 .footer-col a:hover { color: #fff; }
 
+@media (max-width: 1120px) and (min-width: 761px) {
+  .nav-toggle { display: inline-flex; }
+  .main-nav {
+    position: absolute;
+    top: 75px;
+    right: 18px;
+    left: 18px;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .main-nav.is-open { display: flex; }
+}
+
 @media (max-width: 1040px) {
   .intent-grid, .trust-panel { grid-template-columns: 1fr; }
   .hero-card-photo { max-width: 520px; margin-inline: auto; }
