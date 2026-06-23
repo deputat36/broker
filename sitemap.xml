@@ -9,8 +9,10 @@ layout: null
   <url><loc>{{ '/etagi/' | absolute_url }}</loc><priority>0.88</priority></url>
   <url><loc>{{ '/stoimost/' | absolute_url }}</loc><priority>0.86</priority></url>
   <url><loc>{{ '/uslugi/podbor-ipoteki/' | absolute_url }}</loc><priority>0.9</priority></url>
+  <url><loc>{{ '/uslugi/refinansirovanie-ipoteki/' | absolute_url }}</loc><priority>0.86</priority></url>
   <url><loc>{{ '/uslugi/ipoteka-na-novostroyku/' | absolute_url }}</loc><priority>0.88</priority></url>
   <url><loc>{{ '/uslugi/ipoteka-na-vtorichnoe-zhile/' | absolute_url }}</loc><priority>0.88</priority></url>
+  <url><loc>{{ '/uslugi/ipoteka-na-stroitelstvo-doma/' | absolute_url }}</loc><priority>0.86</priority></url>
   <url><loc>{{ '/uslugi/semeynaya-ipoteka/' | absolute_url }}</loc><priority>0.9</priority></url>
   <url><loc>{{ '/uslugi/materinskiy-kapital/' | absolute_url }}</loc><priority>0.9</priority></url>
   <url><loc>{{ '/uslugi/otkazali-v-ipoteke/' | absolute_url }}</loc><priority>0.9</priority></url>
