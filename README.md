@@ -23,10 +23,17 @@ SEO-сайт ипотечного брокера Татьяны Стерлико
 - Контакты с телефоном, MAX через телефон и ссылкой ВКонтакте.
 - Политика обработки персональных данных.
 - Jekyll-шаблон `_layouts/default.html`, стили, `robots.txt`, `sitemap.xml`, `404.html`.
+- GitHub Actions workflow `.github/workflows/pages.yml` для автоматической сборки и публикации Pages.
 
 ## Публикация на GitHub Pages
 
-В настройках репозитория включить Pages:
+Рекомендуемый вариант:
+
+- Settings → Pages.
+- Source: `GitHub Actions`.
+- Запустить workflow `Deploy Jekyll site to Pages` вручную или дождаться запуска после push в `main`.
+
+Запасной вариант:
 
 - Source: Deploy from a branch.
 - Branch: `main`.
