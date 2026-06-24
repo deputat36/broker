@@ -29,6 +29,7 @@ layout: null
   <url><loc>{{ '/geo/gribanovskiy/' | absolute_url }}</loc><priority>0.85</priority></url>
   <url><loc>{{ '/geo/povorino/' | absolute_url }}</loc><priority>0.85</priority></url>
   <url><loc>{{ '/polezno/' | absolute_url }}</loc><priority>0.82</priority></url>
+  <url><loc>{{ '/polezno/chto-proverit-pered-pokupkoy-vtorichnogo-zhilya/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/dokumenty-dlya-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/pervonachalnyy-vznos-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
