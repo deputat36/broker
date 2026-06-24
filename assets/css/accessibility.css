@@ -41,6 +41,21 @@
   content: "";
 }
 
+.calc-result.is-error {
+  color: var(--black);
+  background: #fff3d6;
+  border: 1px solid #e6b84b;
+}
+
+.calc-result.is-error span,
+.calc-result.is-error small { color: #765818; }
+
+.calc-result.is-error strong {
+  color: #7c0a10;
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.15;
+}
+
 .error-hero h1 { max-width: 760px; }
 
 @media (max-width: 1120px) {
