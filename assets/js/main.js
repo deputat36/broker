@@ -1,18 +1,20 @@
 const navToggle = document.querySelector('.nav-toggle');
 const mainNav = document.querySelector('#main-nav');
 const copyPhoneButtons = document.querySelectorAll('[data-copy-phone]');
-const calcForm = document.querySelector('[data-mortgage-calc]');
+const calcForms = document.querySelectorAll('[data-mortgage-calc]');
 
 function closeMainNav() {
   if (!navToggle || !mainNav) return;
   mainNav.classList.remove('is-open');
   navToggle.setAttribute('aria-expanded', 'false');
+  navToggle.setAttribute('aria-label', 'Открыть меню сайта');
 }
 
 if (navToggle && mainNav) {
   navToggle.addEventListener('click', () => {
     const isOpen = mainNav.classList.toggle('is-open');
     navToggle.setAttribute('aria-expanded', String(isOpen));
+    navToggle.setAttribute('aria-label', isOpen ? 'Закрыть меню сайта' : 'Открыть меню сайта');
   });
 
   mainNav.querySelectorAll('a').forEach((link) => {
@@ -26,7 +28,7 @@ if (navToggle && mainNav) {
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' && mainNav.classList.contains('is-open')) {
       closeMainNav();
       navToggle.focus();
     }
@@ -62,28 +64,41 @@ function formatRub(value) {
   }).format(value);
 }
 
-function calculateMortgage() {
-  if (!calcForm) return;
+function showCalcMessage(result, message) {
+  result.classList.add('is-error');
+  result.innerHTML = `<span>Проверьте данные</span><strong>${message}</strong><small>Измените значение, и расчет обновится автоматически.</small>`;
+}
 
+function calculateMortgage(calcForm) {
   const amount = Number(calcForm.querySelector('[name="amount"]').value || 0);
   const down = Number(calcForm.querySelector('[name="down"]').value || 0);
   const rate = Number(calcForm.querySelector('[name="rate"]').value || 0);
   const years = Number(calcForm.querySelector('[name="years"]').value || 0);
   const result = calcForm.querySelector('[data-calc-result]');
-  const credit = Math.max(amount - down, 0);
-  const months = Math.max(years * 12, 1);
+
+  if (!result) return;
+  if (amount <= 0) return showCalcMessage(result, 'Укажите стоимость жилья');
+  if (down < 0) return showCalcMessage(result, 'Взнос не может быть отрицательным');
+  if (down >= amount) return showCalcMessage(result, 'Взнос должен быть меньше стоимости жилья');
+  if (rate < 0 || rate > 100) return showCalcMessage(result, 'Укажите ставку от 0 до 100%');
+  if (years < 1 || years > 30) return showCalcMessage(result, 'Укажите срок от 1 до 30 лет');
+
+  const credit = amount - down;
+  const months = years * 12;
   const monthlyRate = rate / 100 / 12;
   let payment = credit / months;
 
   if (monthlyRate > 0) {
-    const coefficient = (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
-    payment = credit * coefficient;
+    const growth = Math.pow(1 + monthlyRate, months);
+    payment = credit * ((monthlyRate * growth) / (growth - 1));
   }
 
-  result.innerHTML = `<span>Примерный платеж</span><strong>${formatRub(payment)}</strong><small>Сумма кредита: ${formatRub(credit)}. Расчет предварительный, финальные условия определяет банк.</small>`;
+  const total = payment * months;
+  result.classList.remove('is-error');
+  result.innerHTML = `<span>Примерный ежемесячный платеж</span><strong>${formatRub(payment)}</strong><small>Сумма кредита: ${formatRub(credit)}. Общая выплата: около ${formatRub(total)}. Расчет предварительный, финальные условия определяет банк.</small>`;
 }
 
-if (calcForm) {
-  calcForm.addEventListener('input', calculateMortgage);
-  calculateMortgage();
-}
+calcForms.forEach((calcForm) => {
+  calcForm.addEventListener('input', () => calculateMortgage(calcForm));
+  calculateMortgage(calcForm);
+});
