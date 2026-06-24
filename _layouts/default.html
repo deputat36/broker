@@ -22,25 +22,27 @@
   <meta name="theme-color" content="#b5121b">
   <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/seo.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/accessibility.css' | relative_url }}">
   {% if page.hero_photo %}<link rel="preload" as="image" href="{{ page.hero_photo | relative_url }}">{% endif %}
   {% if page.schema %}<script type="application/ld+json">{{ page.schema }}</script>{% endif %}
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Перейти к содержимому</a>
   <header class="site-header">
     <a class="brand" href="{{ '/' | relative_url }}" aria-label="На главную"><span class="brand-mark">ТС</span><span><strong>Татьяна Стерликова</strong><small>ипотечный брокер</small></span></a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Меню</button>
-    <nav class="main-nav" id="main-nav">
-      <a href="{{ '/uslugi/' | relative_url }}">Услуги</a>
-      <a href="{{ '/konsultaciya/' | relative_url }}">Консультация</a>
-      <a href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Калькулятор</a>
-      <a href="{{ '/stoimost/' | relative_url }}">Стоимость</a>
-      <a href="{{ '/polezno/' | relative_url }}">Полезно</a>
-      <a href="{{ '/faq/' | relative_url }}">Вопросы</a>
-      <a href="{{ '/kontakty/' | relative_url }}">Контакты</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню сайта">Меню</button>
+    <nav class="main-nav" id="main-nav" aria-label="Основная навигация">
+      <a{% if page.url contains '/uslugi/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/uslugi/' | relative_url }}">Услуги</a>
+      <a{% if page.url contains '/konsultaciya/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/konsultaciya/' | relative_url }}">Консультация</a>
+      <a{% if page.url contains '/kalkulyator-ipoteki/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Калькулятор</a>
+      <a{% if page.url contains '/stoimost/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/stoimost/' | relative_url }}">Стоимость</a>
+      <a{% if page.url contains '/polezno/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/polezno/' | relative_url }}">Полезно</a>
+      <a{% if page.url contains '/faq/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/faq/' | relative_url }}">Вопросы</a>
+      <a{% if page.url contains '/kontakty/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/kontakty/' | relative_url }}">Контакты</a>
       <a class="nav-phone" href="tel:+79030250807">8 903 025-08-07</a>
     </nav>
   </header>
-  <main>{{ content }}</main>
+  <main id="main-content" tabindex="-1">{{ content }}</main>
   <div class="sticky-contacts" aria-label="Быстрая связь с ипотечным брокером"><a class="sticky-action sticky-call" href="tel:+79030250807">Позвонить</a><button class="sticky-action" type="button" data-copy-phone>MAX</button><a class="sticky-action" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
   <footer class="site-footer">
     <div class="footer-brand"><strong>Татьяна Стерликова</strong><p>Ипотечный брокер. Борисоглебск, Грибановский, Поворино.</p><a class="footer-phone" href="tel:+79030250807">8 903 025-08-07</a></div>
