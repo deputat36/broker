@@ -96,6 +96,12 @@
 
 .text-link:hover { color: var(--red); }
 
+.calc-field input[aria-invalid="true"] {
+  background: #fff8e8;
+  border-color: #b5121b;
+  box-shadow: 0 0 0 3px rgba(181, 18, 27, .1);
+}
+
 .calc-result.is-error {
   color: var(--black);
   background: #fff3d6;
