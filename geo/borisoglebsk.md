@@ -1,10 +1,45 @@
 ---
 layout: default
-title: Ипотека в Борисоглебске | Ипотечный брокер Татьяна Стерликова
-description: Ипотека в Борисоглебске и Борисоглебском городском округе: консультация брокера, подбор программы, семейная ипотека, материнский капитал.
+title: Ипотечный брокер в Борисоглебске | Татьяна Стерликова
+description: Консультация ипотечного брокера в Борисоглебске: подбор ипотеки, покупка квартиры или дома, семейная ипотека, маткапитал и разбор отказа банка.
 permalink: /geo/borisoglebsk/
 og_type: article
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Услуги ипотечного брокера в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация и сопровождение по ипотеке","url":"https://deputat36.github.io/broker/geo/borisoglebsk/"}'
 ---
 
-<section class="page-hero section"><div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / География / Борисоглебск</div><p class="eyebrow">Локальная ипотека</p><h1>Ипотечный брокер в Борисоглебске</h1><p class="lead">Консультации по ипотеке для покупки квартиры, дома, новостройки или объекта на вторичном рынке в Борисоглебске и Борисоглебском городском округе.</p><div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить</a><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">Написать ВКонтакте</a></div></section>
-<section class="section content-layout"><article class="content-main"><h2>Какие задачи решает ипотечный брокер</h2><p>В Борисоглебске покупатели часто выбирают между вторичным жильем, новостройками, домами и объектами с использованием материнского капитала. В каждом варианте есть свои требования банков, документы и риски по срокам. Задача брокера — заранее объяснить маршрут и помочь подготовить заявку.</p><h2>Популярные обращения</h2><ul><li>купить квартиру в ипотеку в Борисоглебске;</li><li>рассчитать семейную ипотеку;</li><li>использовать материнский капитал;</li><li>понять, одобрят ли ипотеку с текущим доходом;</li><li>разобраться после отказа банка.</li></ul><h2>Если вы клиент «ЭТАЖИ»</h2><p>Для клиентов компании «ЭТАЖИ» ипотечное сопровождение бесплатно: услуга включена в комиссию при проведении сделки. Это удобно, если нужно одновременно подобрать объект, проверить документы и пройти ипотеку.</p></article><aside class="sidebar"><div class="seo-panel"><h3>Консультация</h3><p>Первичный разбор ситуации бесплатный.</p><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a></div><div class="seo-panel"><h3>Услуги</h3><ul><li><a href="{{ '/uslugi/podbor-ipoteki/' | relative_url }}">Подбор ипотеки</a></li><li><a href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека</a></li><li><a href="{{ '/uslugi/slozhnaya-ipoteka/' | relative_url }}">Сложная ипотека</a></li></ul></div></aside></section>
+<section class="page-hero section">
+  <div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / <a href="{{ '/geo/' | relative_url }}">География</a> / Борисоглебск</div>
+  <p class="eyebrow">Борисоглебск и городской округ</p>
+  <h1>Ипотечный брокер в Борисоглебске</h1>
+  <p class="lead">Помощь с подготовкой ипотечной заявки для покупки квартиры, дома, новостройки или вторичного жилья в Борисоглебске и населенных пунктах городского округа.</p>
+  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><p class="eyebrow">С чем можно обратиться</p><h2>Ипотечные задачи покупателей из Борисоглебска</h2><p>На консультации оценивается не только желаемая сумма. Важно сопоставить доход, кредитную нагрузку, первоначальный взнос, выбранный объект и требования банков.</p></div>
+  <div class="grid cards-4">
+    <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Квартира на вторичном рынке</a></h3><p>Предварительная оценка заявки и требований банка к заемщику и объекту.</p></article>
+    <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-novostroyku/' | relative_url }}">Квартира в новостройке</a></h3><p>Разбор доступных программ, первоначального взноса и порядка оформления.</p></article>
+    <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-dom/' | relative_url }}">Покупка дома</a></h3><p>Проверка параметров дома, участка и документов до подачи заявки.</p></article>
+    <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-stroitelstvo-doma/' | relative_url }}">Строительство дома</a></h3><p>Участок, подрядчик, смета, этапы финансирования и требования программы.</p></article>
+  </div>
+</section>
+
+<section class="section content-layout">
+  <article class="content-main">
+    <h2>Когда особенно полезен предварительный разбор</h2>
+    <p>Лучше обратиться до отправки заявок в банки, особенно если доход подтверждается нестандартно, есть действующие кредиты, использовались кредитные карты, планируется материнский капитал или ранее уже был отказ.</p>
+    <h2>Какие данные подготовить</h2>
+    <ul><li>примерную стоимость и тип объекта;</li><li>сумму первоначального взноса;</li><li>доход и форму занятости заемщиков;</li><li>действующие кредиты, карты и рассрочки;</li><li>сведения о предыдущих ипотечных заявках.</li></ul>
+    <h2>Как проходит работа</h2>
+    <p>Сначала Татьяна проводит бесплатную первичную консультацию и определяет, какие данные нужно уточнить. Если требуется полноценное сопровождение, объем работы и стоимость согласуются заранее. Для клиентов компании «ЭТАЖИ» ипотечное сопровождение включено в комиссию компании и отдельно не оплачивается.</p>
+  </article>
+  <aside class="sidebar">
+    <div class="seo-panel"><h3>Первичная консультация</h3><p>Коротко опишите объект, доход, взнос и предыдущие заявки.</p><a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Как проходит консультация</a></div>
+    <div class="seo-panel"><h3>Сложные ситуации</h3><ul><li><a href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">После отказа банка</a></li><li><a href="{{ '/uslugi/ipoteka-bez-oficialnogo-dohoda/' | relative_url }}">Без официального дохода</a></li><li><a href="{{ '/uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/' | relative_url }}">Кредитная история</a></li></ul></div>
+  </aside>
+</section>
+
+<section class="section muted"><div class="section-head"><p class="eyebrow">Популярные программы</p><h2>Отдельные вопросы перед заявкой</h2></div><div class="grid cards-3"><article class="card"><h3><a href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека</a></h3><p>Проверка соответствия условиям программы и выбранного объекта.</p></article><article class="card"><h3><a href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">Материнский капитал</a></h3><p>Как учесть сертификат в структуре сделки и первоначальном взносе.</p></article><article class="card"><h3><a href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Расчет платежа</a></h3><p>Предварительный расчет суммы кредита, срока и ежемесячного платежа.</p></article></div></section>
+
+<section class="section cta-section"><div><p class="eyebrow">Ипотека в Борисоглебске</p><h2>Начните с бесплатной консультации</h2><p>Позвоните или напишите Татьяне. Окончательное решение по заявке и условиям всегда принимает банк.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
