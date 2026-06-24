@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Татьяна Стерликова — ипотечный брокер в Борисоглебске
- description: О работе ипотечного брокера Татьяны Стерликовой: консультации, подбор ипотеки, сложные заявки и бесплатное сопровождение клиентов компании ЭТАЖИ.
+description: О работе ипотечного брокера Татьяны Стерликовой: консультации, подбор ипотеки, сложные заявки и бесплатное сопровождение клиентов компании ЭТАЖИ.
 permalink: /o-brokere/
 og_type: profile
 schema: '{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":{"@type":"Person","name":"Татьяна Стерликова","jobTitle":"Ипотечный брокер","telephone":"+79030250807","image":"https://deputat36.github.io/broker/assets/img/tatyana-social.jpg","url":"https://deputat36.github.io/broker/o-brokere/","sameAs":["https://vk.com/tatyanasterlikova"],"areaServed":["Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"]}}'
