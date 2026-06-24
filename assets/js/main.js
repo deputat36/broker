@@ -33,11 +33,18 @@ if (navToggle && mainNav) {
       navToggle.focus();
     }
   });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1120) closeMainNav();
+  });
 }
 
 copyPhoneButtons.forEach((button) => {
   const initialText = button.textContent;
   let resetTimer;
+
+  button.setAttribute('aria-live', 'polite');
+  button.setAttribute('aria-atomic', 'true');
 
   button.addEventListener('click', async () => {
     const phone = '89030250807';
@@ -64,7 +71,14 @@ function formatRub(value) {
   }).format(value);
 }
 
-function showCalcMessage(result, message) {
+function setInvalidField(calcForm, fieldName) {
+  calcForm.querySelectorAll('input').forEach((input) => {
+    input.setAttribute('aria-invalid', String(input.name === fieldName));
+  });
+}
+
+function showCalcMessage(calcForm, result, message, fieldName) {
+  setInvalidField(calcForm, fieldName);
   result.classList.add('is-error');
   result.innerHTML = `<span>Проверьте данные</span><strong>${message}</strong><small>Измените значение, и расчет обновится автоматически.</small>`;
 }
@@ -77,11 +91,11 @@ function calculateMortgage(calcForm) {
   const result = calcForm.querySelector('[data-calc-result]');
 
   if (!result) return;
-  if (amount <= 0) return showCalcMessage(result, 'Укажите стоимость жилья');
-  if (down < 0) return showCalcMessage(result, 'Взнос не может быть отрицательным');
-  if (down >= amount) return showCalcMessage(result, 'Взнос должен быть меньше стоимости жилья');
-  if (rate < 0 || rate > 100) return showCalcMessage(result, 'Укажите ставку от 0 до 100%');
-  if (years < 1 || years > 30) return showCalcMessage(result, 'Укажите срок от 1 до 30 лет');
+  if (amount <= 0) return showCalcMessage(calcForm, result, 'Укажите стоимость жилья', 'amount');
+  if (down < 0) return showCalcMessage(calcForm, result, 'Взнос не может быть отрицательным', 'down');
+  if (down >= amount) return showCalcMessage(calcForm, result, 'Взнос должен быть меньше стоимости жилья', 'down');
+  if (rate < 0 || rate > 100) return showCalcMessage(calcForm, result, 'Укажите ставку от 0 до 100%', 'rate');
+  if (years < 1 || years > 30) return showCalcMessage(calcForm, result, 'Укажите срок от 1 до 30 лет', 'years');
 
   const credit = amount - down;
   const months = years * 12;
@@ -94,11 +108,18 @@ function calculateMortgage(calcForm) {
   }
 
   const total = payment * months;
+  setInvalidField(calcForm, '');
   result.classList.remove('is-error');
   result.innerHTML = `<span>Примерный ежемесячный платеж</span><strong>${formatRub(payment)}</strong><small>Сумма кредита: ${formatRub(credit)}. Общая выплата: около ${formatRub(total)}. Расчет предварительный, финальные условия определяет банк.</small>`;
 }
 
 calcForms.forEach((calcForm) => {
+  const result = calcForm.querySelector('[data-calc-result]');
+  if (result) {
+    result.setAttribute('aria-live', 'polite');
+    result.setAttribute('aria-atomic', 'true');
+  }
+
   calcForm.addEventListener('input', () => calculateMortgage(calcForm));
   calculateMortgage(calcForm);
 });
