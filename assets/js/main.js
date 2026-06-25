@@ -5,12 +5,9 @@ const calcForms = document.querySelectorAll('[data-mortgage-calc]');
 
 function sendGoal(goalName) {
   if (typeof window.ym !== 'function') return;
-  const counters = Object.keys(window).filter((key) => key.indexOf('yaCounter') === 0);
-  if (!counters.length) return;
-  counters.forEach((counterName) => {
-    const counterId = counterName.replace('yaCounter', '');
-    if (counterId) window.ym(counterId, 'reachGoal', goalName);
-  });
+  const counterId = window.siteAnalytics && window.siteAnalytics.yandexMetrikaId;
+  if (!counterId) return;
+  window.ym(counterId, 'reachGoal', goalName);
 }
 
 function closeMainNav() {
