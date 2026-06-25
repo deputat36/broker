@@ -246,6 +246,46 @@
 }
 .footer-col a:hover { color: #fff; }
 
+.breadcrumbs {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 18px clamp(18px, 4vw, 28px) 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+.breadcrumbs li + li::before {
+  margin-right: 8px;
+  color: rgba(181,18,27,.55);
+  content: "/";
+}
+.breadcrumbs a {
+  color: var(--red-dark);
+  font-weight: 900;
+  text-decoration: none;
+}
+.breadcrumbs a:hover { color: var(--red); text-decoration: underline; text-underline-offset: 4px; }
+.breadcrumbs [aria-current="page"] {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @media (max-width: 1120px) and (min-width: 761px) {
   .nav-toggle { display: inline-flex; }
   .main-nav {
@@ -332,7 +372,13 @@
   .lead { font-size: 18px; line-height: 1.48; }
   .eyebrow { font-size: 12px; overflow-wrap: anywhere; }
   .page-hero { padding-top: 40px; padding-bottom: 38px; }
-  .breadcrumbs { margin-bottom: 16px; overflow-wrap: anywhere; }
+  .breadcrumbs {
+    padding: 12px 16px 0;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+  }
+  .breadcrumbs ol { gap: 6px; }
+  .breadcrumbs [aria-current="page"] { white-space: normal; }
 
   .hero-actions, .cta-actions {
     width: 100%;
