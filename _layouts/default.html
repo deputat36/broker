@@ -37,6 +37,17 @@
   {% if page.hero_photo %}<link rel="preload" as="image" href="{{ page.hero_photo | relative_url }}">{% endif %}
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"{{ '/o-brokere/' | absolute_url }}#tatyana","name":"Татьяна Стерликова","jobTitle":"Ипотечный брокер","telephone":"+79030250807","url":"{{ '/o-brokere/' | absolute_url }}","image":"{{ '/assets/img/tatyana-social.jpg' | absolute_url }}","sameAs":["https://vk.com/tatyanasterlikova"]},{"@type":"FinancialService","@id":"{{ '/' | absolute_url }}#service","name":"Ипотечный брокер Татьяна Стерликова","url":"{{ '/' | absolute_url }}","telephone":"+79030250807","founder":{"@id":"{{ '/o-brokere/' | absolute_url }}#tatyana"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"},{"@type":"AdministrativeArea","name":"Грибановский район"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"priceRange":"Бесплатная первичная консультация; сопровождение от 15000 RUB"}]}</script>
   {% if page.schema %}<script type="application/ld+json">{{ page.schema }}</script>{% endif %}
+  {% unless page.url == '/' or page.url == '/404.html' or page.hide_breadcrumbs %}
+    {% assign current_label_schema = page.breadcrumb | default: page.h1 | default: page.title %}
+    {% assign parts_schema = page.url | split: '/' %}
+    {% assign section_schema = parts_schema[1] %}
+    {% assign parent_label_schema = '' %}
+    {% assign parent_url_schema = '' %}
+    {% if section_schema == 'uslugi' and page.url != '/uslugi/' %}{% assign parent_label_schema = 'Услуги' %}{% assign parent_url_schema = '/uslugi/' %}{% endif %}
+    {% if section_schema == 'polezno' and page.url != '/polezno/' %}{% assign parent_label_schema = 'Полезно' %}{% assign parent_url_schema = '/polezno/' %}{% endif %}
+    {% if section_schema == 'geo' and page.url != '/geo/' %}{% assign parent_label_schema = 'География' %}{% assign parent_url_schema = '/geo/' %}{% endif %}
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"{{ '/' | absolute_url }}"}{% if parent_label_schema != '' %},{"@type":"ListItem","position":2,"name":{{ parent_label_schema | jsonify }},"item":"{{ parent_url_schema | absolute_url }}"},{"@type":"ListItem","position":3,"name":{{ current_label_schema | strip_html | jsonify }},"item":"{{ page.url | absolute_url }}"}{% else %},{"@type":"ListItem","position":2,"name":{{ current_label_schema | strip_html | jsonify }},"item":"{{ page.url | absolute_url }}"}{% endif %}]}</script>
+  {% endunless %}
 </head>
 <body>
   <a class="skip-link" href="#main-content">Перейти к содержимому</a>
