@@ -18,6 +18,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Услуги
 <section class="section">
   <div class="section-head"><p class="eyebrow">С чем можно обратиться</p><h2>Ипотечные задачи покупателей из Борисоглебска</h2><p>На консультации оценивается не только желаемая сумма. Важно сопоставить доход, кредитную нагрузку, первоначальный взнос, выбранный объект и требования банков.</p></div>
   <div class="grid cards-4">
+    <article class="card"><h3><a href="{{ '/geo/borisoglebsk/ipoteka-na-kvartiru/' | relative_url }}">Квартира в Борисоглебске</a></h3><p>Отдельный маршрут для покупки квартиры: новостройка, вторичка, платеж, взнос и риски заявки.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Квартира на вторичном рынке</a></h3><p>Предварительная оценка заявки и требований банка к заемщику и объекту.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-novostroyku/' | relative_url }}">Квартира в новостройке</a></h3><p>Разбор доступных программ, первоначального взноса и порядка оформления.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-dom/' | relative_url }}">Покупка дома</a></h3><p>Проверка параметров дома, участка и документов до подачи заявки.</p></article>
