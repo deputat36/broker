@@ -27,6 +27,10 @@
   text-align: left;
 }
 
+.page-hero > .breadcrumbs {
+  display: none;
+}
+
 .main-nav a:not(.nav-phone) {
   position: relative;
   padding-block: 8px;
