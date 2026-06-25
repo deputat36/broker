@@ -55,7 +55,44 @@
       <a class="nav-phone" href="tel:+79030250807">8 903 025-08-07</a>
     </nav>
   </header>
-  <main id="main-content" tabindex="-1">{{ content }}</main>
+  <main id="main-content" tabindex="-1">
+    {% unless page.url == '/' or page.url == '/404.html' or page.hide_breadcrumbs %}
+      {% assign current_label = page.breadcrumb | default: page.h1 | default: page.title %}
+      {% assign parts = page.url | split: '/' %}
+      {% assign section = parts[1] %}
+      <nav class="breadcrumbs" aria-label="Навигационная цепочка">
+        <ol>
+          <li><a href="{{ '/' | relative_url }}">Главная</a></li>
+          {% if section == 'uslugi' %}
+            {% if page.url == '/uslugi/' %}<li aria-current="page">Услуги</li>{% else %}<li><a href="{{ '/uslugi/' | relative_url }}">Услуги</a></li><li aria-current="page">{{ current_label }}</li>{% endif %}
+          {% elsif section == 'polezno' %}
+            {% if page.url == '/polezno/' %}<li aria-current="page">Полезно</li>{% else %}<li><a href="{{ '/polezno/' | relative_url }}">Полезно</a></li><li aria-current="page">{{ current_label }}</li>{% endif %}
+          {% elsif section == 'geo' %}
+            {% if page.url == '/geo/' %}<li aria-current="page">География</li>{% else %}<li><a href="{{ '/geo/' | relative_url }}">География</a></li><li aria-current="page">{{ current_label }}</li>{% endif %}
+          {% elsif section == 'konsultaciya' %}
+            <li aria-current="page">Консультация</li>
+          {% elsif section == 'kalkulyator-ipoteki' %}
+            <li aria-current="page">Калькулятор ипотеки</li>
+          {% elsif section == 'stoimost' %}
+            <li aria-current="page">Стоимость</li>
+          {% elsif section == 'faq' %}
+            <li aria-current="page">Вопросы</li>
+          {% elsif section == 'kontakty' %}
+            <li aria-current="page">Контакты</li>
+          {% elsif section == 'o-brokere' %}
+            <li aria-current="page">О брокере</li>
+          {% elsif section == 'etagi' %}
+            <li aria-current="page">Клиентам «ЭТАЖИ»</li>
+          {% elsif section == 'policy' %}
+            <li aria-current="page">Политика</li>
+          {% else %}
+            <li aria-current="page">{{ current_label }}</li>
+          {% endif %}
+        </ol>
+      </nav>
+    {% endunless %}
+    {{ content }}
+  </main>
   <div class="sticky-contacts" aria-label="Быстрая связь с ипотечным брокером"><a class="sticky-action sticky-call" href="tel:+79030250807">Позвонить</a><button class="sticky-action" type="button" data-copy-phone>MAX</button><a class="sticky-action" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
   <footer class="site-footer">
     <div class="footer-brand"><strong>Татьяна Стерликова</strong><p>Ипотечный брокер. Борисоглебск, Грибановский, Поворино.</p><a class="footer-phone" href="tel:+79030250807">8 903 025-08-07</a></div>
