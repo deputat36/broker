@@ -3,11 +3,12 @@ layout: default
 title: Стоимость услуг ипотечного брокера | Татьяна Стерликова
 description: Сколько стоят услуги ипотечного брокера в Борисоглебске: бесплатная консультация, подбор ипотеки от 15 000 ₽, сложные заявки от 25 000 ₽, для клиентов ЭТАЖИ бесплатно.
 permalink: /stoimost/
+breadcrumb: Стоимость
 og_type: article
 schema: '{"@context":"https://schema.org","@type":"OfferCatalog","name":"Стоимость услуг ипотечного брокера Татьяны Стерликовой","itemListElement":[{"@type":"Offer","name":"Первичная консультация","price":"0","priceCurrency":"RUB"},{"@type":"Offer","name":"Подбор ипотеки и заявка","priceSpecification":{"@type":"PriceSpecification","minPrice":"15000","priceCurrency":"RUB"}},{"@type":"Offer","name":"Сложная ипотечная ситуация","priceSpecification":{"@type":"PriceSpecification","minPrice":"25000","priceCurrency":"RUB"}}]}'
 ---
 
-<section class="page-hero section"><div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / Стоимость</div><p class="eyebrow">Стоимость услуг</p><h1>Сколько стоит помощь ипотечного брокера</h1><p class="lead">Первичная консультация бесплатная. На ней можно понять вашу ситуацию, примерный маршрут и необходимость дальнейшего сопровождения.</p><div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Уточнить стоимость</a><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">Написать ВКонтакте</a></div></section>
+<section class="page-hero section"><p class="eyebrow">Стоимость услуг</p><h1>Сколько стоит помощь ипотечного брокера</h1><p class="lead">Первичная консультация бесплатная. На ней можно понять вашу ситуацию, примерный маршрут и необходимость дальнейшего сопровождения.</p><div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Уточнить стоимость</a><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">Написать ВКонтакте</a></div></section>
 
 <section class="section"><div class="section-head"><p class="eyebrow">Тарифы</p><h2>Прозрачные форматы работы</h2><p>Точная стоимость зависит от задачи, сложности заявки, состава заемщиков, объекта и объема сопровождения.</p></div><div class="price-list"><article class="price-item"><h3>Первичная консультация</h3><p>Разбор задачи, ориентир по платежу, первичная оценка рисков и следующего шага.</p><strong>0 ₽</strong></article><article class="price-item"><h3>Подбор ипотеки и заявка</h3><p>Подбор банка, подготовка анкеты, сопровождение до решения по стандартной ситуации.</p><strong>от 15 000 ₽</strong></article><article class="price-item"><h3>Сложная ситуация</h3><p>Отказы банков, высокая кредитная нагрузка, ИП, самозанятый, нестандартный доход, плохая кредитная история.</p><strong>от 25 000 ₽</strong></article></div></section>
 
