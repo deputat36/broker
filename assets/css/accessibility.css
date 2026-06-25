@@ -20,6 +20,13 @@
   outline-offset: 3px;
 }
 
+.intent-card[type="button"] {
+  width: 100%;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
 .main-nav a:not(.nav-phone) {
   position: relative;
   padding-block: 8px;
