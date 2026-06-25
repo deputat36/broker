@@ -66,7 +66,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-dlya-molodoy-semi/' | relative_url }}">Молодая семья</a></h3><p>Когда жилье покупают вместе и нужно правильно оценить доход семьи.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-dlya-pensionerov/' | relative_url }}">Пенсионеры</a></h3><p>Когда на расчет влияет возраст, срок кредита и возможное участие близких.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/slozhnaya-ipoteka/' | relative_url }}">Сложная ипотека</a></h3><p>Если одного дохода недостаточно или есть риск отказа.</p></article>
-    <article class="card"><h3><a href="{{ '/polezno/kreditnaya-istoriya-pered-ipotekoy/' | relative_url }}">Кредитная история</a></h3><p>История созаемщика тоже может влиять на итоговое решение банка.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' | relative_url }}">Кредитная история</a></h3><p>История созаемщика тоже может влиять на итоговое решение банка.</p></article>
   </div>
 </section>
 
