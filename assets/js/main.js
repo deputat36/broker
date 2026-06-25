@@ -3,6 +3,16 @@ const mainNav = document.querySelector('#main-nav');
 const copyPhoneButtons = document.querySelectorAll('[data-copy-phone]');
 const calcForms = document.querySelectorAll('[data-mortgage-calc]');
 
+function sendGoal(goalName) {
+  if (typeof window.ym !== 'function') return;
+  const counters = Object.keys(window).filter((key) => key.indexOf('yaCounter') === 0);
+  if (!counters.length) return;
+  counters.forEach((counterName) => {
+    const counterId = counterName.replace('yaCounter', '');
+    if (counterId) window.ym(counterId, 'reachGoal', goalName);
+  });
+}
+
 function closeMainNav() {
   if (!navToggle || !mainNav) return;
   mainNav.classList.remove('is-open');
@@ -39,6 +49,16 @@ if (navToggle && mainNav) {
   });
 }
 
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('a');
+  if (!link) return;
+  const href = link.getAttribute('href') || '';
+  if (href.indexOf('tel:') === 0) sendGoal('phone_click');
+  if (href.indexOf('vk.com/tatyanasterlikova') !== -1) sendGoal('vk_click');
+  if (href.indexOf('/konsultaciya/') !== -1) sendGoal('consultation_click');
+  if (href.indexOf('/kontakty/') !== -1) sendGoal('contacts_click');
+});
+
 copyPhoneButtons.forEach((button) => {
   const initialText = button.textContent;
   let resetTimer;
@@ -49,6 +69,7 @@ copyPhoneButtons.forEach((button) => {
   button.addEventListener('click', async () => {
     const phone = '89030250807';
     window.clearTimeout(resetTimer);
+    sendGoal('max_copy');
 
     try {
       await navigator.clipboard.writeText(phone);
@@ -120,6 +141,13 @@ calcForms.forEach((calcForm) => {
     result.setAttribute('aria-atomic', 'true');
   }
 
-  calcForm.addEventListener('input', () => calculateMortgage(calcForm));
+  let calcGoalSent = false;
+  calcForm.addEventListener('input', () => {
+    calculateMortgage(calcForm);
+    if (!calcGoalSent) {
+      calcGoalSent = true;
+      sendGoal('calculator_input');
+    }
+  });
   calculateMortgage(calcForm);
 });
