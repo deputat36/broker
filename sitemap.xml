@@ -44,6 +44,7 @@ layout: null
   <url><loc>{{ '/polezno/chto-proverit-pered-pokupkoy-doma-v-ipoteku/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/deystvuyushchie-kredity-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/dokumenty-dlya-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
+  <url><loc>{{ '/polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kak-vybrat-bank-dlya-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kak-umenshit-platezh-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
