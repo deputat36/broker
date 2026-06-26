@@ -26,6 +26,9 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипот
     <h2>Если заемщик получает алименты</h2>
     <p>Получаемые алименты могут быть важной частью семейного бюджета, но каждый банк оценивает такие поступления по своим правилам. Важны регулярность, подтверждение поступлений и то, хватает ли основного дохода для платежа.</p>
 
+    <h2>После развода</h2>
+    <p>Если ипотека планируется после развода, кроме алиментов нужно отдельно проверить детей на содержании, прежние кредиты, созаемщика, материнский капитал и возможные юридические нюансы. Подробнее: <a class="text-link" href="{{ '/polezno/ipoteka-posle-razvoda/' | relative_url }}">ипотека после развода</a>.</p>
+
     <h2>Что еще влияет на решение банка</h2>
     <ul>
       <li>официальный доход заемщика и созаемщика;</li>
@@ -52,6 +55,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипот
     <div class="seo-panel">
       <h3>Связанные материалы</h3>
       <ul>
+        <li><a href="{{ '/polezno/ipoteka-posle-razvoda/' | relative_url }}">Ипотека после развода</a></li>
         <li><a href="{{ '/polezno/sozaemshchik-po-ipoteke/' | relative_url }}">Созаемщик по ипотеке</a></li>
         <li><a href="{{ '/polezno/ipoteka-v-dekrete/' | relative_url }}">Ипотека в декрете</a></li>
         <li><a href="{{ '/polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/' | relative_url }}">Комфортный платеж</a></li>
@@ -82,8 +86,8 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипот
   </div>
   <div class="grid cards-4">
     <article class="card"><h3><a href="{{ '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' | relative_url }}">Кредитная нагрузка</a></h3><p>Как кредиты, карты и платежи влияют на заявку.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/ipoteka-posle-razvoda/' | relative_url }}">После развода</a></h3><p>Доход, алименты, дети, созаемщик и юридические нюансы.</p></article>
     <article class="card"><h3><a href="{{ '/polezno/sozaemshchik-po-ipoteke/' | relative_url }}">Созаемщик</a></h3><p>Когда второй заемщик помогает, а когда усложняет расчет.</p></article>
-    <article class="card"><h3><a href="{{ '/polezno/kak-povysit-shansy-na-odobrenie-ipoteki/' | relative_url }}">Шансы на одобрение</a></h3><p>Что проверить до подачи заявки в банк.</p></article>
     <article class="card"><h3><a href="{{ '/konsultaciya/' | relative_url }}">Консультация</a></h3><p>Первичный разбор дохода, алиментов, нагрузки и объекта.</p></article>
   </div>
 </section>
