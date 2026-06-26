@@ -48,6 +48,7 @@ layout: null
   <url><loc>{{ '/polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kak-vybrat-bank-dlya-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kak-umenshit-platezh-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
+  <url><loc>{{ '/polezno/kogda-vygodno-refinansirovat-ipoteku/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kreditnye-karty-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/oshibki-pri-podgotovke-k-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
