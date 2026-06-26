@@ -22,7 +22,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
   <div class="section-head">
     <p class="eyebrow">Когда это актуально</p>
     <h2>Если новое жилье покупается после продажи старого</h2>
-    <p>В такой сделке важно синхронизировать продажу, покупку, ипотечное одобрение, сроки расчетов и условия по выбранному объекту.</p>
+    <p>В такой сделке важно синхронизировать продажу, покупку, ипотечное одобрение, сроки расчетов и условия по выбранному объекту. Базовый порядок действий разобран в статье <a class="text-link" href="{{ '/polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/' | relative_url }}">как купить новое жилье, если продаешь старое</a>.</p>
   </div>
   <div class="grid cards-4">
     <article class="card"><h3>Нужен взнос от продажи</h3><p>Деньги за старое жилье планируются как первоначальный взнос по новой ипотеке.</p></article>
@@ -63,9 +63,9 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
     <h2>Что еще может понадобиться</h2>
   </div>
   <div class="grid cards-4">
+    <article class="card"><h3><a href="{{ '/polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/' | relative_url }}">Покупка при продаже старого жилья</a></h3><p>Как связать продажу, взнос, сроки, аванс и новую ипотечную заявку.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/podbor-ipoteki/' | relative_url }}">Подбор ипотеки</a></h3><p>Когда нужно заранее сравнить варианты и понять реальный платеж.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Вторичное жилье</a></h3><p>Если новое жилье покупается на вторичном рынке.</p></article>
-    <article class="card"><h3><a href="{{ '/uslugi/refinansirovanie-ipoteki/' | relative_url }}">Действующая ипотека</a></h3><p>Если старое жилье еще находится в ипотеке и нужно оценить остаток обязательств.</p></article>
     <article class="card"><h3><a href="{{ '/polezno/pervonachalnyy-vznos-po-ipoteke/' | relative_url }}">Первоначальный взнос</a></h3><p>Как взнос влияет на сумму кредита, платеж и оценку заявки банком.</p></article>
   </div>
 </section>
