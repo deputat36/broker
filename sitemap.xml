@@ -43,6 +43,7 @@ layout: null
   <url><loc>{{ '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kak-povysit-shansy-na-odobrenie-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kak-podgotovitsya-k-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
+  <url><loc>{{ '/polezno/pochemu-ne-stoit-podavat-zayavki-vo-vse-banki/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/chto-delat-posle-otkaza/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/matkapital-v-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/semeynaya-ipoteka-voprosy/' | absolute_url }}</loc><priority>0.8</priority></url>
