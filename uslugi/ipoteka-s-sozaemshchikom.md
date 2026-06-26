@@ -22,7 +22,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
   <div class="section-head">
     <p class="eyebrow">Когда нужен созаемщик</p>
     <h2>Второй заемщик не всегда решает проблему, но часто меняет расчет</h2>
-    <p>Созаемщика рассматривают, когда одного дохода не хватает, есть высокая нагрузка, нужен более устойчивый профиль заявки или покупка оформляется семьей.</p>
+    <p>Созаемщика рассматривают, когда одного дохода не хватает, есть высокая нагрузка, нужен более устойчивый профиль заявки или покупка оформляется семьей. Подробнее о базовой логике выбора есть в статье <a class="text-link" href="{{ '/polezno/sozaemshchik-po-ipoteke/' | relative_url }}">созаемщик по ипотеке</a>.</p>
   </div>
   <div class="grid cards-4">
     <article class="card"><h3>Супруг или супруга</h3><p>Частая ситуация при семейной покупке. Важно учитывать доход, обязательства и состав собственности.</p></article>
@@ -63,10 +63,10 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
     <h2>Где созаемщик встречается чаще всего</h2>
   </div>
   <div class="grid cards-4">
+    <article class="card"><h3><a href="{{ '/polezno/sozaemshchik-po-ipoteke/' | relative_url }}">Созаемщик по ипотеке</a></h3><p>Когда второй заемщик помогает заявке, а когда может ухудшить расчет.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-dlya-molodoy-semi/' | relative_url }}">Молодая семья</a></h3><p>Когда жилье покупают вместе и нужно правильно оценить доход семьи.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-dlya-pensionerov/' | relative_url }}">Пенсионеры</a></h3><p>Когда на расчет влияет возраст, срок кредита и возможное участие близких.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/slozhnaya-ipoteka/' | relative_url }}">Сложная ипотека</a></h3><p>Если одного дохода недостаточно или есть риск отказа.</p></article>
-    <article class="card"><h3><a href="{{ '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' | relative_url }}">Кредитная история</a></h3><p>История созаемщика тоже может влиять на итоговое решение банка.</p></article>
   </div>
 </section>
 
