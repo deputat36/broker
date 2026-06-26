@@ -52,6 +52,7 @@ layout: null
   <url><loc>{{ '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kreditnye-karty-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/matkapital-kak-pervonachalnyy-vznos-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
+  <url><loc>{{ '/polezno/mozhno-li-vzyat-ipoteku-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/oshibki-pri-podgotovke-k-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/pervonachalnyy-vznos-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
