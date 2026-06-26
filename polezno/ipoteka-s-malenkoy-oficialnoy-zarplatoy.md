@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Ипотека с маленькой официальной зарплатой | Татьяна Стерликова
-description: Что делать, если официальная зарплата маленькая, а доход выше: как банк смотрит платежеспособность, какие документы подготовить и когда нужен ипотечный брокер.
+description: Что делать, если официальная зарплата маленькая, а доход выше: как банк смотрит платежеспособность, смену работы, какие документы подготовить и когда нужен ипотечный брокер.
 permalink: /polezno/ipoteka-s-malenkoy-oficialnoy-zarplatoy/
 breadcrumb: Маленькая официальная зарплата
 og_type: article
@@ -28,6 +28,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипот
       <li>можно ли подтвердить доход справкой по форме банка или другим допустимым способом;</li>
       <li>есть ли регулярные поступления, договоры, выписки или документы по занятости;</li>
       <li>подходит ли сценарий для ИП, самозанятого или смешанного дохода;</li>
+      <li>как банк может посмотреть на <a class="text-link" href="{{ '/polezno/ipoteka-pri-smene-raboty/' | relative_url }}">недавнюю смену работы</a>;</li>
       <li>может ли созаемщик реально усилить заявку;</li>
       <li>можно ли снизить сумму кредита, увеличить взнос или выбрать другой объект.</li>
     </ul>
@@ -51,6 +52,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипот
     <div class="seo-panel">
       <h3>Связанные материалы</h3>
       <ul>
+        <li><a href="{{ '/polezno/ipoteka-pri-smene-raboty/' | relative_url }}">Ипотека при смене работы</a></li>
         <li><a href="{{ '/polezno/chto-vliyaet-na-odobrenie-ipoteki/' | relative_url }}">Что влияет на одобрение</a></li>
         <li><a href="{{ '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' | relative_url }}">Кредитная нагрузка</a></li>
         <li><a href="{{ '/uslugi/ipoteka-dlya-ip-samozanyatyh/' | relative_url }}">ИП и самозанятые</a></li>
@@ -81,9 +83,9 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипот
   </div>
   <div class="grid cards-4">
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-bez-oficialnogo-dohoda/' | relative_url }}">Ипотека без официального дохода</a></h3><p>Разбор вариантов подтверждения дохода и рисков заявки.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/ipoteka-pri-smene-raboty/' | relative_url }}">Ипотека при смене работы</a></h3><p>Стаж, испытательный срок, новый доход и документы перед заявкой.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-dlya-ip-samozanyatyh/' | relative_url }}">Ипотека для ИП и самозанятых</a></h3><p>Что банк смотрит при работе на себя.</p></article>
     <article class="card"><h3><a href="{{ '/polezno/pochemu-ne-stoit-podavat-zayavki-vo-vse-banki/' | relative_url }}">Заявки во все банки</a></h3><p>Почему хаотичная подача может навредить.</p></article>
-    <article class="card"><h3><a href="{{ '/konsultaciya/' | relative_url }}">Консультация</a></h3><p>Первичный разбор дохода, взноса, объекта и кредитной нагрузки.</p></article>
   </div>
 </section>
 
