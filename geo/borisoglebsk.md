@@ -21,7 +21,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Услуги
     <article class="card"><h3><a href="{{ '/geo/borisoglebsk/ipoteka-na-kvartiru/' | relative_url }}">Квартира в Борисоглебске</a></h3><p>Отдельный маршрут для покупки квартиры: новостройка, вторичка, платеж, взнос и риски заявки.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Квартира на вторичном рынке</a></h3><p>Предварительная оценка заявки и требований банка к заемщику и объекту.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-novostroyku/' | relative_url }}">Квартира в новостройке</a></h3><p>Разбор доступных программ, первоначального взноса и порядка оформления.</p></article>
-    <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-dom/' | relative_url }}">Покупка дома</a></h3><p>Проверка параметров дома, участка и документов до подачи заявки.</p></article>
+    <article class="card"><h3><a href="{{ '/geo/borisoglebsk/ipoteka-na-dom/' | relative_url }}">Покупка дома в Борисоглебске</a></h3><p>Проверка дома, участка, документов и ипотечного маршрута до передачи денег.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-stroitelstvo-doma/' | relative_url }}">Строительство дома</a></h3><p>Участок, подрядчик, смета, этапы финансирования и требования программы.</p></article>
   </div>
 </section>
