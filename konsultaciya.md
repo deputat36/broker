@@ -41,6 +41,11 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
       <span>Разберем, что могло повлиять на решение банка и как аккуратнее подойти к следующей заявке.</span>
       <em>Разбор отказа</em>
     </a>
+    <a class="intent-card" href="{{ '/kak-prohodit-rabota/' | relative_url }}">
+      <strong>Хочу понять этапы работы</strong>
+      <span>Посмотрите, как проходит путь от первого разговора до подготовки заявки и дальнейших действий.</span>
+      <em>Порядок работы</em>
+    </a>
   </div>
 </section>
 
