@@ -27,7 +27,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
   </div>
   <div class="grid cards-4">
     <article class="card"><h3>Новостройка</h3><p>Разбор программы, взноса, платежа, семейной ипотеки и требований банка к объекту.</p></article>
-    <article class="card"><h3>Вторичное жилье</h3><p>Проверка платежа, объекта, документов, оценки и возможных рисков до заявки.</p></article>
+    <article class="card"><h3><a href="{{ '/geo/borisoglebsk/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Вторичное жилье</a></h3><p>Локальный разбор покупки вторички: платеж, объект, документы, аванс и риски заявки.</p></article>
     <article class="card"><h3>Материнский капитал</h3><p>Как сертификат может участвовать во взносе или погашении и что важно по долям.</p></article>
     <article class="card"><h3>Отказ банка</h3><p>Если уже был отказ, лучше сначала понять причину и не подавать заявки хаотично.</p></article>
   </div>
@@ -65,7 +65,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
   </div>
   <div class="grid cards-4">
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-novostroyku/' | relative_url }}">Ипотека на новостройку</a></h3><p>Если квартира покупается у застройщика.</p></article>
-    <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Ипотека на вторичку</a></h3><p>Если квартира покупается у собственника.</p></article>
+    <article class="card"><h3><a href="{{ '/geo/borisoglebsk/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Ипотека на вторичку в Борисоглебске</a></h3><p>Если квартира покупается у собственника на вторичном рынке.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/' | relative_url }}">Продажа старого жилья</a></h3><p>Если взнос зависит от продажи вашей квартиры или дома.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-s-sozaemshchikom/' | relative_url }}">Созаемщик</a></h3><p>Если для заявки нужен супруг, родитель или другой участник.</p></article>
   </div>
