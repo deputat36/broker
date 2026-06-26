@@ -20,7 +20,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Услуги
   <div class="grid cards-4">
     <article class="card"><h3><a href="{{ '/uslugi/podbor-ipoteki/' | relative_url }}">Первая ипотека</a></h3><p>Расчет бюджета, подготовка документов и понимание этапов сделки.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Покупка квартиры</a></h3><p>Требования банка к заемщику и объекту на вторичном рынке.</p></article>
-    <article class="card"><h3><a href="{{ '/uslugi/ipoteka-na-dom/' | relative_url }}">Покупка дома</a></h3><p>Проверка дома, участка, назначения земли и документов.</p></article>
+    <article class="card"><h3><a href="{{ '/geo/povorino/ipoteka-na-dom/' | relative_url }}">Покупка дома</a></h3><p>Дом, участок, назначение земли, документы и требования банка к объекту.</p></article>
     <article class="card"><h3><a href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">Заявка после отказа</a></h3><p>Разбор возможных причин до следующего обращения в банк.</p></article>
   </div>
 </section>
@@ -37,11 +37,11 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Услуги
   </article>
   <aside class="sidebar">
     <div class="seo-panel"><h3>С чего начать</h3><p>Укажите тип объекта, его примерную стоимость, доход, взнос и предыдущие заявки.</p><a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Бесплатная консультация</a></div>
-    <div class="seo-panel"><h3>Сложные случаи</h3><ul><li><a href="{{ '/uslugi/ipoteka-bez-oficialnogo-dohoda/' | relative_url }}">Без официального дохода</a></li><li><a href="{{ '/uslugi/ipoteka-dlya-ip-samozanyatyh/' | relative_url }}">ИП и самозанятые</a></li><li><a href="{{ '/uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/' | relative_url }}">Кредитная история</a></li></ul></div>
+    <div class="seo-panel"><h3>Сложные случаи</h3><ul><li><a href="{{ '/geo/povorino/ipoteka-na-dom/' | relative_url }}">Ипотека на дом в Поворинском районе</a></li><li><a href="{{ '/uslugi/ipoteka-bez-oficialnogo-dohoda/' | relative_url }}">Без официального дохода</a></li><li><a href="{{ '/uslugi/ipoteka-dlya-ip-samozanyatyh/' | relative_url }}">ИП и самозанятые</a></li><li><a href="{{ '/uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/' | relative_url }}">Кредитная история</a></li></ul></div>
   </aside>
 </section>
 
-<section class="section muted"><div class="section-head"><p class="eyebrow">Семейные задачи</p><h2>Программы и источники первоначального взноса</h2></div><div class="grid cards-3"><article class="card"><h3><a href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека</a></h3><p>Проверка требований программы к семье и приобретаемому объекту.</p></article><article class="card"><h3><a href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">Материнский капитал</a></h3><p>Подготовка сделки с учетом сертификата и требований банка.</p></article><article class="card"><h3><a href="{{ '/polezno/dokumenty-dlya-ipoteki/' | relative_url }}">Документы для ипотеки</a></h3><p>Базовый список документов заемщика и дополнительные сведения.</p></article></div></section>
+<section class="section muted"><div class="section-head"><p class="eyebrow">Семейные задачи</p><h2>Программы и источники первоначального взноса</h2></div><div class="grid cards-3"><article class="card"><h3><a href="{{ '/geo/povorino/ipoteka-na-dom/' | relative_url }}">Дом в Поворинском районе</a></h3><p>Проверка заемщика, дома, участка, документов и аванса до сделки.</p></article><article class="card"><h3><a href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека</a></h3><p>Проверка требований программы к семье и приобретаемому объекту.</p></article><article class="card"><h3><a href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">Материнский капитал</a></h3><p>Подготовка сделки с учетом сертификата и требований банка.</p></article><article class="card"><h3><a href="{{ '/polezno/dokumenty-dlya-ipoteki/' | relative_url }}">Документы для ипотеки</a></h3><p>Базовый список документов заемщика и дополнительные сведения.</p></article></div></section>
 
 <section class="section compact-section"><div class="notice"><div><p class="eyebrow">Клиентам компании «ЭТАЖИ»</p><h2>Ипотечное сопровождение бесплатно</h2><p>Если сделка проводится через компанию «ЭТАЖИ», сопровождение брокера включено в комиссию компании.</p></div><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Подробнее</a></div></section>
 
