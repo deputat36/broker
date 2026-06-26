@@ -47,6 +47,7 @@ layout: null
   <url><loc>{{ '/polezno/dokumenty-dlya-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/dokumenty-dlya-ipoteki-samozanyatomu/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/ipoteka-posle-prosrochek/' | absolute_url }}</loc><priority>0.8</priority></url>
+  <url><loc>{{ '/polezno/ipoteka-posle-razvoda/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/ipoteka-s-alimentami/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/ipoteka-s-malenkoy-oficialnoy-zarplatoy/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/ipoteka-v-dekrete/' | absolute_url }}</loc><priority>0.8</priority></url>
