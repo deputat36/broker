@@ -83,7 +83,7 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
   <div class="section-head">
     <p class="eyebrow">Что написать</p>
     <h2>Шаблон первого сообщения в MAX или ВКонтакте</h2>
-    <p>Можно скопировать этот текст и заменить данные на свои.</p>
+    <p>Можно скопировать этот текст и заменить данные на свои. Подробный вариант есть в отдельной статье: <a class="text-link" href="{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | relative_url }}">что написать ипотечному брокеру</a>.</p>
   </div>
   <div class="notice">
     <div>
