@@ -21,7 +21,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Услуги
     <article class="card"><h3>Доступная сумма</h3><p>Какой платеж комфортен семье и какую кредитную нагрузку увидит банк.</p></article>
     <article class="card"><h3>Подтверждение дохода</h3><p>Официальная работа, ИП, самозанятость или несколько источников дохода.</p></article>
     <article class="card"><h3>Первоначальный взнос</h3><p>Собственные средства, материнский капитал и структура будущей сделки.</p></article>
-    <article class="card"><h3>Подходящий объект</h3><p>Квартира, дом и участок предъявляют разные требования к документам.</p></article>
+    <article class="card"><h3><a href="{{ '/geo/gribanovskiy/ipoteka-na-dom/' | relative_url }}">Подходящий дом</a></h3><p>Дом и участок предъявляют разные требования к документам, оценке и банку.</p></article>
   </div>
 </section>
 
@@ -36,11 +36,11 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Услуги
   </article>
   <aside class="sidebar">
     <div class="seo-panel"><h3>Бесплатный первичный разбор</h3><p>Татьяна уточнит вводные и объяснит возможный порядок действий.</p><a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Подготовиться к консультации</a></div>
-    <div class="seo-panel"><h3>Полезные услуги</h3><ul><li><a href="{{ '/uslugi/podbor-ipoteki/' | relative_url }}">Подбор ипотеки</a></li><li><a href="{{ '/uslugi/ipoteka-na-dom/' | relative_url }}">Ипотека на дом</a></li><li><a href="{{ '/uslugi/ipoteka-dlya-ip-samozanyatyh/' | relative_url }}">ИП и самозанятые</a></li></ul></div>
+    <div class="seo-panel"><h3>Полезные услуги</h3><ul><li><a href="{{ '/uslugi/podbor-ipoteki/' | relative_url }}">Подбор ипотеки</a></li><li><a href="{{ '/geo/gribanovskiy/ipoteka-na-dom/' | relative_url }}">Ипотека на дом в Грибановском районе</a></li><li><a href="{{ '/uslugi/ipoteka-na-dom/' | relative_url }}">Ипотека на дом</a></li><li><a href="{{ '/uslugi/ipoteka-dlya-ip-samozanyatyh/' | relative_url }}">ИП и самозанятые</a></li></ul></div>
   </aside>
 </section>
 
-<section class="section muted"><div class="section-head"><p class="eyebrow">Частые сценарии</p><h2>По каким вопросам обращаются</h2></div><div class="grid cards-3"><article class="card"><h3><a href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека</a></h3><p>Условия семьи, объект, взнос и требования выбранного банка.</p></article><article class="card"><h3><a href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">Материнский капитал</a></h3><p>Использование сертификата в ипотечной сделке.</p></article><article class="card"><h3><a href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">Отказ банка</a></h3><p>Проверка возможных причин перед следующей заявкой.</p></article></div></section>
+<section class="section muted"><div class="section-head"><p class="eyebrow">Частые сценарии</p><h2>По каким вопросам обращаются</h2></div><div class="grid cards-3"><article class="card"><h3><a href="{{ '/geo/gribanovskiy/ipoteka-na-dom/' | relative_url }}">Покупка дома</a></h3><p>Дом, участок, документы, оценка и требования банка к объекту.</p></article><article class="card"><h3><a href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека</a></h3><p>Условия семьи, объект, взнос и требования выбранного банка.</p></article><article class="card"><h3><a href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">Материнский капитал</a></h3><p>Использование сертификата в ипотечной сделке.</p></article><article class="card"><h3><a href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">Отказ банка</a></h3><p>Проверка возможных причин перед следующей заявкой.</p></article></div></section>
 
 <section class="section compact-section"><div class="notice"><div><p class="eyebrow">Клиентам компании «ЭТАЖИ»</p><h2>Сопровождение включено в комиссию</h2><p>При проведении сделки через компанию «ЭТАЖИ» услуги ипотечного брокера отдельно клиентом не оплачиваются.</p></div><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Условия для клиентов</a></div></section>
 
