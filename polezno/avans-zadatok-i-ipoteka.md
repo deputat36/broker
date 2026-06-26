@@ -22,7 +22,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Аван
   <article class="content-main">
     <h2>Почему аванс в ипотечной сделке требует осторожности</h2>
     <p>Покупатель может быть уверен в объекте, но банк оценивает не только заемщика. Важны документы, тип объекта, оценка, собственники, обременения, первоначальный взнос и выбранная программа.</p>
-    <p>Если передать деньги до предварительного разбора, можно столкнуться с ситуацией, когда объект не подходит банку, срок аванса заканчивается, а заявка еще не готова или банк просит дополнительные документы.</p>
+    <p>Если передать деньги до предварительного разбора, можно столкнуться с ситуацией, когда объект не подходит банку, срок аванса заканчивается, а заявка еще не готова или банк просит дополнительные документы. Подробнее об этом — в статье <a class="text-link" href="{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | relative_url }}">почему банк может не принять объект по ипотеке</a>.</p>
 
     <h2>Что проверить перед передачей денег</h2>
     <ul>
@@ -42,7 +42,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Аван
   </article>
   <aside class="sidebar">
     <div class="seo-panel"><h3>Перед авансом</h3><p>Опишите объект, сумму, взнос, доход и срок, который дает продавец.</p><a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Консультация</a></div>
-    <div class="seo-panel"><h3>Связанные темы</h3><ul><li><a href="{{ '/polezno/chto-proverit-pered-pokupkoy-vtorichnogo-zhilya/' | relative_url }}">Проверка вторички</a></li><li><a href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">Если банк отказал</a></li><li><a href="{{ '/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/' | relative_url }}">Продажа старого жилья</a></li></ul></div>
+    <div class="seo-panel"><h3>Связанные темы</h3><ul><li><a href="{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | relative_url }}">Почему банк может не принять объект</a></li><li><a href="{{ '/polezno/chto-proverit-pered-pokupkoy-vtorichnogo-zhilya/' | relative_url }}">Проверка вторички</a></li><li><a href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">Если банк отказал</a></li><li><a href="{{ '/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/' | relative_url }}">Продажа старого жилья</a></li></ul></div>
   </aside>
 </section>
 
