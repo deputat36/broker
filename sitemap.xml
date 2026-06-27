@@ -48,6 +48,7 @@ layout: null
   <url><loc>{{ '/geo/povorino/ipoteka-na-dom/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/semeynaya-ipoteka/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-s-materinskim-kapitalom/' | absolute_url }}</loc><priority>0.84</priority></url>
+  <url><loc>{{ '/geo/povorino/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/polezno/' | absolute_url }}</loc><priority>0.82</priority></url>
   <url><loc>{{ '/polezno/avans-zadatok-i-ipoteka/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | absolute_url }}</loc><priority>0.8</priority></url>
