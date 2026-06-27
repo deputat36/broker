@@ -48,6 +48,7 @@ layout: null
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda/' | absolute_url }}</loc><priority>0.84</priority></url>
+  <url><loc>{{ '/geo/gribanovskiy/otkazali-v-ipoteke/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/' | absolute_url }}</loc><priority>0.85</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-na-kvartiru/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-na-dom/' | absolute_url }}</loc><priority>0.84</priority></url>
