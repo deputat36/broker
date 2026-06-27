@@ -39,6 +39,7 @@ layout: null
   <url><loc>{{ '/geo/borisoglebsk/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.86</priority></url>
   <url><loc>{{ '/geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey/' | absolute_url }}</loc><priority>0.86</priority></url>
   <url><loc>{{ '/geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda/' | absolute_url }}</loc><priority>0.86</priority></url>
+  <url><loc>{{ '/geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh/' | absolute_url }}</loc><priority>0.86</priority></url>
   <url><loc>{{ '/geo/borisoglebsk/otkazali-v-ipoteke/' | absolute_url }}</loc><priority>0.86</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/' | absolute_url }}</loc><priority>0.85</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-na-kvartiru/' | absolute_url }}</loc><priority>0.84</priority></url>
@@ -48,6 +49,7 @@ layout: null
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda/' | absolute_url }}</loc><priority>0.84</priority></url>
+  <url><loc>{{ '/geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/otkazali-v-ipoteke/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/' | absolute_url }}</loc><priority>0.85</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-na-kvartiru/' | absolute_url }}</loc><priority>0.84</priority></url>
@@ -57,6 +59,7 @@ layout: null
   <url><loc>{{ '/geo/povorino/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-bez-oficialnogo-dohoda/' | absolute_url }}</loc><priority>0.84</priority></url>
+  <url><loc>{{ '/geo/povorino/ipoteka-dlya-ip-samozanyatyh/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/otkazali-v-ipoteke/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/polezno/' | absolute_url }}</loc><priority>0.82</priority></url>
   <url><loc>{{ '/polezno/avans-zadatok-i-ipoteka/' | absolute_url }}</loc><priority>0.8</priority></url>
