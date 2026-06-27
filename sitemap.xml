@@ -40,6 +40,7 @@ layout: null
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-na-kvartiru/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-na-dom/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/semeynaya-ipoteka/' | absolute_url }}</loc><priority>0.84</priority></url>
+  <url><loc>{{ '/geo/gribanovskiy/ipoteka-s-materinskim-kapitalom/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/' | absolute_url }}</loc><priority>0.85</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-na-kvartiru/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-na-dom/' | absolute_url }}</loc><priority>0.84</priority></url>
