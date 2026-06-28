@@ -57,6 +57,19 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
   </div>
 </section>
 
+<section class="section muted">
+  <div class="section-head">
+    <p class="eyebrow">По территориям</p>
+    <h2>Ипотека с созаемщиком рядом с вами</h2>
+    <p>Для локального поиска и более точного разбора добавлены отдельные страницы по основным территориям работы.</p>
+  </div>
+  <div class="grid cards-3">
+    <article class="card"><h3><a href="{{ '/geo/borisoglebsk/ipoteka-s-sozaemshchikom/' | relative_url }}">Созаемщик в Борисоглебске</a></h3><p>Супруги, родители, доход семьи, кредиты и риски заявки для Борисоглебска.</p></article>
+    <article class="card"><h3><a href="{{ '/geo/gribanovskiy/ipoteka-s-sozaemshchikom/' | relative_url }}">Созаемщик в Грибановском районе</a></h3><p>Разбор состава заемщиков для пгт Грибановский и населенных пунктов района.</p></article>
+    <article class="card"><h3><a href="{{ '/geo/povorino/ipoteka-s-sozaemshchikom/' | relative_url }}">Созаемщик в Поворино</a></h3><p>Консультация для жителей Поворино и Поворинского района.</p></article>
+  </div>
+</section>
+
 <section class="section">
   <div class="section-head">
     <p class="eyebrow">Связанные сценарии</p>
