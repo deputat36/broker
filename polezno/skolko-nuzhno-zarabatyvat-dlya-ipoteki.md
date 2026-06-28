@@ -49,7 +49,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Скол
     </ul>
 
     <h2>Как сделать предварительный расчет</h2>
-    <p>Сначала посчитайте примерный платеж в <a class="text-link" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">ипотечном калькуляторе</a>. Затем сопоставьте его с реальными расходами семьи и действующими кредитами. Отдельно стоит проверить <a class="text-link" href="{{ '/polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/' | relative_url }}">комфортный платеж</a>, чтобы ипотека не стала слишком тяжелой после сделки.</p>
+    <p>Сначала посчитайте примерный платеж в <a class="text-link" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">ипотечном калькуляторе</a>. Затем сопоставьте его с реальными расходами семьи и действующими кредитами. Если нужен пошаговый порядок, посмотрите материал <a class="text-link" href="{{ '/polezno/kak-rasschitat-ipoteku-po-dohodu/' | relative_url }}">как рассчитать ипотеку по доходу</a>. Отдельно стоит проверить <a class="text-link" href="{{ '/polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/' | relative_url }}">комфортный платеж</a>, чтобы ипотека не стала слишком тяжелой после сделки.</p>
 
     <h2>Когда доход может быть сложным для банка</h2>
     <p>Ситуация требует более аккуратного разбора, если доход неофициальный, зарплата небольшая, работа недавно сменилась, заемщик ИП или самозанятый, есть алименты, высокая кредитная нагрузка или уже были отказы.</p>
@@ -64,6 +64,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Скол
     <div class="seo-panel">
       <h3>Связанные материалы</h3>
       <ul>
+        <li><a href="{{ '/polezno/kak-rasschitat-ipoteku-po-dohodu/' | relative_url }}">Расчет ипотеки по доходу</a></li>
         <li><a href="{{ '/polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/' | relative_url }}">Комфортный платеж</a></li>
         <li><a href="{{ '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' | relative_url }}">Кредитная нагрузка</a></li>
         <li><a href="{{ '/polezno/ipoteka-s-malenkoy-oficialnoy-zarplatoy/' | relative_url }}">Маленькая официальная зарплата</a></li>
