@@ -36,6 +36,7 @@ layout: null
   <url><loc>{{ '/geo/borisoglebsk/ipoteka-na-dom/' | absolute_url }}</loc><priority>0.88</priority></url>
   <url><loc>{{ '/geo/borisoglebsk/ipoteka-na-stroitelstvo-doma/' | absolute_url }}</loc><priority>0.86</priority></url>
   <url><loc>{{ '/geo/borisoglebsk/semeynaya-ipoteka/' | absolute_url }}</loc><priority>0.88</priority></url>
+  <url><loc>{{ '/geo/borisoglebsk/ipoteka-s-sozaemshchikom/' | absolute_url }}</loc><priority>0.86</priority></url>
   <url><loc>{{ '/geo/borisoglebsk/ipoteka-s-materinskim-kapitalom/' | absolute_url }}</loc><priority>0.86</priority></url>
   <url><loc>{{ '/geo/borisoglebsk/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.86</priority></url>
   <url><loc>{{ '/geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey/' | absolute_url }}</loc><priority>0.86</priority></url>
@@ -48,6 +49,7 @@ layout: null
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-na-dom/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/semeynaya-ipoteka/' | absolute_url }}</loc><priority>0.84</priority></url>
+  <url><loc>{{ '/geo/gribanovskiy/ipoteka-s-sozaemshchikom/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-s-materinskim-kapitalom/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/' | absolute_url }}</loc><priority>0.84</priority></url>
@@ -60,6 +62,7 @@ layout: null
   <url><loc>{{ '/geo/povorino/ipoteka-na-dom/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-na-stroitelstvo-doma/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/semeynaya-ipoteka/' | absolute_url }}</loc><priority>0.84</priority></url>
+  <url><loc>{{ '/geo/povorino/ipoteka-s-sozaemshchikom/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-s-materinskim-kapitalom/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.84</priority></url>
   <url><loc>{{ '/geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey/' | absolute_url }}</loc><priority>0.84</priority></url>
