@@ -97,6 +97,7 @@ layout: null
   <url><loc>{{ '/polezno/mozhno-li-vzyat-ipoteku-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/oshibki-pri-podgotovke-k-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
+  <url><loc>{{ '/polezno/predvaritelnoe-odobrenie-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/pervonachalnyy-vznos-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
