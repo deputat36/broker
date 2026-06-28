@@ -27,7 +27,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Расх
   <div class="grid cards-4">
     <article class="card"><h3>Первоначальный взнос</h3><p>Собственные средства, материнский капитал или другая понятная схема внесения денег.</p></article>
     <article class="card"><h3><a href="{{ '/polezno/ocenka-nedvizhimosti-dlya-ipoteki/' | relative_url }}">Оценка объекта</a></h3><p>Банку может потребоваться отчет об оценке квартиры, дома или другого объекта.</p></article>
-    <article class="card"><h3>Страхование</h3><p>Условия зависят от банка, программы, объекта и выбранного набора страховой защиты.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/strahovanie-pri-ipoteke/' | relative_url }}">Страхование</a></h3><p>Условия зависят от банка, программы, объекта и выбранного набора страховой защиты.</p></article>
     <article class="card"><h3>Регистрация и документы</h3><p>Госпошлины, справки, нотариальные действия или дополнительные документы по ситуации.</p></article>
     <article class="card"><h3>Услуги специалистов</h3><p>Юрист, оценщик, технический специалист или кадастровый инженер могут понадобиться при сложном объекте.</p></article>
     <article class="card"><h3>Аванс или задаток</h3><p>Перед передачей денег важно понимать, что будет при отказе банка или проблеме с объектом.</p></article>
@@ -61,6 +61,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Расх
       <h3>Связанные материалы</h3>
       <ul>
         <li><a href="{{ '/polezno/ocenka-nedvizhimosti-dlya-ipoteki/' | relative_url }}">Оценка недвижимости для ипотеки</a></li>
+        <li><a href="{{ '/polezno/strahovanie-pri-ipoteke/' | relative_url }}">Страхование при ипотеке</a></li>
         <li><a href="{{ '/polezno/pervonachalnyy-vznos-po-ipoteke/' | relative_url }}">Первоначальный взнос</a></li>
         <li><a href="{{ '/polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/' | relative_url }}">Комфортный платеж</a></li>
         <li><a href="{{ '/polezno/avans-zadatok-i-ipoteka/' | relative_url }}">Аванс, задаток и ипотека</a></li>
