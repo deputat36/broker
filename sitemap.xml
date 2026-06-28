@@ -98,6 +98,7 @@ layout: null
   <url><loc>{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/pervonachalnyy-vznos-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
+  <url><loc>{{ '/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
   <url><loc>{{ '/polezno/kak-povysit-shansy-na-odobrenie-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
