@@ -1,0 +1,67 @@
+# Татьяна Стерликова — ипотечный брокер
+
+Сайт ипотечного брокера Татьяны Стерликовой для покупателей жилья в Борисоглебске, Борисоглебском городском округе, Грибановском районе и Поворинском районе.
+
+Основной сайт: https://deputat36.github.io/broker/
+Карта сайта: https://deputat36.github.io/broker/sitemap.xml
+Контакты: https://deputat36.github.io/broker/kontakty/
+Консультация: https://deputat36.github.io/broker/konsultaciya/
+
+## Основные разделы
+
+- / — главная страница ипотечного брокера.
+- /uslugi/ — услуги: подбор ипотеки, семейная ипотека, материнский капитал, сложные заявки, ипотека на дом, новостройку, вторичное жилье и строительство.
+- /konsultaciya/ — первичная консультация по ипотеке.
+- /kalkulyator-ipoteki/ — предварительный ипотечный калькулятор.
+- /stoimost/ — стоимость частного сопровождения и условия для клиентов компании ЭТАЖИ.
+- /geo/ — география работы: Борисоглебск, Грибановский район, Поворино.
+- /polezno/ — полезные материалы по подготовке к ипотеке.
+- /faq/ — частые вопросы.
+- /o-brokere/ — информация о Татьяне Стерликовой.
+- /kontakty/ — телефон, MAX и ВКонтакте.
+
+## Важные страницы услуг
+
+- /uslugi/podbor-ipoteki/
+- /uslugi/semeynaya-ipoteka/
+- /uslugi/materinskiy-kapital/
+- /uslugi/otkazali-v-ipoteke/
+- /uslugi/slozhnaya-ipoteka/
+- /uslugi/ipoteka-bez-oficialnogo-dohoda/
+- /uslugi/ipoteka-bez-pervonachalnogo-vznosa/
+- /uslugi/ipoteka-dlya-ip-samozanyatyh/
+- /uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/
+- /uslugi/ipoteka-na-dom/
+- /uslugi/ipoteka-na-stroitelstvo-doma/
+- /uslugi/ipoteka-s-sozaemshchikom/
+- /uslugi/refinansirovanie-ipoteki/
+
+## Полезные материалы
+
+- /polezno/kak-podgotovitsya-k-ipoteke/
+- /polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/
+- /polezno/kreditnaya-nagruzka-pered-ipotekoy/
+- /polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/
+- /polezno/skolko-nuzhno-zarabatyvat-dlya-ipoteki/
+- /polezno/kak-rasschitat-ipoteku-po-dohodu/
+- /polezno/predvaritelnoe-odobrenie-ipoteki/
+- /polezno/rashody-pri-oformlenii-ipoteki/
+- /polezno/ocenka-nedvizhimosti-dlya-ipoteki/
+- /polezno/ocenka-nizhe-ceny-prodavca/
+- /polezno/strahovanie-pri-ipoteke/
+- /polezno/avans-zadatok-i-ipoteka/
+- /polezno/dokumenty-dlya-ipoteki/
+- /polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/
+- /polezno/pochemu-ne-stoit-podavat-zayavki-vo-vse-banki/
+- /polezno/chto-napisat-ipotechnomu-brokeru/
+- /polezno/kakie-voprosy-zadat-ipotechnomu-brokeru/
+
+## Контактные данные
+
+Телефон: +7 903 025-08-07
+VK: https://vk.com/tatyanasterlikova
+MAX: используется номер 8 903 025-08-07
+
+## Важные ограничения формулировок
+
+Сайт не обещает гарантированное одобрение ипотеки, конкретную ставку или обязательное положительное решение банка. Финальное решение по заявке, ставке, сумме и объекту принимает банк.
