@@ -20,6 +20,25 @@
   outline-offset: 3px;
 }
 
+.card:focus-within,
+.price-item:focus-within,
+.question-card:focus-within,
+.scenario-card:focus-within,
+.seo-panel:focus-within,
+.intent-card:focus-visible,
+.location-card:focus-visible,
+.sticky-action:focus-visible,
+.search-cloud a:focus-visible {
+  border-color: rgba(181, 18, 27, .42);
+  box-shadow: 0 18px 45px rgba(20, 20, 20, .12);
+}
+
+.card h3 a:focus-visible,
+.footer-col a:focus-visible,
+.text-link:focus-visible {
+  border-radius: 4px;
+}
+
 .intent-card[type="button"] {
   width: 100%;
   cursor: pointer;
