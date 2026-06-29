@@ -4,6 +4,7 @@
 
 Основной сайт: https://deputat36.github.io/broker/
 Карта сайта: https://deputat36.github.io/broker/sitemap.xml
+Файл авторства: https://deputat36.github.io/broker/humans.txt
 Контакты: https://deputat36.github.io/broker/kontakty/
 Консультация: https://deputat36.github.io/broker/konsultaciya/
 
