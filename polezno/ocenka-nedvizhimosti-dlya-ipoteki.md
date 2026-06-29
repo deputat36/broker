@@ -26,7 +26,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оцен
   </div>
   <div class="grid cards-4">
     <article class="card"><h3>Банк смотрит залог</h3><p>Объект должен подходить под требования банка и программы.</p></article>
-    <article class="card"><h3>Цена может отличаться</h3><p>Оценочная стоимость иногда ниже цены продавца, и это влияет на расчеты.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/ocenka-nizhe-ceny-prodavca/' | relative_url }}">Цена может отличаться</a></h3><p>Оценочная стоимость иногда ниже цены продавца, и это влияет на расчеты.</p></article>
     <article class="card"><h3>Взнос может измениться</h3><p>Если оценка ниже цены, покупателю может потребоваться больше своих средств.</p></article>
     <article class="card"><h3>Документы важны</h3><p>Характеристики объекта должны быть понятны и подтверждены документами.</p></article>
   </div>
@@ -39,6 +39,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оцен
 
     <h2>Почему оценка может быть ниже цены продавца</h2>
     <p>Цена в объявлении или договоренности сторон не всегда совпадает с оценочной стоимостью. На итог могут влиять состояние объекта, документы, рынок, характеристики дома, участок, перепланировки, коммуникации и другие параметры.</p>
+    <p>Если такая разница уже появилась или есть риск, посмотрите отдельный разбор: <a class="text-link" href="{{ '/polezno/ocenka-nizhe-ceny-prodavca/' | relative_url }}">что делать, если оценка ниже цены продавца</a>.</p>
 
     <h2>Что может повлиять на ипотечный расчет</h2>
     <ul>
@@ -66,6 +67,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оцен
     <div class="seo-panel">
       <h3>Связанные материалы</h3>
       <ul>
+        <li><a href="{{ '/polezno/ocenka-nizhe-ceny-prodavca/' | relative_url }}">Оценка ниже цены продавца</a></li>
         <li><a href="{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | relative_url }}">Почему банк не принимает объект</a></li>
         <li><a href="{{ '/polezno/predvaritelnoe-odobrenie-ipoteki/' | relative_url }}">Предварительное одобрение</a></li>
         <li><a href="{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | relative_url }}">Расходы при ипотеке</a></li>
