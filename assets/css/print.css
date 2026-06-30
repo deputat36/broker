@@ -1,0 +1,161 @@
+@media print {
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    color: #111;
+    background: #fff;
+    font-size: 12pt;
+    line-height: 1.45;
+  }
+
+  a {
+    color: #111;
+    text-decoration: underline;
+  }
+
+  .site-header,
+  .main-nav,
+  .nav-toggle,
+  .sticky-contacts,
+  .hero-actions,
+  .cta-actions,
+  .cta-section,
+  .site-footer,
+  .skip-link {
+    display: none !important;
+  }
+
+  .section,
+  .page-hero,
+  .compact-section {
+    padding: 18pt 0 !important;
+    color: #111 !important;
+    background: #fff !important;
+  }
+
+  .page-hero {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .page-hero .eyebrow,
+  .page-hero .lead,
+  .eyebrow,
+  .lead,
+  .section-head p,
+  .card p,
+  .seo-panel p,
+  .question-card p,
+  .scenario-card p,
+  .price-item p {
+    color: #333 !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: #111 !important;
+    page-break-after: avoid;
+  }
+
+  h1 {
+    font-size: 24pt;
+    line-height: 1.1;
+  }
+
+  h2 {
+    font-size: 18pt;
+  }
+
+  h3 {
+    font-size: 14pt;
+  }
+
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .grid,
+  .cards-4,
+  .cards-3,
+  .steps,
+  .scenario-grid,
+  .content-layout,
+  .calc-section,
+  .split {
+    display: block !important;
+  }
+
+  .card,
+  .price-item,
+  .notice,
+  .seo-panel,
+  .question-card,
+  .scenario-card,
+  .calc-card,
+  .location-card,
+  .checklist div {
+    break-inside: avoid;
+    margin: 0 0 12pt;
+    padding: 12pt !important;
+    color: #111 !important;
+    background: #fff !important;
+    border: 1px solid #ddd !important;
+    border-radius: 0 !important;
+  }
+
+  .card::before,
+  .notice::after,
+  .hero::before,
+  .hero::after {
+    display: none !important;
+  }
+
+  .portrait-frame,
+  .hero-card,
+  .hero-card-photo {
+    max-width: 90mm;
+    margin: 0 0 12pt;
+    transform: none !important;
+  }
+
+  .portrait-frame img {
+    max-width: 90mm;
+    height: auto;
+  }
+
+  .breadcrumbs {
+    padding: 0;
+    margin-bottom: 12pt;
+    color: #333;
+  }
+
+  .sidebar {
+    position: static !important;
+  }
+
+  .checklist {
+    display: block !important;
+  }
+
+  .checklist strong {
+    color: #111 !important;
+  }
+
+  .calc-card,
+  .calc-result {
+    display: none !important;
+  }
+
+  @page {
+    margin: 14mm;
+  }
+}
