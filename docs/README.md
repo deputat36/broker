@@ -49,4 +49,5 @@
 - `assets/css/styles.css`;
 - `assets/css/seo.css`;
 - `assets/css/accessibility.css`;
+- `assets/css/print.css`;
 - `assets/js/main.js`.
