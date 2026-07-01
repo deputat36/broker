@@ -2,6 +2,7 @@ const navToggle = document.querySelector('.nav-toggle');
 const mainNav = document.querySelector('#main-nav');
 const copyPhoneButtons = document.querySelectorAll('[data-copy-phone]');
 const calcForms = document.querySelectorAll('[data-mortgage-calc]');
+const maxPhone = '89030250807';
 
 function sendGoal(goalName) {
   if (typeof window.ym !== 'function') return;
@@ -62,17 +63,19 @@ copyPhoneButtons.forEach((button) => {
 
   button.setAttribute('aria-live', 'polite');
   button.setAttribute('aria-atomic', 'true');
+  button.setAttribute('aria-label', 'Скопировать номер телефона для MAX');
+  button.setAttribute('title', 'Скопировать номер телефона для MAX');
 
   button.addEventListener('click', async () => {
-    const phone = '89030250807';
     window.clearTimeout(resetTimer);
     sendGoal('max_copy');
 
     try {
-      await navigator.clipboard.writeText(phone);
+      if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard API is unavailable');
+      await navigator.clipboard.writeText(maxPhone);
       button.textContent = 'Номер скопирован';
     } catch (error) {
-      button.textContent = phone;
+      button.textContent = maxPhone;
     }
 
     resetTimer = window.setTimeout(() => {
