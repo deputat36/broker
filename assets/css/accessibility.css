@@ -149,6 +149,67 @@
 
 .error-hero h1 { max-width: 760px; }
 
+@media (prefers-contrast: more) {
+  :root {
+    --muted: #3f3f3f;
+    --line: #555;
+    --red: #9f0711;
+    --red-dark: #650006;
+  }
+
+  body {
+    color: #000;
+  }
+
+  :where(a, button, input, summary):focus-visible {
+    outline: 4px solid #000;
+    outline-offset: 4px;
+  }
+
+  .btn,
+  .nav-phone,
+  .footer-phone,
+  .sticky-action,
+  .search-cloud a,
+  .quick-facts span,
+  .trust-list li {
+    border: 2px solid currentColor;
+  }
+
+  .card,
+  .price-item,
+  .notice,
+  .seo-panel,
+  .question-card,
+  .calc-card,
+  .scenario-card,
+  .intent-card,
+  .faq-list details,
+  .location-card {
+    border-width: 2px;
+  }
+
+  .hero .lead,
+  .page-hero .lead,
+  .cta-section p,
+  .notice p,
+  .trust-panel p {
+    color: #fff;
+  }
+
+  .text-link,
+  .breadcrumbs a,
+  .footer-col a {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  .calc-field input {
+    border: 2px solid #000;
+  }
+}
+
 @media (max-width: 1120px) {
   .main-nav a.is-current:not(.nav-phone) {
     padding-inline: 10px;
