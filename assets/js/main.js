@@ -11,12 +11,33 @@ function sendGoal(goalName) {
   window.ym(counterId, 'reachGoal', goalName);
 }
 
+function enhanceExternalLinks() {
+  document.querySelectorAll('a[href^="http://"], a[href^="https://"]').forEach((link) => {
+    let url;
+
+    try {
+      url = new URL(link.href);
+    } catch (error) {
+      return;
+    }
+
+    if (url.origin === window.location.origin) return;
+
+    const relTokens = new Set((link.getAttribute('rel') || '').split(/\s+/).filter(Boolean));
+    relTokens.add('noopener');
+    relTokens.add('noreferrer');
+    link.setAttribute('rel', Array.from(relTokens).join(' '));
+  });
+}
+
 function closeMainNav() {
   if (!navToggle || !mainNav) return;
   mainNav.classList.remove('is-open');
   navToggle.setAttribute('aria-expanded', 'false');
   navToggle.setAttribute('aria-label', 'Открыть меню сайта');
 }
+
+enhanceExternalLinks();
 
 if (navToggle && mainNav) {
   navToggle.addEventListener('click', () => {
