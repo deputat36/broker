@@ -30,6 +30,25 @@ function enhanceExternalLinks() {
   });
 }
 
+function enhanceCalculatorInputs(calcForm) {
+  const inputHints = {
+    amount: { placeholder: '3500000', enterkeyhint: 'next', inputmode: 'numeric' },
+    down: { placeholder: '700000', enterkeyhint: 'next', inputmode: 'numeric' },
+    rate: { placeholder: '18', enterkeyhint: 'next', inputmode: 'decimal' },
+    years: { placeholder: '20', enterkeyhint: 'done', inputmode: 'numeric' }
+  };
+
+  Object.entries(inputHints).forEach(([fieldName, attributes]) => {
+    const input = calcForm.querySelector(`[name="${fieldName}"]`);
+    if (!input) return;
+
+    input.setAttribute('autocomplete', 'off');
+    input.setAttribute('placeholder', attributes.placeholder);
+    input.setAttribute('enterkeyhint', attributes.enterkeyhint);
+    input.setAttribute('inputmode', attributes.inputmode);
+  });
+}
+
 function closeMainNav() {
   if (!navToggle || !mainNav) return;
   mainNav.classList.remove('is-open');
@@ -168,6 +187,8 @@ function calculateMortgage(calcForm) {
 
 calcForms.forEach((calcForm) => {
   const result = calcForm.querySelector('[data-calc-result]');
+  enhanceCalculatorInputs(calcForm);
+
   if (result) {
     result.setAttribute('aria-live', 'polite');
     result.setAttribute('aria-atomic', 'true');
