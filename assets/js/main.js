@@ -113,6 +113,17 @@ function formatRub(value) {
   }).format(value);
 }
 
+function getCalcNumber(calcForm, fieldName) {
+  const input = calcForm.querySelector(`[name="${fieldName}"]`);
+  if (!input) return NaN;
+
+  const normalizedValue = String(input.value || '')
+    .replace(/\s+/g, '')
+    .replace(',', '.');
+
+  return Number(normalizedValue);
+}
+
 function setInvalidField(calcForm, fieldName) {
   calcForm.querySelectorAll('input').forEach((input) => {
     input.setAttribute('aria-invalid', String(input.name === fieldName));
@@ -126,21 +137,21 @@ function showCalcMessage(calcForm, result, message, fieldName) {
 }
 
 function calculateMortgage(calcForm) {
-  const amount = Number(calcForm.querySelector('[name="amount"]').value || 0);
-  const down = Number(calcForm.querySelector('[name="down"]').value || 0);
-  const rate = Number(calcForm.querySelector('[name="rate"]').value || 0);
-  const years = Number(calcForm.querySelector('[name="years"]').value || 0);
+  const amount = getCalcNumber(calcForm, 'amount');
+  const down = getCalcNumber(calcForm, 'down');
+  const rate = getCalcNumber(calcForm, 'rate');
+  const years = getCalcNumber(calcForm, 'years');
   const result = calcForm.querySelector('[data-calc-result]');
 
   if (!result) return;
-  if (amount <= 0) return showCalcMessage(calcForm, result, 'Укажите стоимость жилья', 'amount');
-  if (down < 0) return showCalcMessage(calcForm, result, 'Взнос не может быть отрицательным', 'down');
+  if (!Number.isFinite(amount) || amount <= 0) return showCalcMessage(calcForm, result, 'Укажите стоимость жилья', 'amount');
+  if (!Number.isFinite(down) || down < 0) return showCalcMessage(calcForm, result, 'Укажите корректный первоначальный взнос', 'down');
   if (down >= amount) return showCalcMessage(calcForm, result, 'Взнос должен быть меньше стоимости жилья', 'down');
-  if (rate < 0 || rate > 100) return showCalcMessage(calcForm, result, 'Укажите ставку от 0 до 100%', 'rate');
-  if (years < 1 || years > 30) return showCalcMessage(calcForm, result, 'Укажите срок от 1 до 30 лет', 'years');
+  if (!Number.isFinite(rate) || rate < 0 || rate > 100) return showCalcMessage(calcForm, result, 'Укажите ставку от 0 до 100%', 'rate');
+  if (!Number.isFinite(years) || years < 1 || years > 30) return showCalcMessage(calcForm, result, 'Укажите срок от 1 до 30 лет', 'years');
 
   const credit = amount - down;
-  const months = years * 12;
+  const months = Math.round(years * 12);
   const monthlyRate = rate / 100 / 12;
   let payment = credit / months;
 
