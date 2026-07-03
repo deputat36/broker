@@ -27,6 +27,14 @@ class="is-current" aria-current="page"
 - `aria-current="page"` для точной текущей страницы;
 - `aria-current="location"` для родительского раздела.
 
+## Стили состояния
+
+Визуальное состояние активных ссылок в подвале вынесено в файл:
+
+- `assets/css/nav-state.css`.
+
+Файл подключается в `_layouts/default.html` после `accessibility.css` и до `print.css`.
+
 ## Зачем это нужно
 
 - В подвале сайта тоже появляется состояние текущей страницы или раздела.
