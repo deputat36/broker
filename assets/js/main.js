@@ -8,7 +8,12 @@ function sendGoal(goalName) {
   if (typeof window.ym !== 'function') return;
   const counterId = window.siteAnalytics && window.siteAnalytics.yandexMetrikaId;
   if (!counterId) return;
-  window.ym(counterId, 'reachGoal', goalName);
+
+  try {
+    window.ym(counterId, 'reachGoal', goalName);
+  } catch (error) {
+    // Ошибка аналитики не должна мешать работе кнопок, меню и калькулятора.
+  }
 }
 
 function normalizePath(pathname) {
