@@ -11,6 +11,14 @@ function sendGoal(goalName) {
   window.ym(counterId, 'reachGoal', goalName);
 }
 
+function normalizePath(pathname) {
+  const normalizedPath = String(pathname || '/')
+    .replace(/\/index\.html$/, '/')
+    .replace(/\/+$/, '/');
+
+  return normalizedPath || '/';
+}
+
 function enhanceExternalLinks() {
   document.querySelectorAll('a[href^="http://"], a[href^="https://"]').forEach((link) => {
     let url;
@@ -27,6 +35,32 @@ function enhanceExternalLinks() {
     relTokens.add('noopener');
     relTokens.add('noreferrer');
     link.setAttribute('rel', Array.from(relTokens).join(' '));
+  });
+}
+
+function enhanceCurrentLinks() {
+  const currentPath = normalizePath(window.location.pathname);
+  const navLinks = document.querySelectorAll('.main-nav a[href], .site-footer a[href]');
+
+  navLinks.forEach((link) => {
+    let url;
+
+    try {
+      url = new URL(link.href);
+    } catch (error) {
+      return;
+    }
+
+    if (url.origin !== window.location.origin) return;
+
+    const linkPath = normalizePath(url.pathname);
+    const isExactPage = linkPath === currentPath;
+    const isParentSection = linkPath !== '/' && currentPath.indexOf(linkPath) === 0;
+
+    if (!isExactPage && !isParentSection) return;
+
+    link.classList.add('is-current');
+    link.setAttribute('aria-current', isExactPage ? 'page' : 'location');
   });
 }
 
@@ -57,6 +91,7 @@ function closeMainNav() {
 }
 
 enhanceExternalLinks();
+enhanceCurrentLinks();
 
 if (navToggle && mainNav) {
   navToggle.addEventListener('click', () => {
