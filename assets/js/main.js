@@ -71,10 +71,10 @@ function enhanceCurrentLinks() {
 
 function enhanceCalculatorInputs(calcForm) {
   const inputHints = {
-    amount: { placeholder: '3500000', enterkeyhint: 'next', inputmode: 'numeric' },
-    down: { placeholder: '700000', enterkeyhint: 'next', inputmode: 'numeric' },
-    rate: { placeholder: '18', enterkeyhint: 'next', inputmode: 'decimal' },
-    years: { placeholder: '20', enterkeyhint: 'done', inputmode: 'numeric' }
+    amount: { enterkeyhint: 'next', inputmode: 'numeric' },
+    down: { enterkeyhint: 'next', inputmode: 'numeric' },
+    rate: { enterkeyhint: 'next', inputmode: 'decimal' },
+    years: { enterkeyhint: 'done', inputmode: 'numeric' }
   };
 
   Object.entries(inputHints).forEach(([fieldName, attributes]) => {
@@ -82,7 +82,6 @@ function enhanceCalculatorInputs(calcForm) {
     if (!input) return;
 
     input.setAttribute('autocomplete', 'off');
-    input.setAttribute('placeholder', attributes.placeholder);
     input.setAttribute('enterkeyhint', attributes.enterkeyhint);
     input.setAttribute('inputmode', attributes.inputmode);
   });
