@@ -190,11 +190,14 @@
   }
 
   .hero .lead,
-  .page-hero .lead,
   .cta-section p,
-  .notice p,
   .trust-panel p {
     color: #fff;
+  }
+
+  .page-hero .lead,
+  .notice p {
+    color: #111;
   }
 
   .text-link,
