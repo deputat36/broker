@@ -5,7 +5,7 @@ description: Бесплатная первичная консультация и
 permalink: /konsultaciya/
 breadcrumb: Консультация
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Сколько стоит первичная консультация ипотечного брокера?","acceptedAnswer":{"@type":"Answer","text":"Первичная консультация у Татьяны Стерликовой бесплатная. На ней разбирается задача, примерный платеж, риски и следующий шаг."}},{"@type":"Question","name":"Можно ли обратиться, если уже был отказ по ипотеке?","acceptedAnswer":{"@type":"Answer","text":"Да. Перед новой заявкой важно понять возможную причину отказа, проверить кредитную нагрузку, кредитную историю и выбрать более аккуратный маршрут."}},{"@type":"Question","name":"Как получить консультацию?","acceptedAnswer":{"@type":"Answer","text":"Можно позвонить по номеру 8 903 025-08-07, написать в MAX по этому номеру или обратиться на страницу ВКонтакте."}},{"@type":"Question","name":"Нужны ли документы для первой консультации?","acceptedAnswer":{"@type":"Answer","text":"Для первого разговора полный пакет документов не нужен. Достаточно описать объект, доход, первоначальный взнос, действующие кредиты и прошлые обращения в банки."}}]}'
+schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Сколько стоит первичная консультация ипотечного брокера?","acceptedAnswer":{"@type":"Answer","text":"Первичная консультация у Татьяны Стерликовой бесплатная. На ней разбирается задача, примерный платеж, риски и следующий шаг."}},{"@type":"Question","name":"Можно ли обратиться, если уже был отказ по ипотеке?","acceptedAnswer":{"@type":"Answer","text":"Да. Перед новой заявкой важно понять возможную причину отказа, проверить кредитную нагрузку, кредитную историю и выбрать более аккуратный маршрут."}},{"@type":"Question","name":"Как получить консультацию?","acceptedAnswer":{"@type":"Answer","text":"Можно позвонить по номеру 8 903 025-08-07, написать в MAX по этому номеру, обратиться на страницу ВКонтакте или оставить заявку на сайте."}},{"@type":"Question","name":"Нужны ли документы для первой консультации?","acceptedAnswer":{"@type":"Answer","text":"Для первого разговора полный пакет документов не нужен. Достаточно описать объект, доход, первоначальный взнос, действующие кредиты и прошлые обращения в банки."}}]}'
 ---
 
 <section class="page-hero section">
@@ -17,6 +17,99 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
     <button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a>
   </div>
+</section>
+
+<section class="section lead-form-section warm" id="zayavka">
+  <div>
+    <p class="eyebrow">Заявка на консультацию</p>
+    <h2>Оставьте телефон — Татьяна свяжется с вами</h2>
+    <p>Коротко опишите ситуацию: что хотите купить, в каком городе, какой есть взнос и были ли уже заявки в банки. Не отправляйте через форму паспортные данные, СНИЛС, банковские документы и сканы.</p>
+    <div class="hero-actions">
+      <a class="btn btn-light" href="tel:+79030250807">Позвонить вместо заявки</a>
+      <button class="btn btn-light" type="button" data-copy-phone>Скопировать номер для MAX</button>
+    </div>
+  </div>
+
+  <form class="lead-form" data-broker-lead-form novalidate>
+    <div class="form-honeypot" aria-hidden="true">
+      <label for="lead-company">Компания</label>
+      <input id="lead-company" name="company" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="lead-form-grid">
+      <div class="form-field">
+        <label for="lead-name">Имя</label>
+        <input id="lead-name" name="client_name" type="text" autocomplete="name" placeholder="Например, Анна">
+      </div>
+      <div class="form-field">
+        <label for="lead-phone">Телефон *</label>
+        <input id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__" required>
+      </div>
+      <div class="form-field">
+        <label for="lead-city">Город</label>
+        <input id="lead-city" name="city" type="text" autocomplete="address-level2" placeholder="Борисоглебск, Грибановский, Поворино">
+      </div>
+      <div class="form-field">
+        <label for="lead-contact-time">Когда удобно связаться</label>
+        <input id="lead-contact-time" name="contact_time" type="text" placeholder="Например, сегодня после 17:00">
+      </div>
+      <div class="form-field">
+        <label for="lead-goal">Цель ипотеки</label>
+        <select id="lead-goal" name="mortgage_goal">
+          <option value="">Выберите вариант</option>
+          <option>Покупка квартиры</option>
+          <option>Покупка дома</option>
+          <option>Новостройка</option>
+          <option>Строительство дома</option>
+          <option>Семейная ипотека</option>
+          <option>Материнский капитал</option>
+          <option>Разбор отказа</option>
+          <option>Пока только консультация</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="lead-property-type">Тип объекта</label>
+        <select id="lead-property-type" name="property_type">
+          <option value="">Выберите вариант</option>
+          <option>Квартира</option>
+          <option>Дом</option>
+          <option>Новостройка</option>
+          <option>Вторичное жилье</option>
+          <option>Строительство</option>
+          <option>Объект еще не выбран</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="lead-price">Стоимость объекта, ₽</label>
+        <input id="lead-price" name="property_price" type="text" inputmode="numeric" placeholder="3 500 000">
+      </div>
+      <div class="form-field">
+        <label for="lead-down">Первоначальный взнос, ₽</label>
+        <input id="lead-down" name="down_payment" type="text" inputmode="numeric" placeholder="700 000">
+      </div>
+    </div>
+
+    <div class="form-options">
+      <label><input name="has_matkapital" type="checkbox" value="true"> Есть материнский капитал</label>
+      <label><input name="has_previous_rejection" type="checkbox" value="true"> Уже был отказ</label>
+      <label><input name="has_bad_credit_history" type="checkbox" value="true"> Есть вопросы по кредитной истории</label>
+    </div>
+
+    <div class="form-field">
+      <label for="lead-comment">Комментарий</label>
+      <textarea id="lead-comment" name="comment" rows="4" placeholder="Напишите, что хотите купить, какой доход и что уже пробовали"></textarea>
+    </div>
+
+    <label class="form-checkbox">
+      <input name="consent_accepted" type="checkbox" value="true" required>
+      <span>Я согласен(на) на обработку персональных данных для связи по заявке. <a href="{{ '/policy/' | relative_url }}">Политика обработки данных</a>.</span>
+    </label>
+
+    <p class="lead-form-hint">Форма нужна только для первичного контакта. Окончательное решение по ипотеке принимает банк.</p>
+
+    <button class="btn btn-primary" type="submit">Отправить заявку</button>
+    <div class="form-result" data-broker-lead-result role="status" aria-live="polite"></div>
+  </form>
 </section>
 
 <section class="section intent-section">
@@ -126,7 +219,7 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
   </div>
   <div class="faq-list">
     <details><summary>Консультация точно бесплатная?</summary><p>Да, первичный разговор бесплатный. Платное сопровождение обсуждается отдельно, если видно, что нужна полноценная работа с заявкой.</p></details>
-    <details><summary>Можно написать вместо звонка?</summary><p>Да. Можно написать в MAX по номеру 8 903 025-08-07 или на страницу ВКонтакте.</p></details>
+    <details><summary>Можно написать вместо звонка?</summary><p>Да. Можно написать в MAX по номеру 8 903 025-08-07, на страницу ВКонтакте или оставить заявку на сайте.</p></details>
     <details><summary>Если я еще не выбрал объект, обращаться рано?</summary><p>Нет. Часто лучше сначала понять бюджет и платеж, а уже потом выбирать объект.</p></details>
     <details><summary>Вы работаете только по Борисоглебску?</summary><p>Основная география сайта: Борисоглебск и округ, Грибановский район, Поворино и Поворинский район. Если ситуация рядом с этой территорией, ее тоже можно обсудить.</p></details>
   </div>
@@ -136,10 +229,11 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
   <div>
     <p class="eyebrow">Связаться</p>
     <h2>Получите первичный разбор вашей ситуации</h2>
-    <p>Позвоните или напишите, что хотите купить, какой взнос есть и были ли уже обращения в банки.</p>
+    <p>Позвоните, напишите или оставьте заявку на этой странице. Для первого разговора достаточно телефона и краткого описания задачи.</p>
   </div>
   <div class="cta-actions">
     <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
+    <a class="btn btn-secondary" href="#zayavka">Оставить заявку</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
