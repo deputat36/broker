@@ -5,7 +5,7 @@ description: Бесплатная первичная консультация и
 permalink: /konsultaciya/
 breadcrumb: Консультация
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Сколько стоит первичная консультация ипотечного брокера?","acceptedAnswer":{"@type":"Answer","text":"Первичная консультация у Татьяны Стерликовой бесплатная. На ней разбирается задача, примерный платеж, риски и следующий шаг."}},{"@type":"Question","name":"Можно ли обратиться, если уже был отказ по ипотеке?","acceptedAnswer":{"@type":"Answer","text":"Да. Перед новой заявкой важно понять возможную причину отказа, проверить кредитную нагрузку, кредитную историю и выбрать более аккуратный маршрут."}},{"@type":"Question","name":"Как получить консультацию?","acceptedAnswer":{"@type":"Answer","text":"Можно позвонить по номеру 8 903 025-08-07, написать в MAX по этому номеру, обратиться на страницу ВКонтакте или оставить заявку на сайте."}},{"@type":"Question","name":"Нужны ли документы для первой консультации?","acceptedAnswer":{"@type":"Answer","text":"Для первого разговора полный пакет документов не нужен. Достаточно описать объект, доход, первоначальный взнос, действующие кредиты и прошлые обращения в банки."}}]}'
+schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Сколько стоит первичная консультация ипотечного брокера?","acceptedAnswer":{"@type":"Answer","text":"Первичная консультация у Татьяны Стерликовой бесплатная."}},{"@type":"Question","name":"Как получить консультацию?","acceptedAnswer":{"@type":"Answer","text":"Можно позвонить по номеру 8 903 025-08-07, написать в MAX по этому номеру или обратиться на страницу ВКонтакте."}}]}'
 ---
 
 <section class="page-hero section">
@@ -19,164 +19,41 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
   </div>
 </section>
 
-<section class="section calc-section warm" id="zayavka">
-  <div>
-    <p class="eyebrow">Заявка на консультацию</p>
-    <h2>Оставьте телефон — Татьяна свяжется с вами</h2>
-    <p>Коротко опишите ситуацию: что хотите купить, в каком городе, какой есть взнос и были ли уже заявки в банки. Не отправляйте через форму паспортные данные, СНИЛС, банковские документы и сканы.</p>
-    <div class="hero-actions">
-      <a class="btn btn-light" href="tel:+79030250807">Позвонить вместо заявки</a>
-      <button class="btn btn-light" type="button" data-copy-phone>Скопировать номер для MAX</button>
+<section class="section compact-section" id="zayavka">
+  <div class="notice">
+    <div>
+      <p class="eyebrow">Связаться</p>
+      <h2>Опишите ситуацию в звонке, MAX или ВКонтакте</h2>
+      <p>Для первого разговора достаточно назвать город, тип объекта, примерную стоимость, первоначальный взнос, доход и были ли уже заявки или отказы.</p>
+      <p>Онлайн-форма заявок технически подготовлена через Supabase, но будет включена только после отдельного тестирования.</p>
     </div>
-  </div>
-
-  <form class="calc-card" data-broker-lead-form novalidate>
-    <div hidden aria-hidden="true">
-      <label for="lead-company">Компания</label>
-      <input id="lead-company" name="company" type="text" tabindex="-1" autocomplete="off">
+    <div class="cta-actions">
+      <a class="btn btn-primary" href="tel:+79030250807">Позвонить</a>
+      <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
+      <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
     </div>
-
-    <div class="calc-grid">
-      <div class="calc-field">
-        <label for="lead-name">Имя</label>
-        <input id="lead-name" name="client_name" type="text" autocomplete="name" placeholder="Например, Анна">
-      </div>
-      <div class="calc-field">
-        <label for="lead-phone">Телефон *</label>
-        <input id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__" required>
-      </div>
-      <div class="calc-field">
-        <label for="lead-city">Город</label>
-        <input id="lead-city" name="city" type="text" autocomplete="address-level2" placeholder="Борисоглебск, Грибановский, Поворино">
-      </div>
-      <div class="calc-field">
-        <label for="lead-contact-time">Когда удобно связаться</label>
-        <input id="lead-contact-time" name="contact_time" type="text" placeholder="Например, сегодня после 17:00">
-      </div>
-      <div class="calc-field">
-        <label for="lead-goal">Цель ипотеки</label>
-        <select id="lead-goal" name="mortgage_goal">
-          <option value="">Выберите вариант</option>
-          <option>Покупка квартиры</option>
-          <option>Покупка дома</option>
-          <option>Новостройка</option>
-          <option>Строительство дома</option>
-          <option>Семейная ипотека</option>
-          <option>Материнский капитал</option>
-          <option>Разбор отказа</option>
-          <option>Пока только консультация</option>
-        </select>
-      </div>
-      <div class="calc-field">
-        <label for="lead-property-type">Тип объекта</label>
-        <select id="lead-property-type" name="property_type">
-          <option value="">Выберите вариант</option>
-          <option>Квартира</option>
-          <option>Дом</option>
-          <option>Новостройка</option>
-          <option>Вторичное жилье</option>
-          <option>Строительство</option>
-          <option>Объект еще не выбран</option>
-        </select>
-      </div>
-      <div class="calc-field">
-        <label for="lead-price">Стоимость объекта, ₽</label>
-        <input id="lead-price" name="property_price" type="text" inputmode="numeric" placeholder="3 500 000">
-      </div>
-      <div class="calc-field">
-        <label for="lead-down">Первоначальный взнос, ₽</label>
-        <input id="lead-down" name="down_payment" type="text" inputmode="numeric" placeholder="700 000">
-      </div>
-    </div>
-
-    <div class="checklist" style="margin:16px 0;">
-      <label><input name="has_matkapital" type="checkbox" value="true"> Есть материнский капитал</label>
-      <label><input name="has_previous_rejection" type="checkbox" value="true"> Уже был отказ</label>
-      <label><input name="has_bad_credit_history" type="checkbox" value="true"> Есть вопросы по кредитной истории</label>
-    </div>
-
-    <div class="calc-field">
-      <label for="lead-comment">Комментарий</label>
-      <textarea id="lead-comment" name="comment" rows="4" placeholder="Напишите, что хотите купить, какой доход и что уже пробовали"></textarea>
-    </div>
-
-    <label class="text-link" style="display:flex;gap:10px;margin:18px 0 10px;font-weight:900;">
-      <input name="consent_accepted" type="checkbox" value="true" required style="width:18px;height:18px;margin-top:4px;">
-      <span>Я согласен(на) на обработку персональных данных для связи по заявке. <a href="{{ '/policy/' | relative_url }}">Политика обработки данных</a>.</span>
-    </label>
-
-    <p style="color:var(--muted);font-size:14px;">Форма нужна только для первичного контакта. Окончательное решение по ипотеке принимает банк.</p>
-
-    <button class="btn btn-primary" type="submit">Отправить заявку</button>
-    <div class="calc-result" data-broker-lead-result role="status" aria-live="polite" style="display:none;"></div>
-  </form>
-</section>
-
-<section class="section intent-section">
-  <div class="section-head">
-    <p class="eyebrow">Кому подходит</p>
-    <h2>Консультация полезна до подачи заявок в банки</h2>
-    <p>Чем раньше понятны слабые места заявки, тем меньше риск получить отказ и усложнить дальнейшие попытки частыми обращениями.</p>
-  </div>
-  <div class="intent-grid">
-    <a class="intent-card featured" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">
-      <strong>Планируете покупку</strong>
-      <span>Нужно понять комфортный платеж, первоначальный взнос, срок, примерную сумму кредита и порядок действий.</span>
-      <em>Посмотреть калькулятор</em>
-    </a>
-    <a class="intent-card" href="{{ '/uslugi/slozhnaya-ipoteka/' | relative_url }}">
-      <strong>Есть сомнения по одобрению</strong>
-      <span>Доход неофициальный, есть кредиты, просрочки, ИП, самозанятость, маткапитал или сложный объект.</span>
-      <em>Сложные случаи</em>
-    </a>
-    <a class="intent-card" href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">
-      <strong>Уже был отказ</strong>
-      <span>Разберем, что могло повлиять на решение банка и как аккуратнее подойти к следующей заявке.</span>
-      <em>Разбор отказа</em>
-    </a>
-    <a class="intent-card" href="{{ '/kak-prohodit-rabota/' | relative_url }}">
-      <strong>Хочу понять этапы работы</strong>
-      <span>Посмотрите, как проходит путь от первого разговора до подготовки заявки и дальнейших действий.</span>
-      <em>Порядок работы</em>
-    </a>
   </div>
 </section>
 
 <section class="section muted">
   <div class="section-head">
     <p class="eyebrow">Что разберем</p>
-    <h2>На первичном разговоре</h2>
-    <p>Консультация не заменяет полное сопровождение, но помогает быстро увидеть реальную картину и выбрать следующий шаг.</p>
+    <h2>На первичной консультации</h2>
+    <p>Консультация помогает быстро увидеть реальную картину и выбрать следующий шаг. Окончательное решение по ипотеке всегда принимает банк.</p>
   </div>
   <div class="grid cards-4">
-    <article class="card"><h3>Цель покупки</h3><p>Квартира, дом, новостройка, вторичка, строительство, материнский капитал, семейная ипотека или обычная программа.</p></article>
-    <article class="card"><h3>Доход и нагрузку</h3><p>Как банк может смотреть на платежеспособность, действующие кредиты и формат подтверждения дохода.</p></article>
-    <article class="card"><h3>Риски отказа</h3><p>Что лучше проверить до подачи заявки: кредитную историю, просрочки, частые запросы, состав заемщиков.</p></article>
-    <article class="card"><h3>Следующий шаг</h3><p>Достаточно ли консультации, нужен ли подбор ипотеки или стоит сначала подготовить документы и историю.</p></article>
-  </div>
-</section>
-
-<section class="section">
-  <div class="trust-panel">
-    <div>
-      <p class="eyebrow">Что будет результатом</p>
-      <h2>После консультации вы понимаете, куда двигаться дальше</h2>
-      <p>Главная задача первого разговора — не продать услугу любой ценой, а отделить реальный маршрут от рискованных действий.</p>
-    </div>
-    <div class="proof-grid">
-      <div class="proof-card"><strong>Понимание платежа</strong><span>Предварительно оцениваем порядок ежемесячного платежа и суммы кредита.</span></div>
-      <div class="proof-card"><strong>Список слабых мест</strong><span>Доход, нагрузка, кредитная история, взнос, объект или выбранная программа.</span></div>
-      <div class="proof-card"><strong>Понятный следующий шаг</strong><span>Консультация, подбор, подготовка документов, проверка истории или пауза перед новой заявкой.</span></div>
-      <div class="proof-card"><strong>Без лишних обещаний</strong><span>Окончательное решение по ипотеке всегда принимает банк.</span></div>
-    </div>
+    <article class="card"><h3>Цель покупки</h3><p>Квартира, дом, новостройка, вторичка, строительство, материнский капитал или семейная ипотека.</p></article>
+    <article class="card"><h3>Доход и нагрузку</h3><p>Как банк может смотреть на платежеспособность, действующие кредиты и формат дохода.</p></article>
+    <article class="card"><h3>Риски отказа</h3><p>Что проверить до подачи заявки: кредитную историю, просрочки, частые запросы, состав заемщиков.</p></article>
+    <article class="card"><h3>Следующий шаг</h3><p>Консультация, подбор, подготовка документов, проверка истории или пауза перед новой заявкой.</p></article>
   </div>
 </section>
 
 <section class="section">
   <div class="section-head">
     <p class="eyebrow">Что написать</p>
-    <h2>Шаблон первого сообщения в MAX или ВКонтакте</h2>
-    <p>Можно скопировать этот текст и заменить данные на свои. Подробный вариант есть в отдельной статье: <a class="text-link" href="{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | relative_url }}">что написать ипотечному брокеру</a>.</p>
+    <h2>Шаблон первого сообщения</h2>
+    <p>Можно отправить в MAX или ВКонтакте такой текст и заменить данные на свои.</p>
   </div>
   <div class="notice">
     <div>
@@ -184,20 +61,6 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
       <p>Город: Борисоглебск / Грибановский / Поворино. Объект: квартира / дом / новостройка / строительство. Стоимость примерно: ___ ₽. Первоначальный взнос: ___ ₽. Доход: официально / ИП / самозанятость / другой вариант. Были ли заявки или отказы: да / нет.</p>
     </div>
     <button class="btn btn-dark" type="button" data-copy-phone>Скопировать телефон для MAX</button>
-  </div>
-</section>
-
-<section class="section muted">
-  <div class="section-head">
-    <p class="eyebrow">Что подготовить</p>
-    <h2>Чтобы разговор был предметным</h2>
-    <p>Можно обратиться и без документов, но эти данные помогут быстрее оценить ситуацию.</p>
-  </div>
-  <div class="checklist">
-    <div><strong>1</strong><span>Город и тип объекта: Борисоглебск, Грибановский, Поворино, квартира, дом, участок, новостройка или вторичка.</span></div>
-    <div><strong>2</strong><span>Примерная стоимость объекта и размер первоначального взноса.</span></div>
-    <div><strong>3</strong><span>Формат дохода: найм, ИП, самозанятость, пенсия, совместный заемщик.</span></div>
-    <div><strong>4</strong><span>Действующие кредиты, просрочки, прошлые отказы, материнский капитал или льготная программа.</span></div>
   </div>
 </section>
 
@@ -212,28 +75,14 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
   </div>
 </section>
 
-<section class="section">
-  <div class="section-head">
-    <p class="eyebrow">Частые вопросы</p>
-    <h2>Что важно знать до консультации</h2>
-  </div>
-  <div class="faq-list">
-    <details><summary>Консультация точно бесплатная?</summary><p>Да, первичный разговор бесплатный. Платное сопровождение обсуждается отдельно, если видно, что нужна полноценная работа с заявкой.</p></details>
-    <details><summary>Можно написать вместо звонка?</summary><p>Да. Можно написать в MAX по номеру 8 903 025-08-07, на страницу ВКонтакте или оставить заявку на сайте.</p></details>
-    <details><summary>Если я еще не выбрал объект, обращаться рано?</summary><p>Нет. Часто лучше сначала понять бюджет и платеж, а уже потом выбирать объект.</p></details>
-    <details><summary>Вы работаете только по Борисоглебску?</summary><p>Основная география сайта: Борисоглебск и округ, Грибановский район, Поворино и Поворинский район. Если ситуация рядом с этой территорией, ее тоже можно обсудить.</p></details>
-  </div>
-</section>
-
 <section class="section cta-section">
   <div>
     <p class="eyebrow">Связаться</p>
     <h2>Получите первичный разбор вашей ситуации</h2>
-    <p>Позвоните, напишите или оставьте заявку на этой странице. Для первого разговора достаточно телефона и краткого описания задачи.</p>
+    <p>Позвоните или напишите, что хотите купить, какой взнос есть и были ли уже обращения в банки.</p>
   </div>
   <div class="cta-actions">
     <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
-    <a class="btn btn-secondary" href="#zayavka">Оставить заявку</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
