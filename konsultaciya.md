@@ -19,7 +19,7 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
   </div>
 </section>
 
-<section class="section lead-form-section warm" id="zayavka">
+<section class="section calc-section warm" id="zayavka">
   <div>
     <p class="eyebrow">Заявка на консультацию</p>
     <h2>Оставьте телефон — Татьяна свяжется с вами</h2>
@@ -30,30 +30,30 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
     </div>
   </div>
 
-  <form class="lead-form" data-broker-lead-form novalidate>
-    <div class="form-honeypot" aria-hidden="true">
+  <form class="calc-card" data-broker-lead-form novalidate>
+    <div hidden aria-hidden="true">
       <label for="lead-company">Компания</label>
       <input id="lead-company" name="company" type="text" tabindex="-1" autocomplete="off">
     </div>
 
-    <div class="lead-form-grid">
-      <div class="form-field">
+    <div class="calc-grid">
+      <div class="calc-field">
         <label for="lead-name">Имя</label>
         <input id="lead-name" name="client_name" type="text" autocomplete="name" placeholder="Например, Анна">
       </div>
-      <div class="form-field">
+      <div class="calc-field">
         <label for="lead-phone">Телефон *</label>
         <input id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__" required>
       </div>
-      <div class="form-field">
+      <div class="calc-field">
         <label for="lead-city">Город</label>
         <input id="lead-city" name="city" type="text" autocomplete="address-level2" placeholder="Борисоглебск, Грибановский, Поворино">
       </div>
-      <div class="form-field">
+      <div class="calc-field">
         <label for="lead-contact-time">Когда удобно связаться</label>
         <input id="lead-contact-time" name="contact_time" type="text" placeholder="Например, сегодня после 17:00">
       </div>
-      <div class="form-field">
+      <div class="calc-field">
         <label for="lead-goal">Цель ипотеки</label>
         <select id="lead-goal" name="mortgage_goal">
           <option value="">Выберите вариант</option>
@@ -67,7 +67,7 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
           <option>Пока только консультация</option>
         </select>
       </div>
-      <div class="form-field">
+      <div class="calc-field">
         <label for="lead-property-type">Тип объекта</label>
         <select id="lead-property-type" name="property_type">
           <option value="">Выберите вариант</option>
@@ -79,36 +79,36 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
           <option>Объект еще не выбран</option>
         </select>
       </div>
-      <div class="form-field">
+      <div class="calc-field">
         <label for="lead-price">Стоимость объекта, ₽</label>
         <input id="lead-price" name="property_price" type="text" inputmode="numeric" placeholder="3 500 000">
       </div>
-      <div class="form-field">
+      <div class="calc-field">
         <label for="lead-down">Первоначальный взнос, ₽</label>
         <input id="lead-down" name="down_payment" type="text" inputmode="numeric" placeholder="700 000">
       </div>
     </div>
 
-    <div class="form-options">
+    <div class="checklist" style="margin:16px 0;">
       <label><input name="has_matkapital" type="checkbox" value="true"> Есть материнский капитал</label>
       <label><input name="has_previous_rejection" type="checkbox" value="true"> Уже был отказ</label>
       <label><input name="has_bad_credit_history" type="checkbox" value="true"> Есть вопросы по кредитной истории</label>
     </div>
 
-    <div class="form-field">
+    <div class="calc-field">
       <label for="lead-comment">Комментарий</label>
       <textarea id="lead-comment" name="comment" rows="4" placeholder="Напишите, что хотите купить, какой доход и что уже пробовали"></textarea>
     </div>
 
-    <label class="form-checkbox">
-      <input name="consent_accepted" type="checkbox" value="true" required>
+    <label class="text-link" style="display:flex;gap:10px;margin:18px 0 10px;font-weight:900;">
+      <input name="consent_accepted" type="checkbox" value="true" required style="width:18px;height:18px;margin-top:4px;">
       <span>Я согласен(на) на обработку персональных данных для связи по заявке. <a href="{{ '/policy/' | relative_url }}">Политика обработки данных</a>.</span>
     </label>
 
-    <p class="lead-form-hint">Форма нужна только для первичного контакта. Окончательное решение по ипотеке принимает банк.</p>
+    <p style="color:var(--muted);font-size:14px;">Форма нужна только для первичного контакта. Окончательное решение по ипотеке принимает банк.</p>
 
     <button class="btn btn-primary" type="submit">Отправить заявку</button>
-    <div class="form-result" data-broker-lead-result role="status" aria-live="polite"></div>
+    <div class="calc-result" data-broker-lead-result role="status" aria-live="polite" style="display:none;"></div>
   </form>
 </section>
 
