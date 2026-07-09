@@ -5,7 +5,7 @@ description: Контакты ипотечного брокера Татьяны
 permalink: /kontakty/
 breadcrumb: Контакты
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"ContactPage","name":"Контакты ипотечного брокера Татьяны Стерликовой","url":"https://deputat36.github.io/broker/kontakty/","about":{"@type":"FinancialService","name":"Ипотечный брокер Татьяна Стерликова","telephone":"+79030250807","areaServed":["Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"],"sameAs":["https://vk.com/tatyanasterlikova"]}}'
+schema: '{"@context":"https://schema.org","@type":"ContactPage","name":"Контакты ипотечного брокера Татьяны Стерликовой","url":"https://sterlikova-ipoteka.ru/kontakty/","about":{"@type":"FinancialService","name":"Ипотечный брокер Татьяна Стерликова","telephone":"+79030250807","areaServed":["Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"],"sameAs":["https://vk.com/tatyanasterlikova"]}}'
 ---
 
 <section class="page-hero section">
