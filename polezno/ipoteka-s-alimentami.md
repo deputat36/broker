@@ -5,7 +5,7 @@ description: Как алименты могут влиять на ипотеку
 permalink: /polezno/ipoteka-s-alimentami/
 breadcrumb: Ипотека с алиментами
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипотека с алиментами","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/ipoteka-s-alimentami/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипотека с алиментами","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ipoteka-s-alimentami/"}'
 ---
 
 <section class="page-hero section">
