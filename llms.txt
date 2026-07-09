@@ -2,11 +2,11 @@
 
 Сайт ипотечного брокера Татьяны Стерликовой для покупателей жилья в Борисоглебске, Борисоглебском городском округе, Грибановском районе и Поворинском районе.
 
-Основной сайт: https://deputat36.github.io/broker/
-Карта сайта: https://deputat36.github.io/broker/sitemap.xml
-Файл авторства: https://deputat36.github.io/broker/humans.txt
-Контакты: https://deputat36.github.io/broker/kontakty/
-Консультация: https://deputat36.github.io/broker/konsultaciya/
+Основной сайт: https://sterlikova-ipoteka.ru/
+Карта сайта: https://sterlikova-ipoteka.ru/sitemap.xml
+Файл авторства: https://sterlikova-ipoteka.ru/humans.txt
+Контакты: https://sterlikova-ipoteka.ru/kontakty/
+Консультация: https://sterlikova-ipoteka.ru/konsultaciya/
 
 ## Основные разделы
 
