@@ -5,7 +5,7 @@ description: Понятный порядок работы с ипотечным 
 permalink: /kak-prohodit-rabota/
 breadcrumb: Как проходит работа
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"WebPage","name":"Как проходит работа с ипотечным брокером","description":"Порядок работы с ипотечным брокером Татьяной Стерликовой: консультация, разбор ситуации, подбор ипотечного маршрута, подача заявки и сопровождение.","url":"https://deputat36.github.io/broker/kak-prohodit-rabota/"}'
+schema: '{"@context":"https://schema.org","@type":"WebPage","name":"Как проходит работа с ипотечным брокером","description":"Порядок работы с ипотечным брокером Татьяной Стерликовой: консультация, разбор ситуации, подбор ипотечного маршрута, подача заявки и сопровождение.","url":"https://sterlikova-ipoteka.ru/kak-prohodit-rabota/"}'
 ---
 
 <section class="page-hero section">
