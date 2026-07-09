@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Полезные материалы по ипотеке | Татьяна Стерликова
-description: Полезные статьи по ипотеке: доход, платеж, первоначальный взнос, кредитная история, документы, оценка недвижимости, страхование, новостройка, вторичка, дом, маткапитал, семейная ипотека и сложные ситуации.
+description: Полезные статьи по ипотеке: доход, платеж, первоначальный взнос, кредитная история, документы, оценка недвижимости, страхование, новостройка, вторичка, дом, маткапитал, семейная ипотека, покупка из района и сложные ситуации.
 permalink: /polezno/
 og_type: article
 ---
@@ -99,6 +99,20 @@ og_type: article
     <article class="card"><h3><a href="{{ '/polezno/dokumenty-dlya-ipoteki-samozanyatomu/' | relative_url }}">Документы для ипотеки самозанятому</a></h3><p>Что подготовить по доходу, деятельности, кредитам, взносу и объекту.</p></article>
     <article class="card"><h3><a href="{{ '/polezno/pochemu-ne-stoit-podavat-zayavki-vo-vse-banki/' | relative_url }}">Почему не стоит подавать заявки во все банки</a></h3><p>Как избежать хаотичных заявок, лишних отказов и выбрать логичный маршрут.</p></article>
     <article class="card"><h3><a href="{{ '/polezno/oshibki-pri-podgotovke-k-ipoteke/' | relative_url }}">Ошибки при подготовке к ипотеке</a></h3><p>Хаотичные обращения, новые кредиты, аванс и неподготовленный объект.</p></article>
+  </div>
+</section>
+
+<section class="section muted">
+  <div class="section-head">
+    <p class="eyebrow">Жителям районов</p>
+    <h2>Если вы покупаете жилье в Борисоглебске из района</h2>
+    <p>Отдельный блок для жителей Грибановского, Поворино, Борисоглебского округа и соседних населенных пунктов: как начать дистанционно, подготовиться к просмотру и не тратить поездку впустую.</p>
+  </div>
+  <div class="grid cards-4">
+    <article class="card"><h3><a href="{{ '/polezno/materialy-dlya-zhiteley-rayonov/' | relative_url }}">Материалы для жителей районов</a></h3><p>Общий раздел со страницами для покупателей из районов и соседних населенных пунктов.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/ipoteka-v-rayone-distantsionno/' | relative_url }}">Как начать ипотеку дистанционно</a></h3><p>Что написать брокеру и какие данные подготовить без личной встречи.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/kupit-zhile-v-borisoglebske-iz-rayona/' | relative_url }}">Купить жилье в Борисоглебске из района</a></h3><p>Как связать бюджет, взнос, объект, сроки и ипотечную готовность.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/prosmotr-zhilya-v-borisoglebske-iz-rayona/' | relative_url }}">Подготовка к просмотру жилья</a></h3><p>Какие вопросы задать до поездки и что проверить на месте.</p></article>
   </div>
 </section>
 
