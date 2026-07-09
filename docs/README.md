@@ -4,6 +4,7 @@
 
 ## Основные документы
 
+- `site-audit-and-autonomous-plan.md` — полный аудит сайта и план автономного развития.
 - `tatyana-photo-brief.md` — техническое задание по подготовке фотографии Татьяны для сайта.
 - `photo-implementation-checklist.md` — чек-лист внедрения обработанных фото на сайт.
 - `beget-domain-setup.md` — инструкция по подключению домена через Beget и GitHub Pages.
