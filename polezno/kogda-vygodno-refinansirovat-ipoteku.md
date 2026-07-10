@@ -5,7 +5,7 @@ description: Когда рефинансирование ипотеки може
 permalink: /polezno/kogda-vygodno-refinansirovat-ipoteku/
 breadcrumb: Когда выгодно рефинансировать ипотеку
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Когда выгодно рефинансировать ипотеку","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/kogda-vygodno-refinansirovat-ipoteku/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Когда выгодно рефинансировать ипотеку","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kogda-vygodno-refinansirovat-ipoteku/"}'
 ---
 
 <section class="page-hero section">
