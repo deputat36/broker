@@ -5,7 +5,7 @@ description: Что делать, если отказали в ипотеке в
 permalink: /geo/borisoglebsk/otkazali-v-ipoteke/
 breadcrumb: Отказали в ипотеке
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Разбор отказа по ипотеке в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"City","name":"Борисоглебск"},"serviceType":"Консультация после отказа банка по ипотеке","url":"https://deputat36.github.io/broker/geo/borisoglebsk/otkazali-v-ipoteke/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Разбор отказа по ипотеке в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"City","name":"Борисоглебск"},"serviceType":"Консультация после отказа банка по ипотеке","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/otkazali-v-ipoteke/"}'
 ---
 
 <section class="page-hero section">
