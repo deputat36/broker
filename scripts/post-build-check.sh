@@ -67,7 +67,9 @@ fi
 
 legacy_count=$( (grep -RIl 'https://deputat36.github.io/broker' "$SITE_DIR" --include='*.html' || true) | wc -l | tr -d ' ' )
 if [[ "$legacy_count" != "0" ]]; then
-  echo "::warning::В $legacy_count HTML-файлах еще встречается старый технический домен GitHub Pages"
+  echo "::error::В $legacy_count HTML-файлах встречается старый технический домен GitHub Pages"
+  grep -Rni 'https://deputat36.github.io/broker' "$SITE_DIR" --include='*.html' || true
+  exit 1
 fi
 
 echo "Post-build проверка успешно завершена: $sitemap_count URL в sitemap"
