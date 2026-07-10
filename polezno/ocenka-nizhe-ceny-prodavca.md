@@ -5,7 +5,7 @@ description: Что делать, если оценка недвижимости
 permalink: /polezno/ocenka-nizhe-ceny-prodavca/
 breadcrumb: Оценка ниже цены продавца
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оценка ниже цены продавца по ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/ocenka-nizhe-ceny-prodavca/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оценка ниже цены продавца по ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ocenka-nizhe-ceny-prodavca/"}'
 ---
 
 <section class="page-hero section">
