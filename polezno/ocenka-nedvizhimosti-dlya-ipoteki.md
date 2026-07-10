@@ -5,7 +5,7 @@ description: Зачем нужна оценка недвижимости для 
 permalink: /polezno/ocenka-nedvizhimosti-dlya-ipoteki/
 breadcrumb: Оценка недвижимости
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оценка недвижимости для ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/ocenka-nedvizhimosti-dlya-ipoteki/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оценка недвижимости для ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ocenka-nedvizhimosti-dlya-ipoteki/"}'
 ---
 
 <section class="page-hero section">
