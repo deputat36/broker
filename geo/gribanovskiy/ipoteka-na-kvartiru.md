@@ -5,7 +5,7 @@ description: Консультация по ипотеке на покупку к
 permalink: /geo/gribanovskiy/ipoteka-na-kvartiru/
 breadcrumb: Ипотека на квартиру в Грибановском районе
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на квартиру в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке на покупку квартиры","url":"https://deputat36.github.io/broker/geo/gribanovskiy/ipoteka-na-kvartiru/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на квартиру в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке на покупку квартиры","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-na-kvartiru/"}'
 ---
 
 <section class="page-hero section">
