@@ -27,6 +27,17 @@ if ! grep -q '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' "$SI
   exit 1
 fi
 
+sitemap_count=$(grep -c '<loc>' "$SITE_DIR/sitemap.xml" || true)
+if (( sitemap_count < 20 )); then
+  echo "::error file=$SITE_DIR/sitemap.xml::В sitemap найдено только $sitemap_count URL"
+  exit 1
+fi
+
+if grep -q '/404.html' "$SITE_DIR/sitemap.xml"; then
+  echo "::error file=$SITE_DIR/sitemap.xml::Страница 404 не должна находиться в sitemap"
+  exit 1
+fi
+
 if ! grep -q 'Sitemap: https://sterlikova-ipoteka.ru/sitemap.xml' "$SITE_DIR/robots.txt"; then
   echo "::error file=$SITE_DIR/robots.txt::Robots.txt не указывает основной sitemap"
   exit 1
@@ -37,6 +48,16 @@ if ! grep -q 'Татьяна Стерликова' "$SITE_DIR/index.html"; then
   exit 1
 fi
 
+if ! grep -q '<link rel="canonical" href="https://sterlikova-ipoteka.ru/">' "$SITE_DIR/index.html"; then
+  echo "::error file=$SITE_DIR/index.html::Canonical главной не указывает основной домен"
+  exit 1
+fi
+
+if grep -q '15 мин' "$SITE_DIR/index.html"; then
+  echo "::error file=$SITE_DIR/index.html::На главной осталось неподтвержденное обещание о 15 минутах"
+  exit 1
+fi
+
 forbidden_pattern='100% одобрение|гарантированное одобрение|точно одобрит|одобрение всем|банк точно одобрит'
 if grep -RqiE "$forbidden_pattern" "$SITE_DIR" --include='*.html'; then
   echo "::error::В собранных HTML-файлах найдено запрещенное обещание по ипотеке"
@@ -44,9 +65,9 @@ if grep -RqiE "$forbidden_pattern" "$SITE_DIR" --include='*.html'; then
   exit 1
 fi
 
-legacy_count=$(grep -RIl 'https://deputat36.github.io/broker' "$SITE_DIR" --include='*.html' | wc -l | tr -d ' ')
+legacy_count=$((grep -RIl 'https://deputat36.github.io/broker' "$SITE_DIR" --include='*.html' || true) | wc -l | tr -d ' ')
 if [[ "$legacy_count" != "0" ]]; then
   echo "::warning::В $legacy_count HTML-файлах еще встречается старый технический домен GitHub Pages"
 fi
 
-echo "Post-build проверка успешно завершена"
+echo "Post-build проверка успешно завершена: $sitemap_count URL в sitemap"
