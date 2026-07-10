@@ -5,7 +5,7 @@ description: Консультация по рефинансированию ип
 permalink: /geo/gribanovskiy/refinansirovanie-ipoteki/
 breadcrumb: Рефинансирование ипотеки
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Рефинансирование ипотеки в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по рефинансированию ипотеки","url":"https://deputat36.github.io/broker/geo/gribanovskiy/refinansirovanie-ipoteki/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Рефинансирование ипотеки в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по рефинансированию ипотеки","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/refinansirovanie-ipoteki/"}'
 ---
 
 <section class="page-hero section">
