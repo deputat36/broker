@@ -5,7 +5,7 @@ description: Частые ошибки при подготовке к ипоте
 permalink: /polezno/oshibki-pri-podgotovke-k-ipoteke/
 breadcrumb: Ошибки перед ипотекой
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ошибки при подготовке к ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/oshibki-pri-podgotovke-k-ipoteke/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ошибки при подготовке к ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/oshibki-pri-podgotovke-k-ipoteke/"}'
 ---
 
 <section class="page-hero section">
