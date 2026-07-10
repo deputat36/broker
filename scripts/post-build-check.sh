@@ -65,7 +65,7 @@ if grep -RqiE "$forbidden_pattern" "$SITE_DIR" --include='*.html'; then
   exit 1
 fi
 
-legacy_count=$((grep -RIl 'https://deputat36.github.io/broker' "$SITE_DIR" --include='*.html' || true) | wc -l | tr -d ' ')
+legacy_count=$( (grep -RIl 'https://deputat36.github.io/broker' "$SITE_DIR" --include='*.html' || true) | wc -l | tr -d ' ' )
 if [[ "$legacy_count" != "0" ]]; then
   echo "::warning::В $legacy_count HTML-файлах еще встречается старый технический домен GitHub Pages"
 fi
