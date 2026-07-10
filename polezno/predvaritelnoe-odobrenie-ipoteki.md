@@ -5,7 +5,7 @@ description: Что значит предварительное одобрени
 permalink: /polezno/predvaritelnoe-odobrenie-ipoteki/
 breadcrumb: Предварительное одобрение
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Предварительное одобрение ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/predvaritelnoe-odobrenie-ipoteki/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Предварительное одобрение ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/predvaritelnoe-odobrenie-ipoteki/"}'
 ---
 
 <section class="page-hero section">
