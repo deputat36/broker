@@ -5,7 +5,7 @@ description: Что проверить перед ипотекой после р
 permalink: /polezno/ipoteka-posle-razvoda/
 breadcrumb: Ипотека после развода
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипотека после развода","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/ipoteka-posle-razvoda/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипотека после развода","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ipoteka-posle-razvoda/"}'
 ---
 
 <section class="page-hero section">
