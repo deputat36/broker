@@ -38,7 +38,10 @@
   <link rel="stylesheet" href="{{ '/assets/css/print.css' | relative_url }}" media="print">
   {% if page.hero_photo %}<link rel="preload" as="image" href="{{ page.hero_photo | relative_url }}">{% endif %}
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"{{ '/o-brokere/' | absolute_url }}#tatyana","name":"Татьяна Стерликова","jobTitle":"Ипотечный брокер","telephone":"+79030250807","url":"{{ '/o-brokere/' | absolute_url }}","image":"{{ '/assets/img/tatyana-social.jpg' | absolute_url }}","sameAs":["https://vk.com/tatyanasterlikova"]},{"@type":"FinancialService","@id":"{{ '/' | absolute_url }}#service","name":"Ипотечный брокер Татьяна Стерликова","url":"{{ '/' | absolute_url }}","telephone":"+79030250807","founder":{"@id":"{{ '/o-brokere/' | absolute_url }}#tatyana"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"},{"@type":"AdministrativeArea","name":"Грибановский район"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"priceRange":"Бесплатная первичная консультация; сопровождение от 15000 RUB"}]}</script>
-  {% if page.schema %}<script type="application/ld+json">{{ page.schema }}</script>{% endif %}
+  {% if page.schema %}
+    {% assign normalized_schema = page.schema | replace: 'https://deputat36.github.io/broker', site.url %}
+    <script type="application/ld+json">{{ normalized_schema }}</script>
+  {% endif %}
   {% unless page.url == '/' or page.url == '/404.html' or page.hide_breadcrumbs %}
     {% assign current_label_schema = page.breadcrumb | default: page.h1 | default: page.title %}
     {% assign parts_schema = page.url | split: '/' %}
