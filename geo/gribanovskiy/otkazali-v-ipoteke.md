@@ -5,7 +5,7 @@ description: Что делать, если отказали в ипотеке в
 permalink: /geo/gribanovskiy/otkazali-v-ipoteke/
 breadcrumb: Отказали в ипотеке
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Разбор отказа по ипотеке в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация после отказа банка по ипотеке","url":"https://deputat36.github.io/broker/geo/gribanovskiy/otkazali-v-ipoteke/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Разбор отказа по ипотеке в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация после отказа банка по ипотеке","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/otkazali-v-ipoteke/"}'
 ---
 
 <section class="page-hero section">
