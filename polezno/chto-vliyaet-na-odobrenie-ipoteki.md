@@ -5,7 +5,7 @@ description: Что банк учитывает при рассмотрении 
 permalink: /polezno/chto-vliyaet-na-odobrenie-ipoteki/
 breadcrumb: Что влияет на одобрение
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Что влияет на одобрение ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/chto-vliyaet-na-odobrenie-ipoteki/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Что влияет на одобрение ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/chto-vliyaet-na-odobrenie-ipoteki/"}'
 ---
 
 <section class="page-hero section">
