@@ -5,7 +5,7 @@ description: Как снизить будущий платеж по ипотек
 permalink: /polezno/kak-umenshit-platezh-po-ipoteke/
 breadcrumb: Как уменьшить платеж
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как уменьшить платеж по ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/kak-umenshit-platezh-po-ipoteke/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как уменьшить платеж по ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kak-umenshit-platezh-po-ipoteke/"}'
 ---
 
 <section class="page-hero section">
