@@ -27,6 +27,8 @@ jobs:
         with:
           source: ./
           destination: ./_site
+      - name: Run post-build checks
+        run: bash scripts/post-build-check.sh ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
