@@ -27,8 +27,10 @@ jobs:
         with:
           source: ./
           destination: ./_site
-      - name: Run post-build checks
+      - name: Run required post-build checks
         run: bash scripts/post-build-check.sh ./_site
+      - name: Audit built HTML, links and structured data
+        run: python3 scripts/audit-built-site.py ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
