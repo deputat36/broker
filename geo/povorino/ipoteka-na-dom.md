@@ -5,7 +5,7 @@ description: Консультация по ипотеке на покупку д
 permalink: /geo/povorino/ipoteka-na-dom/
 breadcrumb: Ипотека на дом в Поворинском районе
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на дом в Поворино и Поворинском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по ипотеке на покупку дома","url":"https://deputat36.github.io/broker/geo/povorino/ipoteka-na-dom/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на дом в Поворино и Поворинском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по ипотеке на покупку дома","url":"https://sterlikova-ipoteka.ru/geo/povorino/ipoteka-na-dom/"}'
 ---
 
 <section class="page-hero section">
