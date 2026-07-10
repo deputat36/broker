@@ -3,123 +3,14 @@ layout: null
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>{{ '/' | absolute_url }}</loc><priority>1.0</priority></url>
-  <url><loc>{{ '/o-brokere/' | absolute_url }}</loc><priority>0.9</priority></url>
-  <url><loc>{{ '/kak-prohodit-rabota/' | absolute_url }}</loc><priority>0.88</priority></url>
-  <url><loc>{{ '/uslugi/' | absolute_url }}</loc><priority>0.95</priority></url>
-  <url><loc>{{ '/konsultaciya/' | absolute_url }}</loc><priority>0.9</priority></url>
-  <url><loc>{{ '/kalkulyator-ipoteki/' | absolute_url }}</loc><priority>0.88</priority></url>
-  <url><loc>{{ '/etagi/' | absolute_url }}</loc><priority>0.88</priority></url>
-  <url><loc>{{ '/stoimost/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/uslugi/podbor-ipoteki/' | absolute_url }}</loc><priority>0.9</priority></url>
-  <url><loc>{{ '/uslugi/refinansirovanie-ipoteki/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-na-novostroyku/' | absolute_url }}</loc><priority>0.88</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-na-vtorichnoe-zhile/' | absolute_url }}</loc><priority>0.88</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-na-stroitelstvo-doma/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/uslugi/semeynaya-ipoteka/' | absolute_url }}</loc><priority>0.9</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-dlya-molodoy-semi/' | absolute_url }}</loc><priority>0.88</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-dlya-pensionerov/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-s-sozaemshchikom/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/uslugi/materinskiy-kapital/' | absolute_url }}</loc><priority>0.9</priority></url>
-  <url><loc>{{ '/uslugi/otkazali-v-ipoteke/' | absolute_url }}</loc><priority>0.9</priority></url>
-  <url><loc>{{ '/uslugi/slozhnaya-ipoteka/' | absolute_url }}</loc><priority>0.85</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-bez-oficialnogo-dohoda/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-dlya-ip-samozanyatyh/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/uslugi/ipoteka-na-dom/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/' | absolute_url }}</loc><priority>0.88</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/' | absolute_url }}</loc><priority>0.9</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/ipoteka-na-kvartiru/' | absolute_url }}</loc><priority>0.88</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/ipoteka-na-vtorichnoe-zhile/' | absolute_url }}</loc><priority>0.88</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/ipoteka-na-dom/' | absolute_url }}</loc><priority>0.88</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/ipoteka-na-stroitelstvo-doma/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/semeynaya-ipoteka/' | absolute_url }}</loc><priority>0.88</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/ipoteka-s-sozaemshchikom/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/ipoteka-s-materinskim-kapitalom/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/refinansirovanie-ipoteki/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/geo/borisoglebsk/otkazali-v-ipoteke/' | absolute_url }}</loc><priority>0.86</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/' | absolute_url }}</loc><priority>0.85</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/ipoteka-na-kvartiru/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/ipoteka-na-dom/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/semeynaya-ipoteka/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/ipoteka-s-sozaemshchikom/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/ipoteka-s-materinskim-kapitalom/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/refinansirovanie-ipoteki/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/gribanovskiy/otkazali-v-ipoteke/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/' | absolute_url }}</loc><priority>0.85</priority></url>
-  <url><loc>{{ '/geo/povorino/ipoteka-na-kvartiru/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/ipoteka-na-dom/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/ipoteka-na-stroitelstvo-doma/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/semeynaya-ipoteka/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/ipoteka-s-sozaemshchikom/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/ipoteka-s-materinskim-kapitalom/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/ipoteka-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/ipoteka-bez-oficialnogo-dohoda/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/ipoteka-dlya-ip-samozanyatyh/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/refinansirovanie-ipoteki/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/geo/povorino/otkazali-v-ipoteke/' | absolute_url }}</loc><priority>0.84</priority></url>
-  <url><loc>{{ '/polezno/' | absolute_url }}</loc><priority>0.82</priority></url>
-  <url><loc>{{ '/polezno/materialy-dlya-zhiteley-rayonov/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/ipoteka-v-rayone-distantsionno/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kupit-zhile-v-borisoglebske-iz-rayona/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/prosmotr-zhilya-v-borisoglebske-iz-rayona/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/avans-zadatok-i-ipoteka/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kakie-voprosy-zadat-ipotechnomu-brokeru/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/chto-proverit-pered-pokupkoy-novostroyki-v-ipoteku/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/chto-vliyaet-na-odobrenie-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/chto-proverit-pered-pokupkoy-vtorichnogo-zhilya/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/chto-proverit-pered-pokupkoy-doma-v-ipoteku/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/deystvuyushchie-kredity-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/dokumenty-dlya-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/dokumenty-dlya-ipoteki-samozanyatomu/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/ipoteka-posle-prosrochek/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/ipoteka-posle-razvoda/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/ipoteka-pri-smene-raboty/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/ipoteka-s-alimentami/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/ipoteka-s-malenkoy-oficialnoy-zarplatoy/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/ipoteka-v-dekrete/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kak-vybrat-bank-dlya-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kak-umenshit-platezh-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kogda-vygodno-refinansirovat-ipoteku/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kreditnye-karty-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/matkapital-kak-pervonachalnyy-vznos-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/mozhno-li-vzyat-ipoteku-bez-pervonachalnogo-vznosa/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/ocenka-nedvizhimosti-dlya-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/ocenka-nizhe-ceny-prodavca/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/oshibki-pri-podgotovke-k-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/predvaritelnoe-odobrenie-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/pervonachalnyy-vznos-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/strahovanie-pri-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/skolko-nuzhno-zarabatyvat-dlya-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kak-rasschitat-ipoteku-po-dohodu/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kak-povysit-shansy-na-odobrenie-ipoteki/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/kak-podgotovitsya-k-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/pochemu-ne-stoit-podavat-zayavki-vo-vse-banki/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/sozaemshchik-po-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/chto-delat-posle-otkaza/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/matkapital-v-ipoteke/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/polezno/semeynaya-ipoteka-voprosy/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/faq/' | absolute_url }}</loc><priority>0.75</priority></url>
-  <url><loc>{{ '/kontakty/' | absolute_url }}</loc><priority>0.8</priority></url>
-  <url><loc>{{ '/policy/' | absolute_url }}</loc><priority>0.3</priority></url>
+{% assign sitemap_pages = site.pages | sort: "url" %}
+{% for sitemap_page in sitemap_pages %}
+  {% assign robots_value = sitemap_page.robots | default: "index, follow" %}
+  {% unless sitemap_page.url == "/404.html" or sitemap_page.url == "/robots.txt" or sitemap_page.url == "/sitemap.xml" or sitemap_page.sitemap == false or robots_value contains "noindex" %}
+  <url>
+    <loc>{{ sitemap_page.url | absolute_url | xml_escape }}</loc>
+    {% if sitemap_page.last_modified_at %}<lastmod>{{ sitemap_page.last_modified_at | date_to_xmlschema }}</lastmod>{% elsif sitemap_page.date %}<lastmod>{{ sitemap_page.date | date_to_xmlschema }}</lastmod>{% endif %}
+  </url>
+  {% endunless %}
+{% endfor %}
 </urlset>
