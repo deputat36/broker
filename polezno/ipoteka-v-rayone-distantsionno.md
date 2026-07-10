@@ -5,7 +5,7 @@ description: Как жителю Грибановского района, Пов
 permalink: /polezno/ipoteka-v-rayone-distantsionno/
 breadcrumb: Ипотека дистанционно
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как начать ипотеку дистанционно из района","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/ipoteka-v-rayone-distantsionno/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как начать ипотеку дистанционно из района","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ipoteka-v-rayone-distantsionno/"}'
 ---
 
 <section class="page-hero section">
