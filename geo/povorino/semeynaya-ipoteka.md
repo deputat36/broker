@@ -5,7 +5,7 @@ description: Консультация по семейной ипотеке в П
 permalink: /geo/povorino/semeynaya-ipoteka/
 breadcrumb: Семейная ипотека в Поворинском районе
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейная ипотека в Поворино и Поворинском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по семейной ипотеке","url":"https://deputat36.github.io/broker/geo/povorino/semeynaya-ipoteka/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейная ипотека в Поворино и Поворинском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по семейной ипотеке","url":"https://sterlikova-ipoteka.ru/geo/povorino/semeynaya-ipoteka/"}'
 ---
 
 <section class="page-hero section">
