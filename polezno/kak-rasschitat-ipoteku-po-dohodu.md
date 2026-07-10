@@ -5,7 +5,7 @@ description: Как предварительно рассчитать ипоте
 permalink: /polezno/kak-rasschitat-ipoteku-po-dohodu/
 breadcrumb: Расчет ипотеки по доходу
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как рассчитать ипотеку по доходу","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/kak-rasschitat-ipoteku-po-dohodu/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как рассчитать ипотеку по доходу","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kak-rasschitat-ipoteku-po-dohodu/"}'
 ---
 
 <section class="page-hero section">
