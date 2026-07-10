@@ -5,7 +5,7 @@ description: Что делать, если отказали в ипотеке в
 permalink: /geo/povorino/otkazali-v-ipoteke/
 breadcrumb: Отказали в ипотеке
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Разбор отказа по ипотеке в Поворино","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Поворино и Поворинский район"},"serviceType":"Консультация после отказа банка по ипотеке","url":"https://deputat36.github.io/broker/geo/povorino/otkazali-v-ipoteke/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Разбор отказа по ипотеке в Поворино","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Поворино и Поворинский район"},"serviceType":"Консультация после отказа банка по ипотеке","url":"https://sterlikova-ipoteka.ru/geo/povorino/otkazali-v-ipoteke/"}'
 ---
 
 <section class="page-hero section">
