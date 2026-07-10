@@ -5,7 +5,7 @@ description: Можно ли взять ипотеку после просроч
 permalink: /polezno/ipoteka-posle-prosrochek/
 breadcrumb: Ипотека после просрочек
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипотека после просрочек","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/ipoteka-posle-prosrochek/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипотека после просрочек","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ipoteka-posle-prosrochek/"}'
 ---
 
 <section class="page-hero section">
