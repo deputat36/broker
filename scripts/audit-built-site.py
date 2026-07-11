@@ -14,6 +14,7 @@ from xml.etree import ElementTree
 BASE_URL = "https://sterlikova-ipoteka.ru"
 ALLOWED_HOSTS = {"sterlikova-ipoteka.ru", "www.sterlikova-ipoteka.ru"}
 IGNORED_SCHEMES = {"tel", "mailto", "javascript", "data"}
+SERVICE_CATALOG_URL = "/uslugi/"
 
 
 class PageParser(HTMLParser):
@@ -150,6 +151,15 @@ def load_sitemap_paths(sitemap_file: Path) -> set[str]:
     return paths
 
 
+def collect_internal_targets(page_url: str, parser: PageParser) -> set[str]:
+    targets: set[str] = set()
+    for href in parser.links:
+        target = normalize_internal_url(page_url, href)
+        if target is not None:
+            targets.add(target)
+    return targets
+
+
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     if not site_dir.is_dir():
@@ -258,6 +268,26 @@ def main() -> int:
 
             if target_path in sitemap_paths and target_path != page_url:
                 inbound_links[target_path] += 1
+
+    service_catalog_page = parsed_pages.get(SERVICE_CATALOG_URL)
+    if service_catalog_page is None:
+        annotation("error", f"Не найден основной каталог услуг: {SERVICE_CATALOG_URL}")
+        errors += 1
+    else:
+        catalog_file, catalog_parser = service_catalog_page
+        catalog_targets = collect_internal_targets(SERVICE_CATALOG_URL, catalog_parser)
+        public_service_pages = {
+            path
+            for path in sitemap_paths
+            if path.startswith(SERVICE_CATALOG_URL) and path != SERVICE_CATALOG_URL
+        }
+        for missing_service in sorted(public_service_pages - catalog_targets):
+            annotation(
+                "error",
+                f"Страница услуги отсутствует в основном каталоге: {missing_service}",
+                catalog_file.relative_to(site_dir),
+            )
+            errors += 1
 
     for sitemap_path in sorted(sitemap_paths):
         if resolve_site_path(site_dir, sitemap_path) is None:
