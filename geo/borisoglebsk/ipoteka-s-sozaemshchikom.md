@@ -5,7 +5,7 @@ description: Консультация по ипотеке с созаемщик�
 permalink: /geo/borisoglebsk/ipoteka-s-sozaemshchikom/
 breadcrumb: Созаемщик
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с созаемщиком в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке с созаемщиком","url":"https://deputat36.github.io/broker/geo/borisoglebsk/ipoteka-s-sozaemshchikom/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с созаемщиком в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке с созаемщиком","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-s-sozaemshchikom/"}'
 ---
 
 <section class="page-hero section">
