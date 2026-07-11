@@ -5,7 +5,7 @@ description: Консультация по ипотеке для ИП и сам�
 permalink: /geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh/
 breadcrumb: ИП и самозанятые
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека для ИП и самозанятых в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке для ИП и самозанятых","url":"https://deputat36.github.io/broker/geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека для ИП и самозанятых в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке для ИП и самозанятых","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh/"}'
 ---
 
 <section class="page-hero section">
