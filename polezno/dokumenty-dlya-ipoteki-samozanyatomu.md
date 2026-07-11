@@ -5,7 +5,7 @@ description: Какие документы подготовить самозан
 permalink: /polezno/dokumenty-dlya-ipoteki-samozanyatomu/
 breadcrumb: Документы самозанятому
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Документы для ипотеки самозанятому","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/dokumenty-dlya-ipoteki-samozanyatomu/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Документы для ипотеки самозанятому","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/dokumenty-dlya-ipoteki-samozanyatomu/"}'
 ---
 
 <section class="page-hero section">
