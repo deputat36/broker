@@ -5,7 +5,7 @@ description: Ипотека на покупку квартиры или дома
 permalink: /polezno/kupit-zhile-v-borisoglebske-iz-rayona/
 breadcrumb: Покупка в Борисоглебске из района
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как купить жилье в Борисоглебске, если живете в районе","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/kupit-zhile-v-borisoglebske-iz-rayona/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как купить жилье в Борисоглебске, если живете в районе","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kupit-zhile-v-borisoglebske-iz-rayona/"}'
 ---
 
 <section class="page-hero section">
