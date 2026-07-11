@@ -63,6 +63,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
     <div class="seo-panel">
       <h3>Связанные материалы</h3>
       <ul>
+        <li><a href="{{ '/polezno/materialy-dlya-zhiteley-rayonov/' | relative_url }}">Все материалы для жителей районов</a></li>
         <li><a href="{{ '/polezno/kupit-zhile-v-borisoglebske-iz-rayona/' | relative_url }}">Купить жилье в Борисоглебске из района</a></li>
         <li><a href="{{ '/polezno/avans-zadatok-i-ipoteka/' | relative_url }}">Аванс, задаток и ипотека</a></li>
         <li><a href="{{ '/polezno/chto-proverit-pered-pokupkoy-vtorichnogo-zhilya/' | relative_url }}">Проверка вторичного жилья</a></li>
