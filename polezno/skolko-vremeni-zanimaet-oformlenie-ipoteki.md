@@ -5,7 +5,7 @@ description: От чего зависят сроки оформления ипо
 permalink: /polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/
 breadcrumb: Сроки оформления ипотеки
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Сколько времени занимает оформление ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Сколько времени занимает оформление ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/"}'
 ---
 
 <section class="page-hero section">
