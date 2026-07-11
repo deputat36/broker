@@ -5,7 +5,7 @@ description: Что проверить перед поездкой на прос
 permalink: /polezno/prosmotr-zhilya-v-borisoglebske-iz-rayona/
 breadcrumb: Просмотр жилья из района
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как подготовиться к просмотру жилья в Борисоглебске из района","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/prosmotr-zhilya-v-borisoglebske-iz-rayona/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как подготовиться к просмотру жилья в Борисоглебске из района","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/prosmotr-zhilya-v-borisoglebske-iz-rayona/"}'
 ---
 
 <section class="page-hero section">
