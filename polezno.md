@@ -20,6 +20,7 @@ og_type: article
   </div>
   <div class="grid cards-4">
     <article class="card"><h3><a href="{{ '/polezno/kak-podgotovitsya-k-ipoteke/' | relative_url }}">Как подготовиться к ипотеке</a></h3><p>Доход, нагрузка, взнос, документы и кредитная история до подачи заявки.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/chto-vliyaet-na-odobrenie-ipoteki/' | relative_url }}">Что влияет на одобрение ипотеки</a></h3><p>Доход, нагрузка, кредитная история, взнос, объект, документы и поведение перед заявкой.</p></article>
     <article class="card"><h3><a href="{{ '/polezno/dokumenty-dlya-ipoteki/' | relative_url }}">Какие документы нужны для ипотеки</a></h3><p>Базовый список для заемщика, дохода, объекта и нестандартных ситуаций.</p></article>
     <article class="card"><h3><a href="{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | relative_url }}">Что написать ипотечному брокеру</a></h3><p>Готовый шаблон первого сообщения, чтобы быстрее получить полезный разбор.</p></article>
     <article class="card"><h3><a href="{{ '/polezno/kakie-voprosy-zadat-ipotechnomu-brokeru/' | relative_url }}">Какие вопросы задать брокеру</a></h3><p>Шансы, банки, документы, объект, сроки, расходы, отказы и сопровождение.</p></article>
