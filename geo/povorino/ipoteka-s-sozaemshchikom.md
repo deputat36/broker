@@ -5,7 +5,7 @@ description: Консультация по ипотеке с созаемщик�
 permalink: /geo/povorino/ipoteka-s-sozaemshchikom/
 breadcrumb: Созаемщик
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с созаемщиком в Поворино","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Поворино и Поворинский район"},"serviceType":"Консультация по ипотеке с созаемщиком","url":"https://deputat36.github.io/broker/geo/povorino/ipoteka-s-sozaemshchikom/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с созаемщиком в Поворино","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Поворино и Поворинский район"},"serviceType":"Консультация по ипотеке с созаемщиком","url":"https://sterlikova-ipoteka.ru/geo/povorino/ipoteka-s-sozaemshchikom/"}'
 ---
 
 <section class="page-hero section">
