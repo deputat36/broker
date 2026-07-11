@@ -71,6 +71,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
     <div class="seo-panel">
       <h3>Локальные страницы</h3>
       <ul>
+        <li><a href="{{ '/polezno/materialy-dlya-zhiteley-rayonov/' | relative_url }}">Все материалы для жителей районов</a></li>
         <li><a href="{{ '/geo/borisoglebsk/' | relative_url }}">Ипотека в Борисоглебске</a></li>
         <li><a href="{{ '/geo/gribanovskiy/' | relative_url }}">Ипотека в Грибановском районе</a></li>
         <li><a href="{{ '/geo/povorino/' | relative_url }}">Ипотека в Поворино</a></li>
