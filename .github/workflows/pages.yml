@@ -33,6 +33,8 @@ jobs:
         run: python3 scripts/audit-built-site.py ./_site
       - name: Audit district materials cluster
         run: python3 scripts/audit-district-materials.py ./_site
+      - name: Audit conversion pages and CTA
+        run: python3 scripts/audit-conversion-pages.py ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
