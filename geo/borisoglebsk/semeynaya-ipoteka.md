@@ -5,7 +5,7 @@ description: Консультация по семейной ипотеке в Б
 permalink: /geo/borisoglebsk/semeynaya-ipoteka/
 breadcrumb: Семейная ипотека в Борисоглебске
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейная ипотека в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по семейной ипотеке","url":"https://deputat36.github.io/broker/geo/borisoglebsk/semeynaya-ipoteka/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейная ипотека в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по семейной ипотеке","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/semeynaya-ipoteka/"}'
 ---
 
 <section class="page-hero section">
