@@ -15,6 +15,12 @@ BASE_URL = "https://sterlikova-ipoteka.ru"
 ALLOWED_HOSTS = {"sterlikova-ipoteka.ru", "www.sterlikova-ipoteka.ru"}
 IGNORED_SCHEMES = {"tel", "mailto", "javascript", "data"}
 SERVICE_CATALOG_URL = "/uslugi/"
+GEO_CATALOG_URL = "/geo/"
+GEO_HUB_URLS = (
+    "/geo/borisoglebsk/",
+    "/geo/gribanovskiy/",
+    "/geo/povorino/",
+)
 
 
 class PageParser(HTMLParser):
@@ -35,7 +41,6 @@ class PageParser(HTMLParser):
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attrs_map = {key.lower(): value for key, value in attrs}
         tag = tag.lower()
-
         if tag == "title":
             self.in_title = True
         elif tag == "h1":
@@ -104,20 +109,12 @@ def resolve_site_path(site_dir: Path, url_path: str) -> Path | None:
         candidate = site_dir / "index.html"
         return candidate if candidate.is_file() else None
 
-    relative = clean_path.lstrip("/")
-    direct = site_dir / relative
+    direct = site_dir / clean_path.lstrip("/")
     if direct.is_file():
         return direct
 
-    if clean_path.endswith("/"):
-        index_file = direct / "index.html"
-        return index_file if index_file.is_file() else None
-
     index_file = direct / "index.html"
-    if index_file.is_file():
-        return index_file
-
-    return None
+    return index_file if index_file.is_file() else None
 
 
 def normalize_internal_url(current_url: str, href: str) -> str | None:
@@ -129,11 +126,8 @@ def normalize_internal_url(current_url: str, href: str) -> str | None:
     if parsed_original.scheme.lower() in IGNORED_SCHEMES:
         return None
 
-    absolute = urljoin(BASE_URL + current_url, href)
-    parsed = urlparse(absolute)
-    if parsed.scheme not in {"http", "https"}:
-        return None
-    if parsed.hostname not in ALLOWED_HOSTS:
+    parsed = urlparse(urljoin(BASE_URL + current_url, href))
+    if parsed.scheme not in {"http", "https"} or parsed.hostname not in ALLOWED_HOSTS:
         return None
 
     return parsed.path or "/"
@@ -144,20 +138,24 @@ def load_sitemap_paths(sitemap_file: Path) -> set[str]:
     namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     paths: set[str] = set()
     for loc in root.findall("sm:url/sm:loc", namespace):
-        if not loc.text:
-            continue
-        parsed = urlparse(loc.text.strip())
-        paths.add(parsed.path or "/")
+        if loc.text:
+            paths.add(urlparse(loc.text.strip()).path or "/")
     return paths
 
 
 def collect_internal_targets(page_url: str, parser: PageParser) -> set[str]:
-    targets: set[str] = set()
-    for href in parser.links:
-        target = normalize_internal_url(page_url, href)
-        if target is not None:
-            targets.add(target)
-    return targets
+    return {
+        target
+        for href in parser.links
+        if (target := normalize_internal_url(page_url, href)) is not None
+    }
+
+
+def relative_to_site(site_dir: Path, file: Path) -> Path:
+    try:
+        return file.relative_to(site_dir)
+    except ValueError:
+        return file
 
 
 def main() -> int:
@@ -173,28 +171,26 @@ def main() -> int:
         annotation("error", f"Не удалось разобрать sitemap.xml: {error}", sitemap_file)
         return 1
 
-    html_files = sorted(site_dir.rglob("*.html"))
     parsed_pages: dict[str, tuple[Path, PageParser]] = {}
     errors = 0
     warnings = 0
 
-    for html_file in html_files:
+    for html_file in sorted(site_dir.rglob("*.html")):
         parser = PageParser()
         try:
             parser.feed(html_file.read_text(encoding="utf-8"))
         except (OSError, UnicodeDecodeError) as error:
-            annotation("error", f"Не удалось прочитать HTML: {error}", html_file)
+            annotation("error", f"Не удалось прочитать HTML: {error}", relative_to_site(site_dir, html_file))
             errors += 1
             continue
-        page_url = output_path_to_url(site_dir, html_file)
-        parsed_pages[page_url] = (html_file, parser)
+        parsed_pages[output_path_to_url(site_dir, html_file)] = (html_file, parser)
 
     inbound_links: Counter[str] = Counter()
     titles: defaultdict[str, list[str]] = defaultdict(list)
     descriptions: defaultdict[str, list[str]] = defaultdict(list)
 
     for page_url, (html_file, parser) in parsed_pages.items():
-        relative_file = html_file.relative_to(site_dir)
+        relative_file = relative_to_site(site_dir, html_file)
         is_noindex = "noindex" in parser.robots.lower()
         is_sitemap_page = page_url in sitemap_paths
 
@@ -250,7 +246,6 @@ def main() -> int:
             if alt is None:
                 annotation("error", f"У изображения отсутствует атрибут alt: {src}", relative_file)
                 errors += 1
-
             target_path = normalize_internal_url(page_url, src)
             if target_path and resolve_site_path(site_dir, target_path) is None:
                 annotation("error", f"Не найден файл изображения: {src}", relative_file)
@@ -260,38 +255,75 @@ def main() -> int:
             target_path = normalize_internal_url(page_url, href)
             if target_path is None:
                 continue
-
             if resolve_site_path(site_dir, target_path) is None:
                 annotation("error", f"Битая внутренняя ссылка: {href}", relative_file)
                 errors += 1
                 continue
-
             if target_path in sitemap_paths and target_path != page_url:
                 inbound_links[target_path] += 1
 
-    service_catalog_page = parsed_pages.get(SERVICE_CATALOG_URL)
-    if service_catalog_page is None:
+    public_service_pages = {
+        path for path in sitemap_paths
+        if path.startswith(SERVICE_CATALOG_URL) and path != SERVICE_CATALOG_URL
+    }
+    service_page = parsed_pages.get(SERVICE_CATALOG_URL)
+    if service_page is None:
         annotation("error", f"Не найден основной каталог услуг: {SERVICE_CATALOG_URL}")
         errors += 1
     else:
-        catalog_file, catalog_parser = service_catalog_page
+        catalog_file, catalog_parser = service_page
         catalog_targets = collect_internal_targets(SERVICE_CATALOG_URL, catalog_parser)
-        public_service_pages = {
-            path
-            for path in sitemap_paths
-            if path.startswith(SERVICE_CATALOG_URL) and path != SERVICE_CATALOG_URL
-        }
         for missing_service in sorted(public_service_pages - catalog_targets):
             annotation(
                 "error",
                 f"Страница услуги отсутствует в основном каталоге: {missing_service}",
-                catalog_file.relative_to(site_dir),
+                relative_to_site(site_dir, catalog_file),
+            )
+            errors += 1
+
+    geo_page = parsed_pages.get(GEO_CATALOG_URL)
+    if geo_page is None:
+        annotation("error", f"Не найден основной географический каталог: {GEO_CATALOG_URL}")
+        errors += 1
+    else:
+        geo_file, geo_parser = geo_page
+        geo_targets = collect_internal_targets(GEO_CATALOG_URL, geo_parser)
+        for missing_hub in sorted(set(GEO_HUB_URLS) - geo_targets):
+            annotation(
+                "error",
+                f"Региональный хаб отсутствует в основном географическом каталоге: {missing_hub}",
+                relative_to_site(site_dir, geo_file),
+            )
+            errors += 1
+
+    for hub_url in GEO_HUB_URLS:
+        hub_page = parsed_pages.get(hub_url)
+        if hub_page is None:
+            annotation("error", f"Не найден региональный географический хаб: {hub_url}")
+            errors += 1
+            continue
+
+        hub_file, hub_parser = hub_page
+        hub_targets = collect_internal_targets(hub_url, hub_parser)
+        public_region_pages = {
+            path for path in sitemap_paths
+            if path.startswith(hub_url) and path != hub_url
+        }
+        for missing_page in sorted(public_region_pages - hub_targets):
+            annotation(
+                "error",
+                f"Локальная страница отсутствует в региональном хабе {hub_url}: {missing_page}",
+                relative_to_site(site_dir, hub_file),
             )
             errors += 1
 
     for sitemap_path in sorted(sitemap_paths):
         if resolve_site_path(site_dir, sitemap_path) is None:
-            annotation("error", f"URL из sitemap не имеет выходного файла: {sitemap_path}", sitemap_file.relative_to(site_dir))
+            annotation(
+                "error",
+                f"URL из sitemap не имеет выходного файла: {sitemap_path}",
+                relative_to_site(site_dir, sitemap_file),
+            )
             errors += 1
             continue
         if sitemap_path != "/" and inbound_links[sitemap_path] == 0:
