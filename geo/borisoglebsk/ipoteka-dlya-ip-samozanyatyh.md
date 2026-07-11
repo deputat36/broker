@@ -5,7 +5,7 @@ description: Консультация по ипотеке для ИП и сам�
 permalink: /geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh/
 breadcrumb: ИП и самозанятые
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека для ИП и самозанятых в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке для ИП и самозанятых","url":"https://deputat36.github.io/broker/geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека для ИП и самозанятых в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке для ИП и самозанятых","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh/"}'
 ---
 
 <section class="page-hero section">
