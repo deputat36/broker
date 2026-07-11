@@ -5,7 +5,7 @@ description: Консультация по ипотеке с материнск�
 permalink: /geo/povorino/ipoteka-s-materinskim-kapitalom/
 breadcrumb: Ипотека с маткапиталом
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с материнским капиталом в Поворино и Поворинском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по ипотеке с материнским капиталом","url":"https://deputat36.github.io/broker/geo/povorino/ipoteka-s-materinskim-kapitalom/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с материнским капиталом в Поворино и Поворинском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по ипотеке с материнским капиталом","url":"https://sterlikova-ipoteka.ru/geo/povorino/ipoteka-s-materinskim-kapitalom/"}'
 ---
 
 <section class="page-hero section">
