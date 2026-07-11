@@ -5,7 +5,7 @@ description: Как использовать материнский капита
 permalink: /polezno/matkapital-kak-pervonachalnyy-vznos-po-ipoteke/
 breadcrumb: Маткапитал как взнос
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Материнский капитал как первоначальный взнос по ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/matkapital-kak-pervonachalnyy-vznos-po-ipoteke/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Материнский капитал как первоначальный взнос по ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/matkapital-kak-pervonachalnyy-vznos-po-ipoteke/"}'
 ---
 
 <section class="page-hero section">
