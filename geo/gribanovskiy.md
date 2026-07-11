@@ -4,7 +4,7 @@ title: Ипотечный брокер в Грибановском районе 
 description: Консультация по ипотеке для жителей пгт Грибановский и района: покупка квартиры или дома, строительство дома, семейная ипотека, созаемщик, маткапитал, ипотека без взноса, кредитная история, нестандартный доход, отказ банка и сложные заявки.
 permalink: /geo/gribanovskiy/
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Услуги ипотечного брокера в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация и сопровождение по ипотеке","url":"https://deputat36.github.io/broker/geo/gribanovskiy/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Услуги ипотечного брокера в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация и сопровождение по ипотеке","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/"}'
 ---
 
 <section class="page-hero section">
