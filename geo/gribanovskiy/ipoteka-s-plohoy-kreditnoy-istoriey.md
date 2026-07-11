@@ -5,7 +5,7 @@ description: Консультация по ипотеке с плохой кре
 permalink: /geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/
 breadcrumb: Кредитная история
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с плохой кредитной историей в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке после просрочек и отказов","url":"https://deputat36.github.io/broker/geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с плохой кредитной историей в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке после просрочек и отказов","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/"}'
 ---
 
 <section class="page-hero section">
