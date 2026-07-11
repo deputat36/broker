@@ -5,7 +5,7 @@ description: Консультация по ипотеке без официал�
 permalink: /geo/povorino/ipoteka-bez-oficialnogo-dohoda/
 breadcrumb: Без официального дохода
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека без официального дохода в Поворино","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Поворино и Поворинский район"},"serviceType":"Консультация по ипотеке при нестандартном подтверждении дохода","url":"https://deputat36.github.io/broker/geo/povorino/ipoteka-bez-oficialnogo-dohoda/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека без официального дохода в Поворино","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Поворино и Поворинский район"},"serviceType":"Консультация по ипотеке при нестандартном подтверждении дохода","url":"https://sterlikova-ipoteka.ru/geo/povorino/ipoteka-bez-oficialnogo-dohoda/"}'
 ---
 
 <section class="page-hero section">
