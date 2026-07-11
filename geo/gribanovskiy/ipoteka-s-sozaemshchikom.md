@@ -5,7 +5,7 @@ description: Консультация по ипотеке с созаемщик�
 permalink: /geo/gribanovskiy/ipoteka-s-sozaemshchikom/
 breadcrumb: Созаемщик
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с созаемщиком в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке с созаемщиком","url":"https://deputat36.github.io/broker/geo/gribanovskiy/ipoteka-s-sozaemshchikom/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с созаемщиком в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке с созаемщиком","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-s-sozaemshchikom/"}'
 ---
 
 <section class="page-hero section">
