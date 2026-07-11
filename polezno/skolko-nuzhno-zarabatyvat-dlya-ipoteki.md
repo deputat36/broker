@@ -5,7 +5,7 @@ description: Как понять, хватит ли дохода для ипот
 permalink: /polezno/skolko-nuzhno-zarabatyvat-dlya-ipoteki/
 breadcrumb: Доход для ипотеки
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Сколько нужно зарабатывать для ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/skolko-nuzhno-zarabatyvat-dlya-ipoteki/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Сколько нужно зарабатывать для ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/skolko-nuzhno-zarabatyvat-dlya-ipoteki/"}'
 ---
 
 <section class="page-hero section">
