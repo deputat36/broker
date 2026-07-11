@@ -72,6 +72,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
     <div class="seo-panel">
       <h3>Полезные страницы</h3>
       <ul>
+        <li><a href="{{ '/polezno/materialy-dlya-zhiteley-rayonov/' | relative_url }}">Все материалы для жителей районов</a></li>
         <li><a href="{{ '/geo/borisoglebsk/ipoteka-na-kvartiru/' | relative_url }}">Квартира в Борисоглебске</a></li>
         <li><a href="{{ '/geo/borisoglebsk/ipoteka-na-dom/' | relative_url }}">Дом в Борисоглебске</a></li>
         <li><a href="{{ '/geo/gribanovskiy/' | relative_url }}">Ипотека в Грибановском районе</a></li>
