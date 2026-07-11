@@ -5,7 +5,7 @@ description: Консультация по рефинансированию ип
 permalink: /geo/borisoglebsk/refinansirovanie-ipoteki/
 breadcrumb: Рефинансирование ипотеки
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Рефинансирование ипотеки в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по рефинансированию ипотеки","url":"https://deputat36.github.io/broker/geo/borisoglebsk/refinansirovanie-ipoteki/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Рефинансирование ипотеки в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по рефинансированию ипотеки","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/refinansirovanie-ipoteki/"}'
 ---
 
 <section class="page-hero section">
