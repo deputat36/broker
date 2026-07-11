@@ -15,6 +15,7 @@ BASE_URL = "https://sterlikova-ipoteka.ru"
 ALLOWED_HOSTS = {"sterlikova-ipoteka.ru", "www.sterlikova-ipoteka.ru"}
 IGNORED_SCHEMES = {"tel", "mailto", "javascript", "data"}
 SERVICE_CATALOG_URL = "/uslugi/"
+ARTICLE_CATALOG_URL = "/polezno/"
 GEO_CATALOG_URL = "/geo/"
 GEO_HUB_URLS = (
     "/geo/borisoglebsk/",
@@ -158,6 +159,39 @@ def relative_to_site(site_dir: Path, file: Path) -> Path:
         return file
 
 
+def check_catalog_completeness(
+    *,
+    site_dir: Path,
+    parsed_pages: dict[str, tuple[Path, PageParser]],
+    sitemap_paths: set[str],
+    catalog_url: str,
+    item_prefix: str,
+    item_label: str,
+) -> int:
+    catalog_page = parsed_pages.get(catalog_url)
+    if catalog_page is None:
+        annotation("error", f"Не найден основной каталог: {catalog_url}")
+        return 1
+
+    catalog_file, catalog_parser = catalog_page
+    catalog_targets = collect_internal_targets(catalog_url, catalog_parser)
+    public_items = {
+        path
+        for path in sitemap_paths
+        if path.startswith(item_prefix) and path != catalog_url
+    }
+
+    errors = 0
+    for missing_item in sorted(public_items - catalog_targets):
+        annotation(
+            "error",
+            f"{item_label} отсутствует в основном каталоге: {missing_item}",
+            relative_to_site(site_dir, catalog_file),
+        )
+        errors += 1
+    return errors
+
+
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     if not site_dir.is_dir():
@@ -262,24 +296,22 @@ def main() -> int:
             if target_path in sitemap_paths and target_path != page_url:
                 inbound_links[target_path] += 1
 
-    public_service_pages = {
-        path for path in sitemap_paths
-        if path.startswith(SERVICE_CATALOG_URL) and path != SERVICE_CATALOG_URL
-    }
-    service_page = parsed_pages.get(SERVICE_CATALOG_URL)
-    if service_page is None:
-        annotation("error", f"Не найден основной каталог услуг: {SERVICE_CATALOG_URL}")
-        errors += 1
-    else:
-        catalog_file, catalog_parser = service_page
-        catalog_targets = collect_internal_targets(SERVICE_CATALOG_URL, catalog_parser)
-        for missing_service in sorted(public_service_pages - catalog_targets):
-            annotation(
-                "error",
-                f"Страница услуги отсутствует в основном каталоге: {missing_service}",
-                relative_to_site(site_dir, catalog_file),
-            )
-            errors += 1
+    errors += check_catalog_completeness(
+        site_dir=site_dir,
+        parsed_pages=parsed_pages,
+        sitemap_paths=sitemap_paths,
+        catalog_url=SERVICE_CATALOG_URL,
+        item_prefix=SERVICE_CATALOG_URL,
+        item_label="Страница услуги",
+    )
+    errors += check_catalog_completeness(
+        site_dir=site_dir,
+        parsed_pages=parsed_pages,
+        sitemap_paths=sitemap_paths,
+        catalog_url=ARTICLE_CATALOG_URL,
+        item_prefix=ARTICLE_CATALOG_URL,
+        item_label="Полезная статья",
+    )
 
     geo_page = parsed_pages.get(GEO_CATALOG_URL)
     if geo_page is None:
@@ -306,7 +338,8 @@ def main() -> int:
         hub_file, hub_parser = hub_page
         hub_targets = collect_internal_targets(hub_url, hub_parser)
         public_region_pages = {
-            path for path in sitemap_paths
+            path
+            for path in sitemap_paths
             if path.startswith(hub_url) and path != hub_url
         }
         for missing_page in sorted(public_region_pages - hub_targets):
