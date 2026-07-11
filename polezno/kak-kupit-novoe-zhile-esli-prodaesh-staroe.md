@@ -5,7 +5,7 @@ description: Как подготовиться к покупке нового ж
 permalink: /polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/
 breadcrumb: Покупка при продаже старого жилья
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как купить новое жилье, если продаешь старое","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://deputat36.github.io/broker/polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/"}'
+schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как купить новое жилье, если продаешь старое","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/"}'
 ---
 
 <section class="page-hero section">
