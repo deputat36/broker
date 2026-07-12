@@ -19,6 +19,18 @@ STANDARD_SERVICE_LINKS = {
     "/etagi/",
 }
 
+STANDARD_SERVICE_URLS = (
+    "/uslugi/slozhnaya-ipoteka/",
+    "/uslugi/otkazali-v-ipoteke/",
+    "/uslugi/ipoteka-na-novostroyku/",
+    "/uslugi/ipoteka-na-vtorichnoe-zhile/",
+    "/uslugi/ipoteka-na-dom/",
+    "/uslugi/semeynaya-ipoteka/",
+    "/uslugi/materinskiy-kapital/",
+    "/uslugi/ipoteka-na-stroitelstvo-doma/",
+    "/uslugi/ipoteka-dlya-ip-samozanyatyh/",
+)
+
 PAGE_REQUIREMENTS = {
     "/": {"/konsultaciya/", "/etagi/"},
     "/konsultaciya/": {"/etagi/"},
@@ -28,12 +40,16 @@ PAGE_REQUIREMENTS = {
     "/faq/": {"/stoimost/", "/etagi/"},
     "/kak-prohodit-rabota/": {"/konsultaciya/", "/uslugi/", "/stoimost/", "/etagi/"},
     "/uslugi/podbor-ipoteki/": STANDARD_SERVICE_LINKS,
-    "/uslugi/slozhnaya-ipoteka/": STANDARD_SERVICE_LINKS,
-    "/uslugi/otkazali-v-ipoteke/": STANDARD_SERVICE_LINKS,
-    "/uslugi/ipoteka-na-novostroyku/": STANDARD_SERVICE_LINKS,
-    "/uslugi/ipoteka-na-vtorichnoe-zhile/": STANDARD_SERVICE_LINKS,
-    "/uslugi/ipoteka-na-dom/": STANDARD_SERVICE_LINKS,
+    "/uslugi/refinansirovanie-ipoteki/": {
+        "/konsultaciya/",
+        "/kak-prohodit-rabota/",
+        "/stoimost/",
+        "/kontakty/",
+    },
 }
+
+for service_url in STANDARD_SERVICE_URLS:
+    PAGE_REQUIREMENTS[service_url] = STANDARD_SERVICE_LINKS
 
 TEXT_REQUIREMENTS = {
     "/": ("включено в комиссию компании", "отдельно клиентом не оплачивается"),
@@ -51,6 +67,11 @@ TEXT_REQUIREMENTS = {
         "включено в комиссию компании",
         "отдельно клиентом не оплачивается",
     ),
+    "/uslugi/refinansirovanie-ipoteki/": (
+        "сопровождение до решения нового банка",
+        "конкретный объём дальнейшей помощи",
+        "условия компании «этажи» для рефинансирования не предполагаются автоматически",
+    ),
 }
 
 STANDARD_SERVICE_TEXT = (
@@ -59,32 +80,25 @@ STANDARD_SERVICE_TEXT = (
     "отдельно клиентом не оплачивается",
 )
 
-for service_url in (
-    "/uslugi/slozhnaya-ipoteka/",
-    "/uslugi/otkazali-v-ipoteke/",
-    "/uslugi/ipoteka-na-novostroyku/",
-    "/uslugi/ipoteka-na-vtorichnoe-zhile/",
-    "/uslugi/ipoteka-na-dom/",
-):
+for service_url in STANDARD_SERVICE_URLS:
     TEXT_REQUIREMENTS[service_url] = STANDARD_SERVICE_TEXT
 
 FORBIDDEN_TEXT = {
     "/etagi/": ('"price":"0"', "0 ₽ для клиентов", "ипотечное сопровождение бесплатно"),
     "/kak-prohodit-rabota/": ("полное сопровождение сделки включено",),
     "/uslugi/podbor-ipoteki/": ("ипотечное сопровождение для клиента бесплатно",),
+    "/uslugi/refinansirovanie-ipoteki/": (
+        "ипотечное сопровождение бесплатно",
+        "включено в комиссию компании",
+    ),
 }
 
-for service_url in (
-    "/uslugi/slozhnaya-ipoteka/",
-    "/uslugi/otkazali-v-ipoteke/",
-    "/uslugi/ipoteka-na-novostroyku/",
-    "/uslugi/ipoteka-na-vtorichnoe-zhile/",
-    "/uslugi/ipoteka-na-dom/",
-):
+for service_url in STANDARD_SERVICE_URLS:
     FORBIDDEN_TEXT[service_url] = (
         "ипотечное сопровождение бесплатно",
         "сопровождение по ипотеке бесплатно",
         "ипотечное сопровождение для клиента бесплатно",
+        "консультация и ипотечное сопровождение для клиента бесплатны",
     )
 
 
