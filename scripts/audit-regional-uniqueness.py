@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Выявляет почти полные дубли региональных страниц одного ипотечного сценария."""
+"""Выявляет полные и потенциальные дубли региональных страниц одного сценария."""
 
 from __future__ import annotations
 
@@ -26,11 +26,13 @@ MIN_WORDS = 100
 SHINGLE_SIZE = 5
 MAX_JACCARD = 0.82
 MAX_SEQUENCE = 0.90
+WARN_JACCARD = 0.58
+WARN_SEQUENCE = 0.78
 SKIPPED_TAGS = {"nav", "script", "style", "noscript"}
 
 
-def annotation(message: str, file: Path | None = None) -> None:
-    prefix = "::error"
+def annotation(level: str, message: str, file: Path | None = None) -> None:
+    prefix = f"::{level}"
     if file is not None:
         prefix += f" file={file.as_posix()}"
     print(f"{prefix}::{message}")
@@ -123,14 +125,14 @@ def scenario_slug(page_url: str) -> str:
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     if not site_dir.is_dir():
-        annotation(f"Каталог сборки не найден: {site_dir}")
+        annotation("error", f"Каталог сборки не найден: {site_dir}")
         return 1
 
     sitemap_file = site_dir / "sitemap.xml"
     try:
         sitemap_paths = load_sitemap_paths(sitemap_file)
     except (ElementTree.ParseError, OSError) as error:
-        annotation(f"Не удалось разобрать sitemap.xml: {error}", sitemap_file)
+        annotation("error", f"Не удалось разобрать sitemap.xml: {error}", sitemap_file)
         return 1
 
     grouped_urls: defaultdict[str, list[str]] = defaultdict(list)
@@ -142,6 +144,7 @@ def main() -> int:
 
     parsed: dict[str, tuple[Path, list[str], set[tuple[str, ...]]]] = {}
     errors = 0
+    warnings = 0
     compared_pairs = 0
 
     for slug, urls in sorted(grouped_urls.items()):
@@ -151,26 +154,27 @@ def main() -> int:
         for page_url in sorted(urls):
             html_file = url_to_file(site_dir, page_url)
             if not html_file.is_file():
-                annotation(f"Не найдена региональная страница: {page_url}", html_file)
+                annotation("error", f"Не найдена региональная страница: {page_url}", html_file)
                 errors += 1
                 continue
             try:
                 raw_html = html_file.read_text(encoding="utf-8")
             except (OSError, UnicodeDecodeError) as error:
-                annotation(f"Не удалось прочитать HTML: {error}", html_file)
+                annotation("error", f"Не удалось прочитать HTML: {error}", html_file)
                 errors += 1
                 continue
 
             parser = MainTextParser()
             parser.feed(raw_html)
             if not parser.found_main:
-                annotation("Не найден контейнер main#main-content", html_file)
+                annotation("error", "Не найден контейнер main#main-content", html_file)
                 errors += 1
                 continue
 
             words = normalized_words(parser.text)
             if len(words) < MIN_WORDS:
                 annotation(
+                    "error",
                     f"На региональной странице слишком мало содержательного текста: {len(words)} слов",
                     html_file,
                 )
@@ -190,23 +194,28 @@ def main() -> int:
                     " ".join(right_words),
                     autojunk=False,
                 ).ratio()
+                score_text = (
+                    f"{slug}: {left_url} и {right_url}; "
+                    f"Jaccard={jaccard_score:.2f}, Sequence={sequence_score:.2f}"
+                )
                 if jaccard_score >= MAX_JACCARD and sequence_score >= MAX_SEQUENCE:
-                    annotation(
-                        "Почти полный дубль регионального сценария "
-                        f"{slug}: {left_url} и {right_url}; "
-                        f"Jaccard={jaccard_score:.2f}, Sequence={sequence_score:.2f}",
-                        left_file,
-                    )
+                    annotation("error", f"Почти полный дубль регионального сценария {score_text}", left_file)
                     errors += 1
+                elif jaccard_score >= WARN_JACCARD or sequence_score >= WARN_SEQUENCE:
+                    annotation("warning", f"Высокая близость регионального сценария {score_text}", left_file)
+                    warnings += 1
 
     if errors:
-        print(f"Аудит смысловой уникальности региональных страниц завершен с ошибками: {errors}")
+        print(
+            "Аудит смысловой уникальности региональных страниц завершен с ошибками: "
+            f"{errors}; предупреждений: {warnings}"
+        )
         return 1
 
     print(
         "Аудит смысловой уникальности региональных страниц успешно завершен: "
         f"сценариев {sum(1 for urls in grouped_urls.values() if len(urls) >= 2)}, "
-        f"сравнено пар {compared_pairs}"
+        f"сравнено пар {compared_pairs}, предупреждений {warnings}"
     )
     return 0
 
