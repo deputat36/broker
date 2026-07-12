@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет обязательные CTA на ключевых конверсионных страницах сайта."""
+"""Проверяет обязательные CTA и разделение форматов работы на ключевых страницах."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ VK_PROFILE = "https://vk.com/tatyanasterlikova"
 
 PAGE_REQUIREMENTS = {
     "/": {
-        "internal": {"/konsultaciya/"},
+        "internal": {"/konsultaciya/", "/etagi/"},
         "phone": True,
         "vk": True,
         "max": True,
@@ -26,7 +26,7 @@ PAGE_REQUIREMENTS = {
         "max": True,
     },
     "/kontakty/": {
-        "internal": {"/konsultaciya/"},
+        "internal": {"/konsultaciya/", "/etagi/"},
         "phone": True,
         "vk": True,
         "max": True,
@@ -37,6 +37,45 @@ PAGE_REQUIREMENTS = {
         "vk": True,
         "max": True,
     },
+    "/etagi/": {
+        "internal": {"/stoimost/"},
+        "phone": True,
+        "vk": True,
+        "max": True,
+    },
+    "/faq/": {
+        "internal": {"/stoimost/", "/etagi/"},
+        "phone": True,
+        "vk": True,
+        "max": True,
+    },
+}
+
+TEXT_REQUIREMENTS = {
+    "/": (
+        "включено в комиссию компании",
+        "отдельно клиентом не оплачивается",
+    ),
+    "/stoimost/": (
+        "включено в комиссию компании",
+        "отдельно не оплачивает",
+    ),
+    "/etagi/": (
+        "включено в комиссию компании",
+        "отдельно не оплачивается",
+    ),
+    "/faq/": (
+        "включено в комиссию компании",
+        "отдельно клиентом не оплачивается",
+    ),
+}
+
+FORBIDDEN_TEXT = {
+    "/etagi/": (
+        '"price":"0"',
+        "0 ₽ для клиентов",
+        "ипотечное сопровождение бесплатно",
+    ),
 }
 
 
@@ -94,7 +133,8 @@ def main() -> int:
 
         parser = ConversionParser()
         try:
-            parser.feed(html_file.read_text(encoding="utf-8"))
+            raw_html = html_file.read_text(encoding="utf-8")
+            parser.feed(raw_html)
         except (OSError, UnicodeDecodeError) as error:
             annotation(f"Не удалось прочитать HTML: {error}", html_file)
             errors += 1
@@ -102,6 +142,7 @@ def main() -> int:
 
         links = set(parser.links)
         internal_links = normalize_internal_links(page_url, parser.links)
+        normalized_html = " ".join(raw_html.casefold().split())
 
         if requirements["phone"] and PHONE_LINK not in links:
             annotation(f"На странице {page_url} отсутствует телефонный CTA {PHONE_LINK}", html_file)
@@ -117,11 +158,27 @@ def main() -> int:
             annotation(f"На странице {page_url} отсутствует обязательный переход: {target}", html_file)
             errors += 1
 
+        for required_text in TEXT_REQUIREMENTS.get(page_url, ()):
+            if required_text.casefold() not in normalized_html:
+                annotation(
+                    f"На странице {page_url} отсутствует обязательная формулировка: {required_text}",
+                    html_file,
+                )
+                errors += 1
+
+        for forbidden_text in FORBIDDEN_TEXT.get(page_url, ()):
+            if forbidden_text.casefold() in normalized_html:
+                annotation(
+                    f"На странице {page_url} найдена двусмысленная формулировка: {forbidden_text}",
+                    html_file,
+                )
+                errors += 1
+
     if errors:
         print(f"Аудит конверсионных страниц завершен с ошибками: {errors}")
         return 1
 
-    print(f"Аудит конверсионных страниц успешно завершен: проверено {len(PAGE_REQUIREMENTS)} страницы")
+    print(f"Аудит конверсионных страниц успешно завершен: проверено {len(PAGE_REQUIREMENTS)} страниц")
     return 0
 
 
