@@ -5,10 +5,11 @@ description: Консультация по ипотеке на покупку д
 permalink: /geo/borisoglebsk/ipoteka-na-dom/
 breadcrumb: Ипотека на дом в Борисоглебске
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на дом в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке на покупку дома"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на дом в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке на покупку дома","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-na-dom/"}'
 ---
 
 <section class="page-hero section">
+  <div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / <a href="{{ '/geo/' | relative_url }}">География</a> / <a href="{{ '/geo/borisoglebsk/' | relative_url }}">Борисоглебск</a> / Дом</div>
   <p class="eyebrow">Борисоглебск и округ</p>
   <h1>Ипотека на дом в Борисоглебске</h1>
   <p class="lead">Покупка дома в ипотеку требует более внимательной подготовки, чем покупка квартиры. Банк смотрит не только на заемщика, но и на дом, участок, документы, коммуникации и юридическую чистоту объекта.</p>
