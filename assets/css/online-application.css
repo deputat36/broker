@@ -1,0 +1,183 @@
+[hidden] { display: none !important; }
+
+.application-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+
+.application-card,
+.application-result {
+  padding: clamp(22px, 4vw, 36px);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.application-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.application-field-wide { grid-column: 1 / -1; }
+
+.application-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.application-field label span { color: var(--red); }
+
+.application-field input,
+.application-field select,
+.application-field textarea,
+.application-result textarea {
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 14px;
+  color: var(--black);
+  background: #fff;
+  border: 1px solid #d6d8df;
+  border-radius: var(--radius);
+  font: inherit;
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.application-field textarea,
+.application-result textarea {
+  min-height: 110px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.application-field input:focus,
+.application-field select:focus,
+.application-field textarea:focus,
+.application-result textarea:focus {
+  outline: none;
+  border-color: var(--red);
+  box-shadow: 0 0 0 4px rgba(181, 18, 27, .12);
+}
+
+.application-field input[aria-invalid="true"],
+.application-field select[aria-invalid="true"],
+.application-field textarea[aria-invalid="true"] {
+  background: #fff7f7;
+  border-color: var(--red);
+}
+
+.application-consent {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin: 22px 0 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.application-consent input {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  margin-top: 2px;
+  accent-color: var(--red);
+}
+
+.application-consent a,
+.application-aside a,
+.application-result a { color: var(--red-dark); font-weight: 900; }
+
+.application-privacy,
+.application-hint {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.application-status {
+  min-height: 24px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.application-status.is-error { color: var(--red-dark); }
+.application-status.is-success { color: #176b3a; }
+
+.application-result {
+  margin-top: 24px;
+  border-color: rgba(181, 18, 27, .28);
+}
+
+.application-result textarea {
+  min-height: 330px;
+  background: var(--bg);
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  font-size: 14px;
+}
+
+.application-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0 12px;
+}
+
+.application-aside {
+  position: sticky;
+  top: 92px;
+  display: grid;
+  gap: 16px;
+}
+
+.application-aside ol {
+  padding-left: 20px;
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.application-aside li { margin-bottom: 9px; }
+
+.cards-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.nav-apply {
+  padding: 9px 12px;
+  color: #fff !important;
+  background: var(--red);
+  border-radius: var(--radius);
+  font-weight: 900;
+}
+
+.nav-apply:hover { background: var(--red-dark); }
+
+.sticky-apply {
+  color: #fff;
+  background: var(--black);
+  border-color: var(--black);
+}
+
+@media (max-width: 1040px) {
+  .application-layout { grid-template-columns: 1fr; }
+  .application-aside { position: static; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .application-grid,
+  .application-aside,
+  .cards-2 { grid-template-columns: 1fr; }
+
+  .application-field-wide { grid-column: auto; }
+  .application-card,
+  .application-result { padding: 20px; }
+  .application-actions { flex-direction: column; }
+  .application-actions .btn { width: 100%; }
+  .application-result textarea { min-height: 390px; font-size: 13px; }
+
+  .sticky-contacts { right: 8px; bottom: 8px; left: 8px; justify-content: stretch; }
+  .sticky-action { min-width: 0; flex: 1 1 0; padding-inline: 8px; font-size: 12px; }
+}
