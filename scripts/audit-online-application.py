@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет онлайн-заявку и доступность дистанционного маршрута из любого города."""
+"""Проверяет онлайн-заявку, атрибуцию источника и дистанционный маршрут из любого города."""
 
 from __future__ import annotations
 
@@ -23,6 +23,7 @@ KEY_PAGE_REQUIREMENTS = {
 }
 
 REQUIRED_FIELDS = {
+    "source_page",
     "client_name",
     "phone",
     "city",
@@ -66,6 +67,7 @@ class PageParser(HTMLParser):
         self.description = ""
         self.canonical = ""
         self.links: set[str] = set()
+        self.contextual_application_links = 0
         self.styles: set[str] = set()
         self.scripts: set[str] = set()
         self.fields: set[str] = set()
@@ -114,7 +116,10 @@ class PageParser(HTMLParser):
                 elif parsed.scheme:
                     self.links.add(href)
                 else:
-                    self.links.add(parsed.path or "/")
+                    path = parsed.path or "/"
+                    self.links.add(path)
+                    if path == APPLICATION_URL and "source=" in parsed.query:
+                        self.contextual_application_links += 1
         elif tag == "form":
             self.form_count += 1
             self.form_actions.append(attrs_map.get("action") or "")
@@ -333,6 +338,11 @@ def main() -> int:
     if script_file.is_file():
         script_text = script_file.read_text(encoding="utf-8", errors="ignore")
         for marker in (
+            "SCENARIO_BY_SLUG",
+            "CITY_BY_PREFIX",
+            "source_page",
+            "Источник обращения",
+            "online_application_prefill",
             "online_application_prepare",
             "online_application_copy",
             "online_application_share",
@@ -341,6 +351,14 @@ def main() -> int:
         ):
             if marker not in script_text:
                 annotation(f"В скрипте онлайн-заявки отсутствует маркер: {marker}", script_file)
+                errors += 1
+
+    main_script = site_dir / "assets/js/main.js"
+    if main_script.is_file():
+        main_script_text = main_script.read_text(encoding="utf-8", errors="ignore")
+        for marker in ("window.sendGoal = sendGoal", "online_application_click"):
+            if marker not in main_script_text:
+                annotation(f"В основном скрипте отсутствует маркер: {marker}", main_script)
                 errors += 1
 
     errors += validate_schema(application, application_file)
@@ -360,13 +378,32 @@ def main() -> int:
                 annotation(f"На странице {page_url} отсутствует дистанционная формулировка: {required_text}", html_file)
                 errors += 1
 
+    contextual_urls = sorted(
+        page_url
+        for page_url in sitemap_paths
+        if (page_url.startswith("/uslugi/") and page_url != "/uslugi/")
+        or (page_url.startswith("/geo/") and page_url != "/geo/")
+    )
+    for page_url in contextual_urls:
+        loaded_page = load_page(site_dir, page_url)
+        if loaded_page is None:
+            errors += 1
+            continue
+        html_file, parser = loaded_page
+        if parser.contextual_application_links < 1:
+            annotation(f"Страница не передает source в онлайн-заявку: {page_url}", html_file)
+            errors += 1
+        if "подайте онлайн-заявку из любого города" not in parser.text:
+            annotation(f"На странице отсутствует контекстный CTA онлайн-заявки: {page_url}", html_file)
+            errors += 1
+
     if errors:
         print(f"Аудит онлайн-заявки завершен с ошибками: {errors}")
         return 1
 
     print(
         "Аудит онлайн-заявки успешно завершен: "
-        "форма, способы отправки, ключевые входы и дистанционная география подтверждены"
+        f"форма, атрибуция, способы отправки и контекстные входы подтверждены; страниц {len(contextual_urls)}"
     )
     return 0
 
