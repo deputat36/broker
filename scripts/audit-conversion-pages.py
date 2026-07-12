@@ -12,100 +12,80 @@ BASE_URL = "https://sterlikova-ipoteka.ru"
 PHONE_LINK = "tel:+79030250807"
 VK_PROFILE = "https://vk.com/tatyanasterlikova"
 
+STANDARD_SERVICE_LINKS = {
+    "/konsultaciya/",
+    "/kak-prohodit-rabota/",
+    "/stoimost/",
+    "/etagi/",
+}
+
 PAGE_REQUIREMENTS = {
-    "/": {
-        "internal": {"/konsultaciya/", "/etagi/"},
-        "phone": True,
-        "vk": True,
-        "max": True,
-    },
-    "/konsultaciya/": {
-        "internal": {"/etagi/"},
-        "phone": True,
-        "vk": True,
-        "max": True,
-    },
-    "/kontakty/": {
-        "internal": {"/konsultaciya/", "/etagi/"},
-        "phone": True,
-        "vk": True,
-        "max": True,
-    },
-    "/stoimost/": {
-        "internal": {"/konsultaciya/", "/etagi/"},
-        "phone": True,
-        "vk": True,
-        "max": True,
-    },
-    "/etagi/": {
-        "internal": {"/stoimost/"},
-        "phone": True,
-        "vk": True,
-        "max": True,
-    },
-    "/faq/": {
-        "internal": {"/stoimost/", "/etagi/"},
-        "phone": True,
-        "vk": True,
-        "max": True,
-    },
-    "/kak-prohodit-rabota/": {
-        "internal": {"/konsultaciya/", "/uslugi/", "/stoimost/", "/etagi/"},
-        "phone": True,
-        "vk": True,
-        "max": True,
-    },
-    "/uslugi/podbor-ipoteki/": {
-        "internal": {"/konsultaciya/", "/kak-prohodit-rabota/", "/stoimost/", "/etagi/"},
-        "phone": True,
-        "vk": True,
-        "max": True,
-    },
+    "/": {"/konsultaciya/", "/etagi/"},
+    "/konsultaciya/": {"/etagi/"},
+    "/kontakty/": {"/konsultaciya/", "/etagi/"},
+    "/stoimost/": {"/konsultaciya/", "/etagi/"},
+    "/etagi/": {"/stoimost/"},
+    "/faq/": {"/stoimost/", "/etagi/"},
+    "/kak-prohodit-rabota/": {"/konsultaciya/", "/uslugi/", "/stoimost/", "/etagi/"},
+    "/uslugi/podbor-ipoteki/": STANDARD_SERVICE_LINKS,
+    "/uslugi/slozhnaya-ipoteka/": STANDARD_SERVICE_LINKS,
+    "/uslugi/otkazali-v-ipoteke/": STANDARD_SERVICE_LINKS,
+    "/uslugi/ipoteka-na-novostroyku/": STANDARD_SERVICE_LINKS,
+    "/uslugi/ipoteka-na-vtorichnoe-zhile/": STANDARD_SERVICE_LINKS,
+    "/uslugi/ipoteka-na-dom/": STANDARD_SERVICE_LINKS,
 }
 
 TEXT_REQUIREMENTS = {
-    "/": (
-        "включено в комиссию компании",
-        "отдельно клиентом не оплачивается",
-    ),
-    "/stoimost/": (
-        "включено в комиссию компании",
-        "отдельно не оплачивает",
-    ),
-    "/etagi/": (
-        "включено в комиссию компании",
-        "отдельно не оплачивается",
-    ),
-    "/faq/": (
-        "включено в комиссию компании",
-        "отдельно клиентом не оплачивается",
-    ),
+    "/": ("включено в комиссию компании", "отдельно клиентом не оплачивается"),
+    "/stoimost/": ("включено в комиссию компании", "отдельно не оплачивает"),
+    "/etagi/": ("включено в комиссию компании", "отдельно не оплачивается"),
+    "/faq/": ("включено в комиссию компании", "отдельно клиентом не оплачивается"),
     "/kak-prohodit-rabota/": (
         "сопровождение до решения банка",
-        "конкретный объем помощи после решения банка",
+        "конкретный объём помощи после решения банка",
         "включено в комиссию компании",
     ),
     "/uslugi/podbor-ipoteki/": (
         "сопровождение до решения банка",
-        "конкретный объем дальнейшей помощи после решения банка",
+        "конкретный объём дальнейшей помощи после решения банка",
         "включено в комиссию компании",
         "отдельно клиентом не оплачивается",
     ),
 }
 
+STANDARD_SERVICE_TEXT = (
+    "сопровождение до решения банка",
+    "включено в комиссию компании",
+    "отдельно клиентом не оплачивается",
+)
+
+for service_url in (
+    "/uslugi/slozhnaya-ipoteka/",
+    "/uslugi/otkazali-v-ipoteke/",
+    "/uslugi/ipoteka-na-novostroyku/",
+    "/uslugi/ipoteka-na-vtorichnoe-zhile/",
+    "/uslugi/ipoteka-na-dom/",
+):
+    TEXT_REQUIREMENTS[service_url] = STANDARD_SERVICE_TEXT
+
 FORBIDDEN_TEXT = {
-    "/etagi/": (
-        '"price":"0"',
-        "0 ₽ для клиентов",
-        "ипотечное сопровождение бесплатно",
-    ),
-    "/kak-prohodit-rabota/": (
-        "полное сопровождение сделки включено",
-    ),
-    "/uslugi/podbor-ipoteki/": (
-        "ипотечное сопровождение для клиента бесплатно",
-    ),
+    "/etagi/": ('"price":"0"', "0 ₽ для клиентов", "ипотечное сопровождение бесплатно"),
+    "/kak-prohodit-rabota/": ("полное сопровождение сделки включено",),
+    "/uslugi/podbor-ipoteki/": ("ипотечное сопровождение для клиента бесплатно",),
 }
+
+for service_url in (
+    "/uslugi/slozhnaya-ipoteka/",
+    "/uslugi/otkazali-v-ipoteke/",
+    "/uslugi/ipoteka-na-novostroyku/",
+    "/uslugi/ipoteka-na-vtorichnoe-zhile/",
+    "/uslugi/ipoteka-na-dom/",
+):
+    FORBIDDEN_TEXT[service_url] = (
+        "ипотечное сопровождение бесплатно",
+        "сопровождение по ипотеке бесплатно",
+        "ипотечное сопровождение для клиента бесплатно",
+    )
 
 
 class ConversionParser(HTMLParser):
@@ -153,7 +133,7 @@ def main() -> int:
         return 1
 
     errors = 0
-    for page_url, requirements in PAGE_REQUIREMENTS.items():
+    for page_url, required_internal_links in PAGE_REQUIREMENTS.items():
         html_file = url_to_file(site_dir, page_url)
         if not html_file.is_file():
             annotation(f"Не найдена ключевая страница: {page_url}", html_file)
@@ -173,17 +153,17 @@ def main() -> int:
         internal_links = normalize_internal_links(page_url, parser.links)
         normalized_html = " ".join(raw_html.casefold().split())
 
-        if requirements["phone"] and PHONE_LINK not in links:
+        if PHONE_LINK not in links:
             annotation(f"На странице {page_url} отсутствует телефонный CTA {PHONE_LINK}", html_file)
             errors += 1
-        if requirements["vk"] and VK_PROFILE not in links:
+        if VK_PROFILE not in links:
             annotation(f"На странице {page_url} отсутствует ссылка ВКонтакте", html_file)
             errors += 1
-        if requirements["max"] and parser.max_controls == 0:
+        if parser.max_controls == 0:
             annotation(f"На странице {page_url} отсутствует CTA для MAX", html_file)
             errors += 1
 
-        for target in sorted(requirements["internal"] - internal_links):
+        for target in sorted(required_internal_links - internal_links):
             annotation(f"На странице {page_url} отсутствует обязательный переход: {target}", html_file)
             errors += 1
 
