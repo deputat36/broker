@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет обязательные CTA и разделение форматов работы на ключевых страницах."""
+"""Проверяет CTA, маршруты и формулировки ключевых конверсионных страниц."""
 
 from __future__ import annotations
 
@@ -34,16 +34,30 @@ STANDARD_SERVICE_URLS = (
     "/uslugi/ipoteka-bez-pervonachalnogo-vznosa/",
     "/uslugi/ipoteka-s-sozaemshchikom/",
     "/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/",
+    "/uslugi/ipoteka-dlya-molodoy-semi/",
+    "/uslugi/ipoteka-dlya-pensionerov/",
 )
+
+ALL_SERVICE_URLS = set(STANDARD_SERVICE_URLS) | {
+    "/uslugi/podbor-ipoteki/",
+    "/uslugi/refinansirovanie-ipoteki/",
+}
 
 PAGE_REQUIREMENTS = {
     "/": {"/konsultaciya/", "/etagi/"},
+    "/uslugi/": ALL_SERVICE_URLS
+    | {"/konsultaciya/", "/kak-prohodit-rabota/", "/stoimost/", "/etagi/"},
     "/konsultaciya/": {"/etagi/"},
     "/kontakty/": {"/konsultaciya/", "/etagi/"},
     "/stoimost/": {"/konsultaciya/", "/etagi/"},
     "/etagi/": {"/stoimost/"},
     "/faq/": {"/stoimost/", "/etagi/"},
-    "/kak-prohodit-rabota/": {"/konsultaciya/", "/uslugi/", "/stoimost/", "/etagi/"},
+    "/kak-prohodit-rabota/": {
+        "/konsultaciya/",
+        "/uslugi/",
+        "/stoimost/",
+        "/etagi/",
+    },
     "/uslugi/podbor-ipoteki/": STANDARD_SERVICE_LINKS,
     "/uslugi/refinansirovanie-ipoteki/": {
         "/konsultaciya/",
@@ -58,23 +72,24 @@ for service_url in STANDARD_SERVICE_URLS:
 
 TEXT_REQUIREMENTS = {
     "/": ("включено в комиссию компании", "отдельно клиентом не оплачивается"),
+    "/uslugi/": ("включено в комиссию компании", "отдельно клиентом не оплачивается"),
     "/stoimost/": ("включено в комиссию компании", "отдельно не оплачивает"),
     "/etagi/": ("включено в комиссию компании", "отдельно не оплачивается"),
     "/faq/": ("включено в комиссию компании", "отдельно клиентом не оплачивается"),
     "/kak-prohodit-rabota/": (
         "сопровождение до решения банка",
-        "конкретный объём помощи после решения банка",
+        "конкретный объем помощи после решения банка",
         "включено в комиссию компании",
     ),
     "/uslugi/podbor-ipoteki/": (
         "сопровождение до решения банка",
-        "конкретный объём дальнейшей помощи после решения банка",
+        "конкретный объем дальнейшей помощи после решения банка",
         "включено в комиссию компании",
         "отдельно клиентом не оплачивается",
     ),
     "/uslugi/refinansirovanie-ipoteki/": (
         "сопровождение до решения нового банка",
-        "конкретный объём дальнейшей помощи",
+        "конкретный объем дальнейшей помощи",
         "условия компании «этажи» для рефинансирования не предполагаются автоматически",
     ),
 }
@@ -99,8 +114,18 @@ TEXT_REQUIREMENTS["/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/"] += (
     "не заменяет оценку рыночной цены",
     "юридическую проверку",
 )
+TEXT_REQUIREMENTS["/uslugi/ipoteka-dlya-molodoy-semi/"] += (
+    "актуальные требования",
+)
+TEXT_REQUIREMENTS["/uslugi/ipoteka-dlya-pensionerov/"] += (
+    "решение, срок и условия определяет банк",
+)
 
 FORBIDDEN_TEXT = {
+    "/uslugi/": (
+        "клиентам «этажи» ипотечное сопровождение бесплатно",
+        "ипотечное сопровождение бесплатно",
+    ),
     "/etagi/": ('"price":"0"', "0 ₽ для клиентов", "ипотечное сопровождение бесплатно"),
     "/kak-prohodit-rabota/": ("полное сопровождение сделки включено",),
     "/uslugi/podbor-ipoteki/": ("ипотечное сопровождение для клиента бесплатно",),
@@ -168,6 +193,10 @@ def normalize_internal_links(page_url: str, links: list[str]) -> set[str]:
     return targets
 
 
+def normalize_text(value: str) -> str:
+    return " ".join(value.casefold().replace("ё", "е").split())
+
+
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     if not site_dir.is_dir():
@@ -193,7 +222,7 @@ def main() -> int:
 
         links = set(parser.links)
         internal_links = normalize_internal_links(page_url, parser.links)
-        normalized_html = " ".join(raw_html.casefold().split())
+        normalized_html = normalize_text(raw_html)
 
         if PHONE_LINK not in links:
             annotation(f"На странице {page_url} отсутствует телефонный CTA {PHONE_LINK}", html_file)
@@ -210,7 +239,7 @@ def main() -> int:
             errors += 1
 
         for required_text in TEXT_REQUIREMENTS.get(page_url, ()):
-            if required_text.casefold() not in normalized_html:
+            if normalize_text(required_text) not in normalized_html:
                 annotation(
                     f"На странице {page_url} отсутствует обязательная формулировка: {required_text}",
                     html_file,
@@ -218,7 +247,7 @@ def main() -> int:
                 errors += 1
 
         for forbidden_text in FORBIDDEN_TEXT.get(page_url, ()):
-            if forbidden_text.casefold() in normalized_html:
+            if normalize_text(forbidden_text) in normalized_html:
                 annotation(
                     f"На странице {page_url} найдена двусмысленная формулировка: {forbidden_text}",
                     html_file,
@@ -229,7 +258,11 @@ def main() -> int:
         print(f"Аудит конверсионных страниц завершен с ошибками: {errors}")
         return 1
 
-    print(f"Аудит конверсионных страниц успешно завершен: проверено {len(PAGE_REQUIREMENTS)} страниц")
+    print(
+        "Аудит конверсионных страниц успешно завершен: "
+        f"проверено {len(PAGE_REQUIREMENTS)} страниц, "
+        f"каталог содержит обязательные ссылки на {len(ALL_SERVICE_URLS)} услуг"
+    )
     return 0
 
 
