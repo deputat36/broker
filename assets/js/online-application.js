@@ -12,12 +12,88 @@
   let preparedText = '';
   let startGoalSent = false;
 
+  const SCENARIO_BY_SLUG = {
+    'podbor-ipoteki': 'Первичная консультация и подбор ипотеки',
+    'ipoteka-na-novostroyku': 'Покупка квартиры в новостройке',
+    'ipoteka-na-vtorichnoe-zhile': 'Покупка вторичного жилья',
+    'ipoteka-na-kvartiru': 'Покупка вторичного жилья',
+    'ipoteka-na-dom': 'Покупка дома',
+    'ipoteka-na-stroitelstvo-doma': 'Строительство дома',
+    'semeynaya-ipoteka': 'Семейная ипотека',
+    'ipoteka-dlya-molodoy-semi': 'Семейная ипотека',
+    'materinskiy-kapital': 'Материнский капитал',
+    'ipoteka-s-materinskim-kapitalom': 'Материнский капитал',
+    'refinansirovanie-ipoteki': 'Рефинансирование',
+    'otkazali-v-ipoteke': 'Банк отказал в ипотеке',
+    'ipoteka-s-plohoy-kreditnoy-istoriey': 'Плохая кредитная история',
+    'ipoteka-bez-oficialnogo-dohoda': 'Нет официального дохода',
+    'ipoteka-bez-pervonachalnogo-vznosa': 'Нет или мало первоначального взноса',
+    'ipoteka-dlya-ip-samozanyatyh': 'ИП или самозанятость',
+    'ipoteka-s-sozaemshchikom': 'Нужен созаёмщик',
+    'ipoteka-pri-prodazhe-starogo-zhilya': 'Продажа старого и покупка нового жилья',
+    'slozhnaya-ipoteka': 'Другая ситуация',
+    'ipoteka-dlya-pensionerov': 'Другая ситуация'
+  };
+
+  const OBJECT_BY_SLUG = {
+    'ipoteka-na-novostroyku': 'Квартира в новостройке',
+    'ipoteka-na-vtorichnoe-zhile': 'Квартира на вторичном рынке',
+    'ipoteka-na-kvartiru': 'Квартира на вторичном рынке',
+    'ipoteka-na-dom': 'Дом с участком',
+    'ipoteka-na-stroitelstvo-doma': 'Строительство дома'
+  };
+
+  const CITY_BY_PREFIX = {
+    '/geo/borisoglebsk/': 'Борисоглебск',
+    '/geo/gribanovskiy/': 'Грибановский район',
+    '/geo/povorino/': 'Поворино'
+  };
+
   function track(goalName) {
-    if (typeof window.sendGoal === 'function') {
-      window.sendGoal(goalName);
-      return;
+    if (typeof window.sendGoal === 'function') window.sendGoal(goalName);
+  }
+
+  function normalizeSourcePath(value) {
+    if (!value) return '';
+    try {
+      const url = new URL(value, window.location.origin);
+      if (url.origin !== window.location.origin) return '';
+      const path = url.pathname.replace(/\/index\.html$/, '/').replace(/\/+$/, '/');
+      return path || '/';
+    } catch (error) {
+      return '';
     }
-    if (typeof sendGoal === 'function') sendGoal(goalName);
+  }
+
+  function resolveSourcePath(params) {
+    const parameterSource = normalizeSourcePath(params.get('source'));
+    if (parameterSource && parameterSource !== '/online-zayavka/') return parameterSource;
+
+    const referrerSource = normalizeSourcePath(document.referrer);
+    if (referrerSource && referrerSource !== '/online-zayavka/') return referrerSource;
+    return '';
+  }
+
+  function sourceSlug(sourcePath) {
+    const parts = sourcePath.split('/').filter(Boolean);
+    return parts.length ? parts[parts.length - 1] : '';
+  }
+
+  function setSelectValue(fieldName, value) {
+    const field = form.elements.namedItem(fieldName);
+    if (!field || !value || field.tagName !== 'SELECT') return false;
+    const option = Array.from(field.options).find((item) => item.value === value || item.text === value);
+    if (!option) return false;
+    field.value = option.value;
+    return true;
+  }
+
+  function setInputValue(fieldName, value) {
+    const field = form.elements.namedItem(fieldName);
+    if (!field || !value) return false;
+    const maxLength = Number(field.maxLength);
+    field.value = value.slice(0, maxLength > 0 ? maxLength : value.length);
+    return true;
   }
 
   function setStatus(message, type = '') {
@@ -37,6 +113,7 @@
   function buildApplicationText() {
     const lines = [
       'ОНЛАЙН-ЗАЯВКА С САЙТА sterlikova-ipoteka.ru',
+      `Источник обращения: ${fieldValue('source_page', 'Прямой переход на форму')}`,
       '',
       `Имя: ${fieldValue('client_name')}`,
       `Телефон: ${fieldValue('phone')}`,
@@ -60,7 +137,7 @@
 
   function setFieldValidity() {
     form.querySelectorAll('input, select, textarea').forEach((field) => {
-      if (field.type === 'checkbox') return;
+      if (field.type === 'checkbox' || field.type === 'hidden') return;
       field.setAttribute('aria-invalid', String(!field.checkValidity()));
     });
   }
@@ -79,36 +156,39 @@
     if (!copied) throw new Error('Не удалось скопировать текст');
   }
 
-  function prefillFromQuery() {
+  function prefillFromSource() {
     const params = new URLSearchParams(window.location.search);
-    const simpleFields = {
-      city: 'city',
-      object: 'object_type',
-      contact: 'preferred_contact'
-    };
+    const sourcePath = resolveSourcePath(params);
+    const sourceField = form.elements.namedItem('source_page');
+    if (sourceField) sourceField.value = sourcePath || 'Прямой переход на форму';
 
-    Object.entries(simpleFields).forEach(([parameter, fieldName]) => {
-      const value = params.get(parameter);
-      const field = form.elements.namedItem(fieldName);
-      if (!value || !field) return;
-      if (field.tagName === 'SELECT') {
-        const matchingOption = Array.from(field.options).find((option) => option.value === value || option.text === value);
-        if (matchingOption) field.value = matchingOption.value;
-      } else {
-        field.value = value.slice(0, Number(field.maxLength) > 0 ? Number(field.maxLength) : value.length);
-      }
-    });
-
-    const scenario = params.get('scenario');
-    const scenarioField = form.elements.namedItem('scenario');
-    if (scenario && scenarioField) {
-      const matchingOption = Array.from(scenarioField.options).find((option) => option.value === scenario || option.text === scenario);
-      if (matchingOption) scenarioField.value = matchingOption.value;
+    const explicitCity = params.get('city');
+    if (explicitCity) {
+      setInputValue('city', explicitCity);
+    } else if (sourcePath) {
+      const matchingPrefix = Object.keys(CITY_BY_PREFIX).find((prefix) => sourcePath.startsWith(prefix));
+      if (matchingPrefix) setInputValue('city', CITY_BY_PREFIX[matchingPrefix]);
     }
+
+    const explicitContact = params.get('contact');
+    if (explicitContact) setSelectValue('preferred_contact', explicitContact);
+
+    const explicitScenario = params.get('scenario');
+    const slug = sourceSlug(sourcePath);
+    if (!setSelectValue('scenario', explicitScenario) && slug) {
+      setSelectValue('scenario', SCENARIO_BY_SLUG[slug]);
+    }
+
+    const explicitObject = params.get('object');
+    if (!setSelectValue('object_type', explicitObject) && slug) {
+      setSelectValue('object_type', OBJECT_BY_SLUG[slug]);
+    }
+
+    if (sourcePath) track('online_application_prefill');
   }
 
   if (shareButton && !navigator.share) shareButton.hidden = true;
-  prefillFromQuery();
+  prefillFromSource();
 
   form.addEventListener('input', () => {
     if (!startGoalSent) {
