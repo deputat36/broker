@@ -5,10 +5,11 @@ description: Консультация по ипотеке на квартиру 
 permalink: /geo/borisoglebsk/ipoteka-na-kvartiru/
 breadcrumb: Ипотека на квартиру в Борисоглебске
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на квартиру в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"City","name":"Борисоглебск"},"serviceType":"Консультация по ипотеке на квартиру"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на квартиру в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"City","name":"Борисоглебск"},"serviceType":"Консультация по ипотеке на квартиру","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-na-kvartiru/"}'
 ---
 
 <section class="page-hero section">
+  <div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / <a href="{{ '/geo/' | relative_url }}">География</a> / <a href="{{ '/geo/borisoglebsk/' | relative_url }}">Борисоглебск</a> / Квартира</div>
   <p class="eyebrow">Квартира в Борисоглебске</p>
   <h1>Ипотека на квартиру в Борисоглебске</h1>
   <p class="lead">Помогу заранее оценить платеж, первоначальный взнос, доход, подходящий банк и риски заявки перед покупкой квартиры в новостройке или на вторичном рынке.</p>
