@@ -1,97 +1,19 @@
 ---
 layout: default
 title: Ипотека с созаемщиком в Борисоглебске | Татьяна Стерликова
-description: Консультация по ипотеке с созаемщиком: кто может участвовать в заявке, как учитывается доход, кредитная нагрузка, супруги, родители и риски отказа.
+description: Ипотека с созаемщиком: доход, кредитная нагрузка, возраст, собственность, документы и подготовка совместной заявки.
 permalink: /uslugi/ipoteka-s-sozaemshchikom/
 breadcrumb: Ипотека с созаемщиком
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с созаемщиком","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":["Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"]}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с созаемщиком","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":["Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"],"serviceType":"Ипотечное консультирование и подготовка заявки"}'
 ---
 
-<section class="page-hero section">
-  <p class="eyebrow">Созаемщик в ипотеке</p>
-  <h1>Ипотека с созаемщиком: когда это помогает, а когда создает риски</h1>
-  <p class="lead">Помогу разобрать, кого можно подключить к заявке, как банк может учитывать доход и долги созаемщика, какие документы нужны и стоит ли вообще усиливать заявку вторым заемщиком.</p>
-  <div class="hero-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a>
-    <a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Бесплатная консультация</a>
-  </div>
-</section>
+<section class="page-hero section"><p class="eyebrow">Созаемщик в ипотеке</p><h1>Ипотека с созаемщиком: когда это помогает, а когда создает риски</h1><p class="lead">Разберу, кого имеет смысл подключать к заявке, как банк учитывает доход и долги второго заемщика и не ухудшит ли он общий профиль.</p><div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Бесплатная консультация</a><button class="btn btn-light" type="button" data-copy-phone>MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
 
-<section class="section">
-  <div class="section-head">
-    <p class="eyebrow">Когда нужен созаемщик</p>
-    <h2>Второй заемщик не всегда решает проблему, но часто меняет расчет</h2>
-    <p>Созаемщика рассматривают, когда одного дохода не хватает, есть высокая нагрузка, нужен более устойчивый профиль заявки или покупка оформляется семьей. Подробнее о базовой логике выбора есть в статье <a class="text-link" href="{{ '/polezno/sozaemshchik-po-ipoteke/' | relative_url }}">созаемщик по ипотеке</a>.</p>
-  </div>
-  <div class="grid cards-4">
-    <article class="card"><h3>Супруг или супруга</h3><p>Частая ситуация при семейной покупке. Важно учитывать доход, обязательства и состав собственности.</p></article>
-    <article class="card"><h3>Родители или дети</h3><p>Иногда близкие помогают усилить заявку, но нужно смотреть возраст, доход и кредитную нагрузку.</p></article>
-    <article class="card"><h3>Дохода не хватает</h3><p>Созаемщик может повлиять на расчет, если его доход подходит банку и не перегружен кредитами.</p></article>
-    <article class="card"><h3>Сложная ситуация</h3><p>Если были отказы, просрочки или нестандартный доход, добавление созаемщика нужно оценивать осторожно.</p></article>
-  </div>
-</section>
+<section class="section"><div class="section-head"><p class="eyebrow">До заявки</p><h2>Второй заемщик меняет не только доход</h2><p>Банк оценивает возраст, занятость, кредиты, карты, просрочки, документы и участие в собственности каждого заемщика.</p></div><div class="grid cards-4"><article class="card"><h3>Супруг или супруга</h3><p>Доход семьи, обязательства и структура собственности.</p></article><article class="card"><h3>Родители или дети</h3><p>Возраст, срок кредита, доход и возможные ограничения.</p></article><article class="card"><h3>Не хватает дохода</h3><p>Проверяем, действительно ли второй доход улучшает расчет.</p></article><article class="card"><h3>Сложная заявка</h3><p>Кредитная история созаемщика может как помочь, так и ухудшить ситуацию.</p></article></div></section>
 
-<section class="section muted">
-  <div class="section-head">
-    <p class="eyebrow">Что проверить</p>
-    <h2>Главные вопросы до подачи заявки</h2>
-  </div>
-  <div class="checklist">
-    <div><strong>1</strong><span>Доход основного заемщика и созаемщика.</span></div>
-    <div><strong>2</strong><span>Действующие кредиты, кредитные карты, просрочки и общая долговая нагрузка.</span></div>
-    <div><strong>3</strong><span>Возраст созаемщика и возможный срок кредита.</span></div>
-    <div><strong>4</strong><span>Кто будет собственником и как это связано с условиями сделки.</span></div>
-    <div><strong>5</strong><span>Не ухудшит ли созаемщик заявку из-за своей кредитной истории или нагрузки.</span></div>
-  </div>
-</section>
+<section class="section content-layout"><article class="content-main"><h2>Что входит в ипотечную работу</h2><p>Разбор состава заемщиков, доходов, обязательств и объекта, выбор маршрута, подготовка данных и сопровождение до решения банка. Конкретный объём помощи после решения банка зависит от выбранного формата и согласуется заранее.</p><p>Базовая логика выбора второго заемщика разобрана в статье <a class="text-link" href="{{ '/polezno/sozaemshchik-po-ipoteke/' | relative_url }}">созаемщик по ипотеке</a>.</p><h2>Локальные страницы</h2><ul><li><a href="{{ '/geo/borisoglebsk/ipoteka-s-sozaemshchikom/' | relative_url }}">Борисоглебск</a></li><li><a href="{{ '/geo/gribanovskiy/ipoteka-s-sozaemshchikom/' | relative_url }}">Грибановский район</a></li><li><a href="{{ '/geo/povorino/ipoteka-s-sozaemshchikom/' | relative_url }}">Поворино и район</a></li></ul></article><aside class="sidebar"><div class="seo-panel"><h3>Полезные разделы</h3><ul><li><a href="{{ '/kak-prohodit-rabota/' | relative_url }}">Как проходит работа</a></li><li><a href="{{ '/stoimost/' | relative_url }}">Стоимость частного сопровождения</a></li><li><a href="{{ '/etagi/' | relative_url }}">Клиентам «ЭТАЖИ»</a></li><li><a href="{{ '/uslugi/slozhnaya-ipoteka/' | relative_url }}">Сложная ипотека</a></li><li><a href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека</a></li></ul></div></aside></section>
 
-<section class="section compact-section">
-  <div class="notice">
-    <div>
-      <p class="eyebrow">Важно</p>
-      <h2>Созаемщик — не просто формальность</h2>
-      <p>Банк оценивает не только доход созаемщика, но и его обязательства, историю, возраст и документы. Иногда подключение второго заемщика помогает, а иногда делает заявку слабее.</p>
-    </div>
-    <a class="btn btn-dark" href="{{ '/konsultaciya/' | relative_url }}">Разобрать состав заемщиков</a>
-  </div>
-</section>
+<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Два формата работы</p><h2>Частное сопровождение и сделки через «ЭТАЖИ»</h2><p>При частном обращении объём и стоимость согласуются заранее. Если сделка проходит через компанию «ЭТАЖИ», ипотечное сопровождение включено в комиссию компании и отдельно клиентом не оплачивается.</p></div><div class="hero-actions"><a class="btn btn-dark" href="{{ '/stoimost/' | relative_url }}">Частные тарифы</a><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Клиентам «ЭТАЖИ»</a></div></div></section>
 
-<section class="section muted">
-  <div class="section-head">
-    <p class="eyebrow">По территориям</p>
-    <h2>Ипотека с созаемщиком рядом с вами</h2>
-    <p>Для локального поиска и более точного разбора добавлены отдельные страницы по основным территориям работы.</p>
-  </div>
-  <div class="grid cards-3">
-    <article class="card"><h3><a href="{{ '/geo/borisoglebsk/ipoteka-s-sozaemshchikom/' | relative_url }}">Созаемщик в Борисоглебске</a></h3><p>Супруги, родители, доход семьи, кредиты и риски заявки для Борисоглебска.</p></article>
-    <article class="card"><h3><a href="{{ '/geo/gribanovskiy/ipoteka-s-sozaemshchikom/' | relative_url }}">Созаемщик в Грибановском районе</a></h3><p>Разбор состава заемщиков для пгт Грибановский и населенных пунктов района.</p></article>
-    <article class="card"><h3><a href="{{ '/geo/povorino/ipoteka-s-sozaemshchikom/' | relative_url }}">Созаемщик в Поворино</a></h3><p>Консультация для жителей Поворино и Поворинского района.</p></article>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-head">
-    <p class="eyebrow">Связанные сценарии</p>
-    <h2>Где созаемщик встречается чаще всего</h2>
-  </div>
-  <div class="grid cards-4">
-    <article class="card"><h3><a href="{{ '/polezno/sozaemshchik-po-ipoteke/' | relative_url }}">Созаемщик по ипотеке</a></h3><p>Когда второй заемщик помогает заявке, а когда может ухудшить расчет.</p></article>
-    <article class="card"><h3><a href="{{ '/uslugi/ipoteka-dlya-molodoy-semi/' | relative_url }}">Молодая семья</a></h3><p>Когда жилье покупают вместе и нужно правильно оценить доход семьи.</p></article>
-    <article class="card"><h3><a href="{{ '/uslugi/ipoteka-dlya-pensionerov/' | relative_url }}">Пенсионеры</a></h3><p>Когда на расчет влияет возраст, срок кредита и возможное участие близких.</p></article>
-    <article class="card"><h3><a href="{{ '/uslugi/slozhnaya-ipoteka/' | relative_url }}">Сложная ипотека</a></h3><p>Если одного дохода недостаточно или есть риск отказа.</p></article>
-  </div>
-</section>
-
-<section class="section cta-section">
-  <div>
-    <p class="eyebrow">Перед заявкой</p>
-    <h2>Проверьте, нужен ли вам созаемщик</h2>
-    <p>Позвоните или напишите: кто покупает жилье, чей доход планируете учитывать, какие есть кредиты, взнос и объект.</p>
-  </div>
-  <div class="cta-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
-    <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
-    <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
-  </div>
-</section>
+<section class="section cta-section"><div><p class="eyebrow">Нужен созаемщик?</p><h2>Сначала проверьте общий профиль заявки</h2><p>Подготовьте доходы, кредиты, возраст участников, взнос и сведения об объекте.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Консультация</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
