@@ -1,60 +1,19 @@
 ---
 layout: default
 title: Ипотека для молодой семьи в Борисоглебске | Татьяна Стерликова
-description: Консультация по ипотеке для молодой семьи: платеж, первоначальный взнос, семейная ипотека, материнский капитал, созаемщики и документы.
+description: Ипотека для молодой семьи: бюджет, платёж, первоначальный взнос, семейные программы, материнский капитал, созаёмщики и подготовка заявки.
 permalink: /uslugi/ipoteka-dlya-molodoy-semi/
 breadcrumb: Ипотека для молодой семьи
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека для молодой семьи","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":["Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"]}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека для молодой семьи","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":["Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"],"serviceType":"Ипотечное консультирование и подготовка заявки"}'
 ---
 
-<section class="page-hero section">
-  <p class="eyebrow">Ипотека для семьи</p>
-  <h1>Ипотека для молодой семьи: с чего начать и что проверить</h1>
-  <p class="lead">Помогу разобраться, на какую сумму можно ориентироваться, как считать платеж, можно ли использовать материнский капитал, кто может быть созаемщиком и какие риски лучше проверить до заявки в банк.</p>
-  <div class="hero-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a>
-    <a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Бесплатная консультация</a>
-  </div>
-</section>
+<section class="page-hero section"><div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / <a href="{{ '/uslugi/' | relative_url }}">Услуги</a> / Молодая семья</div><p class="eyebrow">Ипотека для семьи</p><h1>Ипотека для молодой семьи: с чего начать</h1><p class="lead">Разберу бюджет семьи, платёж, первоначальный взнос, объект, состав заёмщиков и доступные на дату обращения программы до подачи заявки.</p><div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Бесплатная консультация</a><button class="btn btn-light" type="button" data-copy-phone>MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
 
-<section class="section">
-  <div class="section-head"><p class="eyebrow">Кому подойдет</p><h2>Когда семье стоит обратиться до подачи заявки</h2><p>Семейная ипотека, молодая семья и покупка первого жилья — разные понятия. Лучше сначала разобрать состав семьи, доход, взнос, объект и доступные варианты.</p></div>
-  <div class="grid cards-4">
-    <article class="card"><h3>Первое жилье</h3><p>Нужно понять реальный бюджет, платеж, срок, первоначальный взнос и требования банка.</p></article>
-    <article class="card"><h3>Есть дети</h3><p>Проверяем, подходит ли ситуация под семейную ипотеку и можно ли использовать материнский капитал.</p></article>
-    <article class="card"><h3>Нужен созаемщик</h3><p>Разбираем, кто может участвовать в заявке и как доход созаемщика влияет на расчет.</p></article>
-    <article class="card"><h3>Доход нестандартный</h3><p>Если есть ИП, самозанятость, неофициальная часть дохода или высокая нагрузка, лучше подготовиться заранее.</p></article>
-  </div>
-</section>
+<section class="section"><div class="section-head"><p class="eyebrow">До заявки</p><h2>Сначала нужно отделить цель семьи от названия программы</h2><p>Понятие «молодая семья» само по себе не определяет условия банка. Важно проверить состав семьи, доход, объект, первый взнос и актуальные требования доступных программ.</p></div><div class="grid cards-4"><article class="card"><h3>Первое жильё</h3><p>Определяем реальный бюджет, срок, платёж и запас после покупки.</p></article><article class="card"><h3>Есть дети</h3><p>Проверяем применимость семейных программ и материнского капитала.</p></article><article class="card"><h3>Нужен созаёмщик</h3><p>Оцениваем доход, кредиты и роль второго участника заявки.</p></article><article class="card"><h3>Нестандартный доход</h3><p>Учитываем ИП, самозанятость, смешанный доход и кредитную нагрузку.</p></article></div></section>
 
-<section class="section muted">
-  <div class="section-head"><p class="eyebrow">Что разберем</p><h2>Главные вопросы молодой семьи</h2></div>
-  <div class="checklist">
-    <div><strong>1</strong><span>Комфортный платеж и примерную сумму кредита.</span></div>
-    <div><strong>2</strong><span>Первоначальный взнос: свои средства, материнский капитал или другие источники.</span></div>
-    <div><strong>3</strong><span>Возможность семейной ипотеки и ограничения по объекту.</span></div>
-    <div><strong>4</strong><span>Состав заемщиков, доход, действующие кредиты и возможные причины отказа.</span></div>
-  </div>
-</section>
+<section class="section content-layout"><article class="content-main"><h2>Что входит в ипотечную работу</h2><p>Предварительный расчёт, разбор состава семьи, дохода, взноса и объекта, выбор маршрута, подготовка данных и сопровождение до решения банка. Конкретный объём помощи после решения банка зависит от выбранного формата и согласуется заранее.</p><p>Связанные сценарии: <a class="text-link" href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">семейная ипотека</a>, <a class="text-link" href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">материнский капитал</a> и <a class="text-link" href="{{ '/uslugi/ipoteka-s-sozaemshchikom/' | relative_url }}">ипотека с созаёмщиком</a>.</p></article><aside class="sidebar"><div class="seo-panel"><h3>Полезные разделы</h3><ul><li><a href="{{ '/kak-prohodit-rabota/' | relative_url }}">Как проходит работа</a></li><li><a href="{{ '/stoimost/' | relative_url }}">Стоимость частного сопровождения</a></li><li><a href="{{ '/etagi/' | relative_url }}">Клиентам «ЭТАЖИ»</a></li><li><a href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Ипотечный калькулятор</a></li><li><a href="{{ '/polezno/dokumenty-dlya-ipoteki/' | relative_url }}">Документы для ипотеки</a></li></ul></div></aside></section>
 
-<section class="section compact-section">
-  <div class="notice">
-    <div><p class="eyebrow">Связанные темы</p><h2>Может понадобиться не только подбор банка</h2><p>Для молодой семьи часто важны материнский капитал, семейная ипотека, документы и расчет платежа.</p></div>
-    <a class="btn btn-dark" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Рассчитать платеж</a>
-  </div>
-</section>
+<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Два формата работы</p><h2>Частное сопровождение и сделки через «ЭТАЖИ»</h2><p>При частном обращении объём и стоимость согласуются заранее. Если сделка проходит через компанию «ЭТАЖИ», ипотечное сопровождение включено в комиссию компании и отдельно клиентом не оплачивается.</p></div><div class="hero-actions"><a class="btn btn-dark" href="{{ '/stoimost/' | relative_url }}">Частные тарифы</a><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Клиентам «ЭТАЖИ»</a></div></div></section>
 
-<section class="section">
-  <div class="grid cards-4">
-    <article class="card"><h3><a href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека</a></h3><p>Разбор условий программы, состава семьи, объекта и требований банка.</p></article>
-    <article class="card"><h3><a href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">Материнский капитал</a></h3><p>Как использовать сертификат как взнос или для погашения ипотеки.</p></article>
-    <article class="card"><h3><a href="{{ '/polezno/dokumenty-dlya-ipoteki/' | relative_url }}">Документы</a></h3><p>Что обычно готовят заемщики перед ипотечной заявкой.</p></article>
-    <article class="card"><h3><a href="{{ '/uslugi/ipoteka-bez-pervonachalnogo-vznosa/' | relative_url }}">Маленький взнос</a></h3><p>Какие риски и ограничения стоит учитывать, если собственных средств мало.</p></article>
-  </div>
-</section>
-
-<section class="section cta-section">
-  <div><p class="eyebrow">Начните с консультации</p><h2>Обсудите ипотеку для вашей семьи</h2><p>Позвоните или напишите: состав семьи, город, объект, доход, взнос и был ли опыт обращения в банки.</p></div>
-  <div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
-</section>
+<section class="section cta-section"><div><p class="eyebrow">Планируете покупку для семьи?</p><h2>Начните с первичного расчёта</h2><p>Подготовьте состав семьи, город, объект, доход, взнос, кредиты и сведения о прошлых заявках.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Консультация</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
