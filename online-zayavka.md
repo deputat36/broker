@@ -17,7 +17,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
     <a class="btn btn-light" href="tel:+79030250807">Позвонить</a>
     <a class="btn btn-light" href="{{ '/konsultaciya/' | relative_url }}">Как проходит консультация</a>
   </div>
-  <ul class="trust-list"><li>Можно обратиться из любого города</li><li>Первичный разбор дистанционно</li><li>Решение по ипотеке принимает банк</li></ul>
+  <ul class="trust-list"><li>Можно обратиться из любого города</li><li>Первичный разбор дистанционно</li><li>Решение принимает банк</li></ul>
 </section>
 
 <section class="section application-layout" id="application-form">
