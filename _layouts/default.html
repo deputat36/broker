@@ -35,9 +35,10 @@
   <link rel="stylesheet" href="{{ '/assets/css/seo.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/accessibility.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/nav-state.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/online-application.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/print.css' | relative_url }}" media="print">
   {% if page.hero_photo %}<link rel="preload" as="image" href="{{ page.hero_photo | relative_url }}">{% endif %}
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"{{ '/o-brokere/' | absolute_url }}#tatyana","name":"Татьяна Стерликова","jobTitle":"Ипотечный брокер","telephone":"+79030250807","url":"{{ '/o-brokere/' | absolute_url }}","image":"{{ '/assets/img/tatyana-social.jpg' | absolute_url }}","sameAs":["https://vk.com/tatyanasterlikova"]},{"@type":"FinancialService","@id":"{{ '/' | absolute_url }}#service","name":"Ипотечный брокер Татьяна Стерликова","url":"{{ '/' | absolute_url }}","telephone":"+79030250807","founder":{"@id":"{{ '/o-brokere/' | absolute_url }}#tatyana"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"},{"@type":"AdministrativeArea","name":"Грибановский район"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"priceRange":"Бесплатная первичная консультация; сопровождение от 15000 RUB"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"{{ '/o-brokere/' | absolute_url }}#tatyana","name":"Татьяна Стерликова","jobTitle":"Ипотечный брокер","telephone":"+79030250807","url":"{{ '/o-brokere/' | absolute_url }}","image":"{{ '/assets/img/tatyana-social.jpg' | absolute_url }}","sameAs":["https://vk.com/tatyanasterlikova"]},{"@type":"FinancialService","@id":"{{ '/' | absolute_url }}#service","name":"Ипотечный брокер Татьяна Стерликова","url":"{{ '/' | absolute_url }}","telephone":"+79030250807","founder":{"@id":"{{ '/o-brokere/' | absolute_url }}#tatyana"},"areaServed":[{"@type":"Country","name":"Россия"},{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"},{"@type":"AdministrativeArea","name":"Грибановский район"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"priceRange":"Бесплатная первичная консультация; сопровождение от 15000 RUB"}]}</script>
   {% if page.schema %}
     {% assign normalized_schema = page.schema | replace: 'https://deputat36.github.io/broker', site.url %}
     <script type="application/ld+json">{{ normalized_schema }}</script>
@@ -63,7 +64,7 @@
 </head>
 <body>
   {% if site.yandex_metrika_id and site.yandex_metrika_id != '' %}
-  <noscript><div><img src="https://mc.yandex.ru/watch/{{ site.yandex_metrika_id }}" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+  <noscript><div><img src="https://mc.yandex.ru/watch/{{ site.yandex_metrika_id }}" style="position:absolute; left:-9999px" alt=""></div></noscript>
   {% endif %}
   <a class="skip-link" href="#main-content">Перейти к содержимому</a>
   <header class="site-header">
@@ -71,7 +72,7 @@
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Открыть меню сайта">Меню</button>
     <nav class="main-nav" id="main-nav" aria-label="Основная навигация">
       <a{% if page.url contains '/uslugi/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/uslugi/' | relative_url }}">Услуги</a>
-      <a{% if page.url contains '/konsultaciya/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/konsultaciya/' | relative_url }}">Консультация</a>
+      <a{% if page.url contains '/online-zayavka/' %} class="nav-apply is-current" aria-current="page"{% else %} class="nav-apply"{% endif %} href="{{ '/online-zayavka/' | relative_url }}">Онлайн-заявка</a>
       <a{% if page.url contains '/kalkulyator-ipoteki/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Калькулятор</a>
       <a{% if page.url contains '/stoimost/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/stoimost/' | relative_url }}">Стоимость</a>
       <a{% if page.url contains '/polezno/' %} class="is-current" aria-current="page"{% endif %} href="{{ '/polezno/' | relative_url }}">Полезно</a>
@@ -95,6 +96,8 @@
             {% if page.url == '/polezno/' %}<li aria-current="page">Полезно</li>{% else %}<li><a href="{{ '/polezno/' | relative_url }}">Полезно</a></li><li aria-current="page">{{ current_label }}</li>{% endif %}
           {% elsif section == 'geo' %}
             {% if page.url == '/geo/' %}<li aria-current="page">География</li>{% else %}<li><a href="{{ '/geo/' | relative_url }}">География</a></li><li aria-current="page">{{ current_label }}</li>{% endif %}
+          {% elsif section == 'online-zayavka' %}
+            <li aria-current="page">Онлайн-заявка</li>
           {% elsif section == 'konsultaciya' %}
             <li aria-current="page">Консультация</li>
           {% elsif section == 'kalkulyator-ipoteki' %}
@@ -119,17 +122,18 @@
     {% endunless %}
     {{ content }}
   </main>
-  <div class="sticky-contacts" aria-label="Быстрая связь с ипотечным брокером"><a class="sticky-action sticky-call" href="tel:+79030250807">Позвонить</a><button class="sticky-action" type="button" data-copy-phone>MAX</button><a class="sticky-action" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
+  <div class="sticky-contacts" aria-label="Быстрая связь с ипотечным брокером"><a class="sticky-action sticky-apply" href="{{ '/online-zayavka/' | relative_url }}">Заявка</a><a class="sticky-action sticky-call" href="tel:+79030250807">Позвонить</a><button class="sticky-action" type="button" data-copy-phone>MAX</button><a class="sticky-action" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
   <footer class="site-footer">
-    <div class="footer-brand"><strong>Татьяна Стерликова</strong><p>Ипотечный брокер. Борисоглебск, Грибановский, Поворино.</p><a class="footer-phone" href="tel:+79030250807">8 903 025-08-07</a></div>
+    <div class="footer-brand"><strong>Татьяна Стерликова</strong><p>Онлайн-консультации из любого города. Локальные материалы: Борисоглебск, Грибановский район и Поворино.</p><a class="footer-phone" href="tel:+79030250807">8 903 025-08-07</a></div>
     <nav class="footer-grid" aria-label="Навигация в подвале сайта">
       <div class="footer-col"><strong>Услуги</strong><a href="{{ '/uslugi/' | relative_url }}">Все услуги</a><a href="{{ '/uslugi/podbor-ipoteki/' | relative_url }}">Подбор ипотеки</a><a href="{{ '/uslugi/refinansirovanie-ipoteki/' | relative_url }}">Рефинансирование</a><a href="{{ '/uslugi/ipoteka-na-novostroyku/' | relative_url }}">Новостройка</a><a href="{{ '/uslugi/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Вторичное жилье</a><a href="{{ '/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/' | relative_url }}">Продажа старого жилья</a><a href="{{ '/uslugi/ipoteka-na-stroitelstvo-doma/' | relative_url }}">Строительство дома</a><a href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека</a><a href="{{ '/uslugi/ipoteka-dlya-molodoy-semi/' | relative_url }}">Молодая семья</a><a href="{{ '/uslugi/ipoteka-dlya-pensionerov/' | relative_url }}">Пенсионеры</a><a href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">Материнский капитал</a><a href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">Отказали в ипотеке</a></div>
       <div class="footer-col"><strong>Сложные случаи</strong><a href="{{ '/uslugi/slozhnaya-ipoteka/' | relative_url }}">Сложная ипотека</a><a href="{{ '/uslugi/ipoteka-s-sozaemshchikom/' | relative_url }}">Созаемщик</a><a href="{{ '/uslugi/ipoteka-bez-oficialnogo-dohoda/' | relative_url }}">Без официального дохода</a><a href="{{ '/uslugi/ipoteka-bez-pervonachalnogo-vznosa/' | relative_url }}">Без первоначального взноса</a><a href="{{ '/uslugi/ipoteka-dlya-ip-samozanyatyh/' | relative_url }}">ИП и самозанятые</a><a href="{{ '/uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/' | relative_url }}">Кредитная история</a><a href="{{ '/uslugi/ipoteka-na-dom/' | relative_url }}">Ипотека на дом</a></div>
-      <div class="footer-col"><strong>География</strong><a href="{{ '/geo/' | relative_url }}">Все районы</a><a href="{{ '/geo/borisoglebsk/' | relative_url }}">Борисоглебск</a><a href="{{ '/geo/borisoglebsk/ipoteka-na-kvartiru/' | relative_url }}">Квартира в Борисоглебске</a><a href="{{ '/geo/gribanovskiy/' | relative_url }}">Грибановский район</a><a href="{{ '/geo/povorino/' | relative_url }}">Поворино и район</a><a href="{{ '/etagi/' | relative_url }}">Клиентам «ЭТАЖИ»</a></div>
-      <div class="footer-col"><strong>Информация</strong><a href="{{ '/o-brokere/' | relative_url }}">О брокере</a><a href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Калькулятор</a><a href="{{ '/konsultaciya/' | relative_url }}">Консультация</a><a href="{{ '/stoimost/' | relative_url }}">Стоимость</a><a href="{{ '/polezno/' | relative_url }}">Полезно</a><a href="{{ '/faq/' | relative_url }}">FAQ</a><a href="{{ '/kontakty/' | relative_url }}">Контакты</a><a href="{{ '/policy/' | relative_url }}">Политика</a><a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a></div>
+      <div class="footer-col"><strong>География</strong><a href="{{ '/online-zayavka/' | relative_url }}">Онлайн из любого города</a><a href="{{ '/geo/' | relative_url }}">Все районы</a><a href="{{ '/geo/borisoglebsk/' | relative_url }}">Борисоглебск</a><a href="{{ '/geo/borisoglebsk/ipoteka-na-kvartiru/' | relative_url }}">Квартира в Борисоглебске</a><a href="{{ '/geo/gribanovskiy/' | relative_url }}">Грибановский район</a><a href="{{ '/geo/povorino/' | relative_url }}">Поворино и район</a><a href="{{ '/etagi/' | relative_url }}">Клиентам «ЭТАЖИ»</a></div>
+      <div class="footer-col"><strong>Информация</strong><a href="{{ '/online-zayavka/' | relative_url }}">Онлайн-заявка</a><a href="{{ '/o-brokere/' | relative_url }}">О брокере</a><a href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Калькулятор</a><a href="{{ '/konsultaciya/' | relative_url }}">Консультация</a><a href="{{ '/stoimost/' | relative_url }}">Стоимость</a><a href="{{ '/polezno/' | relative_url }}">Полезно</a><a href="{{ '/faq/' | relative_url }}">FAQ</a><a href="{{ '/kontakty/' | relative_url }}">Контакты</a><a href="{{ '/policy/' | relative_url }}">Политика</a><a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a></div>
     </nav>
     <p class="disclaimer">Информация на сайте не является публичной офертой. Окончательное решение по ипотеке, ставке и условиям принимает банк.</p>
   </footer>
   <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/online-application.js' | relative_url }}" defer></script>
 </body>
 </html>
