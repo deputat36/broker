@@ -29,6 +29,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
     </div>
 
     <form class="application-card" data-online-application novalidate>
+      <input name="source_page" type="hidden" value="">
       <div class="application-grid">
         <div class="application-field">
           <label for="application-name">Как к вам обращаться <span aria-hidden="true">*</span></label>
