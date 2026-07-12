@@ -29,6 +29,11 @@ STANDARD_SERVICE_URLS = (
     "/uslugi/materinskiy-kapital/",
     "/uslugi/ipoteka-na-stroitelstvo-doma/",
     "/uslugi/ipoteka-dlya-ip-samozanyatyh/",
+    "/uslugi/ipoteka-bez-oficialnogo-dohoda/",
+    "/uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/",
+    "/uslugi/ipoteka-bez-pervonachalnogo-vznosa/",
+    "/uslugi/ipoteka-s-sozaemshchikom/",
+    "/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/",
 )
 
 PAGE_REQUIREMENTS = {
@@ -83,6 +88,18 @@ STANDARD_SERVICE_TEXT = (
 for service_url in STANDARD_SERVICE_URLS:
     TEXT_REQUIREMENTS[service_url] = STANDARD_SERVICE_TEXT
 
+TEXT_REQUIREMENTS["/uslugi/ipoteka-bez-pervonachalnogo-vznosa/"] += (
+    "не используются схемы с фиктивным завышением стоимости",
+    "решение принимает банк",
+)
+TEXT_REQUIREMENTS["/uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/"] += (
+    "разбор не гарантирует одобрение",
+)
+TEXT_REQUIREMENTS["/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/"] += (
+    "не заменяет оценку рыночной цены",
+    "юридическую проверку",
+)
+
 FORBIDDEN_TEXT = {
     "/etagi/": ('"price":"0"', "0 ₽ для клиентов", "ипотечное сопровождение бесплатно"),
     "/kak-prohodit-rabota/": ("полное сопровождение сделки включено",),
@@ -91,10 +108,21 @@ FORBIDDEN_TEXT = {
         "ипотечное сопровождение бесплатно",
         "включено в комиссию компании",
     ),
+    "/uslugi/ipoteka-bez-pervonachalnogo-vznosa/": (
+        "гарантированная ипотека без первоначального взноса",
+        "обойдем требования банка",
+    ),
+    "/uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/": (
+        "исправим кредитную историю",
+        "гарантируем одобрение",
+    ),
+    "/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/": (
+        "полное сопровождение двух сделок входит",
+    ),
 }
 
 for service_url in STANDARD_SERVICE_URLS:
-    FORBIDDEN_TEXT[service_url] = (
+    FORBIDDEN_TEXT[service_url] = FORBIDDEN_TEXT.get(service_url, ()) + (
         "ипотечное сопровождение бесплатно",
         "сопровождение по ипотеке бесплатно",
         "ипотечное сопровождение для клиента бесплатно",
