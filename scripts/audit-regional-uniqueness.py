@@ -26,6 +26,7 @@ MIN_WORDS = 100
 SHINGLE_SIZE = 5
 MAX_JACCARD = 0.82
 MAX_SEQUENCE = 0.90
+SKIPPED_TAGS = {"nav", "script", "style", "noscript"}
 
 
 def annotation(message: str, file: Path | None = None) -> None:
@@ -52,31 +53,34 @@ def url_to_file(site_dir: Path, page_url: str) -> Path:
 class MainTextParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
-        self.main_depth = 0
-        self.skip_depth = 0
+        self.in_main = False
+        self.found_main = False
+        self.skip_stack: list[str] = []
         self.parts: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         tag = tag.lower()
         attrs_map = {key.lower(): value for key, value in attrs}
         if tag == "main" and attrs_map.get("id") == "main-content":
-            self.main_depth = 1
+            self.in_main = True
+            self.found_main = True
             return
-        if self.main_depth:
-            self.main_depth += 1
-            if tag in {"nav", "script", "style", "noscript"}:
-                self.skip_depth += 1
+        if self.in_main and tag in SKIPPED_TAGS:
+            self.skip_stack.append(tag)
 
     def handle_endtag(self, tag: str) -> None:
         tag = tag.lower()
-        if not self.main_depth:
+        if not self.in_main:
             return
-        if tag in {"nav", "script", "style", "noscript"} and self.skip_depth:
-            self.skip_depth -= 1
-        self.main_depth -= 1
+        if tag == "main":
+            self.in_main = False
+            self.skip_stack.clear()
+            return
+        if self.skip_stack and tag == self.skip_stack[-1]:
+            self.skip_stack.pop()
 
     def handle_data(self, data: str) -> None:
-        if self.main_depth and not self.skip_depth:
+        if self.in_main and not self.skip_stack:
             self.parts.append(data)
 
     @property
@@ -159,6 +163,11 @@ def main() -> int:
 
             parser = MainTextParser()
             parser.feed(raw_html)
+            if not parser.found_main:
+                annotation("Не найден контейнер main#main-content", html_file)
+                errors += 1
+                continue
+
             words = normalized_words(parser.text)
             if len(words) < MIN_WORDS:
                 annotation(
