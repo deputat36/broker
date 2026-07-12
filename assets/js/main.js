@@ -16,6 +16,8 @@ function sendGoal(goalName) {
   }
 }
 
+window.sendGoal = sendGoal;
+
 function normalizePath(pathname) {
   const normalizedPath = String(pathname || '/')
     .replace(/\/index\.html$/, '/')
@@ -132,6 +134,7 @@ document.addEventListener('click', (event) => {
   const href = link.getAttribute('href') || '';
   if (href.indexOf('tel:') === 0) sendGoal('phone_click');
   if (href.indexOf('vk.com/tatyanasterlikova') !== -1) sendGoal('vk_click');
+  if (href.indexOf('/online-zayavka/') !== -1) sendGoal('online_application_click');
   if (href.indexOf('/konsultaciya/') !== -1) sendGoal('consultation_click');
   if (href.indexOf('/kontakty/') !== -1) sendGoal('contacts_click');
 });
