@@ -1,56 +1,21 @@
 ---
 layout: default
 title: Ипотека с плохой кредитной историей в Поворино | Татьяна Стерликова
-description: Консультация по ипотеке с плохой кредитной историей в Поворино и Поворинском районе: разбор просрочек, отказов, кредитной нагрузки, карт и повторной заявки.
+description: Ипотека после просрочек в Поворино и Поворинском районе: микрозаймы, кредитные карты, частые заявки, текущая нагрузка и подготовка покупки дома или квартиры.
 permalink: /geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey/
 breadcrumb: Кредитная история
 og_type: article
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с плохой кредитной историей в Поворино","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по ипотеке после просрочек и отказов","url":"https://sterlikova-ipoteka.ru/geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey/"}'
 ---
 
-<section class="page-hero section">
-  <div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / <a href="{{ '/geo/' | relative_url }}">География</a> / <a href="{{ '/geo/povorino/' | relative_url }}">Поворино</a> / Кредитная история</div>
-  <p class="eyebrow">Поворино и Поворинский район</p>
-  <h1>Ипотека с плохой кредитной историей в Поворино</h1>
-  <p class="lead">Если были просрочки, отказы, микрозаймы, кредитные карты или высокая нагрузка, лучше сначала разобрать ситуацию. Новые заявки без подготовки могут усложнить следующий шаг.</p>
-  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
-</section>
+<section class="page-hero section"><div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / <a href="{{ '/geo/' | relative_url }}">География</a> / <a href="{{ '/geo/povorino/' | relative_url }}">Поворино</a> / Кредитная история</div><p class="eyebrow">После микрозаймов, карт и отказов</p><h1>Ипотека с плохой кредитной историей в Поворино</h1><p class="lead">Разберу последовательность событий: просрочки, микрозаймы, открытые кредитные карты, недавние заявки и текущие платежи — до выбора нового банка и передачи аванса за объект.</p><div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Бесплатная консультация</a><button class="btn btn-light" type="button" data-copy-phone>MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
 
-<section class="section">
-  <div class="section-head"><p class="eyebrow">До повторной заявки</p><h2>Нужно понять, почему банк может сомневаться</h2><p>Кредитная история оценивается вместе с доходом, действующими платежами, объектом, первоначальным взносом и частотой обращений в банки.</p></div>
-  <div class="grid cards-4">
-    <article class="card"><h3>Просрочки</h3><p>Смотрим давность, сумму, закрытие задолженности и повторяемость нарушений.</p></article>
-    <article class="card"><h3>Кредитные карты</h3><p>Лимиты, задолженность и активные карты могут влиять на расчет нагрузки.</p></article>
-    <article class="card"><h3>Отказы банков</h3><p>Важно понять, когда и куда уже подавались заявки, чтобы не повторять ошибку.</p></article>
-    <article class="card"><h3>Доход и платеж</h3><p>Проверяем, выдерживает ли доход текущие обязательства и будущую ипотеку.</p></article>
-  </div>
-</section>
+<section class="section"><div class="section-head"><p class="eyebrow">Важна хронология</p><h2>Одинаковые долги могут выглядеть для банка по-разному</h2><p>Недавний микрозайм, старая закрытая просрочка и несколько активных карт — не одно и то же. На оценку влияет давность, повторяемость нарушений, текущая задолженность и то, что происходило перед ипотечной заявкой.</p></div><div class="grid cards-4"><article class="card"><h3>Микрозаймы</h3><p>Учитываем даты, погашение, повторяемость и наличие действующих обязательств.</p></article><article class="card"><h3>Кредитные карты</h3><p>Важны лимиты, фактический долг, минимальные платежи и просрочки.</p></article><article class="card"><h3>Частые заявки</h3><p>Смотрим, сколько обращений было за короткий период и что изменилось после них.</p></article><article class="card"><h3>Будущий объект</h3><p>Дом или квартира требуют отдельной проверки, чтобы не добавлять риск объекта к слабому профилю заемщика.</p></article></div></section>
 
-<section class="section content-layout">
-  <article class="content-main">
-    <h2>Когда особенно нужен разбор</h2>
-    <p>Если были недавние просрочки, несколько отказов подряд, микрозаймы, высокая нагрузка или открытые кредитные карты, не стоит отправлять заявки во все банки. Лучше сначала определить слабые места.</p>
-    <h2>Что подготовить для консультации</h2>
-    <ul><li>какие кредиты, карты и рассрочки есть сейчас;</li><li>были ли просрочки, когда и закрыты ли они;</li><li>в какие банки уже подавались заявки;</li><li>какой доход можно подтвердить;</li><li>какой объект рассматривается в Поворино или районе;</li><li>есть ли первоначальный взнос, маткапитал или созаемщик.</li></ul>
-    <h2>Что может быть дальше</h2>
-    <p>После разбора можно понять, стоит ли готовить заявку сейчас, нужно ли снизить нагрузку, закрыть лишние карты, изменить сумму кредита, подключить созаемщика или подождать с новой подачей. Решение принимает банк.</p>
-  </article>
-  <aside class="sidebar">
-    <div class="seo-panel"><h3>Первичная консультация</h3><p>Опишите просрочки, кредиты, карты, доход, объект и прошлые отказы. Это поможет выбрать аккуратный порядок действий.</p><a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Консультация</a></div>
-    <div class="seo-panel"><h3>Связанные темы</h3><ul><li><a href="{{ '/polezno/ipoteka-posle-prosrochek/' | relative_url }}">Ипотека после просрочек</a></li><li><a href="{{ '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' | relative_url }}">Проверить кредитную историю</a></li><li><a href="{{ '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' | relative_url }}">Кредитная нагрузка</a></li><li><a href="{{ '/geo/povorino/' | relative_url }}">Ипотека в Поворино</a></li></ul></div>
-  </aside>
-</section>
+<section class="section content-layout"><article class="content-main"><h2>Составьте последовательность событий</h2><p>Для первичного разбора полезнее не общая фраза «история плохая», а конкретная хронология: когда возникла просрочка, когда долг закрыт, какие карты открыты сейчас, были ли микрозаймы и после каких заявок пришли отказы.</p><h2>Что подготовить</h2><ul><li>кредитный отчет или перечень известных обязательств;</li><li>даты просрочек, погашения долгов и закрытия микрозаймов;</li><li>лимиты и задолженность по каждой кредитной карте;</li><li>банки и даты последних ипотечных обращений;</li><li>доход, занятость и обязательные ежемесячные расходы;</li><li>дом или квартиру, стоимость, взнос и условия возможного аванса.</li></ul><h2>Почему не стоит торопиться с объектом</h2><p>Если профиль заемщика пока не готов, аванс за дом или квартиру создаёт дополнительный риск. Сначала лучше понять допустимую сумму и порядок действий. Разбор не гарантирует одобрение; решение принимает банк.</p></article><aside class="sidebar"><div class="seo-panel"><h3>Нужны даты, а не догадки</h3><p>Кратко перечислите просрочки, микрозаймы, карты и последние обращения в банки.</p><a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Начать разбор</a></div><div class="seo-panel"><h3>Связанные страницы</h3><ul><li><a href="{{ '/geo/povorino/' | relative_url }}">Ипотека в Поворино</a></li><li><a href="{{ '/geo/povorino/otkazali-v-ipoteke/' | relative_url }}">После отказа банка</a></li><li><a href="{{ '/polezno/kreditnye-karty-pered-ipotekoy/' | relative_url }}">Кредитные карты перед ипотекой</a></li><li><a href="{{ '/polezno/ipoteka-posle-prosrochek/' | relative_url }}">Ипотека после просрочек</a></li></ul></div></aside></section>
 
-<section class="section muted">
-  <div class="section-head"><p class="eyebrow">Чек-лист</p><h2>Что проверить до банка</h2></div>
-  <div class="checklist">
-    <div><strong>1</strong><span>Кредитную историю и все действующие обязательства.</span></div>
-    <div><strong>2</strong><span>Кредитные карты, лимиты, задолженность и просрочки.</span></div>
-    <div><strong>3</strong><span>Причины прошлых отказов и частоту заявок.</span></div>
-    <div><strong>4</strong><span>Доход, объект, первоначальный взнос и будущий платеж.</span></div>
-  </div>
-</section>
+<section class="section muted"><div class="section-head"><p class="eyebrow">Перед новой заявкой</p><h2>Проверьте последовательность и нагрузку</h2></div><div class="checklist"><div><strong>1</strong><span>Когда возникали и закрывались просрочки и микрозаймы.</span></div><div><strong>2</strong><span>Какие карты и кредитные лимиты действуют сейчас.</span></div><div><strong>3</strong><span>Сколько заявок подано недавно и что изменилось после отказов.</span></div><div><strong>4</strong><span>Какой платеж выдерживает доход без новых долгов.</span></div><div><strong>5</strong><span>Можно ли выбирать объект и передавать аванс на текущем этапе.</span></div></div></section>
 
-<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Клиентам «ЭТАЖИ»</p><h2>Сопровождение включено в комиссию</h2><p>Если покупка проходит через компанию «ЭТАЖИ», работа ипотечного брокера отдельно клиентом не оплачивается.</p></div><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Подробнее</a></div></section>
+<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Два формата работы</p><h2>Частное сопровождение и сделки через «ЭТАЖИ»</h2><p>При частном обращении объём и стоимость согласуются заранее. Если сделка проходит через компанию «ЭТАЖИ», ипотечное сопровождение включено в комиссию компании и отдельно клиентом не оплачивается.</p></div><div class="hero-actions"><a class="btn btn-dark" href="{{ '/stoimost/' | relative_url }}">Частные тарифы</a><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Клиентам «ЭТАЖИ»</a></div></div></section>
 
-<section class="section cta-section"><div><p class="eyebrow">Поворино и район</p><h2>Разберите кредитную историю до новой заявки</h2><p>Позвоните или напишите: какие были просрочки, есть ли кредиты и карты, какой объект рассматриваете и были ли отказы.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
+<section class="section cta-section"><div><p class="eyebrow">Поворино и район</p><h2>Соберите хронологию до новой заявки</h2><p>Сообщите даты просрочек и отказов, действующие карты и кредиты, доход, взнос и какой объект планируете покупать.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Консультация</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
