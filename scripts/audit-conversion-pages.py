@@ -49,6 +49,18 @@ PAGE_REQUIREMENTS = {
         "vk": True,
         "max": True,
     },
+    "/kak-prohodit-rabota/": {
+        "internal": {"/konsultaciya/", "/uslugi/", "/stoimost/", "/etagi/"},
+        "phone": True,
+        "vk": True,
+        "max": True,
+    },
+    "/uslugi/podbor-ipoteki/": {
+        "internal": {"/konsultaciya/", "/kak-prohodit-rabota/", "/stoimost/", "/etagi/"},
+        "phone": True,
+        "vk": True,
+        "max": True,
+    },
 }
 
 TEXT_REQUIREMENTS = {
@@ -68,6 +80,17 @@ TEXT_REQUIREMENTS = {
         "включено в комиссию компании",
         "отдельно клиентом не оплачивается",
     ),
+    "/kak-prohodit-rabota/": (
+        "сопровождение до решения банка",
+        "конкретный объем помощи после решения банка",
+        "включено в комиссию компании",
+    ),
+    "/uslugi/podbor-ipoteki/": (
+        "сопровождение до решения банка",
+        "конкретный объем дальнейшей помощи после решения банка",
+        "включено в комиссию компании",
+        "отдельно клиентом не оплачивается",
+    ),
 }
 
 FORBIDDEN_TEXT = {
@@ -75,6 +98,12 @@ FORBIDDEN_TEXT = {
         '"price":"0"',
         "0 ₽ для клиентов",
         "ипотечное сопровождение бесплатно",
+    ),
+    "/kak-prohodit-rabota/": (
+        "полное сопровождение сделки включено",
+    ),
+    "/uslugi/podbor-ipoteki/": (
+        "ипотечное сопровождение для клиента бесплатно",
     ),
 }
 
