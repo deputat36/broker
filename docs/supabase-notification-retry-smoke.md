@@ -140,6 +140,7 @@ from public.request_broker_lead_notification_retry(
 - `retry_requested = true`;
 - `current_status = pending`;
 - `retry_count = 1`;
+- `reason_code = telegram_temporary_error`;
 - увеличен `notification_manual_retry_count`;
 - установлены время и reason code;
 - создано событие `notification_retry_requested`.
@@ -159,9 +160,9 @@ Payload не должен содержать персональные данны
 
 Вернуть тестовую заявку в `failed` перед проверкой Edge Function.
 
-## Запрещённые состояния
+## Запрещённые новые переходы
 
-Проверить retry для статусов:
+Проверить SQL retry для статусов:
 
 - `sent`;
 - `disabled`;
@@ -169,6 +170,8 @@ Payload не должен содержать персональные данны
 - `sending`.
 
 Ожидается `retry_requested = false`, исходный статус не меняется, новое событие не создаётся.
+
+Это проверяет именно запрет нового перехода. Закрытая Edge Function может продолжить ранее подтверждённый `pending` или зависший `sending` по отдельным правилам ниже.
 
 Проверить неизвестный reason code. Ожидается ошибка `invalid_notification_retry_reason` без изменения записи.
 
@@ -212,6 +215,7 @@ curl -i -X POST "$RETRY_FUNCTION_URL" \
 - HTTP `200`;
 - `success: true`;
 - `notification_status: sent`;
+- `resumed: false`;
 - увеличены retry count и attempt count;
 - одно новое Telegram-сообщение;
 - созданы события `notification_retry_requested` и `notification_retry_sent`;
@@ -231,6 +235,49 @@ select
 from public.broker_leads
 where id = 'LEAD_ID';
 ```
+
+## Восстановление pending
+
+Проверить аварийный сценарий, когда SQL retry уже выполнен, запись имеет `pending`, но Edge Function ещё не получила claim.
+
+1. Подготовить `failed`-заявку.
+2. Вызвать `request_broker_lead_notification_retry` с reason code.
+3. Не вызывать claim вручную.
+4. Вызвать закрытую Edge Function с тем же request ID и тем же reason code.
+
+Ожидается:
+
+- новый SQL-переход не выполняется;
+- `notification_manual_retry_count` не увеличивается второй раз;
+- второе событие `notification_retry_requested` не создаётся;
+- функция получает claim и завершает отправку;
+- ответ содержит `resumed: true`.
+
+## Восстановление зависшего sending
+
+Проверить запись с:
+
+- `notification_status = sending`;
+- `notification_manual_retry_count > 0`;
+- допустимым сохранённым reason code;
+- `notification_attempted_at` старше 15 минут.
+
+Вызвать закрытую функцию с тем же reason code.
+
+Ожидается:
+
+- атомарный claim разрешает восстановление зависшего `sending`;
+- ручной retry count не увеличивается;
+- отправка завершается;
+- ответ содержит `resumed: true`.
+
+Для активного `sending` моложе 15 минут ожидается HTTP `409` и `notification_not_claimed`.
+
+## Несовпадение причины
+
+Для ранее подтверждённого `pending` или `sending` передать другой reason code.
+
+Ожидается HTTP `409`, `retry_reason_mismatch`, состояние и счётчики не меняются, Telegram-сообщение не отправляется.
 
 ## Ошибка повторной доставки
 
@@ -266,7 +313,8 @@ where id = 'LEAD_ID';
 - `reason_code`;
 - `retry_count`;
 - `attempt_count`;
-- `error_code`.
+- `error_code`;
+- логический признак `resumed`.
 
 Проверить отсутствие полного payload, имени, телефона, города, URL и текста уведомления.
 
@@ -290,6 +338,9 @@ where id = 'LEAD_ID';
 - использованный reason code;
 - итоговые статусы и счётчики без идентификаторов клиента;
 - наличие одного Telegram-сообщения;
+- результат восстановления `pending`;
+- результат восстановления зависшего `sending`;
+- результат `retry_reason_mismatch`;
 - результат повторного вызова после `sent`;
 - результат ошибки доставки;
 - ответственного за ручной retry и процедуру отката.
