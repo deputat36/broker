@@ -48,6 +48,11 @@ robots: index, follow
     <p>Срок хранения рекламной атрибуции в браузере ограничен 90 днями с момента последнего посещения. Запись получает техническое поле <code>expires_at</code> и удаляется при следующем открытии сайта после истечения срока. Пользователь также может удалить её раньше через очистку данных сайта в настройках браузера.</p>
     <p>После успешной отправки в браузере сохраняется только безопасная сводка для страницы благодарности: технический номер, сценарий, город, статус квалификации и время отправки. Номер телефона и полный текст заявки в этой сводке не хранятся. Сводка автоматически перестаёт использоваться через 24 часа и удаляется при следующем открытии страницы благодарности.</p>
 
+    <h2>Удаление данных из этого браузера</h2>
+    <p>Кнопка ниже удаляет рекламную атрибуцию и безопасную сводку последней заявки только из текущего браузера. Она не отзывает уже отправленное email-сообщение и не удаляет сведения из переписки или будущей CRM.</p>
+    <button class="btn btn-light" type="button" data-clear-browser-data>Удалить локальные данные сайта</button>
+    <p class="application-status" id="clear-browser-data-status" aria-live="polite"></p>
+
     <h2>Что нельзя указывать в первичной форме</h2>
     <p>Не следует передавать паспортные данные, СНИЛС, реквизиты банковских карт и счетов, пароли, коды из SMS, полные кредитные отчёты, фотографии документов и другие чувствительные сведения. Необходимость и безопасный порядок передачи документов согласуются отдельно после установления контакта.</p>
 
@@ -71,3 +76,31 @@ robots: index, follow
     <div class="seo-panel"><h3>Перед отправкой</h3><ul><li>проверьте номер телефона;</li><li>не указывайте коды подтверждения;</li><li>не прикладывайте документы;</li><li>используйте только общие вводные.</li></ul><p><a href="{{ '/online-zayavka/' | relative_url }}">Перейти к заявке →</a></p></div>
   </aside>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var button = document.querySelector('[data-clear-browser-data]');
+    var status = document.getElementById('clear-browser-data-status');
+    if (!button) return;
+
+    button.addEventListener('click', function () {
+      try {
+        window.localStorage.removeItem('sterlikovaMortgageTracking');
+        window.localStorage.removeItem('sterlikovaMortgageLastLead');
+        if (status) {
+          status.textContent = 'Локальная атрибуция и сводка последней заявки удалены из этого браузера.';
+          status.classList.remove('is-error');
+          status.classList.add('is-success');
+        }
+        button.disabled = true;
+        button.textContent = 'Локальные данные удалены';
+      } catch (error) {
+        if (status) {
+          status.textContent = 'Не удалось удалить данные автоматически. Очистите данные сайта в настройках браузера.';
+          status.classList.remove('is-success');
+          status.classList.add('is-error');
+        }
+      }
+    });
+  });
+</script>
