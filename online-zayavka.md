@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Онлайн-заявка ипотечному брокеру | Татьяна Стерликова
-description: Заполните и отправьте онлайн-заявку на консультацию и ипотечное сопровождение из любого города. Обращение поступит на email Татьяне Стерликовой.
+description: Заполните и отправьте онлайн-заявку на консультацию и ипотечное сопровождение из любого города. Обращение передаётся через настроенный email-канал формы.
 permalink: /online-zayavka/
 breadcrumb: Онлайн-заявка
 og_type: website
@@ -11,13 +11,13 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
 <section class="page-hero section">
   <p class="eyebrow">Дистанционно из любого города</p>
   <h1>Онлайн-заявка ипотечному брокеру</h1>
-  <p class="lead">Заполните короткую анкету, проверьте сформированный текст и отправьте заявку онлайн. Обращение поступит на email, а при технической ошибке останутся SMS, ВКонтакте, MAX и копирование текста.</p>
+  <p class="lead">Заполните короткую анкету, проверьте сформированный текст и отправьте заявку онлайн. Обращение передаётся через настроенный email-канал, а при технической ошибке останутся SMS, ВКонтакте, MAX и копирование текста.</p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="#application-form">Заполнить заявку</a>
     <a class="btn btn-light" href="tel:+79030250807">Позвонить</a>
     <a class="btn btn-light" href="{{ '/konsultaciya/' | relative_url }}">Как проходит консультация</a>
   </div>
-  <ul class="trust-list"><li>Можно обратиться из любого города</li><li>Заявка поступает на email</li><li>Решение принимает банк</li></ul>
+  <ul class="trust-list"><li>Можно обратиться из любого города</li><li>Заявка передаётся через email-канал</li><li>Решение принимает банк</li></ul>
 </section>
 
 <section class="section application-layout" id="application-form">
@@ -32,7 +32,10 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
       class="application-card"
       data-online-application
       data-lead-mode="{{ site.lead_capture.mode | default: 'disabled' | escape }}"
+      data-web3forms-access-key="{{ site.lead_capture.web3forms_access_key | default: '' | escape }}"
+      data-web3forms-endpoint="{{ site.lead_capture.web3forms_endpoint | default: 'https://api.web3forms.com/submit' | escape }}"
       data-lead-endpoint="{{ site.lead_capture.endpoint | default: '' | escape }}"
+      data-thank-you-path="{{ site.lead_capture.thank_you_path | default: '/spasibo/' | escape }}"
       data-lead-timeout-ms="{{ site.lead_capture.timeout_ms | default: 8000 }}"
       data-lead-min-fill-ms="{{ site.lead_capture.min_fill_ms | default: 3000 }}"
       novalidate
@@ -135,7 +138,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
         <span>Я согласен на обработку и передачу указанных сведений для рассмотрения заявки и обратной связи, ознакомился с <a href="{{ '/policy/' | relative_url }}">политикой обработки данных</a> и <a href="{{ '/personal-data-consent/' | relative_url }}">текстом согласия</a>.</span>
       </label>
 
-      <p class="application-privacy">После проверки и нажатия «Отправить заявку онлайн» сведения передаются через сервис Web3Forms на email получателя. Не указывайте паспортные данные, СНИЛС, реквизиты карт, коды подтверждения и не прикладывайте документы.</p>
+      <p class="application-privacy">После проверки и нажатия «Отправить заявку онлайн» сведения передаются через сервис Web3Forms в настроенный email-канал. Не указывайте паспортные данные, СНИЛС, реквизиты карт, коды подтверждения и не прикладывайте документы.</p>
       <button class="btn btn-primary" type="submit">Проверить и подготовить заявку</button>
       <p class="application-status" data-application-status aria-live="polite"></p>
     </form>
@@ -165,7 +168,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
     <div class="seo-panel">
       <h3>Что произойдёт после обращения</h3>
       <ol>
-        <li>Заявка поступит на email с номером и источником обращения.</li>
+        <li>Заявка поступит в настроенный email-канал с номером и источником обращения.</li>
         <li>Татьяна изучит основные вводные.</li>
         <li>Уточнит недостающие сведения.</li>
         <li>Предложит следующий шаг и формат работы.</li>
