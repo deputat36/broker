@@ -36,7 +36,8 @@ create or replace function public.request_broker_lead_notification_retry(
 returns table (
   retry_requested boolean,
   current_status text,
-  retry_count integer
+  retry_count integer,
+  reason_code text
 )
 language plpgsql
 security definer
@@ -47,6 +48,7 @@ declare
   v_retry_count integer;
   v_attempt_count integer;
   v_status text;
+  v_stored_reason_code text;
 begin
   if v_reason_code not in (
     'telegram_config_fixed',
@@ -69,8 +71,9 @@ begin
   returning
     leads.notification_manual_retry_count,
     leads.notification_attempt_count,
-    leads.notification_status
-  into v_retry_count, v_attempt_count, v_status;
+    leads.notification_status,
+    leads.notification_manual_retry_reason_code
+  into v_retry_count, v_attempt_count, v_status, v_stored_reason_code;
 
   if found then
     insert into public.broker_lead_events (
@@ -87,25 +90,30 @@ begin
       'Запрошен ручной повтор уведомления',
       'Уведомление переведено из failed в pending',
       jsonb_build_object(
-        'reason_code', v_reason_code,
+        'reason_code', v_stored_reason_code,
         'manual_retry_count', v_retry_count,
         'previous_attempt_count', coalesce(v_attempt_count, 0)
       )
     );
 
-    return query select true, v_status, v_retry_count;
+    return query select true, v_status, v_retry_count, v_stored_reason_code;
     return;
   end if;
 
   select
     leads.notification_status,
-    leads.notification_manual_retry_count
-  into v_status, v_retry_count
+    leads.notification_manual_retry_count,
+    leads.notification_manual_retry_reason_code
+  into v_status, v_retry_count, v_stored_reason_code
   from public.broker_leads as leads
   where leads.id = p_lead_id
     and leads.request_id = p_request_id;
 
-  return query select false, coalesce(v_status, 'missing'), coalesce(v_retry_count, 0);
+  return query select
+    false,
+    coalesce(v_status, 'missing'),
+    coalesce(v_retry_count, 0),
+    coalesce(v_stored_reason_code, '');
 end;
 $$;
 
@@ -164,6 +172,6 @@ comment on column public.broker_leads.notification_manual_retry_requested_at is
 comment on column public.broker_leads.notification_manual_retry_reason_code is
   'Технический код причины ручного retry из фиксированного белого списка';
 comment on function public.request_broker_lead_notification_retry(uuid, text, text) is
-  'Переводит только failed-уведомление в pending и пишет обезличенное операционное событие';
+  'Переводит только failed-уведомление в pending, возвращает сохранённый reason code и пишет обезличенное событие';
 comment on function public.broker_lead_notification_queue_health() is
   'Возвращает агрегированное состояние очереди уведомлений без персональных данных';
