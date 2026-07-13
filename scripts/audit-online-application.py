@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет онлайн-заявку, атрибуцию источника и дистанционный маршрут из любого города."""
+"""Проверяет онлайн-заявку, атрибуцию, резервные каналы и безопасную готовность endpoint."""
 
 from __future__ import annotations
 
@@ -15,6 +15,7 @@ BASE_URL = "https://sterlikova-ipoteka.ru"
 APPLICATION_URL = "/online-zayavka/"
 PHONE_LINK = "tel:+79030250807"
 VK_PROFILE = "https://vk.com/tatyanasterlikova"
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 KEY_PAGE_REQUIREMENTS = {
     "/": ("любого города",),
@@ -24,6 +25,10 @@ KEY_PAGE_REQUIREMENTS = {
 
 REQUIRED_FIELDS = {
     "source_page",
+    "request_id",
+    "form_started_at",
+    "form_version",
+    "website",
     "client_name",
     "phone",
     "city",
@@ -40,9 +45,15 @@ REQUIRED_FIELDS = {
 
 REQUIRED_FORM_MARKERS = {
     "data-online-application",
+    "data-lead-mode",
+    "data-lead-endpoint",
+    "data-lead-timeout-ms",
+    "data-lead-min-fill-ms",
     "data-application-status",
     "data-application-result",
     "data-application-output",
+    "data-application-direct-send",
+    "data-application-delivery-note",
     "data-application-share",
     "data-application-sms",
     "data-application-copy",
@@ -75,6 +86,7 @@ class PageParser(HTMLParser):
         self.form_count = 0
         self.form_actions: list[str] = []
         self.form_methods: list[str] = []
+        self.form_data: dict[str, str] = {}
         self.markers: set[str] = set()
         self.text_parts: list[str] = []
         self.ld_json_blocks: list[str] = []
@@ -111,9 +123,7 @@ class PageParser(HTMLParser):
             href = attrs_map.get("href")
             if href:
                 parsed = urlparse(href)
-                if parsed.scheme in {"http", "https"}:
-                    self.links.add(href)
-                elif parsed.scheme:
+                if parsed.scheme:
                     self.links.add(href)
                 else:
                     path = parsed.path or "/"
@@ -124,6 +134,9 @@ class PageParser(HTMLParser):
             self.form_count += 1
             self.form_actions.append(attrs_map.get("action") or "")
             self.form_methods.append((attrs_map.get("method") or "").lower())
+            for key, value in attrs_map.items():
+                if key.startswith("data-lead-"):
+                    self.form_data[key] = value or ""
         elif tag in {"input", "select", "textarea"}:
             name = attrs_map.get("name")
             if name:
@@ -241,6 +254,57 @@ def validate_schema(parser: PageParser, html_file: Path) -> int:
     return errors
 
 
+def parse_int(value: str, minimum: int, maximum: int) -> int | None:
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        return None
+    return parsed if minimum <= parsed <= maximum else None
+
+
+def validate_disabled_transport(application: PageParser, html_file: Path) -> int:
+    errors = 0
+    mode = application.form_data.get("data-lead-mode", "")
+    endpoint = application.form_data.get("data-lead-endpoint", "").strip()
+    if mode != "disabled":
+        annotation("Прямой endpoint нельзя активировать без подтверждённого получателя и обновления аудита", html_file)
+        errors += 1
+    if endpoint:
+        annotation("Endpoint должен оставаться пустым, пока прямой приём заявок не введён в эксплуатацию", html_file)
+        errors += 1
+
+    if parse_int(application.form_data.get("data-lead-timeout-ms", ""), 2000, 20000) is None:
+        annotation("Некорректный таймаут прямой отправки", html_file)
+        errors += 1
+    if parse_int(application.form_data.get("data-lead-min-fill-ms", ""), 1000, 30000) is None:
+        annotation("Некорректное минимальное время заполнения", html_file)
+        errors += 1
+    return errors
+
+
+def validate_endpoint_documentation() -> int:
+    doc_file = REPO_ROOT / "docs/lead-endpoint-contract.md"
+    if not doc_file.is_file():
+        annotation("Не найден контракт серверного приёма заявок", doc_file)
+        return 1
+    text = doc_file.read_text(encoding="utf-8", errors="ignore").casefold()
+    required = (
+        "request_id",
+        "идемпотент",
+        "cors",
+        "rate limit",
+        "service_role",
+        "политика обработки данных",
+        "endpoint должен оставаться пустым",
+    )
+    errors = 0
+    for marker in required:
+        if marker not in text:
+            annotation(f"В контракте endpoint отсутствует раздел или маркер: {marker}", doc_file)
+            errors += 1
+    return errors
+
+
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     if not site_dir.is_dir():
@@ -284,6 +348,7 @@ def main() -> int:
         "из любого города",
         "форма не отправляет данные на сервер автоматически",
         "решение принимает банк",
+        "прямая серверная отправка пока не подключена",
     )
     for required_text in required_texts:
         normalized = required_text.casefold().replace("ё", "е")
@@ -295,10 +360,10 @@ def main() -> int:
         annotation(f"Ожидалась одна форма онлайн-заявки, найдено: {application.form_count}", application_file)
         errors += 1
     if any(action.strip() for action in application.form_actions):
-        annotation("Статическая форма не должна иметь неподтвержденный серверный action", application_file)
+        annotation("Форма не должна иметь неподтверждённый серверный action", application_file)
         errors += 1
     if any(method.strip() for method in application.form_methods):
-        annotation("Статическая форма не должна заявлять серверный method", application_file)
+        annotation("Форма не должна заявлять серверный method", application_file)
         errors += 1
 
     missing_fields = REQUIRED_FIELDS - application.fields
@@ -319,6 +384,8 @@ def main() -> int:
         annotation(f"На онлайн-заявке отсутствуют ссылки: {', '.join(sorted(missing_links))}", application_file)
         errors += 1
 
+    errors += validate_disabled_transport(application, application_file)
+
     expected_style = "/assets/css/online-application.css"
     expected_script = "/assets/js/online-application.js"
     if expected_style not in application.styles:
@@ -334,6 +401,14 @@ def main() -> int:
             annotation(f"Не найден собранный ресурс онлайн-заявки: {asset_path}", asset_file)
             errors += 1
 
+    style_file = site_dir / expected_style.lstrip("/")
+    if style_file.is_file():
+        style_text = style_file.read_text(encoding="utf-8", errors="ignore")
+        for marker in (".application-honeypot", "aria-busy", ".application-delivery-note.is-error"):
+            if marker not in style_text:
+                annotation(f"В стилях формы отсутствует маркер: {marker}", style_file)
+                errors += 1
+
     script_file = site_dir / expected_script.lstrip("/")
     if script_file.is_file():
         script_text = script_file.read_text(encoding="utf-8", errors="ignore")
@@ -341,9 +416,22 @@ def main() -> int:
             "SCENARIO_BY_SLUG",
             "CITY_BY_PREFIX",
             "source_page",
+            "request_id",
+            "form_started_at",
+            "website",
+            "normalizeEndpoint",
+            "directDeliveryEnabled",
+            "AbortController",
+            "credentials: 'omit'",
+            "JSON.stringify(preparedPayload)",
             "Источник обращения",
             "online_application_prefill",
             "online_application_prepare",
+            "online_application_direct_attempt",
+            "online_application_direct_success",
+            "online_application_direct_error",
+            "online_application_direct_timeout",
+            "online_application_spam_block",
             "online_application_copy",
             "online_application_share",
             "online_application_sms",
@@ -362,6 +450,7 @@ def main() -> int:
                 errors += 1
 
     errors += validate_schema(application, application_file)
+    errors += validate_endpoint_documentation()
 
     for page_url, required_texts_for_page in KEY_PAGE_REQUIREMENTS.items():
         loaded_page = load_page(site_dir, page_url)
@@ -370,7 +459,7 @@ def main() -> int:
             continue
         html_file, parser = loaded_page
         if APPLICATION_URL not in parser.links:
-            annotation(f"Ключевая страница не ведет на онлайн-заявку: {page_url}", html_file)
+            annotation(f"Ключевая страница не ведёт на онлайн-заявку: {page_url}", html_file)
             errors += 1
         for required_text in required_texts_for_page:
             normalized = required_text.casefold().replace("ё", "е")
@@ -391,19 +480,19 @@ def main() -> int:
             continue
         html_file, parser = loaded_page
         if parser.contextual_application_links < 1:
-            annotation(f"Страница не передает source в онлайн-заявку: {page_url}", html_file)
+            annotation(f"Страница не передаёт source в онлайн-заявку: {page_url}", html_file)
             errors += 1
         if "подайте онлайн-заявку из любого города" not in parser.text:
             annotation(f"На странице отсутствует контекстный CTA онлайн-заявки: {page_url}", html_file)
             errors += 1
 
     if errors:
-        print(f"Аудит онлайн-заявки завершен с ошибками: {errors}")
+        print(f"Аудит онлайн-заявки завершён с ошибками: {errors}")
         return 1
 
     print(
-        "Аудит онлайн-заявки успешно завершен: "
-        f"форма, атрибуция, способы отправки и контекстные входы подтверждены; страниц {len(contextual_urls)}"
+        "Аудит онлайн-заявки успешно завершён: "
+        f"форма, disabled endpoint, антиспам, fallback и контекстные входы подтверждены; страниц {len(contextual_urls)}"
     )
     return 0
 
