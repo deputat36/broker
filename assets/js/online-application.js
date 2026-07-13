@@ -11,16 +11,12 @@
   const vkLink = document.querySelector('[data-application-vk]');
   const directSendButton = document.querySelector('[data-application-direct-send]');
   const deliveryNote = document.querySelector('[data-application-delivery-note]');
-
-  const WEB3FORMS_ACCESS_KEY = ['c6b147c0', '0ce0', '43cb', 'a41d', '2d112b6f1364'].join('-');
-  const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
-  const THANK_YOU_PATH = '/spasibo/';
   const LAST_LEAD_STORAGE_KEY = 'sterlikovaMortgageLastLead';
 
   let preparedText = '';
   let preparedPayload = null;
   let startGoalSent = false;
-  let directSent = false;
+  let deliveryCompleted = false;
 
   const SCENARIO_BY_SLUG = {
     'podbor-ipoteki': 'Первичная консультация и подбор ипотеки',
@@ -65,11 +61,10 @@
 
   function boundedNumber(value, fallback, min, max) {
     const parsed = Number(value);
-    if (!Number.isFinite(parsed)) return fallback;
-    return Math.min(max, Math.max(min, parsed));
+    return Number.isFinite(parsed) ? Math.min(max, Math.max(min, parsed)) : fallback;
   }
 
-  function normalizeEndpoint(value) {
+  function normalizeHttpsUrl(value) {
     const raw = String(value || '').trim();
     if (!raw) return '';
     try {
@@ -80,13 +75,36 @@
     }
   }
 
+  function normalizeInternalPath(value, fallback) {
+    const raw = String(value || '').trim();
+    if (!raw) return fallback;
+    try {
+      const url = new URL(raw, window.location.origin);
+      if (url.origin !== window.location.origin) return fallback;
+      const path = url.pathname.replace(/\/index\.html$/, '/');
+      return path.startsWith('/') ? path : fallback;
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function validWeb3FormsKey(value) {
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(value || '').trim());
+  }
+
   const leadConfig = {
     mode: String(form.dataset.leadMode || 'disabled').trim().toLowerCase(),
-    endpoint: normalizeEndpoint(form.dataset.leadEndpoint),
+    web3formsAccessKey: String(form.dataset.web3formsAccessKey || '').trim(),
+    web3formsEndpoint: normalizeHttpsUrl(form.dataset.web3formsEndpoint),
+    endpoint: normalizeHttpsUrl(form.dataset.leadEndpoint),
+    thankYouPath: normalizeInternalPath(form.dataset.thankYouPath, '/spasibo/'),
     timeoutMs: boundedNumber(form.dataset.leadTimeoutMs, 8000, 2000, 20000),
     minFillMs: boundedNumber(form.dataset.leadMinFillMs, 3000, 1000, 30000)
   };
-  const web3FormsEnabled = ['web3forms', 'hybrid'].includes(leadConfig.mode) && Boolean(WEB3FORMS_ACCESS_KEY);
+
+  const web3FormsEnabled = ['web3forms', 'hybrid'].includes(leadConfig.mode)
+    && validWeb3FormsKey(leadConfig.web3formsAccessKey)
+    && Boolean(leadConfig.web3formsEndpoint);
   const customEndpointEnabled = ['direct', 'hybrid'].includes(leadConfig.mode) && Boolean(leadConfig.endpoint);
   const directDeliveryEnabled = web3FormsEnabled || customEndpointEnabled;
 
@@ -105,10 +123,8 @@
   function resolveSourcePath(params) {
     const parameterSource = normalizeSourcePath(params.get('source'));
     if (parameterSource && parameterSource !== '/online-zayavka/') return parameterSource;
-
     const referrerSource = normalizeSourcePath(document.referrer);
-    if (referrerSource && referrerSource !== '/online-zayavka/') return referrerSource;
-    return '';
+    return referrerSource && referrerSource !== '/online-zayavka/' ? referrerSource : '';
   }
 
   function sourceSlug(sourcePath) {
@@ -127,9 +143,10 @@
 
   function setInputValue(fieldName, value) {
     const field = form.elements.namedItem(fieldName);
-    if (!field || !value) return false;
+    if (!field || value === undefined || value === null) return false;
+    const text = String(value);
     const maxLength = Number(field.maxLength);
-    field.value = String(value).slice(0, maxLength > 0 ? maxLength : String(value).length);
+    field.value = text.slice(0, maxLength > 0 ? maxLength : text.length);
     return true;
   }
 
@@ -157,9 +174,7 @@
   }
 
   function createRequestId() {
-    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-      return window.crypto.randomUUID();
-    }
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const randomPart = Math.random().toString(36).slice(2, 10).toUpperCase();
     return `IP-${date}-${randomPart}`;
@@ -168,7 +183,7 @@
   function resetAttemptMetadata() {
     setInputValue('request_id', createRequestId());
     setInputValue('form_started_at', String(Date.now()));
-    directSent = false;
+    deliveryCompleted = false;
     if (directSendButton) {
       directSendButton.disabled = false;
       directSendButton.removeAttribute('aria-busy');
@@ -190,74 +205,18 @@
     const reasons = [];
     const mortgage = payload.mortgage || {};
     const client = payload.client || {};
-
-    if (normalizePhone(client.phone).replace(/\D/g, '').length >= 10) {
-      score += 15;
-      reasons.push('оставлен корректный телефон');
-    }
-    if (client.city) {
-      score += 5;
-      reasons.push('указан город');
-    }
-    if (mortgage.scenario) {
-      score += 10;
-      reasons.push('понятна задача');
-    }
-    if (mortgage.object_type && mortgage.object_type !== 'Пока не выбрано') {
-      score += 10;
-      reasons.push('определён тип объекта');
-    }
-    if (mortgage.object_price && mortgage.object_price !== 'Не указано') {
-      score += 12;
-      reasons.push('указана стоимость объекта');
-    }
-    if (mortgage.down_payment && mortgage.down_payment !== 'Не указано') {
-      score += 12;
-      reasons.push('указан первоначальный взнос');
-    }
-    if (mortgage.bank_history && mortgage.bank_history !== 'Не указано') {
-      score += 8;
-      reasons.push('описана история обращений в банки');
-    }
-    if (mortgage.comment && mortgage.comment !== 'Не указано') {
-      score += 5;
-      reasons.push('добавлены подробности');
-    }
-    if (/отказ|кредитн/i.test(mortgage.scenario || '')) {
-      score += 8;
-      reasons.push('требуется разбор сложной ситуации');
-    }
-
-    const status = score >= 60 ? 'hot' : score >= 35 ? 'warm' : 'cold';
-    const priority = status === 'hot' ? 'срочно обработать' : status === 'warm' ? 'обработать в рабочий день' : 'уточнить вводные';
-    return { score, status, priority, reasons };
-  }
-
-  function buildApplicationText(payload) {
-    const qualification = payload.qualification || {};
-    return [
-      'ОНЛАЙН-ЗАЯВКА С САЙТА sterlikova-ipoteka.ru',
-      `Номер заявки: ${payload.request_id}`,
-      `Источник обращения: ${payload.source_page}`,
-      '',
-      `Имя: ${payload.client.name}`,
-      `Телефон: ${payload.client.phone}`,
-      `Город / населённый пункт: ${payload.client.city}`,
-      `Удобный способ связи: ${payload.client.preferred_contact}`,
-      '',
-      `Какая помощь нужна: ${payload.mortgage.scenario}`,
-      `Объект: ${payload.mortgage.object_type}`,
-      `Примерная стоимость: ${payload.mortgage.object_price}`,
-      `Первоначальный взнос: ${payload.mortgage.down_payment}`,
-      `Подтверждение дохода: ${payload.mortgage.income_type}`,
-      '',
-      `Заявки, одобрения или отказы банков: ${payload.mortgage.bank_history}`,
-      `Комментарий: ${payload.mortgage.comment}`,
-      `Квалификация: ${qualification.status}, ${qualification.score} баллов, ${qualification.priority}`,
-      `Причины квалификации: ${(qualification.reasons || []).join(', ')}`,
-      '',
-      'Прошу связаться со мной для первичного разбора ситуации. Понимаю, что окончательное решение по ипотеке принимает банк.'
-    ].join('\n');
+    if (normalizePhone(client.phone).replace(/\D/g, '').length >= 10) { score += 15; reasons.push('оставлен корректный телефон'); }
+    if (client.city) { score += 5; reasons.push('указан город'); }
+    if (mortgage.scenario) { score += 10; reasons.push('понятна задача'); }
+    if (mortgage.object_type && mortgage.object_type !== 'Пока не выбрано') { score += 10; reasons.push('определён тип объекта'); }
+    if (mortgage.object_price && mortgage.object_price !== 'Не указано') { score += 12; reasons.push('указана стоимость объекта'); }
+    if (mortgage.down_payment && mortgage.down_payment !== 'Не указано') { score += 12; reasons.push('указан первоначальный взнос'); }
+    if (mortgage.bank_history && mortgage.bank_history !== 'Не указано') { score += 8; reasons.push('описана история обращений в банки'); }
+    if (mortgage.comment && mortgage.comment !== 'Не указано') { score += 5; reasons.push('добавлены подробности'); }
+    if (/отказ|кредитн/i.test(mortgage.scenario || '')) { score += 8; reasons.push('требуется разбор сложной ситуации'); }
+    const statusValue = score >= 60 ? 'hot' : score >= 35 ? 'warm' : 'cold';
+    const priority = statusValue === 'hot' ? 'срочно обработать' : statusValue === 'warm' ? 'обработать в рабочий день' : 'уточнить вводные';
+    return { score, status: statusValue, priority, reasons };
   }
 
   function buildLeadPayload() {
@@ -301,6 +260,33 @@
     return payload;
   }
 
+  function buildApplicationText(payload) {
+    const qualification = payload.qualification || {};
+    return [
+      'ОНЛАЙН-ЗАЯВКА С САЙТА sterlikova-ipoteka.ru',
+      `Номер заявки: ${payload.request_id}`,
+      `Источник обращения: ${payload.source_page}`,
+      '',
+      `Имя: ${payload.client.name}`,
+      `Телефон: ${payload.client.phone}`,
+      `Город / населённый пункт: ${payload.client.city}`,
+      `Удобный способ связи: ${payload.client.preferred_contact}`,
+      '',
+      `Какая помощь нужна: ${payload.mortgage.scenario}`,
+      `Объект: ${payload.mortgage.object_type}`,
+      `Примерная стоимость: ${payload.mortgage.object_price}`,
+      `Первоначальный взнос: ${payload.mortgage.down_payment}`,
+      `Подтверждение дохода: ${payload.mortgage.income_type}`,
+      '',
+      `Заявки, одобрения или отказы банков: ${payload.mortgage.bank_history}`,
+      `Комментарий: ${payload.mortgage.comment}`,
+      `Квалификация: ${qualification.status}, ${qualification.score} баллов, ${qualification.priority}`,
+      `Причины квалификации: ${(qualification.reasons || []).join(', ')}`,
+      '',
+      'Прошу связаться со мной для первичного разбора ситуации. Понимаю, что окончательное решение по ипотеке принимает банк.'
+    ].join('\n');
+  }
+
   function getSpamReason() {
     if (rawFieldValue('website')) return 'honeypot';
     const startedAt = Number(rawFieldValue('form_started_at'));
@@ -321,7 +307,6 @@
       await navigator.clipboard.writeText(text);
       return;
     }
-
     if (!output) throw new Error('Поле с текстом заявки не найдено');
     output.focus();
     output.select();
@@ -335,43 +320,33 @@
     const sourcePath = resolveSourcePath(params);
     const sourceField = form.elements.namedItem('source_page');
     if (sourceField) sourceField.value = sourcePath || 'Прямой переход на форму';
-
     const explicitCity = params.get('city');
-    if (explicitCity) {
-      setInputValue('city', explicitCity);
-    } else if (sourcePath) {
+    if (explicitCity) setInputValue('city', explicitCity);
+    else if (sourcePath) {
       const matchingPrefix = Object.keys(CITY_BY_PREFIX).find((prefix) => sourcePath.startsWith(prefix));
       if (matchingPrefix) setInputValue('city', CITY_BY_PREFIX[matchingPrefix]);
     }
-
     const explicitContact = params.get('contact');
     if (explicitContact) setSelectValue('preferred_contact', explicitContact);
-
     const explicitScenario = params.get('scenario');
     const slug = sourceSlug(sourcePath);
     if (!setSelectValue('scenario', explicitScenario) && slug) setSelectValue('scenario', SCENARIO_BY_SLUG[slug]);
-
     const explicitObject = params.get('object');
     if (!setSelectValue('object_type', explicitObject) && slug) setSelectValue('object_type', OBJECT_BY_SLUG[slug]);
-
     if (sourcePath) track('online_application_prefill');
   }
 
   async function parseJsonResponse(response) {
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.includes('application/json')) return {};
-    try {
-      return await response.json();
-    } catch (error) {
-      return {};
-    }
+    try { return await response.json(); } catch (error) { return {}; }
   }
 
   async function sendWeb3FormsLead(payload, signal) {
     const tracking = payload.tracking || {};
     const current = tracking.current || {};
     const emailPayload = {
-      access_key: WEB3FORMS_ACCESS_KEY,
+      access_key: leadConfig.web3formsAccessKey,
       subject: `Новая заявка ипотечному брокеру — ${payload.mortgage.scenario}`,
       from_name: 'Сайт ипотечного брокера Татьяны Стерликовой',
       name: payload.client.name,
@@ -407,8 +382,7 @@
       fields_json: JSON.stringify(payload, null, 2),
       message: preparedText
     };
-
-    const response = await fetch(WEB3FORMS_URL, {
+    const response = await fetch(leadConfig.web3formsEndpoint, {
       method: 'POST',
       mode: 'cors',
       credentials: 'omit',
@@ -444,7 +418,6 @@
     if (web3FormsEnabled) tasks.push(sendWeb3FormsLead(payload, signal));
     if (customEndpointEnabled) tasks.push(sendCustomLead(payload, signal));
     if (!tasks.length) throw new Error('Нет активного канала приёма заявок');
-
     const results = await Promise.allSettled(tasks);
     const successful = results.filter((item) => item.status === 'fulfilled').map((item) => item.value);
     if (!successful.length) {
@@ -465,15 +438,11 @@
       submitted_at: payload.submitted_at,
       channels: channels.map((item) => item.channel)
     };
-    try {
-      window.localStorage.setItem(LAST_LEAD_STORAGE_KEY, JSON.stringify(safeLead));
-    } catch (error) {
-      // Страница благодарности сможет использовать параметры URL.
-    }
+    try { window.localStorage.setItem(LAST_LEAD_STORAGE_KEY, JSON.stringify(safeLead)); } catch (error) { /* URL содержит резервную сводку. */ }
   }
 
   function buildThankYouUrl(payload) {
-    const url = new URL(THANK_YOU_PATH, window.location.origin);
+    const url = new URL(leadConfig.thankYouPath, window.location.origin);
     url.searchParams.set('id', payload.request_id);
     url.searchParams.set('status', payload.qualification.status);
     url.searchParams.set('scenario', payload.mortgage.scenario);
@@ -481,26 +450,23 @@
   }
 
   async function sendDirectly() {
-    if (!preparedPayload || !preparedText || !directDeliveryEnabled || directSent) return;
-
+    if (!preparedPayload || !preparedText || !directDeliveryEnabled || deliveryCompleted) return;
     const spamReason = getSpamReason();
     if (spamReason) {
       setDeliveryNote('Не удалось подтвердить корректность формы. Используйте SMS, MAX, ВКонтакте или копирование текста.', 'error');
       track('online_application_spam_block');
       return;
     }
-
     const controller = new AbortController();
     const timeoutId = window.setTimeout(() => controller.abort(), leadConfig.timeoutMs);
     directSendButton.disabled = true;
     directSendButton.setAttribute('aria-busy', 'true');
     directSendButton.textContent = 'Отправляем…';
     setDeliveryNote('Передаём заявку. Не закрывайте страницу до подтверждения.');
-
     try {
       track('online_application_direct_attempt');
       const channels = await sendLead(preparedPayload, controller.signal);
-      directSent = true;
+      deliveryCompleted = true;
       saveLastLead(preparedPayload, channels);
       setDeliveryNote('Заявка отправлена. Переходим на страницу подтверждения.', 'success');
       directSendButton.textContent = 'Заявка отправлена';
@@ -521,7 +487,7 @@
       track(timedOut ? 'online_application_direct_timeout' : 'online_application_direct_error');
     } finally {
       window.clearTimeout(timeoutId);
-      if (directSent) {
+      if (deliveryCompleted) {
         directSendButton.disabled = true;
         directSendButton.removeAttribute('aria-busy');
       }
@@ -540,11 +506,7 @@
   if (directDeliveryEnabled) track('online_application_endpoint_ready');
 
   form.addEventListener('input', () => {
-    if (!startGoalSent) {
-      startGoalSent = true;
-      track('online_application_start');
-    }
-
+    if (!startGoalSent) { startGoalSent = true; track('online_application_start'); }
     if (result && !result.hidden) {
       result.hidden = true;
       preparedText = '';
@@ -557,20 +519,17 @@
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     setFieldValidity();
-
     if (!form.checkValidity()) {
       form.reportValidity();
       setStatus('Заполните обязательные поля и подтвердите согласие.', 'error');
       track('online_application_validation_error');
       return;
     }
-
     preparedPayload = buildLeadPayload();
     preparedText = buildApplicationText(preparedPayload);
     if (output) output.value = preparedText;
     if (smsLink) smsLink.href = `sms:+79030250807?body=${encodeURIComponent(preparedText)}`;
     if (result) result.hidden = false;
-
     setStatus('Заявка подготовлена. Проверьте текст и отправьте её онлайн.', 'success');
     setDeliveryNote(
       directDeliveryEnabled
@@ -578,7 +537,6 @@
         : 'Онлайн-отправка временно недоступна. Используйте один из резервных способов ниже.'
     );
     track('online_application_prepare');
-
     window.setTimeout(() => {
       if (result) result.scrollIntoView({ behavior: 'smooth', block: 'start' });
       if (directSendButton && directDeliveryEnabled) directSendButton.focus({ preventScroll: true });
@@ -587,57 +545,48 @@
   });
 
   if (directSendButton) directSendButton.addEventListener('click', sendDirectly);
+  if (copyButton) copyButton.addEventListener('click', async () => {
+    if (!preparedText) return;
+    try {
+      await copyText(preparedText);
+      setStatus('Текст заявки скопирован.', 'success');
+      copyButton.textContent = 'Заявка скопирована';
+      track('online_application_copy');
+      window.setTimeout(() => { copyButton.textContent = 'Скопировать текст'; }, 2500);
+    } catch (error) {
+      setStatus('Не удалось скопировать автоматически. Выделите текст заявки вручную.', 'error');
+    }
+  });
 
-  if (copyButton) {
-    copyButton.addEventListener('click', async () => {
-      if (!preparedText) return;
-      try {
-        await copyText(preparedText);
-        setStatus('Текст заявки скопирован.', 'success');
-        copyButton.textContent = 'Заявка скопирована';
-        track('online_application_copy');
-        window.setTimeout(() => { copyButton.textContent = 'Скопировать текст'; }, 2500);
-      } catch (error) {
-        setStatus('Не удалось скопировать автоматически. Выделите текст заявки вручную.', 'error');
-      }
-    });
-  }
+  if (shareButton) shareButton.addEventListener('click', async () => {
+    if (!preparedText || !navigator.share) return;
+    try {
+      await navigator.share({ title: 'Онлайн-заявка ипотечному брокеру', text: preparedText });
+      setStatus('Заявка передана в выбранное приложение.', 'success');
+      track('online_application_share');
+    } catch (error) {
+      if (error && error.name === 'AbortError') return;
+      setStatus('Системное меню недоступно. Скопируйте текст или отправьте SMS.', 'error');
+    }
+  });
 
-  if (shareButton) {
-    shareButton.addEventListener('click', async () => {
-      if (!preparedText || !navigator.share) return;
-      try {
-        await navigator.share({ title: 'Онлайн-заявка ипотечному брокеру', text: preparedText });
-        setStatus('Заявка передана в выбранное приложение.', 'success');
-        track('online_application_share');
-      } catch (error) {
-        if (error && error.name === 'AbortError') return;
-        setStatus('Системное меню недоступно. Скопируйте текст или отправьте SMS.', 'error');
-      }
-    });
-  }
+  if (smsLink) smsLink.addEventListener('click', (event) => {
+    if (!preparedText) {
+      event.preventDefault();
+      setStatus('Сначала подготовьте заявку.', 'error');
+      return;
+    }
+    track('online_application_sms');
+  });
 
-  if (smsLink) {
-    smsLink.addEventListener('click', (event) => {
-      if (!preparedText) {
-        event.preventDefault();
-        setStatus('Сначала подготовьте заявку.', 'error');
-        return;
-      }
-      track('online_application_sms');
-    });
-  }
-
-  if (vkLink) {
-    vkLink.addEventListener('click', async () => {
-      if (!preparedText) return;
-      try {
-        await copyText(preparedText);
-        setStatus('Текст скопирован. Вставьте его в сообщение ВКонтакте.', 'success');
-      } catch (error) {
-        setStatus('ВКонтакте открыт. Скопируйте текст из поля заявки вручную.', 'error');
-      }
-      track('online_application_vk');
-    });
-  }
+  if (vkLink) vkLink.addEventListener('click', async () => {
+    if (!preparedText) return;
+    try {
+      await copyText(preparedText);
+      setStatus('Текст скопирован. Вставьте его в сообщение ВКонтакте.', 'success');
+    } catch (error) {
+      setStatus('ВКонтакте открыт. Скопируйте текст из поля заявки вручную.', 'error');
+    }
+    track('online_application_vk');
+  });
 })();
