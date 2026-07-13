@@ -20,6 +20,7 @@ SCENARIOS = (
 REQUIRED_FIELDS = {
     "journey_type",
     "journey_stage",
+    "journey_scenario_slug",
     "preparation_check",
     "remaining_questions",
 }
@@ -35,6 +36,7 @@ class ApplicationParser(HTMLParser):
         self.markers: set[str] = set()
         self.preparation_labels: set[str] = set()
         self.preparation_hidden = False
+        self.context_version = ""
         self.text_parts: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
@@ -52,8 +54,10 @@ class ApplicationParser(HTMLParser):
         label_key = attrs_map.get("data-preparation-label")
         if label_key:
             self.preparation_labels.add(label_key)
-        if "data-application-preparation" in attrs_map and "hidden" in attrs_map:
-            self.preparation_hidden = True
+        if "data-application-preparation" in attrs_map:
+            self.context_version = attrs_map.get("data-preparation-context-version") or ""
+            if "hidden" in attrs_map:
+                self.preparation_hidden = True
 
     def handle_data(self, data: str) -> None:
         self.text_parts.append(data)
@@ -117,14 +121,19 @@ def validate_application_page(site_dir: Path) -> int:
     if not parser.preparation_hidden:
         annotation("Блок подготовки должен быть скрыт при обычном переходе", html_file)
         errors += 1
-    if REQUIRED_LABEL_KEYS - parser.preparation_labels:
-        annotation(
-            "Не хватает сценарных подписей подготовки: "
-            + ", ".join(sorted(REQUIRED_LABEL_KEYS - parser.preparation_labels)),
-            html_file,
-        )
+    if parser.context_version != "1":
+        annotation(f"Некорректная версия контекста подготовки: {parser.context_version or 'отсутствует'}", html_file)
         errors += 1
-    required_markers = {"data-application-preparation", "data-preparation-intro", "data-preparation-options"}
+    missing_labels = REQUIRED_LABEL_KEYS - parser.preparation_labels
+    if missing_labels:
+        annotation("Не хватает сценарных подписей подготовки: " + ", ".join(sorted(missing_labels)), html_file)
+        errors += 1
+    required_markers = {
+        "data-application-preparation",
+        "data-preparation-context-version",
+        "data-preparation-intro",
+        "data-preparation-options",
+    }
     if required_markers - parser.markers:
         annotation(f"Не хватает маркеров блока подготовки: {', '.join(sorted(required_markers - parser.markers))}", html_file)
         errors += 1
@@ -188,18 +197,34 @@ def validate_script_source() -> int:
     errors = 0
     required_markers = (
         "CONFIG_BY_SLUG",
+        "getApplicationPreparationData",
+        "context_version",
+        "journey_scenario_slug",
+        "completed_checks",
+        "completed_labels",
+        "remaining_questions",
+        "preparation_json",
+        "fields.preparation = data",
+        "payload.preparation = data",
+        "ПОДГОТОВКА ДО ОБРАЩЕНИЯ",
         "online_application_complex_prefill",
         "online_application_preparation_check",
         "После изучения маршрута подготовки",
-        "Что уже проверено:",
-        "Что осталось уточнить:",
-        "MAX_COMBINED_COMMENT_LENGTH = 1600",
         "detailsStepNumber.textContent = '3'",
-        "queueMicrotask",
     ) + SCENARIOS
     for marker in required_markers:
         if marker not in source:
             annotation(f"В application-preparation.js отсутствует маркер: {marker}", js_file)
+            errors += 1
+
+    forbidden_markers = (
+        "commentField.value =",
+        "Комментарий клиента:",
+        "MAX_COMBINED_COMMENT_LENGTH",
+    )
+    for marker in forbidden_markers:
+        if marker in source:
+            annotation(f"Контекст подготовки снова подмешивается в комментарий: {marker}", js_file)
             errors += 1
     return errors
 
@@ -220,7 +245,8 @@ def main() -> int:
 
     print(
         "Аудит контекста подготовки заявки успешно завершен: "
-        f"проверено сложных входов {len(expected_complex_pages())}, сценариев {len(SCENARIOS)}, отметок 4"
+        f"проверено сложных входов {len(expected_complex_pages())}, сценариев {len(SCENARIOS)}, "
+        "отметок 4, transport-полей Web3Forms и preparation JSON"
     )
     return 0
 
