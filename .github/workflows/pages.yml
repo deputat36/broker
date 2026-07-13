@@ -24,6 +24,7 @@ jobs:
         run: |
           node --check assets/js/main.js
           node --check assets/js/application-inputs.js
+          node --check assets/js/application-preparation.js
           node --check assets/js/online-application.js
           python3 -m compileall -q scripts
       - name: Audit Supabase backend v2 source
@@ -55,6 +56,8 @@ jobs:
         run: python3 scripts/audit-regional-link-paths.py ./_site
       - name: Audit complex application routes
         run: python3 scripts/audit-complex-application-routes.py ./_site
+      - name: Audit complex application preparation context
+        run: python3 scripts/audit-application-preparation-context.py ./_site
       - name: Audit online application and remote service route
         run: python3 scripts/audit-online-application.py ./_site
       - name: Audit progressive mobile application UX
