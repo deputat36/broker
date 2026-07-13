@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Проверяет Web3Forms-приём заявок, атрибуцию и резервные каналы."""
+"""Проверяет Web3Forms-приём заявок, конфигурацию, атрибуцию и резервные каналы."""
 
 from __future__ import annotations
 
 import json
+import re
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
@@ -18,6 +19,15 @@ CONSENT_URL = "/personal-data-consent/"
 POLICY_URL = "/policy/"
 PHONE_LINK = "tel:+79030250807"
 VK_PROFILE = "https://vk.com/tatyanasterlikova"
+WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit"
+WEB3FORMS_KEY_PATTERN = re.compile(
+    r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+    re.IGNORECASE,
+)
+INLINE_UUID_PATTERN = re.compile(
+    r"(?<![0-9a-f])[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(?![0-9a-f])",
+    re.IGNORECASE,
+)
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 KEY_PAGE_REQUIREMENTS = {
@@ -33,7 +43,8 @@ REQUIRED_FIELDS = {
 }
 
 REQUIRED_FORM_MARKERS = {
-    "data-online-application", "data-lead-mode", "data-lead-endpoint",
+    "data-online-application", "data-lead-mode", "data-web3forms-access-key",
+    "data-web3forms-endpoint", "data-lead-endpoint", "data-thank-you-path",
     "data-lead-timeout-ms", "data-lead-min-fill-ms", "data-application-status",
     "data-application-result", "data-application-output", "data-application-direct-send",
     "data-application-delivery-note", "data-application-share", "data-application-sms",
@@ -119,7 +130,7 @@ class PageParser(HTMLParser):
             self.form_actions.append(attrs_map.get("action") or "")
             self.form_methods.append((attrs_map.get("method") or "").lower())
             for key, value in attrs_map.items():
-                if key.startswith("data-lead-"):
+                if key.startswith("data-lead-") or key.startswith("data-web3forms-") or key == "data-thank-you-path":
                     self.form_data[key] = value or ""
         elif tag in {"input", "select", "textarea"}:
             name = attrs_map.get("name")
@@ -249,12 +260,25 @@ def parse_int(value: str, minimum: int, maximum: int) -> int | None:
 def validate_web3forms_transport(application: PageParser, html_file: Path) -> int:
     errors = 0
     mode = application.form_data.get("data-lead-mode", "")
-    endpoint = application.form_data.get("data-lead-endpoint", "").strip()
+    access_key = application.form_data.get("data-web3forms-access-key", "").strip()
+    web3forms_endpoint = application.form_data.get("data-web3forms-endpoint", "").strip()
+    additional_endpoint = application.form_data.get("data-lead-endpoint", "").strip()
+    thank_you_path = application.form_data.get("data-thank-you-path", "").strip()
+
     if mode != "web3forms":
         annotation("Рабочий режим приёма заявок должен быть web3forms", html_file)
         errors += 1
-    if endpoint:
+    if not WEB3FORMS_KEY_PATTERN.fullmatch(access_key):
+        annotation("Web3Forms access key отсутствует или не соответствует UUID-формату", html_file)
+        errors += 1
+    if web3forms_endpoint != WEB3FORMS_ENDPOINT:
+        annotation(f"Web3Forms endpoint должен быть {WEB3FORMS_ENDPOINT}", html_file)
+        errors += 1
+    if additional_endpoint:
         annotation("Дополнительный Supabase/CRM endpoint должен оставаться пустым до завершения issue #7", html_file)
+        errors += 1
+    if thank_you_path != THANK_YOU_URL:
+        annotation(f"Путь страницы благодарности должен быть {THANK_YOU_URL}", html_file)
         errors += 1
     if parse_int(application.form_data.get("data-lead-timeout-ms", ""), 2000, 20000) is None:
         annotation("Некорректный таймаут отправки", html_file)
@@ -280,7 +304,12 @@ def validate_endpoint_documentation() -> int:
     return errors
 
 
-def validate_support_page(site_dir: Path, page_url: str, required_texts: tuple[str, ...], required_ids: set[str] | None = None) -> int:
+def validate_support_page(
+    site_dir: Path,
+    page_url: str,
+    required_texts: tuple[str, ...],
+    required_ids: set[str] | None = None,
+) -> int:
     loaded = load_page(site_dir, page_url)
     if loaded is None:
         return 1
@@ -316,7 +345,11 @@ def main() -> int:
     try:
         root = ElementTree.parse(sitemap_file).getroot()
         namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
-        sitemap_paths = {urlparse(node.text.strip()).path or "/" for node in root.findall("sm:url/sm:loc", namespace) if node.text}
+        sitemap_paths = {
+            urlparse(node.text.strip()).path or "/"
+            for node in root.findall("sm:url/sm:loc", namespace)
+            if node.text
+        }
     except (ElementTree.ParseError, OSError) as error:
         annotation(f"Не удалось разобрать sitemap.xml: {error}", sitemap_file)
         return 1
@@ -403,10 +436,11 @@ def main() -> int:
     if script_file.is_file():
         script_text = script_file.read_text(encoding="utf-8", errors="ignore")
         for marker in (
-            "WEB3FORMS_ACCESS_KEY", "https://api.web3forms.com/submit", "Promise.allSettled",
-            "THANK_YOU_PATH", "sterlikovaMortgageLastLead", "SCENARIO_BY_SLUG", "CITY_BY_PREFIX",
+            "form.dataset.web3formsAccessKey", "form.dataset.web3formsEndpoint",
+            "form.dataset.thankYouPath", "validWeb3FormsKey", "Promise.allSettled",
+            "sterlikovaMortgageLastLead", "SCENARIO_BY_SLUG", "CITY_BY_PREFIX",
             "source_page", "request_id", "form_started_at", "website", "qualification",
-            "tracking_json", "fields_json", "normalizeEndpoint", "AbortController",
+            "tracking_json", "fields_json", "normalizeHttpsUrl", "AbortController",
             "credentials: 'omit'", "online_application_direct_success", "online_application_direct_error",
             "online_application_direct_timeout", "online_application_spam_block", "lead_submit",
             "sms:+79030250807",
@@ -414,19 +448,35 @@ def main() -> int:
             if marker not in script_text:
                 annotation(f"В скрипте онлайн-заявки отсутствует маркер: {marker}", script_file)
                 errors += 1
+        embedded_keys = INLINE_UUID_PATTERN.findall(script_text)
+        if embedded_keys:
+            annotation("Web3Forms access key не должен быть жёстко зашит в JavaScript", script_file)
+            errors += 1
 
     main_script = site_dir / "assets/js/main.js"
     if main_script.is_file():
         main_script_text = main_script.read_text(encoding="utf-8", errors="ignore")
-        for marker in ("TRACKING_KEYS", "sterlikovaMortgageTracking", "window.getSiteTrackingData", "first_touch", "last_touch", "online_application_click"):
+        for marker in (
+            "TRACKING_KEYS", "sterlikovaMortgageTracking", "window.getSiteTrackingData",
+            "first_touch", "last_touch", "online_application_click",
+        ):
             if marker not in main_script_text:
                 annotation(f"В основном скрипте отсутствует маркер: {marker}", main_script)
                 errors += 1
 
     errors += validate_schema(application, application_file)
     errors += validate_endpoint_documentation()
-    errors += validate_support_page(site_dir, THANK_YOU_URL, ("заявка отправлена", "номер обращения", "lead_thankyou_view"), {"lead-id", "lead-scenario", "lead-city", "lead-status"})
-    errors += validate_support_page(site_dir, CONSENT_URL, ("web3forms", "отозвать согласие", "паспортные данные"))
+    errors += validate_support_page(
+        site_dir,
+        THANK_YOU_URL,
+        ("заявка отправлена", "номер обращения", "lead_thankyou_view"),
+        {"lead-id", "lead-scenario", "lead-city", "lead-status"},
+    )
+    errors += validate_support_page(
+        site_dir,
+        CONSENT_URL,
+        ("web3forms", "отозвать согласие", "паспортные данные"),
+    )
 
     loaded_policy = load_page(site_dir, POLICY_URL)
     if loaded_policy is None:
@@ -477,7 +527,7 @@ def main() -> int:
 
     print(
         "Аудит онлайн-заявки успешно завершён: "
-        f"Web3Forms, email, атрибуция, согласие, страница благодарности и fallback подтверждены; страниц {len(contextual_urls)}"
+        f"Web3Forms-конфигурация, email, атрибуция, согласие, страница благодарности и fallback подтверждены; страниц {len(contextual_urls)}"
     )
     return 0
 
