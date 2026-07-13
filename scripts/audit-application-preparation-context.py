@@ -133,6 +133,8 @@ def validate_application_page(site_dir: Path) -> int:
         "data-preparation-context-version",
         "data-preparation-intro",
         "data-preparation-options",
+        "data-application-output",
+        "data-application-sms",
     }
     if required_markers - parser.markers:
         annotation(f"Не хватает маркеров блока подготовки: {', '.join(sorted(required_markers - parser.markers))}", html_file)
@@ -198,6 +200,10 @@ def validate_script_source() -> int:
     required_markers = (
         "CONFIG_BY_SLUG",
         "getApplicationPreparationData",
+        "getApplicationPreparationText",
+        "appendApplicationPreparationText",
+        "APPLICATION_TEXT_MARKER",
+        "PREPARATION_TEXT_MARKER",
         "context_version",
         "journey_scenario_slug",
         "completed_checks",
@@ -206,6 +212,14 @@ def validate_script_source() -> int:
         "preparation_json",
         "fields.preparation = data",
         "payload.preparation = data",
+        "payload.message = appendPreparationToApplicationText",
+        "navigator.clipboard.writeText",
+        "navigator.share",
+        "syncFallbackText",
+        "sms:+79030250807",
+        "data-application-max",
+        "Скопировать заявку для MAX",
+        "online_application_max",
         "ПОДГОТОВКА ДО ОБРАЩЕНИЯ",
         "online_application_complex_prefill",
         "online_application_preparation_check",
@@ -246,7 +260,7 @@ def main() -> int:
     print(
         "Аудит контекста подготовки заявки успешно завершен: "
         f"проверено сложных входов {len(expected_complex_pages())}, сценариев {len(SCENARIOS)}, "
-        "отметок 4, transport-полей Web3Forms и preparation JSON"
+        "отметок 4, Web3Forms/preparation JSON и сводка для резервных каналов"
     )
     return 0
 
