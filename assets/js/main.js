@@ -25,6 +25,8 @@ const TRACKING_KEYS = [
   'placement'
 ];
 const TRACKING_STORAGE_KEY = 'sterlikovaMortgageTracking';
+const TRACKING_RETENTION_DAYS = 90;
+const TRACKING_RETENTION_MS = TRACKING_RETENTION_DAYS * 24 * 60 * 60 * 1000;
 
 function sendGoal(goalName) {
   if (typeof window.ym !== 'function') return;
@@ -48,9 +50,23 @@ function safeJsonParse(value, fallback = {}) {
   }
 }
 
+function removeStoredTracking() {
+  try {
+    window.localStorage.removeItem(TRACKING_STORAGE_KEY);
+  } catch (error) {
+    // Ограничения localStorage не должны мешать работе сайта.
+  }
+}
+
 function readStoredTracking() {
   try {
-    return safeJsonParse(window.localStorage.getItem(TRACKING_STORAGE_KEY), {});
+    const stored = safeJsonParse(window.localStorage.getItem(TRACKING_STORAGE_KEY), {});
+    const expiresAt = Date.parse(stored.expires_at || '');
+    if (Number.isFinite(expiresAt) && expiresAt <= Date.now()) {
+      removeStoredTracking();
+      return {};
+    }
+    return stored;
   } catch (error) {
     return {};
   }
@@ -74,7 +90,8 @@ function getTrackingData() {
     if (value) incoming[key] = value.trim().slice(0, 300);
   });
 
-  const now = new Date().toISOString();
+  const nowDate = new Date();
+  const now = nowDate.toISOString();
   const pageSnapshot = {
     page_url: window.location.href,
     page_path: window.location.pathname,
@@ -86,7 +103,9 @@ function getTrackingData() {
   const tracking = {
     first_touch: saved.first_touch || { ...pageSnapshot, values: current },
     last_touch: { ...pageSnapshot, values: current },
-    current
+    current,
+    stored_at: now,
+    expires_at: new Date(nowDate.getTime() + TRACKING_RETENTION_MS).toISOString()
   };
 
   saveStoredTracking(tracking);
@@ -94,6 +113,7 @@ function getTrackingData() {
 }
 
 window.getSiteTrackingData = getTrackingData;
+window.clearSiteTrackingData = removeStoredTracking;
 getTrackingData();
 
 function normalizePath(pathname) {
