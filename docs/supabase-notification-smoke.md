@@ -19,7 +19,7 @@ lead_capture:
   endpoint: ""
 ```
 
-## Проверка функции и прав
+## Проверка прав
 
 В SQL Editor подтверждённого Supabase-проекта:
 
@@ -129,7 +129,7 @@ select public.broker_lead_notification_summary('LEAD_ID');
 - раздел `ПОДГОТОВКА ДО ОБРАЩЕНИЯ` отсутствует;
 - пустые служебные строки не добавляются.
 
-## Неизвестный ID
+## Неизвестный UUID
 
 ```sql
 select public.broker_lead_notification_summary('00000000-0000-4000-8000-ffffffffffff');
