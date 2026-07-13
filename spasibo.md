@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Заявка отправлена | Ипотечный брокер Татьяна Стерликова
-description: Спасибо за онлайн-заявку ипотечному брокеру. Обращение отправлено, Татьяна Стерликова свяжется с вами для первичного разбора.
+description: Сервис подтвердил передачу онлайн-заявки ипотечному брокеру. Сохраните номер обращения и при необходимости свяжитесь с Татьяной Стерликовой напрямую.
 permalink: /spasibo/
 breadcrumb: Заявка отправлена
 og_type: website
@@ -11,8 +11,8 @@ sitemap: false
 
 <section class="page-hero section">
   <p class="eyebrow">Заявка отправлена</p>
-  <h1>Спасибо, обращение принято</h1>
-  <p class="lead" id="thankyou-message">Татьяна изучит основные вводные и свяжется с вами для первичного разбора ситуации.</p>
+  <h1>Спасибо, обращение передано</h1>
+  <p class="lead" id="thankyou-message">Сервис подтвердил передачу обращения через настроенный канал. Сохраните номер заявки до ответа Татьяны.</p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="tel:+79030250807">Позвонить брокеру</a>
     <a class="btn btn-light" href="{{ '/uslugi/' | relative_url }}">Посмотреть услуги</a>
@@ -30,7 +30,7 @@ sitemap: false
 </section>
 
 <section class="section muted">
-  <div class="section-head"><p class="eyebrow">Что будет дальше</p><h2>От заявки до следующего шага</h2><p>Отправка формы не является одобрением ипотеки и не создаёт обязательств по платному сопровождению.</p></div>
+  <div class="section-head"><p class="eyebrow">Что будет дальше</p><h2>От заявки до следующего шага</h2><p>Техническое подтверждение отправки не является одобрением ипотеки и не создаёт обязательств по платному сопровождению.</p></div>
   <div class="grid cards-3">
     <article class="card"><h3>1. Проверка вводных</h3><p>Татьяна посмотрит город, цель, объект, первоначальный взнос, доход и историю обращений в банки.</p></article>
     <article class="card"><h3>2. Уточняющий контакт</h3><p>При необходимости задаст дополнительные вопросы и предложит удобный формат разговора.</p></article>
@@ -48,9 +48,15 @@ sitemap: false
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var params = new URLSearchParams(window.location.search);
+    var storageKey = 'sterlikovaMortgageLastLead';
     var lastLead = {};
     try {
-      lastLead = JSON.parse(window.localStorage.getItem('sterlikovaMortgageLastLead') || '{}');
+      lastLead = JSON.parse(window.localStorage.getItem(storageKey) || '{}');
+      var expiresAt = Date.parse(lastLead.expires_at || '');
+      if (Object.keys(lastLead).length && (!Number.isFinite(expiresAt) || expiresAt <= Date.now())) {
+        window.localStorage.removeItem(storageKey);
+        lastLead = {};
+      }
     } catch (error) {
       lastLead = {};
     }
