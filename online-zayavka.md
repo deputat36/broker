@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Онлайн-заявка ипотечному брокеру | Татьяна Стерликова
-description: Заполните онлайн-заявку на консультацию и ипотечное сопровождение из любого города. Форма подготовит структурированное обращение для отправки Татьяне Стерликовой.
+description: Заполните и отправьте онлайн-заявку на консультацию и ипотечное сопровождение из любого города. Обращение поступит на email Татьяне Стерликовой.
 permalink: /online-zayavka/
 breadcrumb: Онлайн-заявка
 og_type: website
@@ -11,13 +11,13 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
 <section class="page-hero section">
   <p class="eyebrow">Дистанционно из любого города</p>
   <h1>Онлайн-заявка ипотечному брокеру</h1>
-  <p class="lead">Заполните короткую анкету. Сайт сформирует структурированное обращение, которое можно отправить Татьяне через системное меню «Поделиться», SMS, ВКонтакте или MAX.</p>
+  <p class="lead">Заполните короткую анкету, проверьте сформированный текст и отправьте заявку онлайн. Обращение поступит на email, а при технической ошибке останутся SMS, ВКонтакте, MAX и копирование текста.</p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="#application-form">Заполнить заявку</a>
     <a class="btn btn-light" href="tel:+79030250807">Позвонить</a>
     <a class="btn btn-light" href="{{ '/konsultaciya/' | relative_url }}">Как проходит консультация</a>
   </div>
-  <ul class="trust-list"><li>Можно обратиться из любого города</li><li>Первичный разбор дистанционно</li><li>Решение принимает банк</li></ul>
+  <ul class="trust-list"><li>Можно обратиться из любого города</li><li>Заявка поступает на email</li><li>Решение принимает банк</li></ul>
 </section>
 
 <section class="section application-layout" id="application-form">
@@ -132,11 +132,11 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
 
       <label class="application-consent">
         <input name="consent" type="checkbox" required>
-        <span>Я согласен на обработку сведений, которые самостоятельно передам выбранным способом связи, и ознакомился с <a href="{{ '/policy/' | relative_url }}">политикой конфиденциальности</a>.</span>
+        <span>Я согласен на обработку и передачу указанных сведений для рассмотрения заявки и обратной связи, ознакомился с <a href="{{ '/policy/' | relative_url }}">политикой обработки данных</a> и <a href="{{ '/personal-data-consent/' | relative_url }}">текстом согласия</a>.</span>
       </label>
 
-      <p class="application-privacy">Форма не отправляет данные на сервер автоматически. После подготовки вы сами выбираете канал отправки. Не указывайте паспортные данные, СНИЛС, реквизиты карт и коды подтверждения.</p>
-      <button class="btn btn-primary" type="submit">Подготовить заявку</button>
+      <p class="application-privacy">После проверки и нажатия «Отправить заявку онлайн» сведения передаются через сервис Web3Forms на email получателя. Не указывайте паспортные данные, СНИЛС, реквизиты карт, коды подтверждения и не прикладывайте документы.</p>
+      <button class="btn btn-primary" type="submit">Проверить и подготовить заявку</button>
       <p class="application-status" data-application-status aria-live="polite"></p>
     </form>
 
@@ -144,16 +144,16 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
       <p class="eyebrow">Заявка готова</p>
       <h2>Проверьте текст и отправьте удобным способом</h2>
       <textarea data-application-output rows="16" readonly aria-label="Подготовленный текст заявки"></textarea>
-      <p class="application-delivery-note" data-application-delivery-note>Прямая серверная отправка пока не подключена. Используйте один из доступных способов ниже.</p>
+      <p class="application-delivery-note" data-application-delivery-note>После проверки нажмите «Отправить заявку онлайн». При технической ошибке используйте резервный способ.</p>
       <div class="application-actions">
         <button class="btn btn-primary" type="button" data-application-direct-send hidden>Отправить заявку онлайн</button>
-        <button class="btn btn-primary" type="button" data-application-share>Поделиться заявкой</button>
+        <button class="btn btn-secondary" type="button" data-application-share>Поделиться заявкой</button>
         <a class="btn btn-secondary" href="#" data-application-sms>Отправить SMS</a>
         <button class="btn btn-light" type="button" data-application-copy>Скопировать текст</button>
         <a class="btn btn-light" href="https://vk.com/tatyanasterlikova" target="_blank" rel="noopener" data-application-vk>Открыть ВКонтакте</a>
         <button class="btn btn-light" type="button" data-copy-phone>Скопировать номер для MAX</button>
       </div>
-      <p class="application-hint">Перед переходом во ВКонтакте скопируйте текст заявки. На телефоне кнопка «Поделиться» позволяет выбрать установленный мессенджер, SMS или другое приложение.</p>
+      <p class="application-hint">После успешной онлайн-отправки откроется страница подтверждения с номером обращения. Резервные способы остаются доступны до перехода.</p>
     </section>
   </div>
 
@@ -165,10 +165,10 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
     <div class="seo-panel">
       <h3>Что произойдёт после обращения</h3>
       <ol>
+        <li>Заявка поступит на email с номером и источником обращения.</li>
         <li>Татьяна изучит основные вводные.</li>
         <li>Уточнит недостающие сведения.</li>
         <li>Предложит следующий шаг и формат работы.</li>
-        <li>Условия платного сопровождения согласуются заранее.</li>
       </ol>
     </div>
     <div class="seo-panel">
