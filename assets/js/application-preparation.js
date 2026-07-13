@@ -98,6 +98,58 @@
     };
   };
 
+  function preparationMessage(data) {
+    if (!data.active) return '';
+    return [
+      'ПОДГОТОВКА ДО ОБРАЩЕНИЯ',
+      `Тип маршрута: ${data.journey_type || 'не указан'}`,
+      `Этап: ${data.journey_stage || 'не указан'}`,
+      `Сценарий: ${data.scenario_slug || 'не указан'}`,
+      `Что уже проверено: ${data.completed_labels.length ? data.completed_labels.join('; ') : 'не отмечено'}`,
+      `Что осталось уточнить: ${data.remaining_questions || 'не указано'}`
+    ].join('\n');
+  }
+
+  const originalFetch = window.fetch.bind(window);
+  window.fetch = (input, init = {}) => {
+    if (!init.body || String(init.method || 'GET').toUpperCase() !== 'POST') return originalFetch(input, init);
+
+    let payload;
+    try {
+      payload = JSON.parse(String(init.body));
+    } catch (error) {
+      return originalFetch(input, init);
+    }
+
+    const data = window.getApplicationPreparationData();
+    if (!data.active) return originalFetch(input, init);
+
+    if (payload && payload.schema_version === 1) {
+      payload.preparation = data;
+    } else if (payload && payload.access_key) {
+      payload.journey_type = data.journey_type;
+      payload.journey_stage = data.journey_stage;
+      payload.journey_scenario_slug = data.scenario_slug;
+      payload.preparation_completed_keys = data.completed_checks.join(', ');
+      payload.preparation_completed = data.completed_labels.join('; ');
+      payload.remaining_questions = data.remaining_questions;
+      payload.preparation_json = JSON.stringify(data, null, 2);
+      if (payload.fields_json) {
+        try {
+          const fields = JSON.parse(payload.fields_json);
+          fields.preparation = data;
+          payload.fields_json = JSON.stringify(fields, null, 2);
+        } catch (error) {
+          // fields_json остаётся исходным, отдельные поля всё равно передаются.
+        }
+      }
+      const context = preparationMessage(data);
+      if (context) payload.message = payload.message ? `${payload.message}\n\n${context}` : context;
+    }
+
+    return originalFetch(input, { ...init, body: JSON.stringify(payload) });
+  };
+
   const sourcePath = normalizeSourcePath(params.get('source'));
   const slug = sourceSlug(sourcePath);
   const config = CONFIG_BY_SLUG[slug];
