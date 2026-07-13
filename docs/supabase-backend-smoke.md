@@ -2,7 +2,7 @@
 
 ## Назначение
 
-Чек-лист подтверждает, что Supabase может безопасно работать вторым каналом рядом с Web3Forms.
+Чек-лист подтверждает, что Supabase может безопасно работать вторым каналом рядом с Web3Forms, а закрытый ручной retry не раскрывает данные и не создаёт неконтролируемые повторы.
 
 До завершения всех проверок сайт сохраняет:
 
@@ -22,7 +22,7 @@ export SITE_ORIGIN="https://sterlikova-ipoteka.ru"
 export REQUEST_ID="00000000-0000-4000-8000-000000000001"
 ```
 
-Не публиковать `SUPABASE_SERVICE_ROLE_KEY`, Telegram bot token, chat ID и CRM-ключи.
+Не публиковать `SUPABASE_SERVICE_ROLE_KEY`, `NOTIFICATION_ADMIN_TOKEN`, Telegram bot token, chat ID и CRM-ключи.
 
 ## 1. Проверка миграций
 
@@ -32,7 +32,8 @@ export REQUEST_ID="00000000-0000-4000-8000-000000000001"
 2. `202607130002_broker_leads_v2.sql`;
 3. `202607130003_broker_lead_preparation.sql`;
 4. `202607130004_broker_lead_notification_summary.sql`;
-5. `202607130005_broker_lead_notification_delivery.sql`.
+5. `202607130005_broker_lead_notification_delivery.sql`;
+6. `202607130006_broker_lead_notification_manual_retry.sql`.
 
 Проверить таблицы:
 
@@ -42,7 +43,7 @@ select to_regclass('public.broker_lead_events');
 select to_regclass('public.broker_lead_rate_limits');
 ```
 
-Проверить колонки:
+Проверить ключевые колонки:
 
 ```sql
 select column_name, data_type
@@ -66,15 +67,18 @@ where table_schema = 'public'
     'notification_attempt_count',
     'notification_attempted_at',
     'notification_sent_at',
-    'notification_last_error'
+    'notification_last_error',
+    'notification_manual_retry_count',
+    'notification_manual_retry_requested_at',
+    'notification_manual_retry_reason_code'
   )
 order by column_name;
 ```
 
-Проверить функции:
+Проверить служебные RPC:
 
 ```sql
-select routine_name
+select routine_name, security_type
 from information_schema.routines
 where routine_schema = 'public'
   and routine_name in (
@@ -83,7 +87,9 @@ where routine_schema = 'public'
     'sync_broker_lead_preparation',
     'broker_lead_notification_summary',
     'claim_broker_lead_notification',
-    'complete_broker_lead_notification'
+    'complete_broker_lead_notification',
+    'request_broker_lead_notification_retry',
+    'broker_lead_notification_queue_health'
   )
 order by routine_name;
 ```
@@ -95,11 +101,12 @@ order by routine_name;
 - публичная anon-вставка отсутствует;
 - preparation trigger активен;
 - notification constraint допускает только `pending`, `sending`, `sent`, `failed`, `disabled`;
+- ручной retry допускает только `failed → pending`;
 - публичный доступ к серверным RPC отсутствует.
 
 ## 2. Проверка конфигурации Edge Function
 
-Обязательные secrets:
+Обязательные secrets основной функции:
 
 - `SUPABASE_URL`;
 - `SUPABASE_SERVICE_ROLE_KEY`.
@@ -117,6 +124,8 @@ TELEGRAM_TIMEOUT_MS=5000
 
 Telegram secrets подключаются только для подтверждённого тестового чата.
 
+Закрытая retry-функция дополнительно требует `NOTIFICATION_ADMIN_TOKEN` и не подключается к публичному сайту.
+
 ## 3. CORS preflight
 
 Разрешённый Origin:
@@ -131,6 +140,8 @@ curl -i -X OPTIONS "$FUNCTION_URL" \
 Ожидается HTTP `204`, точный `Access-Control-Allow-Origin` и `Vary: Origin`.
 
 Запрещённый Origin должен получить HTTP `403` без разрешающего заголовка.
+
+Административная функция проверяется отдельно: она не должна возвращать `Access-Control-Allow-Origin` вообще.
 
 ## 4. Валидный payload
 
@@ -188,7 +199,10 @@ select
   notification_attempt_count,
   notification_attempted_at,
   notification_sent_at,
-  notification_last_error
+  notification_last_error,
+  notification_manual_retry_count,
+  notification_manual_retry_requested_at,
+  notification_manual_retry_reason_code
 from public.broker_leads
 where request_id = '00000000-0000-4000-8000-000000000001';
 ```
@@ -202,7 +216,8 @@ where request_id = '00000000-0000-4000-8000-000000000001';
 - неизвестный slug не сохраняется;
 - не более четырёх labels;
 - raw payload доступен только уполномоченным;
-- User-Agent получен из HTTP-заголовка.
+- User-Agent получен из HTTP-заголовка;
+- manual retry count у новой заявки равен нулю.
 
 ## 6. Идемпотентность
 
@@ -251,7 +266,7 @@ Honeypot или `likely_bot: true` должны вернуть HTTP `202`, `succ
 
 Убедиться, что `anon` и `authenticated` не имеют прямых прав записи и EXECUTE на служебные RPC.
 
-`service_role` используется только внутри Edge Function.
+`service_role` используется только внутри Edge Function и доверенного SQL Editor.
 
 ## 12. Telegram и сводка
 
@@ -260,7 +275,7 @@ Honeypot или `likely_bot: true` должны вернуть HTTP `202`, `succ
 Проверяются:
 
 - `broker_lead_notification_summary`;
-- первый и повторный claim;
+- первый и повторный `claim_broker_lead_notification`;
 - статусы `sending`, `sent`, `failed`;
 - зависшее sending;
 - duplicate request ID;
@@ -268,16 +283,34 @@ Honeypot или `likely_bot: true` должны вернуть HTTP `202`, `succ
 
 Неизвестный UUID должен вернуть `broker_lead_not_found` только доверенному серверному вызову, без stack trace клиенту.
 
-## 13. Fail-closed
+## 13. Ручной retry и очередь
+
+Выполнить отдельный чеклист `docs/supabase-notification-retry-smoke.md`.
+
+Проверяются:
+
+- `request_broker_lead_notification_retry`;
+- `broker_lead_notification_queue_health`;
+- `failed-only` переход;
+- белый список reason code;
+- `NOTIFICATION_ADMIN_TOKEN`;
+- отсутствие CORS;
+- `retry_not_allowed` для `sent`, `pending`, `sending`, `disabled`;
+- события `notification_retry_requested`, `notification_retry_sent`, `notification_retry_failed`;
+- отсутствие персональных данных в агрегированной очереди и event payload.
+
+## 14. Fail-closed
 
 Без применённых миграций тестовая функция должна вернуть безопасный `backend_migration_required`, а не принять неполную заявку.
 
-## 14. Проверка hybrid
+Административная функция без шестой миграции или обязательных secrets должна возвращать безопасную техническую ошибку и не менять заявку.
+
+## 15. Проверка hybrid
 
 Переходить к этому этапу только после серверных тестов.
 
 1. Обновить политику под фактическое хранение в Supabase.
-2. Указать проверенный HTTPS endpoint.
+2. Указать проверенный HTTPS endpoint основной функции.
 3. Перевести режим в `hybrid`.
 4. Дождаться успешной Pages-сборки.
 5. Отправить заявку с UTM.
@@ -287,7 +320,9 @@ Honeypot или `likely_bot: true` должны вернуть HTTP `202`, `succ
 9. Сверить один request ID во всех каналах.
 10. Проверить `/spasibo/` и отказ одного канала.
 
-## 15. Откат
+Deploy закрытой retry-функции не означает автоматическое включение публичного hybrid.
+
+## 16. Откат
 
 При нестабильности:
 
@@ -297,20 +332,24 @@ lead_capture:
   endpoint: ""
 ```
 
-Миграции и данные не удаляются оперативно. Сначала отключается endpoint, затем анализируются события и логи.
+Для остановки ручного retry удалить или заменить `NOTIFICATION_ADMIN_TOKEN` и не публиковать URL административной функции.
+
+Миграции и данные не удаляются оперативно. Сначала отключаются endpoint и admin token, затем анализируются события и обезличенные агрегаты.
 
 ## Результат приёмки
 
 Зафиксировать в issue №7:
 
 - Supabase project ref;
-- даты пяти миграций;
-- версию Edge Function;
-- разрешённые Origin;
-- тестовые request ID и lead ID;
+- даты шести миграций;
+- версии основной и административной Edge Function;
+- разрешённые Origin основной функции;
+- подтверждение отсутствия CORS у retry-функции;
+- тестовые request ID и lead ID без публикации данных клиента;
 - CORS, duplicate, spam и rate limit;
 - preparation whitelist;
 - атомарный claim и notification status;
+- ручной retry, reason code и агрегированную очередь;
 - подтверждённый Telegram-чат;
 - срок хранения;
 - результат hybrid;
