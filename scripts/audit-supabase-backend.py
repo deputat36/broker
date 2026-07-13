@@ -9,19 +9,23 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ENTRYPOINT = ROOT / "supabase/functions/broker-public-lead/index.ts"
 HANDLER = ROOT / "supabase/functions/broker-public-lead/handler.ts"
+ADMIN_RETRY_FUNCTION = ROOT / "supabase/functions/broker-notification-retry/index.ts"
 BASE_MIGRATION = ROOT / "supabase/migrations/202607130002_broker_leads_v2.sql"
 PREPARATION_MIGRATION = ROOT / "supabase/migrations/202607130003_broker_lead_preparation.sql"
 SUMMARY_MIGRATION = ROOT / "supabase/migrations/202607130004_broker_lead_notification_summary.sql"
 DELIVERY_MIGRATION = ROOT / "supabase/migrations/202607130005_broker_lead_notification_delivery.sql"
+RETRY_MIGRATION = ROOT / "supabase/migrations/202607130006_broker_lead_notification_manual_retry.sql"
 CONFIG = ROOT / "_config.yml"
 CONTRACTS = (
     ROOT / "docs/lead-endpoint-contract.md",
     ROOT / "docs/preparation-context-contract.md",
     ROOT / "docs/notification-summary-contract.md",
+    ROOT / "docs/notification-retry-contract.md",
 )
 SMOKE_FILES = (
     ROOT / "docs/supabase-backend-smoke.md",
     ROOT / "docs/supabase-notification-smoke.md",
+    ROOT / "docs/supabase-notification-retry-smoke.md",
 )
 
 
@@ -44,10 +48,12 @@ def main() -> int:
     files = (
         ENTRYPOINT,
         HANDLER,
+        ADMIN_RETRY_FUNCTION,
         BASE_MIGRATION,
         PREPARATION_MIGRATION,
         SUMMARY_MIGRATION,
         DELIVERY_MIGRATION,
+        RETRY_MIGRATION,
         CONFIG,
         *CONTRACTS,
         *SMOKE_FILES,
@@ -62,10 +68,12 @@ def main() -> int:
     entrypoint = read(ENTRYPOINT)
     handler = read(HANDLER)
     function = f"{entrypoint}\n{handler}"
+    admin_retry = read(ADMIN_RETRY_FUNCTION)
     base = read(BASE_MIGRATION)
     preparation = read(PREPARATION_MIGRATION)
     summary = read(SUMMARY_MIGRATION)
     delivery = read(DELIVERY_MIGRATION)
+    retry = read(RETRY_MIGRATION)
     config = read(CONFIG)
     contracts = "\n".join(read(file).casefold() for file in CONTRACTS)
     smoke = "\n".join(read(file).casefold() for file in SMOKE_FILES)
@@ -100,6 +108,24 @@ def main() -> int:
         ),
         HANDLER,
     )
+    errors += require(
+        admin_retry,
+        (
+            "NOTIFICATION_ADMIN_TOKEN",
+            "secureTokenEqual",
+            "crypto.subtle.digest('SHA-256'",
+            "request_broker_lead_notification_retry",
+            "claim_broker_lead_notification",
+            "broker_lead_notification_summary",
+            "complete_broker_lead_notification",
+            "notification_retry_sent",
+            "notification_retry_failed",
+            "retry_not_allowed",
+            "Cache-Control",
+            "no-store",
+        ),
+        ADMIN_RETRY_FUNCTION,
+    )
 
     for forbidden in (
         "origin.startsWith(",
@@ -113,6 +139,13 @@ def main() -> int:
         if forbidden.casefold() in function.casefold():
             error(f"Небезопасный или устаревший фрагмент: {forbidden}", HANDLER)
             errors += 1
+
+    if "Access-Control-Allow-Origin" in admin_retry:
+        error("Административная retry-функция не должна разрешать CORS", ADMIN_RETRY_FUNCTION)
+        errors += 1
+    if "reason_comment" in admin_retry or "admin_comment" in admin_retry:
+        error("Retry-функция не должна принимать свободный административный комментарий", ADMIN_RETRY_FUNCTION)
+        errors += 1
 
     spam_return = "return jsonResponse({ ok: false, success: false, blocked: true, error: 'request_rejected' }, 202, origin);"
     if spam_return not in function:
@@ -185,12 +218,29 @@ def main() -> int:
         ),
         DELIVERY_MIGRATION,
     )
+    errors += require(
+        retry,
+        (
+            "notification_manual_retry_count integer",
+            "notification_manual_retry_requested_at timestamptz",
+            "notification_manual_retry_reason_code text",
+            "request_broker_lead_notification_retry",
+            "and leads.notification_status = 'failed'",
+            "notification_status = 'pending'",
+            "notification_retry_requested",
+            "broker_lead_notification_queue_health",
+            "stale_count bigint",
+            "total_manual_retries bigint",
+            "to service_role",
+        ),
+        RETRY_MIGRATION,
+    )
 
     if "last_payload" in base:
         error("Rate limit не должен хранить полный payload", BASE_MIGRATION)
         errors += 1
-    if "drop column" in preparation.casefold() or "drop column" in delivery.casefold():
-        error("Дополнительные миграции не должны удалять поля", DELIVERY_MIGRATION)
+    if any("drop column" in text.casefold() for text in (preparation, delivery, retry)):
+        error("Дополнительные миграции не должны удалять поля", RETRY_MIGRATION)
         errors += 1
     if "to anon" in summary.casefold() or "to authenticated" in summary.casefold():
         error("Сводка не должна быть доступна публичным ролям", SUMMARY_MIGRATION)
@@ -200,6 +250,9 @@ def main() -> int:
         errors += 1
     if "or leads.notification_status = 'failed'" in delivery:
         error("Failed-уведомление нельзя автоматически захватывать повторно", DELIVERY_MIGRATION)
+        errors += 1
+    if "and leads.notification_status = 'failed'" not in retry:
+        error("Ручной retry должен работать только из failed", RETRY_MIGRATION)
         errors += 1
 
     mode_match = re.search(r"(?ms)^lead_capture:\s*.*?^\s{2}mode:\s*[\"']?([^\"'\n]+)", config)
@@ -225,6 +278,8 @@ def main() -> int:
         "preparation",
         "broker_lead_notification_summary",
         "claim_broker_lead_notification",
+        "request_broker_lead_notification_retry",
+        "broker_lead_notification_queue_health",
         "notification_status",
         "endpoint должен оставаться пустым",
     ):
@@ -242,8 +297,11 @@ def main() -> int:
         "telegram",
         "broker_lead_notification_summary",
         "claim_broker_lead_notification",
+        "request_broker_lead_notification_retry",
+        "broker_lead_notification_queue_health",
         "проверка прав",
         "неизвестный uuid",
+        "retry_not_allowed",
         "проверка hybrid",
         "откат",
     ):
@@ -256,8 +314,9 @@ def main() -> int:
         return 1
 
     print(
-        "Аудит Supabase backend успешно завершён: пять миграций, модульный Edge Function, "
-        "идемпотентность, rate limit, CORS, preparation, атомарная доставка, контракты, smoke и выключенный endpoint подтверждены"
+        "Аудит Supabase backend успешно завершён: шесть миграций, публичный и административный Edge Function, "
+        "идемпотентность, rate limit, CORS, preparation, атомарная доставка, ручной retry, "
+        "обезличенная очередь, контракты, smoke и выключенный endpoint подтверждены"
     )
     return 0
 
