@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FUNCTION_FILE = ROOT / "supabase/functions/broker-public-lead/index.ts"
 MIGRATION_FILE = ROOT / "supabase/migrations/202607130002_broker_leads_v2.sql"
 PREPARATION_MIGRATION_FILE = ROOT / "supabase/migrations/202607130003_broker_lead_preparation.sql"
+NOTIFICATION_MIGRATION_FILE = ROOT / "supabase/migrations/202607130004_broker_lead_notification_summary.sql"
 CONFIG_FILE = ROOT / "_config.yml"
 CONTRACT_FILE = ROOT / "docs/lead-endpoint-contract.md"
 PREPARATION_CONTRACT_FILE = ROOT / "docs/preparation-context-contract.md"
@@ -36,6 +37,7 @@ def main() -> int:
         FUNCTION_FILE,
         MIGRATION_FILE,
         PREPARATION_MIGRATION_FILE,
+        NOTIFICATION_MIGRATION_FILE,
         CONFIG_FILE,
         CONTRACT_FILE,
         PREPARATION_CONTRACT_FILE,
@@ -51,6 +53,7 @@ def main() -> int:
     function = FUNCTION_FILE.read_text(encoding="utf-8", errors="ignore")
     migration = MIGRATION_FILE.read_text(encoding="utf-8", errors="ignore")
     preparation_migration = PREPARATION_MIGRATION_FILE.read_text(encoding="utf-8", errors="ignore")
+    notification_migration = NOTIFICATION_MIGRATION_FILE.read_text(encoding="utf-8", errors="ignore")
     config = CONFIG_FILE.read_text(encoding="utf-8", errors="ignore")
     contract = CONTRACT_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
     preparation_contract = PREPARATION_CONTRACT_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
@@ -144,6 +147,26 @@ def main() -> int:
     )
 
     errors += require_markers(
+        notification_migration,
+        (
+            "broker_lead_notification_summary",
+            "returns text",
+            "security definer",
+            "broker_lead_not_found",
+            "preparation_completed",
+            "journey_type",
+            "journey_stage",
+            "journey_scenario_slug",
+            "remaining_questions",
+            "ПОДГОТОВКА ДО ОБРАЩЕНИЯ",
+            "revoke all on function",
+            "grant execute on function public.broker_lead_notification_summary(uuid)",
+            "to service_role",
+        ),
+        NOTIFICATION_MIGRATION_FILE,
+    )
+
+    errors += require_markers(
         preparation_contract,
         (
             "context_version",
@@ -165,6 +188,12 @@ def main() -> int:
         errors += 1
     if "drop column" in preparation_migration.casefold():
         error("Миграция контекста не должна удалять существующие поля", PREPARATION_MIGRATION_FILE)
+        errors += 1
+    if "to anon" in notification_migration.casefold() or "to authenticated" in notification_migration.casefold():
+        error("Серверная сводка уведомления не должна быть доступна публичным ролям", NOTIFICATION_MIGRATION_FILE)
+        errors += 1
+    if "telegram_bot_token" in notification_migration.casefold() or "http_post" in notification_migration.casefold():
+        error("SQL-сводка не должна хранить Telegram secrets или самостоятельно выполнять HTTP-запрос", NOTIFICATION_MIGRATION_FILE)
         errors += 1
 
     mode_match = re.search(r"(?ms)^lead_capture:\s*.*?^\s{2}mode:\s*[\"']?([^\"'\n]+)", config)
@@ -192,6 +221,7 @@ def main() -> int:
         "preparation",
         "journey_type",
         "remaining_questions",
+        "broker_lead_notification_summary",
         "политика обработки данных",
         "endpoint должен оставаться пустым",
     ):
@@ -207,6 +237,7 @@ def main() -> int:
         "rate_limit_exceeded",
         "backend_migration_required",
         "telegram",
+        "broker_lead_notification_summary",
         "проверка hybrid",
         "откат",
     ):
@@ -220,7 +251,7 @@ def main() -> int:
 
     print(
         "Аудит Supabase backend v2 успешно завершён: "
-        "базовая и preparation-миграции, идемпотентность, атомарный rate limit, CORS, события, edge-case защита, smoke-план и выключенный endpoint подтверждены"
+        "базовая, preparation и notification-миграции, идемпотентность, атомарный rate limit, CORS, события, защищённая сводка, smoke-план и выключенный endpoint подтверждены"
     )
     return 0
 
