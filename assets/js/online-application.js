@@ -9,8 +9,12 @@
   const shareButton = document.querySelector('[data-application-share]');
   const smsLink = document.querySelector('[data-application-sms]');
   const vkLink = document.querySelector('[data-application-vk]');
+  const directSendButton = document.querySelector('[data-application-direct-send]');
+  const deliveryNote = document.querySelector('[data-application-delivery-note]');
   let preparedText = '';
+  let preparedPayload = null;
   let startGoalSent = false;
+  let directSent = false;
 
   const SCENARIO_BY_SLUG = {
     'podbor-ipoteki': 'Первичная консультация и подбор ипотеки',
@@ -52,6 +56,31 @@
   function track(goalName) {
     if (typeof window.sendGoal === 'function') window.sendGoal(goalName);
   }
+
+  function boundedNumber(value, fallback, min, max) {
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) return fallback;
+    return Math.min(max, Math.max(min, parsed));
+  }
+
+  function normalizeEndpoint(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return '';
+    try {
+      const url = new URL(raw, window.location.origin);
+      return url.protocol === 'https:' ? url.href : '';
+    } catch (error) {
+      return '';
+    }
+  }
+
+  const leadConfig = {
+    mode: String(form.dataset.leadMode || 'disabled').trim().toLowerCase(),
+    endpoint: normalizeEndpoint(form.dataset.leadEndpoint),
+    timeoutMs: boundedNumber(form.dataset.leadTimeoutMs, 8000, 2000, 20000),
+    minFillMs: boundedNumber(form.dataset.leadMinFillMs, 3000, 1000, 30000)
+  };
+  const directDeliveryEnabled = leadConfig.mode === 'direct' && Boolean(leadConfig.endpoint);
 
   function normalizeSourcePath(value) {
     if (!value) return '';
@@ -96,6 +125,15 @@
     return true;
   }
 
+  function rawFieldValue(name) {
+    const field = form.elements.namedItem(name);
+    return field ? String(field.value || '').trim() : '';
+  }
+
+  function fieldValue(name, fallback = 'Не указано') {
+    return rawFieldValue(name) || fallback;
+  }
+
   function setStatus(message, type = '') {
     if (!status) return;
     status.textContent = message;
@@ -103,16 +141,36 @@
     if (type) status.classList.add(`is-${type}`);
   }
 
-  function fieldValue(name, fallback = 'Не указано') {
-    const field = form.elements.namedItem(name);
-    if (!field) return fallback;
-    const value = String(field.value || '').trim();
-    return value || fallback;
+  function setDeliveryNote(message, type = '') {
+    if (!deliveryNote) return;
+    deliveryNote.textContent = message;
+    deliveryNote.classList.remove('is-error', 'is-success');
+    if (type) deliveryNote.classList.add(`is-${type}`);
+  }
+
+  function createRequestId() {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+      return window.crypto.randomUUID();
+    }
+    const randomPart = Math.random().toString(36).slice(2, 12);
+    return `lead-${Date.now().toString(36)}-${randomPart}`;
+  }
+
+  function resetAttemptMetadata() {
+    setInputValue('request_id', createRequestId());
+    setInputValue('form_started_at', String(Date.now()));
+    directSent = false;
+    if (directSendButton) {
+      directSendButton.disabled = false;
+      directSendButton.removeAttribute('aria-busy');
+      directSendButton.textContent = 'Отправить заявку онлайн';
+    }
   }
 
   function buildApplicationText() {
     const lines = [
       'ОНЛАЙН-ЗАЯВКА С САЙТА sterlikova-ipoteka.ru',
+      `Номер заявки: ${fieldValue('request_id')}`,
       `Источник обращения: ${fieldValue('source_page', 'Прямой переход на форму')}`,
       '',
       `Имя: ${fieldValue('client_name')}`,
@@ -135,9 +193,46 @@
     return lines.join('\n');
   }
 
+  function buildLeadPayload() {
+    const startedAt = Number(rawFieldValue('form_started_at'));
+    return {
+      schema_version: 1,
+      request_id: fieldValue('request_id'),
+      form_version: fieldValue('form_version', '1'),
+      submitted_at: new Date().toISOString(),
+      form_fill_ms: Number.isFinite(startedAt) ? Math.max(0, Date.now() - startedAt) : null,
+      source_page: fieldValue('source_page', 'Прямой переход на форму'),
+      page_url: window.location.href,
+      client: {
+        name: fieldValue('client_name'),
+        phone: fieldValue('phone'),
+        city: fieldValue('city'),
+        preferred_contact: fieldValue('preferred_contact')
+      },
+      mortgage: {
+        scenario: fieldValue('scenario'),
+        object_type: fieldValue('object_type'),
+        object_price: fieldValue('object_price'),
+        down_payment: fieldValue('down_payment'),
+        income_type: fieldValue('income_type'),
+        bank_history: fieldValue('bank_history'),
+        comment: fieldValue('comment')
+      },
+      consent: true
+    };
+  }
+
+  function getSpamReason() {
+    if (rawFieldValue('website')) return 'honeypot';
+    const startedAt = Number(rawFieldValue('form_started_at'));
+    if (!Number.isFinite(startedAt)) return 'missing_start_time';
+    if (Date.now() - startedAt < leadConfig.minFillMs) return 'too_fast';
+    return '';
+  }
+
   function setFieldValidity() {
     form.querySelectorAll('input, select, textarea').forEach((field) => {
-      if (field.type === 'checkbox' || field.type === 'hidden') return;
+      if (field.type === 'checkbox' || field.type === 'hidden' || field.name === 'website') return;
       field.setAttribute('aria-invalid', String(!field.checkValidity()));
     });
   }
@@ -187,8 +282,89 @@
     if (sourcePath) track('online_application_prefill');
   }
 
+  async function parseEndpointResponse(response) {
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) return {};
+    try {
+      return await response.json();
+    } catch (error) {
+      return {};
+    }
+  }
+
+  async function sendDirectly() {
+    if (!preparedPayload || !preparedText || !directDeliveryEnabled || directSent) return;
+
+    const spamReason = getSpamReason();
+    if (spamReason) {
+      setDeliveryNote('Не удалось подтвердить корректность формы. Используйте SMS, MAX, ВКонтакте или копирование текста.', 'error');
+      track('online_application_spam_block');
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), leadConfig.timeoutMs);
+    directSendButton.disabled = true;
+    directSendButton.setAttribute('aria-busy', 'true');
+    directSendButton.textContent = 'Отправляем…';
+    setDeliveryNote('Передаём заявку в подключённый канал. Не закрывайте страницу.');
+
+    try {
+      track('online_application_direct_attempt');
+      const response = await fetch(leadConfig.endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'omit',
+        referrerPolicy: 'strict-origin-when-cross-origin',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(preparedPayload),
+        signal: controller.signal
+      });
+      const responsePayload = await parseEndpointResponse(response);
+      if (!response.ok || responsePayload.ok === false) {
+        throw new Error(responsePayload.message || `HTTP ${response.status}`);
+      }
+
+      directSent = true;
+      const leadId = String(responsePayload.lead_id || responsePayload.id || '').trim();
+      const suffix = leadId ? ` Номер обращения: ${leadId}.` : '';
+      setDeliveryNote(`Заявка передана в подключённый канал.${suffix} Сохраните текст ниже до ответа Татьяны.`, 'success');
+      directSendButton.textContent = 'Заявка отправлена';
+      track('online_application_direct_success');
+    } catch (error) {
+      const timedOut = error && error.name === 'AbortError';
+      setDeliveryNote(
+        timedOut
+          ? 'Сервер не ответил вовремя. Данные не потеряны — отправьте готовый текст через SMS, MAX или ВКонтакте.'
+          : 'Прямая отправка не удалась. Данные не потеряны — используйте один из резервных способов ниже.',
+        'error'
+      );
+      directSendButton.disabled = false;
+      directSendButton.removeAttribute('aria-busy');
+      directSendButton.textContent = 'Повторить отправку';
+      track(timedOut ? 'online_application_direct_timeout' : 'online_application_direct_error');
+    } finally {
+      window.clearTimeout(timeoutId);
+      if (directSent) {
+        directSendButton.disabled = true;
+        directSendButton.removeAttribute('aria-busy');
+      }
+    }
+  }
+
   if (shareButton && !navigator.share) shareButton.hidden = true;
+  if (directSendButton) directSendButton.hidden = !directDeliveryEnabled;
+  setDeliveryNote(
+    directDeliveryEnabled
+      ? 'После проверки текста заявку можно отправить напрямую. При ошибке останутся SMS, MAX, ВКонтакте и копирование.'
+      : 'Прямая серверная отправка пока не подключена. Используйте один из доступных способов ниже.'
+  );
+  resetAttemptMetadata();
   prefillFromSource();
+  if (directDeliveryEnabled) track('online_application_endpoint_ready');
 
   form.addEventListener('input', () => {
     if (!startGoalSent) {
@@ -199,6 +375,8 @@
     if (result && !result.hidden) {
       result.hidden = true;
       preparedText = '';
+      preparedPayload = null;
+      resetAttemptMetadata();
       setStatus('Данные изменены. Подготовьте заявку заново.');
     }
   });
@@ -215,11 +393,17 @@
     }
 
     preparedText = buildApplicationText();
+    preparedPayload = buildLeadPayload();
     if (output) output.value = preparedText;
     if (smsLink) smsLink.href = `sms:+79030250807?body=${encodeURIComponent(preparedText)}`;
     if (result) result.hidden = false;
 
     setStatus('Заявка подготовлена. Выберите способ отправки ниже.', 'success');
+    setDeliveryNote(
+      directDeliveryEnabled
+        ? 'Проверьте текст. Можно отправить заявку напрямую или выбрать резервный канал.'
+        : 'Прямая серверная отправка пока не подключена. Используйте один из доступных способов ниже.'
+    );
     track('online_application_prepare');
 
     window.setTimeout(() => {
@@ -227,6 +411,8 @@
       if (output) output.focus({ preventScroll: true });
     }, 0);
   });
+
+  if (directSendButton) directSendButton.addEventListener('click', sendDirectly);
 
   if (copyButton) {
     copyButton.addEventListener('click', async () => {
