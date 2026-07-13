@@ -12,6 +12,7 @@ MIGRATION_FILE = ROOT / "supabase/migrations/202607130002_broker_leads_v2.sql"
 PREPARATION_MIGRATION_FILE = ROOT / "supabase/migrations/202607130003_broker_lead_preparation.sql"
 CONFIG_FILE = ROOT / "_config.yml"
 CONTRACT_FILE = ROOT / "docs/lead-endpoint-contract.md"
+PREPARATION_CONTRACT_FILE = ROOT / "docs/preparation-context-contract.md"
 SMOKE_FILE = ROOT / "docs/supabase-backend-smoke.md"
 
 
@@ -37,6 +38,7 @@ def main() -> int:
         PREPARATION_MIGRATION_FILE,
         CONFIG_FILE,
         CONTRACT_FILE,
+        PREPARATION_CONTRACT_FILE,
         SMOKE_FILE,
     )
     for file in required_files:
@@ -51,6 +53,8 @@ def main() -> int:
     preparation_migration = PREPARATION_MIGRATION_FILE.read_text(encoding="utf-8", errors="ignore")
     config = CONFIG_FILE.read_text(encoding="utf-8", errors="ignore")
     contract = CONTRACT_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
+    preparation_contract = PREPARATION_CONTRACT_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
+    combined_contract = f"{contract}\n{preparation_contract}"
     smoke = SMOKE_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
 
     errors += require_markers(
@@ -139,6 +143,20 @@ def main() -> int:
         PREPARATION_MIGRATION_FILE,
     )
 
+    errors += require_markers(
+        preparation_contract,
+        (
+            "context_version",
+            "completed_checks",
+            "completed_labels",
+            "preparation_json",
+            "journey_scenario_slug",
+            "sync_broker_lead_preparation",
+            "не является оценкой вероятности одобрения",
+        ),
+        PREPARATION_CONTRACT_FILE,
+    )
+
     if "last_payload" in migration:
         error("Таблица rate limit не должна хранить полный payload заявки", MIGRATION_FILE)
         errors += 1
@@ -177,7 +195,7 @@ def main() -> int:
         "политика обработки данных",
         "endpoint должен оставаться пустым",
     ):
-        if marker not in contract:
+        if marker not in combined_contract:
             error(f"Контракт backend не содержит обязательный раздел или маркер: {marker}", CONTRACT_FILE)
             errors += 1
 
