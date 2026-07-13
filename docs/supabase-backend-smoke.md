@@ -2,9 +2,9 @@
 
 ## Назначение
 
-Чек-лист подтверждает, что подготовленные исходники применены в правильном Supabase-проекте и могут безопасно работать вторым каналом рядом с Web3Forms.
+Чек-лист подтверждает, что Supabase может безопасно работать вторым каналом рядом с Web3Forms.
 
-До завершения всех проверок сайт должен сохранять:
+До завершения всех проверок сайт сохраняет:
 
 ```yaml
 lead_capture:
@@ -12,11 +12,9 @@ lead_capture:
   endpoint: ""
 ```
 
-Тесты выполняются сначала в отдельной тестовой среде или с явно тестовыми данными.
+Тесты выполняются только в подтверждённом проекте и с явно тестовыми данными.
 
-## Переменные для теста
-
-Заменить значения локально и не коммитить секреты:
+## Переменные
 
 ```bash
 export FUNCTION_URL="https://PROJECT.supabase.co/functions/v1/broker-public-lead"
@@ -24,28 +22,29 @@ export SITE_ORIGIN="https://sterlikova-ipoteka.ru"
 export REQUEST_ID="00000000-0000-4000-8000-000000000001"
 ```
 
-Не публиковать:
-
-- `SUPABASE_SERVICE_ROLE_KEY`;
-- Telegram bot token;
-- Telegram chat ID без согласования;
-- CRM-ключи.
+Не публиковать `SUPABASE_SERVICE_ROLE_KEY`, Telegram bot token, chat ID и CRM-ключи.
 
 ## 1. Проверка миграций
 
-В подтверждённом Supabase-проекте должны быть применены по порядку:
+Применить строго по порядку:
 
 1. `202607070001_create_broker_leads.sql`;
 2. `202607130002_broker_leads_v2.sql`;
-3. `202607130003_broker_lead_preparation.sql`.
+3. `202607130003_broker_lead_preparation.sql`;
+4. `202607130004_broker_lead_notification_summary.sql`;
+5. `202607130005_broker_lead_notification_delivery.sql`.
 
-Проверить основные объекты:
+Проверить таблицы:
 
 ```sql
 select to_regclass('public.broker_leads');
 select to_regclass('public.broker_lead_events');
 select to_regclass('public.broker_lead_rate_limits');
+```
 
+Проверить колонки:
+
+```sql
 select column_name, data_type
 from information_schema.columns
 where table_schema = 'public'
@@ -53,38 +52,26 @@ where table_schema = 'public'
   and column_name in (
     'request_id',
     'schema_version',
-    'form_version',
-    'phone_normalized',
+    'raw_payload',
     'tracking',
     'qualification',
     'spam_check',
-    'raw_payload',
-    'notification_status',
     'journey_type',
     'journey_stage',
     'journey_scenario_slug',
     'preparation',
     'preparation_completed',
-    'remaining_questions'
+    'remaining_questions',
+    'notification_status',
+    'notification_attempt_count',
+    'notification_attempted_at',
+    'notification_sent_at',
+    'notification_last_error'
   )
 order by column_name;
 ```
 
-Проверить индексы:
-
-```sql
-select indexname, indexdef
-from pg_indexes
-where schemaname = 'public'
-  and indexname in (
-    'broker_leads_request_id_uidx',
-    'broker_leads_preparation_gin_idx',
-    'broker_leads_journey_scenario_idx'
-  )
-order by indexname;
-```
-
-Проверить функции и trigger:
+Проверить функции:
 
 ```sql
 select routine_name
@@ -93,24 +80,22 @@ where routine_schema = 'public'
   and routine_name in (
     'consume_broker_lead_rate_limit',
     'purge_broker_lead_rate_limits',
-    'sync_broker_lead_preparation'
-  );
-
-select trigger_name, event_manipulation
-from information_schema.triggers
-where event_object_schema = 'public'
-  and event_object_table = 'broker_leads'
-  and trigger_name = 'broker_leads_sync_preparation';
+    'sync_broker_lead_preparation',
+    'broker_lead_notification_summary',
+    'claim_broker_lead_notification',
+    'complete_broker_lead_notification'
+  )
+order by routine_name;
 ```
 
 Ожидается:
 
-- таблицы и новые столбцы присутствуют;
-- request ID имеет частичный уникальный индекс;
-- preparation имеет GIN-индекс;
-- trigger включён на `insert` и `update` поля `raw_payload`;
+- частичный уникальный индекс request ID;
 - RLS включён;
-- публичная anon-вставка в таблицы отсутствует.
+- публичная anon-вставка отсутствует;
+- preparation trigger активен;
+- notification constraint допускает только `pending`, `sending`, `sent`, `failed`, `disabled`;
+- публичный доступ к серверным RPC отсутствует.
 
 ## 2. Проверка конфигурации Edge Function
 
@@ -119,7 +104,7 @@ where event_object_schema = 'public'
 - `SUPABASE_URL`;
 - `SUPABASE_SERVICE_ROLE_KEY`.
 
-Рекомендуемые настройки:
+Настройки:
 
 ```text
 ALLOWED_ORIGINS=https://sterlikova-ipoteka.ru,https://www.sterlikova-ipoteka.ru
@@ -130,10 +115,7 @@ MAX_BODY_BYTES=65536
 TELEGRAM_TIMEOUT_MS=5000
 ```
 
-Telegram подключается только для тестового или подтверждённого рабочего чата:
-
-- `TELEGRAM_BOT_TOKEN`;
-- `TELEGRAM_CHAT_ID`.
+Telegram secrets подключаются только для подтверждённого тестового чата.
 
 ## 3. CORS preflight
 
@@ -146,58 +128,18 @@ curl -i -X OPTIONS "$FUNCTION_URL" \
   -H "Access-Control-Request-Headers: content-type"
 ```
 
-Ожидается HTTP `204`, точный `Access-Control-Allow-Origin`, `POST, OPTIONS` и `Vary: Origin`.
+Ожидается HTTP `204`, точный `Access-Control-Allow-Origin` и `Vary: Origin`.
 
-Запрещённый Origin:
+Запрещённый Origin должен получить HTTP `403` без разрешающего заголовка.
 
-```bash
-curl -i -X OPTIONS "$FUNCTION_URL" \
-  -H "Origin: https://attacker.example" \
-  -H "Access-Control-Request-Method: POST"
-```
+## 4. Валидный payload
 
-Ожидается HTTP `403` без разрешающего CORS-заголовка.
+Использовать заявку со `schema_version: 1`, уникальным request ID, тестовым телефоном, согласием и временем заполнения больше `MIN_FILL_MS`.
 
-## 4. Валидный payload с preparation
-
-Создать `/tmp/broker-lead.json`:
+Для сложного маршрута добавить:
 
 ```json
 {
-  "schema_version": 1,
-  "request_id": "00000000-0000-4000-8000-000000000001",
-  "form_version": "2",
-  "submitted_at": "2026-07-13T15:00:00.000Z",
-  "form_fill_ms": 10000,
-  "source_page": "/geo/borisoglebsk/otkazali-v-ipoteke/",
-  "page_url": "https://sterlikova-ipoteka.ru/online-zayavka/?source=...&journey=complex&stage=route",
-  "page_title": "Онлайн-заявка ипотечному брокеру",
-  "referrer": "https://sterlikova-ipoteka.ru/geo/borisoglebsk/otkazali-v-ipoteke/",
-  "tracking": {
-    "first_touch": {},
-    "last_touch": {},
-    "current": {
-      "utm_source": "supabase_smoke",
-      "utm_medium": "test",
-      "utm_campaign": "backend_v2_preparation"
-    }
-  },
-  "client": {
-    "name": "Тест Supabase",
-    "phone": "+7 (900) 000-00-01",
-    "phone_normalized": "79000000001",
-    "city": "Борисоглебск",
-    "preferred_contact": "Позвонить"
-  },
-  "mortgage": {
-    "scenario": "Банк отказал в ипотеке",
-    "object_type": "Пока не выбрано",
-    "object_price": "Тест",
-    "down_payment": "Тест",
-    "income_type": "Не указано",
-    "bank_history": "SMOKE TEST — не обрабатывать как реального клиента",
-    "comment": "Исходный комментарий клиента без служебной склейки"
-  },
   "preparation": {
     "context_version": 1,
     "active": true,
@@ -206,23 +148,10 @@ curl -i -X OPTIONS "$FUNCTION_URL" \
     "scenario_slug": "otkazali-v-ipoteke",
     "completed_checks": ["diagnosis", "finances"],
     "completed_labels": [
-      "Зафиксировал(а) банк, дату и этап отказа",
-      "Проверил(а) кредиты, карты и ежемесячные платежи"
+      "Зафиксирован банк и этап отказа",
+      "Проверены кредиты и карты"
     ],
     "remaining_questions": "Нужно понять, связан ли отказ с объектом"
-  },
-  "qualification": {
-    "status": "cold",
-    "score": 25,
-    "priority": "уточнить вводные",
-    "reasons": ["тестовая заявка"]
-  },
-  "personal_data_consent": "yes",
-  "consent": true,
-  "spam_check": {
-    "honeypot_empty": true,
-    "form_fill_ms": 10000,
-    "likely_bot": false
   }
 }
 ```
@@ -236,18 +165,16 @@ curl -i -X POST "$FUNCTION_URL" \
   --data-binary @/tmp/broker-lead.json
 ```
 
-Ожидается HTTP `201`, `success: true`, новый `lead_id` и тот же `request_id`.
+Ожидается HTTP `201`, `success: true`, новый `lead_id` и тот же request ID.
 
-## 5. Проверка записи в базе
+## 5. Проверка записи
 
 ```sql
 select
   id,
   request_id,
   status,
-  client_name,
   phone_normalized,
-  city,
   scenario,
   source_page,
   journey_type,
@@ -257,9 +184,11 @@ select
   preparation_completed,
   remaining_questions,
   comment,
-  technical_priority,
   notification_status,
-  created_at
+  notification_attempt_count,
+  notification_attempted_at,
+  notification_sent_at,
+  notification_last_error
 from public.broker_leads
 where request_id = '00000000-0000-4000-8000-000000000001';
 ```
@@ -267,50 +196,21 @@ where request_id = '00000000-0000-4000-8000-000000000001';
 Проверить:
 
 - одна строка;
-- телефон нормализован до 11 цифр и начинается с `7`;
-- `raw_payload.preparation` соответствует тесту;
-- `journey_type`, `journey_stage` и slug заполнены trigger-функцией;
-- `preparation_completed` содержит только две подписи;
-- `remaining_questions` хранится отдельно;
-- `comment` не содержит строк подготовки;
-- tracking и qualification записаны;
-- User-Agent взят из HTTP-заголовка.
-
-Проверить whitelist. Повторить запрос с неизвестным slug, лишним ключом проверки, пятью labels и огромным `context_version`.
-
-Ожидается:
-
-- неизвестный slug превращается в `null`;
-- `active` становится `false`;
-- неизвестный check не сохраняется;
-- сохраняется максимум четыре labels;
-- version не вызывает ошибку integer и ограничивается безопасным диапазоном;
-- произвольные вложенные поля отсутствуют в очищенном `preparation`, но могут оставаться только в защищённом `raw_payload`.
-
-События:
-
-```sql
-select event_type, event_title, event_comment, created_at
-from public.broker_lead_events
-where request_id = '00000000-0000-4000-8000-000000000001'
-order by created_at;
-```
-
-Ожидается минимум событие `created`.
+- телефон нормализован;
+- комментарий клиента не содержит служебной склейки;
+- preparation очищен whitelist-механизмом;
+- неизвестный slug не сохраняется;
+- не более четырёх labels;
+- raw payload доступен только уполномоченным;
+- User-Agent получен из HTTP-заголовка.
 
 ## 6. Идемпотентность
 
-Повторить тот же POST с тем же `request_id`.
+Повторить POST с тем же `request_id`.
 
-Ожидается HTTP `200`, `duplicate: true` и тот же `lead_id`.
+Ожидается HTTP `200`, `duplicate: true`, тот же `lead_id` и одна строка в базе.
 
-```sql
-select count(*)
-from public.broker_leads
-where request_id = '00000000-0000-4000-8000-000000000001';
-```
-
-Результат должен быть `1`.
+При включённом тестовом Telegram второе сообщение при обычном повторе не приходит. Подробная атомарная проверка выполняется по `docs/supabase-notification-smoke.md`.
 
 ## 7. Ошибки валидации
 
@@ -323,88 +223,73 @@ where request_id = '00000000-0000-4000-8000-000000000001';
 - `consent: false`;
 - неправильный `schema_version`;
 - неправильный `request_id`;
-- `form_fill_ms` меньше `MIN_FILL_MS`.
+- слишком короткое `form_fill_ms`.
 
-Ожидается HTTP `422` и безопасный массив кодов ошибок.
-
-Объект `preparation` необязателен: обычная заявка без него должна успешно приниматься.
+Ожидается HTTP `422` с безопасными кодами. Объект preparation необязателен.
 
 ## 8. Spam-блок
 
-Передать:
+Honeypot или `likely_bot: true` должны вернуть HTTP `202`, `success: false`, `request_rejected` без записи заявки.
 
-```json
-"spam_check": {
-  "honeypot_empty": false,
-  "likely_bot": true
-}
-```
-
-Ожидается HTTP `202`, `success: false`, `request_rejected`. Запись не создаётся, а ответ не считается успешным каналом в режиме hybrid.
+Такой ответ не считается успешным каналом в hybrid.
 
 ## 9. Content-Type, JSON и размер
 
-- без `Content-Type: application/json` — HTTP `415`;
-- некорректный JSON — HTTP `400` и `invalid_json`;
+- нет JSON Content-Type — HTTP `415`;
+- некорректный JSON — HTTP `400`;
 - тело больше `MAX_BODY_BYTES` — HTTP `413` и `payload_too_large`.
 
 ## 10. Rate limit
 
-В тестовой среде временно установить:
+В тестовой среде временно установить небольшой лимит. Последний запрос должен получить HTTP `429` и `rate_limit_exceeded`.
 
-```text
-RATE_LIMIT_PER_HOUR=3
-```
+Таблица лимитов не хранит исходный IP, полный телефон или payload.
 
-Отправить четыре заявки с новыми `request_id`, одним телефоном, IP и User-Agent.
+Проверить очистку через `purge_broker_lead_rate_limits`.
 
-Ожидается:
+## 11. Проверка прав
 
-- первые три проходят;
-- четвёртая получает HTTP `429` и `rate_limit_exceeded`;
-- счётчик увеличивается атомарно;
-- таблица rate limit не хранит исходный IP, телефон и payload.
+Убедиться, что `anon` и `authenticated` не имеют прямых прав записи и EXECUTE на служебные RPC.
 
-## 11. Очистка rate limit
+`service_role` используется только внутри Edge Function.
 
-```sql
-select public.purge_broker_lead_rate_limits(now() + interval '1 minute');
-```
+## 12. Telegram и сводка
 
-Функция должна вернуть количество удалённых строк. В production требуется регулярный безопасный график очистки.
+Выполнить отдельный чеклист `docs/supabase-notification-smoke.md`.
 
-## 12. Telegram
+Проверяются:
 
-Без Telegram secrets заявка сохраняется с `notification_status = disabled`.
+- `broker_lead_notification_summary`;
+- первый и повторный claim;
+- статусы `sending`, `sent`, `failed`;
+- зависшее sending;
+- duplicate request ID;
+- остаточное аварийное окно Telegram.
 
-С тестовым чатом сообщение должно содержать request ID, телефон, город, задачу, приоритет и источник. После будущего расширения уведомления желательно добавить journey stage, но отсутствие этого поля сейчас не блокирует сохранение структурированного контекста в CRM.
+Неизвестный UUID должен вернуть `broker_lead_not_found` только доверенному серверному вызову, без stack trace клиенту.
 
-Искусственная ошибка Telegram не должна откатывать заявку. Ожидаются `notification_status = failed` и событие `notification_failed`.
+## 13. Fail-closed
 
-## 13. Fail-closed проверка
+Без применённых миграций тестовая функция должна вернуть безопасный `backend_migration_required`, а не принять неполную заявку.
 
-На тестовой функции без применённой базовой или preparation-миграции ожидается HTTP `503` и `backend_migration_required` либо ошибка сохранения без ложного успешного ответа.
-
-Функция не должна молча принимать заявку без уникального `request_id`, атомарного rate limit и требуемых колонок.
-
-## 14. Проверка hybrid на сайте
+## 14. Проверка hybrid
 
 Переходить к этому этапу только после серверных тестов.
 
-1. Обновить политику обработки данных под фактическое хранение в Supabase.
-2. Указать проверенный HTTPS endpoint в `_config.yml`.
-3. Перевести `lead_capture.mode` в `hybrid`.
+1. Обновить политику под фактическое хранение в Supabase.
+2. Указать проверенный HTTPS endpoint.
+3. Перевести режим в `hybrid`.
 4. Дождаться успешной Pages-сборки.
-5. Отправить обычную и сложную заявки с UTM-метками.
-6. Подтвердить email Web3Forms.
-7. Подтвердить строку Supabase и отдельные preparation-поля.
+5. Отправить заявку с UTM.
+6. Подтвердить Web3Forms email.
+7. Подтвердить строку Supabase.
 8. Подтвердить Telegram или рабочую очередь.
-9. Проверить один request ID во всех каналах.
-10. Проверить `/spasibo/` и fallback при отказе одного канала.
+9. Сверить один request ID во всех каналах.
+10. Проверить `/spasibo/` и отказ одного канала.
 
 ## 15. Откат
 
-При нестабильной работе вернуть:
+При нестабильности:
 
 ```yaml
 lead_capture:
@@ -412,23 +297,21 @@ lead_capture:
   endpoint: ""
 ```
 
-Web3Forms и резервные способы должны продолжить работу независимо.
-
-Не удалять таблицы и миграции при оперативном откате. Сначала отключается клиентский endpoint, затем анализируются события и логи без публикации персональных данных.
+Миграции и данные не удаляются оперативно. Сначала отключается endpoint, затем анализируются события и логи.
 
 ## Результат приёмки
 
 Зафиксировать в issue №7:
 
 - Supabase project ref;
-- дату применения всех трёх миграций;
-- версию функции;
+- даты пяти миграций;
+- версию Edge Function;
 - разрешённые Origin;
-- тестовый request ID и lead ID;
-- результаты duplicate, CORS, spam и rate limit;
-- результат очистки и whitelist preparation;
-- Telegram-чат или очередь;
-- ответственного за обработку;
+- тестовые request ID и lead ID;
+- CORS, duplicate, spam и rate limit;
+- preparation whitelist;
+- атомарный claim и notification status;
+- подтверждённый Telegram-чат;
 - срок хранения;
-- результат проверки hybrid;
-- план отката.
+- результат hybrid;
+- ответственного и план отката.
