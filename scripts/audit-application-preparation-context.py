@@ -52,7 +52,7 @@ class ApplicationParser(HTMLParser):
         label_key = attrs_map.get("data-preparation-label")
         if label_key:
             self.preparation_labels.add(label_key)
-        if attrs_map.get("data-application-preparation") is not None and "hidden" in attrs_map:
+        if "data-application-preparation" in attrs_map and "hidden" in attrs_map:
             self.preparation_hidden = True
 
     def handle_data(self, data: str) -> None:
@@ -72,7 +72,7 @@ class RouteLinkParser(HTMLParser):
         if tag.lower() != "a":
             return
         attrs_map = {key.lower(): value for key, value in attrs}
-        if attrs_map.get("data-complex-application-link") is not None:
+        if "data-complex-application-link" in attrs_map:
             href = attrs_map.get("href") or ""
             if href:
                 self.links.append(href)
