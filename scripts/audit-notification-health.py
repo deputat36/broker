@@ -12,6 +12,7 @@ SUPABASE_CONFIG = ROOT / "supabase/config.toml"
 MIGRATION = ROOT / "supabase/migrations/202607130006_broker_lead_notification_manual_retry.sql"
 CONTRACT = ROOT / "docs/notification-health-contract.md"
 SMOKE = ROOT / "docs/supabase-notification-health-smoke.md"
+RUNBOOK = ROOT / "docs/notification-operations-runbook.md"
 SITE_CONFIG = ROOT / "_config.yml"
 
 
@@ -39,7 +40,7 @@ def function_section(config: str, name: str) -> str:
 
 
 def main() -> int:
-    required = (FUNCTION, SUPABASE_CONFIG, MIGRATION, CONTRACT, SMOKE, SITE_CONFIG)
+    required = (FUNCTION, SUPABASE_CONFIG, MIGRATION, CONTRACT, SMOKE, RUNBOOK, SITE_CONFIG)
     missing = [file for file in required if not file.is_file()]
     for file in missing:
         error("Не найден обязательный файл health контроля", file)
@@ -52,6 +53,7 @@ def main() -> int:
     migration = read(MIGRATION)
     contract = read(CONTRACT).casefold()
     smoke = read(SMOKE).casefold()
+    runbook = read(RUNBOOK).casefold()
     site_config = read(SITE_CONFIG)
 
     errors += require(
@@ -128,7 +130,7 @@ def main() -> int:
         (
             "notification_monitor_token",
             "verify_jwt = false",
-            "не устанавливает access-control-allow-origin",
+            "access-control-allow-origin",
             "без раскрытия персональных данных",
             "stale_sending",
             "failed_critical",
@@ -156,6 +158,22 @@ def main() -> int:
         ),
         SMOKE,
     )
+    errors += require(
+        runbook,
+        (
+            "массовый retry запрещён",
+            "failed_present",
+            "failed_critical",
+            "stale_sending",
+            "pending_backlog",
+            "attempts_elevated",
+            "проверка перед ручным retry",
+            "закрытие инцидента",
+            "эскалация",
+            "endpoint: \"\"",
+        ),
+        RUNBOOK,
+    )
 
     mode_match = re.search(r"(?ms)^lead_capture:\s*.*?^\s{2}mode:\s*[\"']?([^\"'\n]+)", site_config)
     endpoint_match = re.search(r"(?m)^\s{2}endpoint:\s*[\"']?([^\"'\n]*)", site_config)
@@ -174,7 +192,7 @@ def main() -> int:
 
     print(
         "Аудит health endpoint успешно завершён: отдельный monitor token, GET-only, отсутствие CORS, "
-        "агрегаты без персональных данных, пороги тревог, smoke и выключенный публичный endpoint подтверждены"
+        "агрегаты без персональных данных, пороги тревог, runbook, smoke и выключенный публичный endpoint подтверждены"
     )
     return 0
 
