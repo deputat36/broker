@@ -47,7 +47,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейн
 
   <aside class="sidebar">
     <div class="seo-panel"><h3>Семейная ипотека</h3><p>Татьяна поможет предварительно разобрать семью, объект, взнос, доход и порядок подачи заявки.</p><a class="btn btn-primary" href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Общая страница услуги</a></div>
-    <div class="seo-panel"><h3>Связанные материалы</h3><ul><li><a href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">Материнский капитал</a></li><li><a href="{{ '/polezno/semeynaya-ipoteka-voprosy/' | relative_url }}">Вопросы по семейной ипотеке</a></li><li><a href="{{ '/geo/borisoglebsk/ipoteka-na-kvartiru/' | relative_url }}">Квартира в Борисоглебске</a></li><li><a href="{{ '/geo/borisoglebsk/ipoteka-na-dom/' | relative_url }}">Дом в Борисоглебске</a></li></ul></div>
+    <div class="seo-panel"><h3>Маршрут: квартира в городе</h3><ul><li><a href="{{ '/uslugi/ipoteka-na-novostroyku/' | relative_url }}">Семейная покупка новостройки</a></li><li><a href="{{ '/geo/borisoglebsk/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Вторичное жильё в Борисоглебске</a></li><li><a href="{{ '/polezno/chto-proverit-pered-pokupkoy-novostroyki-v-ipoteku/' | relative_url }}">Что проверить перед покупкой новостройки</a></li><li><a href="{{ '/geo/borisoglebsk/ipoteka-s-materinskim-kapitalom/' | relative_url }}">Материнский капитал в Борисоглебске</a></li></ul></div>
   </aside>
 </section>
 
