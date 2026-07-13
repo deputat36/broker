@@ -14,7 +14,9 @@ NOTIFICATION_MIGRATION_FILE = ROOT / "supabase/migrations/202607130004_broker_le
 CONFIG_FILE = ROOT / "_config.yml"
 CONTRACT_FILE = ROOT / "docs/lead-endpoint-contract.md"
 PREPARATION_CONTRACT_FILE = ROOT / "docs/preparation-context-contract.md"
+NOTIFICATION_CONTRACT_FILE = ROOT / "docs/notification-summary-contract.md"
 SMOKE_FILE = ROOT / "docs/supabase-backend-smoke.md"
+NOTIFICATION_SMOKE_FILE = ROOT / "docs/supabase-notification-smoke.md"
 
 
 def error(message: str, file: Path) -> None:
@@ -41,7 +43,9 @@ def main() -> int:
         CONFIG_FILE,
         CONTRACT_FILE,
         PREPARATION_CONTRACT_FILE,
+        NOTIFICATION_CONTRACT_FILE,
         SMOKE_FILE,
+        NOTIFICATION_SMOKE_FILE,
     )
     for file in required_files:
         if not file.is_file():
@@ -57,8 +61,11 @@ def main() -> int:
     config = CONFIG_FILE.read_text(encoding="utf-8", errors="ignore")
     contract = CONTRACT_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
     preparation_contract = PREPARATION_CONTRACT_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
-    combined_contract = f"{contract}\n{preparation_contract}"
+    notification_contract = NOTIFICATION_CONTRACT_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
+    combined_contract = f"{contract}\n{preparation_contract}\n{notification_contract}"
     smoke = SMOKE_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
+    notification_smoke = NOTIFICATION_SMOKE_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
+    combined_smoke = f"{smoke}\n{notification_smoke}"
 
     errors += require_markers(
         function,
@@ -180,6 +187,21 @@ def main() -> int:
         PREPARATION_CONTRACT_FILE,
     )
 
+    errors += require_markers(
+        notification_contract,
+        (
+            "broker_lead_notification_summary",
+            "service_role",
+            "публичный доступ",
+            "подготовка до обращения",
+            "raw_payload",
+            "notification_status",
+            "notification_sent",
+            "notification_failed",
+        ),
+        NOTIFICATION_CONTRACT_FILE,
+    )
+
     if "last_payload" in migration:
         error("Таблица rate limit не должна хранить полный payload заявки", MIGRATION_FILE)
         errors += 1
@@ -238,11 +260,13 @@ def main() -> int:
         "backend_migration_required",
         "telegram",
         "broker_lead_notification_summary",
+        "проверка прав",
+        "неизвестный uuid",
         "проверка hybrid",
         "откат",
     ):
-        if marker not in smoke:
-            error(f"Smoke-чеклист Supabase не содержит обязательный сценарий: {marker}", SMOKE_FILE)
+        if marker not in combined_smoke:
+            error(f"Smoke-чеклисты Supabase не содержат обязательный сценарий: {marker}", SMOKE_FILE)
             errors += 1
 
     if errors:
@@ -251,7 +275,7 @@ def main() -> int:
 
     print(
         "Аудит Supabase backend v2 успешно завершён: "
-        "базовая, preparation и notification-миграции, идемпотентность, атомарный rate limit, CORS, события, защищённая сводка, smoke-план и выключенный endpoint подтверждены"
+        "базовая, preparation и notification-миграции, идемпотентность, атомарный rate limit, CORS, события, защищённая сводка, контракты, smoke-планы и выключенный endpoint подтверждены"
     )
     return 0
 
