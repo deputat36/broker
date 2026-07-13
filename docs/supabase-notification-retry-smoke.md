@@ -25,6 +25,15 @@ lead_capture:
 5. `202607130005_broker_lead_notification_delivery.sql`;
 6. `202607130006_broker_lead_notification_manual_retry.sql`.
 
+Проверить `supabase/config.toml`:
+
+```toml
+[functions.broker-notification-retry]
+verify_jwt = false
+```
+
+`verify_jwt = false` нужен, чтобы собственный `Authorization: Bearer NOTIFICATION_ADMIN_TOKEN` дошёл до handler. После отключения platform JWT обязательны внутренняя проверка token и отсутствие CORS.
+
 Для закрытой функции задать secrets:
 
 - `SUPABASE_URL`;
@@ -334,6 +343,7 @@ where id = 'LEAD_ID';
 
 - дату применения шестой миграции;
 - дату deploy закрытой функции;
+- подтверждение `verify_jwt = false` и собственной проверки admin token;
 - подтверждение отсутствия CORS;
 - использованный reason code;
 - итоговые статусы и счётчики без идентификаторов клиента;
