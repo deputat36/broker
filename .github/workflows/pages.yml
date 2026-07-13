@@ -53,6 +53,8 @@ jobs:
         run: python3 scripts/audit-regional-intents.py ./_site
       - name: Audit regional reading paths
         run: python3 scripts/audit-regional-link-paths.py ./_site
+      - name: Audit complex application routes
+        run: python3 scripts/audit-complex-application-routes.py ./_site
       - name: Audit online application and remote service route
         run: python3 scripts/audit-online-application.py ./_site
       - name: Audit progressive mobile application UX
