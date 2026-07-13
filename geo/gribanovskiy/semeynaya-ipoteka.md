@@ -5,7 +5,7 @@ description: Консультация по семейной ипотеке в п
 permalink: /geo/gribanovskiy/semeynaya-ipoteka/
 breadcrumb: Семейная ипотека в Грибановском районе
 og_type: article
-schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейная ипотека в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по семейной ипотеке","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/semeynaya-ipoteka/"}'
+schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейная ипотека в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по семейной ипотеке","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/semeynaya-ipotека/"}'
 ---
 
 <section class="page-hero section">
@@ -47,7 +47,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейн
 
   <aside class="sidebar">
     <div class="seo-panel"><h3>Семейная ипотека</h3><p>Татьяна поможет проверить вводные по семье, объекту, взносу, доходу и документам до подачи заявки.</p><a class="btn btn-primary" href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Общая страница услуги</a></div>
-    <div class="seo-panel"><h3>Связанные материалы</h3><ul><li><a href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">Материнский капитал</a></li><li><a href="{{ '/polezno/semeynaya-ipoteka-voprosy/' | relative_url }}">Вопросы по семейной ипотеке</a></li><li><a href="{{ '/geo/gribanovskiy/ipoteka-na-kvartiru/' | relative_url }}">Квартира в Грибановском районе</a></li><li><a href="{{ '/geo/gribanovskiy/ipoteka-na-dom/' | relative_url }}">Дом в Грибановском районе</a></li></ul></div>
+    <div class="seo-panel"><h3>Маршрут: семейный бюджет района</h3><ul><li><a href="{{ '/geo/gribanovskiy/ipoteka-s-materinskim-kapitalom/' | relative_url }}">Материнский капитал и связанная покупка</a></li><li><a href="{{ '/geo/gribanovskiy/ipoteka-s-sozaemshchikom/' | relative_url }}">Созаёмщик и общий бюджет семьи</a></li><li><a href="{{ '/geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda/' | relative_url }}">Доход из нескольких источников</a></li><li><a href="{{ '/polezno/kupit-zhile-v-borisoglebske-iz-rayona/' | relative_url }}">Покупка жилья в Борисоглебске из района</a></li></ul></div>
   </aside>
 </section>
 
