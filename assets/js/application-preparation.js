@@ -11,6 +11,12 @@
   const detailsStepNumber = form.querySelector('[data-application-more] .application-step-label > span');
   const intro = preparation.querySelector('[data-preparation-intro]');
   const checkboxes = Array.from(form.querySelectorAll('input[name="preparation_check"]'));
+  const output = document.querySelector('[data-application-output]');
+  const smsLink = document.querySelector('[data-application-sms]');
+  const maxButton = document.querySelector('[data-application-max]');
+  const formStatus = form.querySelector('[data-application-status]');
+  const APPLICATION_TEXT_MARKER = 'ОНЛАЙН-ЗАЯВКА С САЙТА';
+  const PREPARATION_TEXT_MARKER = 'ПОДГОТОВКА ДО ОБРАЩЕНИЯ';
 
   const CONFIG_BY_SLUG = {
     'otkazali-v-ipoteke': {
@@ -53,6 +59,13 @@
 
   function track(goalName) {
     if (typeof window.sendGoal === 'function') window.sendGoal(goalName);
+  }
+
+  function setStatus(message, type = '') {
+    if (!formStatus) return;
+    formStatus.textContent = message;
+    formStatus.classList.remove('is-error', 'is-success');
+    if (type) formStatus.classList.add(`is-${type}`);
   }
 
   function normalizeSourcePath(value) {
@@ -101,7 +114,7 @@
   function preparationMessage(data) {
     if (!data.active) return '';
     return [
-      'ПОДГОТОВКА ДО ОБРАЩЕНИЯ',
+      PREPARATION_TEXT_MARKER,
       `Тип маршрута: ${data.journey_type || 'не указан'}`,
       `Этап: ${data.journey_stage || 'не указан'}`,
       `Сценарий: ${data.scenario_slug || 'не указан'}`,
@@ -109,6 +122,17 @@
       `Что осталось уточнить: ${data.remaining_questions || 'не указано'}`
     ].join('\n');
   }
+
+  window.getApplicationPreparationText = () => preparationMessage(window.getApplicationPreparationData());
+
+  function appendPreparationToApplicationText(value) {
+    const text = String(value || '');
+    const context = window.getApplicationPreparationText();
+    if (!context || !text.includes(APPLICATION_TEXT_MARKER) || text.includes(PREPARATION_TEXT_MARKER)) return text;
+    return `${text}\n\n${context}`;
+  }
+
+  window.appendApplicationPreparationText = appendPreparationToApplicationText;
 
   const originalFetch = window.fetch.bind(window);
   window.fetch = (input, init = {}) => {
@@ -143,12 +167,71 @@
           // fields_json остаётся исходным, отдельные поля всё равно передаются.
         }
       }
-      const context = preparationMessage(data);
-      if (context) payload.message = payload.message ? `${payload.message}\n\n${context}` : context;
+      payload.message = appendPreparationToApplicationText(payload.message);
     }
 
     return originalFetch(input, { ...init, body: JSON.stringify(payload) });
   };
+
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    const originalWriteText = navigator.clipboard.writeText.bind(navigator.clipboard);
+    try {
+      navigator.clipboard.writeText = (text) => originalWriteText(appendPreparationToApplicationText(text));
+    } catch (error) {
+      // В браузерах с неизменяемым Clipboard API используется значение из textarea.
+    }
+  }
+
+  if (typeof navigator.share === 'function') {
+    const originalShare = navigator.share.bind(navigator);
+    try {
+      navigator.share = (data = {}) => originalShare({
+        ...data,
+        text: appendPreparationToApplicationText(data.text)
+      });
+    } catch (error) {
+      // Неизменяемый Web Share API продолжит работать с базовым текстом.
+    }
+  }
+
+  function syncFallbackText() {
+    const context = window.getApplicationPreparationText();
+    if (!context || !output || !output.value) return;
+    output.value = appendPreparationToApplicationText(output.value);
+    if (smsLink) smsLink.href = `sms:+79030250807?body=${encodeURIComponent(output.value)}`;
+  }
+
+  form.addEventListener('submit', () => {
+    if (preparation.dataset.active !== 'true') return;
+    window.setTimeout(syncFallbackText, 0);
+  });
+
+  if (maxButton) {
+    maxButton.addEventListener('click', async () => {
+      const text = output ? appendPreparationToApplicationText(output.value) : '';
+      if (!text) {
+        setStatus('Сначала подготовьте заявку.', 'error');
+        return;
+      }
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          output.focus();
+          output.select();
+          const copied = document.execCommand('copy');
+          output.setSelectionRange(0, 0);
+          if (!copied) throw new Error('copy_failed');
+        }
+        setStatus('Заявка скопирована. Вставьте её в сообщение MAX.', 'success');
+        maxButton.textContent = 'Заявка для MAX скопирована';
+        track('online_application_max');
+        window.setTimeout(() => { maxButton.textContent = 'Скопировать заявку для MAX'; }, 2500);
+      } catch (error) {
+        setStatus('Не удалось скопировать автоматически. Выделите текст заявки вручную.', 'error');
+      }
+    });
+  }
 
   const sourcePath = normalizeSourcePath(params.get('source'));
   const slug = sourceSlug(sourcePath);
