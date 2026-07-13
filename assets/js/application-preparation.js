@@ -8,8 +8,10 @@
   const journeyStageField = form.elements.namedItem('journey_stage');
   const remainingQuestions = form.elements.namedItem('remaining_questions');
   const commentField = form.elements.namedItem('comment');
+  const detailsStepNumber = form.querySelector('[data-application-more] .application-step-label > span');
   const intro = preparation.querySelector('[data-preparation-intro]');
   const checkboxes = Array.from(form.querySelectorAll('input[name="preparation_check"]'));
+  const MAX_COMBINED_COMMENT_LENGTH = 1600;
 
   const CONFIG_BY_SLUG = {
     'otkazali-v-ipoteke': {
@@ -87,6 +89,7 @@
   if (!isComplexJourney) return;
 
   preparation.hidden = false;
+  if (detailsStepNumber) detailsStepNumber.textContent = '3';
   if (journeyTypeField) journeyTypeField.value = 'Сложный региональный маршрут';
   if (journeyStageField) journeyStageField.value = params.get('stage') === 'route'
     ? 'После изучения маршрута подготовки'
@@ -122,10 +125,11 @@
       `Что уже проверено: ${completed.length ? completed.join('; ') : 'не отмечено'}`,
       `Что осталось уточнить: ${remaining || 'не указано'}`
     ].join('\n');
-
-    commentField.value = originalComment
+    const combinedComment = originalComment
       ? `${context}\n\nКомментарий клиента: ${originalComment}`
       : context;
+
+    commentField.value = combinedComment.slice(0, MAX_COMBINED_COMMENT_LENGTH);
 
     const restore = () => { commentField.value = originalComment; };
     if (typeof queueMicrotask === 'function') queueMicrotask(restore);
