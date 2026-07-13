@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 FUNCTION_FILE = ROOT / "supabase/functions/broker-public-lead/index.ts"
 MIGRATION_FILE = ROOT / "supabase/migrations/202607130002_broker_leads_v2.sql"
+PREPARATION_MIGRATION_FILE = ROOT / "supabase/migrations/202607130003_broker_lead_preparation.sql"
 CONFIG_FILE = ROOT / "_config.yml"
 CONTRACT_FILE = ROOT / "docs/lead-endpoint-contract.md"
 SMOKE_FILE = ROOT / "docs/supabase-backend-smoke.md"
@@ -30,7 +31,15 @@ def require_markers(text: str, markers: tuple[str, ...], file: Path) -> int:
 def main() -> int:
     errors = 0
 
-    for file in (FUNCTION_FILE, MIGRATION_FILE, CONFIG_FILE, CONTRACT_FILE, SMOKE_FILE):
+    required_files = (
+        FUNCTION_FILE,
+        MIGRATION_FILE,
+        PREPARATION_MIGRATION_FILE,
+        CONFIG_FILE,
+        CONTRACT_FILE,
+        SMOKE_FILE,
+    )
+    for file in required_files:
         if not file.is_file():
             error("Не найден обязательный файл", file)
             errors += 1
@@ -39,6 +48,7 @@ def main() -> int:
 
     function = FUNCTION_FILE.read_text(encoding="utf-8", errors="ignore")
     migration = MIGRATION_FILE.read_text(encoding="utf-8", errors="ignore")
+    preparation_migration = PREPARATION_MIGRATION_FILE.read_text(encoding="utf-8", errors="ignore")
     config = CONFIG_FILE.read_text(encoding="utf-8", errors="ignore")
     contract = CONTRACT_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
     smoke = SMOKE_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
@@ -109,11 +119,34 @@ def main() -> int:
         MIGRATION_FILE,
     )
 
+    errors += require_markers(
+        preparation_migration,
+        (
+            "journey_type text",
+            "journey_stage text",
+            "journey_scenario_slug text",
+            "preparation jsonb",
+            "preparation_completed jsonb",
+            "remaining_questions text",
+            "broker_leads_preparation_gin_idx",
+            "sync_broker_lead_preparation",
+            "before insert or update of raw_payload",
+            "raw_payload -> 'preparation'",
+            "completed_labels",
+            "security definer",
+            "grant execute on function",
+        ),
+        PREPARATION_MIGRATION_FILE,
+    )
+
     if "last_payload" in migration:
         error("Таблица rate limit не должна хранить полный payload заявки", MIGRATION_FILE)
         errors += 1
     if "unique index if not exists broker_leads_request_id_uidx" not in migration:
         error("request_id должен иметь частичный уникальный индекс", MIGRATION_FILE)
+        errors += 1
+    if "drop column" in preparation_migration.casefold():
+        error("Миграция контекста не должна удалять существующие поля", PREPARATION_MIGRATION_FILE)
         errors += 1
 
     mode_match = re.search(r"(?ms)^lead_capture:\s*.*?^\s{2}mode:\s*[\"']?([^\"'\n]+)", config)
@@ -138,6 +171,9 @@ def main() -> int:
         "cors",
         "service_role",
         "lead_id",
+        "preparation",
+        "journey_type",
+        "remaining_questions",
         "политика обработки данных",
         "endpoint должен оставаться пустым",
     ):
@@ -166,7 +202,7 @@ def main() -> int:
 
     print(
         "Аудит Supabase backend v2 успешно завершён: "
-        "миграция, идемпотентность, атомарный rate limit, CORS, события, edge-case защита, smoke-план и выключенный endpoint подтверждены"
+        "базовая и preparation-миграции, идемпотентность, атомарный rate limit, CORS, события, edge-case защита, smoke-план и выключенный endpoint подтверждены"
     )
     return 0
 
