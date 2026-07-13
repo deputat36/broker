@@ -29,6 +29,8 @@ jobs:
           python3 -m compileall -q scripts
       - name: Audit Supabase backend v2 source
         run: python3 scripts/audit-supabase-backend.py
+      - name: Audit protected notification retry
+        run: python3 scripts/audit-notification-retry.py
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
