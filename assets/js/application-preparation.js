@@ -7,6 +7,7 @@
   const journeyTypeField = form.elements.namedItem('journey_type');
   const journeyStageField = form.elements.namedItem('journey_stage');
   const journeyScenarioField = form.elements.namedItem('journey_scenario_slug');
+  const remainingQuestions = form.elements.namedItem('remaining_questions');
   const detailsStepNumber = form.querySelector('[data-application-more] .application-step-label > span');
   const intro = preparation.querySelector('[data-preparation-intro]');
   const checkboxes = Array.from(form.querySelectorAll('input[name="preparation_check"]'));
@@ -69,6 +70,33 @@
     const parts = sourcePath.split('/').filter(Boolean);
     return parts.length ? parts[parts.length - 1] : '';
   }
+
+  function checkedPreparation() {
+    const completedChecks = [];
+    const completedLabels = [];
+    checkboxes.forEach((checkbox) => {
+      if (!checkbox.checked) return;
+      completedChecks.push(checkbox.value);
+      const label = preparation.querySelector(`[data-preparation-label="${checkbox.value}"]`);
+      completedLabels.push(label ? label.textContent.trim() : checkbox.value);
+    });
+    return { completedChecks, completedLabels };
+  }
+
+  window.getApplicationPreparationData = () => {
+    const active = preparation.dataset.active === 'true';
+    const completed = active ? checkedPreparation() : { completedChecks: [], completedLabels: [] };
+    return {
+      context_version: Number(preparation.dataset.preparationContextVersion || 1),
+      active,
+      journey_type: active && journeyTypeField ? String(journeyTypeField.value || '').trim() : '',
+      journey_stage: active && journeyStageField ? String(journeyStageField.value || '').trim() : '',
+      scenario_slug: active && journeyScenarioField ? String(journeyScenarioField.value || '').trim() : '',
+      completed_checks: completed.completedChecks,
+      completed_labels: completed.completedLabels,
+      remaining_questions: active && remainingQuestions ? String(remainingQuestions.value || '').trim() : ''
+    };
+  };
 
   const sourcePath = normalizeSourcePath(params.get('source'));
   const slug = sourceSlug(sourcePath);
