@@ -24,6 +24,30 @@
 
 .application-field-wide { grid-column: 1 / -1; }
 
+.application-step-label {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0 0 18px;
+}
+
+.application-step-label > span {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  place-items: center;
+  color: #fff;
+  background: var(--red);
+  border-radius: 50%;
+  font-weight: 900;
+}
+
+.application-step-label strong,
+.application-step-label small { display: block; }
+.application-step-label strong { color: var(--ink); font-weight: 900; }
+.application-step-label small { margin-top: 2px; color: var(--muted); }
+
 .application-field label {
   display: block;
   margin-bottom: 8px;
@@ -72,6 +96,58 @@
   border-color: var(--red);
 }
 
+.application-field-hint {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.application-field-hint.is-success { color: #176b3a; }
+.application-field-hint.is-error { color: var(--red-dark); font-weight: 800; }
+
+.application-more {
+  margin-top: 22px;
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.application-more summary {
+  position: relative;
+  display: grid;
+  gap: 3px;
+  min-height: 58px;
+  padding: 15px 52px 15px 18px;
+  cursor: pointer;
+  list-style: none;
+  color: var(--ink);
+  background: #fff;
+  font-weight: 900;
+}
+
+.application-more summary::-webkit-details-marker { display: none; }
+.application-more summary small { color: var(--muted); font-weight: 500; }
+.application-more summary::after {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  width: 12px;
+  height: 12px;
+  content: '';
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform .2s ease;
+}
+
+.application-more[open] summary { border-bottom: 1px solid var(--line); }
+.application-more[open] summary::after { transform: translateY(-30%) rotate(225deg); }
+.application-more .application-step-label { margin: 20px 20px 16px; }
+.application-more-grid { padding: 0 20px 20px; }
+
 .application-honeypot {
   position: absolute !important;
   left: -10000px !important;
@@ -109,6 +185,8 @@
   color: var(--muted);
   font-size: 13px;
 }
+
+.application-submit { min-height: 52px; }
 
 .application-delivery-note {
   margin: 14px 0 0;
@@ -210,10 +288,15 @@
 
   .application-field-wide { grid-column: auto; }
   .application-card,
-  .application-result { padding: 20px; }
+  .application-result { padding: 18px; }
+  .application-step-label { align-items: flex-start; }
+  .application-more summary { min-height: 64px; padding: 14px 48px 14px 15px; }
+  .application-more .application-step-label { margin: 18px 15px 14px; }
+  .application-more-grid { padding: 0 15px 16px; }
+  .application-submit { width: 100%; }
   .application-actions { flex-direction: column; }
-  .application-actions .btn { width: 100%; }
-  .application-result textarea { min-height: 390px; font-size: 13px; }
+  .application-actions .btn { width: 100%; min-height: 50px; }
+  .application-result textarea { min-height: 360px; font-size: 13px; }
 
   .sticky-contacts { right: 8px; bottom: 8px; left: 8px; justify-content: stretch; }
   .sticky-action { min-width: 0; flex: 1 1 0; padding-inline: 8px; font-size: 12px; }
