@@ -1,0 +1,101 @@
+{% assign route_slug = include.slug | default: '' %}
+{% assign route_ready = false %}
+{% assign route_title = '' %}
+{% assign route_intro = '' %}
+{% assign diagnostic_url = '' %}
+{% assign diagnostic_title = '' %}
+{% assign diagnostic_text = '' %}
+{% assign preparation_url = '' %}
+{% assign preparation_title = '' %}
+{% assign preparation_text = '' %}
+{% assign repeat_url = '' %}
+{% assign repeat_title = '' %}
+{% assign repeat_text = '' %}
+
+{% case route_slug %}
+  {% when 'otkazali-v-ipoteke' %}
+    {% assign route_ready = true %}
+    {% assign route_title = 'Маршрут после отказа банка' %}
+    {% assign route_intro = 'Не повторяйте прежнюю заявку без подготовки. Сначала разделите возможные причины, соберите вводные и только затем выбирайте следующий шаг.' %}
+    {% assign diagnostic_url = '/polezno/chto-delat-posle-otkaza/' %}
+    {% assign diagnostic_title = 'Разберите отказ' %}
+    {% assign diagnostic_text = 'Зафиксируйте банк, дату, этап отказа, сумму, объект и состав заявки.' %}
+    {% assign preparation_url = '/polezno/chto-vliyaet-na-odobrenie-ipoteki/' %}
+    {% assign preparation_title = 'Проверьте слабые места' %}
+    {% assign preparation_text = 'Доход, нагрузка, кредитная история, взнос и объект требуют отдельной проверки.' %}
+    {% assign repeat_url = '/polezno/pochemu-ne-stoit-podavat-zayavki-vo-vse-banki/' %}
+    {% assign repeat_title = 'Подготовьте повторную подачу' %}
+    {% assign repeat_text = 'Выбирайте новый банк и момент обращения после анализа, а не массовой рассылкой анкет.' %}
+  {% when 'ipoteka-s-plohoy-kreditnoy-istoriey' %}
+    {% assign route_ready = true %}
+    {% assign route_title = 'Маршрут при сложной кредитной истории' %}
+    {% assign route_intro = 'Сначала нужна фактическая картина кредитной истории и текущей нагрузки. Обещать её исправление или гарантировать одобрение нельзя.' %}
+    {% assign diagnostic_url = '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' %}
+    {% assign diagnostic_title = 'Получите и проверьте историю' %}
+    {% assign diagnostic_text = 'Сопоставьте просрочки, закрытые обязательства, частые заявки и возможные ошибки.' %}
+    {% assign preparation_url = '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' %}
+    {% assign preparation_title = 'Посчитайте нагрузку' %}
+    {% assign preparation_text = 'Учтите кредиты, карты, лимиты, рассрочки и платежи всех участников заявки.' %}
+    {% assign repeat_url = '/polezno/chto-vliyaet-na-odobrenie-ipoteki/' %}
+    {% assign repeat_title = 'Соберите новую картину заявки' %}
+    {% assign repeat_text = 'Оцените доход, взнос, объект и порядок обращения до новой подачи в банк.' %}
+  {% when 'ipoteka-bez-oficialnogo-dohoda' %}
+    {% assign route_ready = true %}
+    {% assign route_title = 'Маршрут при нестандартном доходе' %}
+    {% assign route_intro = 'Задача — не скрывать доход, а заранее понять его источники, устойчивость и доступные способы подтверждения для конкретной заявки.' %}
+    {% assign diagnostic_url = '/polezno/ipoteka-s-malenkoy-oficialnoy-zarplatoy/' %}
+    {% assign diagnostic_title = 'Опишите реальную структуру дохода' %}
+    {% assign diagnostic_text = 'Разделите официальную зарплату, самозанятость, ИП, пенсию и регулярные дополнительные поступления.' %}
+    {% assign preparation_url = '/polezno/skolko-nuzhno-zarabatyvat-dlya-ipoteki/' %}
+    {% assign preparation_title = 'Сопоставьте доход и платёж' %}
+    {% assign preparation_text = 'Посчитайте кредитную нагрузку, первоначальный взнос и финансовый резерв после покупки.' %}
+    {% assign repeat_url = '/polezno/dokumenty-dlya-ipoteki-samozanyatomu/' %}
+    {% assign repeat_title = 'Подготовьте подтверждения' %}
+    {% assign repeat_text = 'Соберите доступные документы и историю поступлений до выбора банка и повторной заявки.' %}
+  {% when 'ipoteka-bez-pervonachalnogo-vznosa' %}
+    {% assign route_ready = true %}
+    {% assign route_title = 'Маршрут при отсутствии первоначального взноса' %}
+    {% assign route_intro = 'Сначала проверьте законные источники средств и устойчивость бюджета. Фиктивное завышение стоимости и недостоверные документы не используются.' %}
+    {% assign diagnostic_url = '/polezno/mozhno-li-vzyat-ipoteku-bez-pervonachalnogo-vznosa/' %}
+    {% assign diagnostic_title = 'Оцените исходную ситуацию' %}
+    {% assign diagnostic_text = 'Поймите, сколько средств не хватает, какой объект выбран и есть ли резерв после сделки.' %}
+    {% assign preparation_url = '/polezno/matkapital-kak-pervonachalnyy-vznos-po-ipoteke/' %}
+    {% assign preparation_title = 'Проверьте законные источники' %}
+    {% assign preparation_text = 'Маткапитал, продажа имущества, накопления и другие подтверждённые средства требуют отдельного расчёта.' %}
+    {% assign repeat_url = '/polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/' %}
+    {% assign repeat_title = 'Посчитайте безопасный бюджет' %}
+    {% assign repeat_text = 'Сопоставьте будущий платёж, расходы после покупки и запас семьи до обращения в банк.' %}
+{% endcase %}
+
+{% if route_ready %}
+<section class="section muted complex-application-route" data-complex-route="{{ route_slug }}">
+  <div class="section-head">
+    <p class="eyebrow">От диагностики к заявке</p>
+    <h2>{{ route_title }}</h2>
+    <p>{{ route_intro }}</p>
+  </div>
+  <div class="grid cards-4" aria-label="Последовательность подготовки ипотечной заявки">
+    <article class="card" data-complex-route-step="1">
+      <p class="eyebrow">Шаг 1. Диагностика</p>
+      <h3><a href="{{ diagnostic_url | relative_url }}">{{ diagnostic_title }}</a></h3>
+      <p>{{ diagnostic_text }}</p>
+    </article>
+    <article class="card" data-complex-route-step="2">
+      <p class="eyebrow">Шаг 2. Подготовка</p>
+      <h3><a href="{{ preparation_url | relative_url }}">{{ preparation_title }}</a></h3>
+      <p>{{ preparation_text }}</p>
+    </article>
+    <article class="card" data-complex-route-step="3">
+      <p class="eyebrow">Шаг 3. Повторная заявка</p>
+      <h3><a href="{{ repeat_url | relative_url }}">{{ repeat_title }}</a></h3>
+      <p>{{ repeat_text }}</p>
+    </article>
+    <article class="card" data-complex-route-step="4">
+      <p class="eyebrow">Шаг 4. Обращение</p>
+      <h3><a href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}">Заполните онлайн-заявку</a></h3>
+      <p>Форма подставит сценарий, сохранит источник и позволит отправить подготовленные вводные из любого города.</p>
+    </article>
+  </div>
+  <p class="disclaimer">Этот маршрут не гарантирует одобрение. Окончательное решение, ставку и условия определяет банк.</p>
+</section>
+{% endif %}
