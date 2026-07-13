@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MIGRATION = ROOT / "supabase/migrations/202607130006_broker_lead_notification_manual_retry.sql"
 FUNCTION = ROOT / "supabase/functions/broker-notification-retry/index.ts"
+SUPABASE_CONFIG = ROOT / "supabase/config.toml"
 CONTRACT = ROOT / "docs/notification-retry-contract.md"
 SMOKE = ROOT / "docs/supabase-notification-retry-smoke.md"
 CONFIG = ROOT / "_config.yml"
@@ -31,8 +32,14 @@ def read(file: Path) -> str:
     return file.read_text(encoding="utf-8", errors="ignore")
 
 
+def function_section(config: str, name: str) -> str:
+    pattern = rf"(?ms)^\[functions\.{re.escape(name)}\]\s*(.*?)(?=^\[|\Z)"
+    match = re.search(pattern, config)
+    return match.group(1) if match else ""
+
+
 def main() -> int:
-    required_files = (MIGRATION, FUNCTION, CONTRACT, SMOKE, CONFIG)
+    required_files = (MIGRATION, FUNCTION, SUPABASE_CONFIG, CONTRACT, SMOKE, CONFIG)
     missing = [file for file in required_files if not file.is_file()]
     for file in missing:
         annotation("Не найден обязательный файл ручного retry", file)
@@ -42,6 +49,7 @@ def main() -> int:
     errors = 0
     migration = read(MIGRATION)
     function = read(FUNCTION)
+    supabase_config = read(SUPABASE_CONFIG)
     contract = read(CONTRACT).casefold()
     smoke = read(SMOKE).casefold()
     config = read(CONFIG)
@@ -98,6 +106,14 @@ def main() -> int:
         FUNCTION,
     )
 
+    retry_config = function_section(supabase_config, "broker-notification-retry")
+    if not retry_config:
+        annotation("В supabase/config.toml отсутствует секция broker-notification-retry", SUPABASE_CONFIG)
+        errors += 1
+    elif not re.search(r"(?m)^\s*verify_jwt\s*=\s*false\s*$", retry_config):
+        annotation("Custom admin token не дойдёт до handler без verify_jwt = false", SUPABASE_CONFIG)
+        errors += 1
+
     if "Access-Control-Allow-Origin" in function:
         annotation("Административная retry-функция не должна разрешать CORS", FUNCTION)
         errors += 1
@@ -117,6 +133,7 @@ def main() -> int:
         (
             "failed → pending → sending → sent | failed",
             "notification_admin_token",
+            "verify_jwt = false",
             "не устанавливает cors-заголовки",
             "свободный комментарий администратора не принимается",
             "broker_lead_notification_queue_health",
@@ -131,6 +148,7 @@ def main() -> int:
         smoke,
         (
             "проверка прав rpc",
+            "verify_jwt = false",
             "контроль очереди без персональных данных",
             "unauthorized",
             "retry_not_allowed",
@@ -164,7 +182,8 @@ def main() -> int:
     print(
         "Аудит ручного retry уведомлений успешно завершён: "
         "failed-only переход, восстановление подтверждённого pending/sending, whitelist причин, "
-        "admin token, отсутствие CORS, обезличенная очередь, журналирование и выключенный endpoint подтверждены"
+        "custom admin token, per-function JWT config, отсутствие CORS, обезличенная очередь, "
+        "журналирование и выключенный публичный endpoint подтверждены"
     )
     return 0
 
