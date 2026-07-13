@@ -229,17 +229,38 @@ Deno.serve(async (request) => {
     return response({ ok: false, success: false, error: 'retry_unavailable' }, 503);
   }
 
-  if (retryResult.retry_requested !== true) {
+  const retryRequested = retryResult.retry_requested === true;
+  const currentStatus = cleanText(retryResult.current_status, 20) || 'unknown';
+  const retryCount = Number(retryResult.retry_count || 0);
+  const storedReasonCode = cleanText(retryResult.reason_code, 80).toLowerCase();
+  const recoveryStatus = ['pending', 'sending'].includes(currentStatus);
+  const recoveryAllowed = !retryRequested
+    && retryCount > 0
+    && recoveryStatus
+    && validReasonCode(storedReasonCode)
+    && storedReasonCode === input.reasonCode;
+
+  if (!retryRequested && recoveryStatus && retryCount > 0 && storedReasonCode !== input.reasonCode) {
+    return response({
+      ok: false,
+      success: false,
+      error: 'retry_reason_mismatch',
+      notification_status: currentStatus,
+      retry_count: retryCount
+    }, 409);
+  }
+
+  if (!retryRequested && !recoveryAllowed) {
     return response({
       ok: false,
       success: false,
       error: 'retry_not_allowed',
-      notification_status: cleanText(retryResult.current_status, 20) || 'unknown',
-      retry_count: Number(retryResult.retry_count || 0)
+      notification_status: currentStatus,
+      retry_count: retryCount
     }, 409);
   }
 
-  const retryCount = Number(retryResult.retry_count || 0);
+  const effectiveReasonCode = storedReasonCode || input.reasonCode;
   let claim: JsonRecord;
   try {
     claim = await claimNotification(input);
@@ -255,7 +276,8 @@ Deno.serve(async (request) => {
       success: false,
       error: 'notification_not_claimed',
       notification_status: cleanText(claim.current_status, 20) || 'unknown',
-      retry_count: retryCount
+      retry_count: retryCount,
+      resumed: recoveryAllowed
     }, 409);
   }
 
@@ -269,14 +291,15 @@ Deno.serve(async (request) => {
       'notification_retry_sent',
       'Ручной повтор Telegram-уведомления выполнен',
       'Уведомление отправлено после подтверждённого административного retry',
-      { reason_code: input.reasonCode, retry_count: retryCount, attempt_count: attemptCount }
+      { reason_code: effectiveReasonCode, retry_count: retryCount, attempt_count: attemptCount, resumed: recoveryAllowed }
     );
     return response({
       ok: true,
       success: true,
       notification_status: notificationStatus,
       retry_count: retryCount,
-      attempt_count: attemptCount
+      attempt_count: attemptCount,
+      resumed: recoveryAllowed
     }, 200);
   } catch (error) {
     const errorCode = safeErrorCode(error);
@@ -292,7 +315,13 @@ Deno.serve(async (request) => {
       'notification_retry_failed',
       'Ручной повтор Telegram-уведомления завершился ошибкой',
       'Заявка сохранена, повтор уведомления требует проверки',
-      { reason_code: input.reasonCode, retry_count: retryCount, attempt_count: attemptCount, error_code: errorCode }
+      {
+        reason_code: effectiveReasonCode,
+        retry_count: retryCount,
+        attempt_count: attemptCount,
+        error_code: errorCode,
+        resumed: recoveryAllowed
+      }
     );
     return response({
       ok: false,
@@ -300,7 +329,8 @@ Deno.serve(async (request) => {
       error: errorCode,
       notification_status: notificationStatus,
       retry_count: retryCount,
-      attempt_count: attemptCount
+      attempt_count: attemptCount,
+      resumed: recoveryAllowed
     }, 502);
   }
 });
