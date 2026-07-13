@@ -13,6 +13,9 @@
   const checkboxes = Array.from(form.querySelectorAll('input[name="preparation_check"]'));
   const output = document.querySelector('[data-application-output]');
   const smsLink = document.querySelector('[data-application-sms]');
+  const copyButton = document.querySelector('[data-application-copy]');
+  const shareButton = document.querySelector('[data-application-share]');
+  const vkLink = document.querySelector('[data-application-vk]');
   const maxButton = document.querySelector('[data-application-max], [data-application-result] [data-copy-phone]');
   const formStatus = form.querySelector('[data-application-status]');
   const APPLICATION_TEXT_MARKER = 'ОНЛАЙН-ЗАЯВКА С САЙТА';
@@ -140,6 +143,23 @@
 
   window.appendApplicationPreparationText = appendPreparationToApplicationText;
 
+  function currentFallbackText() {
+    return output ? appendPreparationToApplicationText(output.value) : '';
+  }
+
+  async function writeFallbackText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    if (!output) throw new Error('output_missing');
+    output.focus();
+    output.select();
+    const copied = document.execCommand('copy');
+    output.setSelectionRange(0, 0);
+    if (!copied) throw new Error('copy_failed');
+  }
+
   const originalFetch = window.fetch.bind(window);
   window.fetch = (input, init = {}) => {
     if (!init.body || String(init.method || 'GET').toUpperCase() !== 'POST') return originalFetch(input, init);
@@ -179,27 +199,6 @@
     return originalFetch(input, { ...init, body: JSON.stringify(payload) });
   };
 
-  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-    const originalWriteText = navigator.clipboard.writeText.bind(navigator.clipboard);
-    try {
-      navigator.clipboard.writeText = (text) => originalWriteText(appendPreparationToApplicationText(text));
-    } catch (error) {
-      // В браузерах с неизменяемым Clipboard API используется значение из textarea.
-    }
-  }
-
-  if (typeof navigator.share === 'function') {
-    const originalShare = navigator.share.bind(navigator);
-    try {
-      navigator.share = (data = {}) => originalShare({
-        ...data,
-        text: appendPreparationToApplicationText(data.text)
-      });
-    } catch (error) {
-      // Неизменяемый Web Share API продолжит работать с базовым текстом.
-    }
-  }
-
   function syncFallbackText() {
     const context = window.getApplicationPreparationText();
     if (!context || !output || !output.value) return;
@@ -212,23 +211,71 @@
     window.setTimeout(syncFallbackText, 0);
   });
 
+  if (copyButton) {
+    copyButton.addEventListener('click', async (event) => {
+      if (preparation.dataset.active !== 'true') return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const text = currentFallbackText();
+      if (!text) return;
+      try {
+        await writeFallbackText(text);
+        setStatus('Текст заявки скопирован.', 'success');
+        copyButton.textContent = 'Заявка скопирована';
+        track('online_application_copy');
+        window.setTimeout(() => { copyButton.textContent = 'Скопировать текст'; }, 2500);
+      } catch (error) {
+        setStatus('Не удалось скопировать автоматически. Выделите текст заявки вручную.', 'error');
+      }
+    }, true);
+  }
+
+  if (shareButton) {
+    shareButton.addEventListener('click', async (event) => {
+      if (preparation.dataset.active !== 'true' || !navigator.share) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const text = currentFallbackText();
+      if (!text) return;
+      try {
+        await navigator.share({ title: 'Онлайн-заявка ипотечному брокеру', text });
+        setStatus('Заявка передана в выбранное приложение.', 'success');
+        track('online_application_share');
+      } catch (error) {
+        if (error && error.name === 'AbortError') return;
+        setStatus('Системное меню недоступно. Скопируйте текст или отправьте SMS.', 'error');
+      }
+    }, true);
+  }
+
+  if (vkLink) {
+    vkLink.addEventListener('click', async (event) => {
+      if (preparation.dataset.active !== 'true') return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const text = currentFallbackText();
+      if (!text) return;
+      const popup = window.open(vkLink.href, '_blank', 'noopener');
+      try {
+        await writeFallbackText(text);
+        setStatus('Текст скопирован. Вставьте его в сообщение ВКонтакте.', 'success');
+      } catch (error) {
+        setStatus('ВКонтакте открыт. Скопируйте текст из поля заявки вручную.', 'error');
+      }
+      if (!popup) window.location.assign(vkLink.href);
+      track('online_application_vk');
+    }, true);
+  }
+
   if (maxButton) {
     maxButton.addEventListener('click', async () => {
-      const text = output ? appendPreparationToApplicationText(output.value) : '';
+      const text = currentFallbackText();
       if (!text) {
         setStatus('Сначала подготовьте заявку.', 'error');
         return;
       }
       try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText(text);
-        } else {
-          output.focus();
-          output.select();
-          const copied = document.execCommand('copy');
-          output.setSelectionRange(0, 0);
-          if (!copied) throw new Error('copy_failed');
-        }
+        await writeFallbackText(text);
         setStatus('Заявка скопирована. Вставьте её в сообщение MAX.', 'success');
         maxButton.textContent = 'Заявка для MAX скопирована';
         track('online_application_max');
