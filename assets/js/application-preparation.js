@@ -255,7 +255,8 @@
       event.stopImmediatePropagation();
       const text = currentFallbackText();
       if (!text) return;
-      const popup = window.open(vkLink.href, '_blank', 'noopener');
+      const popup = window.open(vkLink.href, '_blank');
+      if (popup) popup.opener = null;
       try {
         await writeFallbackText(text);
         setStatus('Текст скопирован. Вставьте его в сообщение ВКонтакте.', 'success');
