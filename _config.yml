@@ -10,11 +10,16 @@ markdown: kramdown
 # Рабочий канал реализован по схеме проекта «Новостройки Борисоглебска»:
 # Web3Forms отправляет email-копию, а пользователь после успеха переходит на /spasibo/.
 # Дополнительный Supabase/CRM endpoint остаётся пустым до завершения issue #7.
+# Web3Forms access key является публичным идентификатором формы, а не серверным секретом.
+# После smoke-теста issue #8 при необходимости замените только web3forms_access_key.
 # Не размещайте здесь токены Telegram, service role key или другие закрытые ключи:
-# содержимое _config.yml публикуется в открытом репозитории и может попасть в HTML сайта.
+# содержимое _config.yml публикуется в открытом репозитории и попадает в HTML сайта.
 lead_capture:
   mode: "web3forms"
+  web3forms_access_key: "c6b147c0-0ce0-43cb-a41d-2d112b6f1364"
+  web3forms_endpoint: "https://api.web3forms.com/submit"
   endpoint: ""
+  thank_you_path: "/spasibo/"
   timeout_ms: 8000
   min_fill_ms: 3000
 
