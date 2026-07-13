@@ -11,19 +11,27 @@
     if (typeof window.sendGoal === 'function') window.sendGoal(goalName);
   }
 
+  function parseRussianPhone(value) {
+    const digits = String(value || '').replace(/\D/g, '');
+    const hasCountryPrefix = digits.startsWith('7') || digits.startsWith('8');
+    const body = hasCountryPrefix ? digits.slice(1) : digits;
+    return {
+      body,
+      overflow: body.length > 10,
+      normalized: body.length === 10 ? `7${body}` : ''
+    };
+  }
+
   function normalizeRussianPhone(value) {
-    let digits = String(value || '').replace(/\D/g, '');
-    if (digits.length === 10) digits = `7${digits}`;
-    if (digits.length === 11 && digits.startsWith('8')) digits = `7${digits.slice(1)}`;
-    return digits.length === 11 && digits.startsWith('7') ? digits : '';
+    const parsed = parseRussianPhone(value);
+    return parsed.overflow ? '' : parsed.normalized;
   }
 
   function formatRussianPhone(value) {
-    let digits = String(value || '').replace(/\D/g, '');
-    if (digits.startsWith('7') || digits.startsWith('8')) digits = digits.slice(1);
-    digits = digits.slice(0, 10);
-
+    const parsed = parseRussianPhone(value);
+    const digits = parsed.body.slice(0, 10);
     if (!digits) return '';
+
     let formatted = '+7';
     if (digits.length > 0) formatted += ` (${digits.slice(0, 3)}`;
     if (digits.length >= 3) formatted += ')';
@@ -33,35 +41,50 @@
     return formatted;
   }
 
+  function setPhoneHint(message, state = '') {
+    if (!phoneHint) return;
+    phoneHint.textContent = message;
+    phoneHint.classList.remove('is-success', 'is-error');
+    if (state) phoneHint.classList.add(`is-${state}`);
+  }
+
   function setPhoneValidity(showMessage = false) {
     if (!phone) return true;
-    const normalized = normalizeRussianPhone(phone.value);
+    const parsed = parseRussianPhone(phone.value);
+    const normalized = parsed.overflow ? '' : parsed.normalized;
     const valid = Boolean(normalized);
+    const hasValue = Boolean(phone.value.trim());
+    const message = parsed.overflow
+      ? 'В номере больше 10 цифр после +7. Удалите лишнюю цифру.'
+      : 'Введите российский номер из 10 цифр после +7.';
 
-    phone.setCustomValidity(valid || !phone.value.trim() ? '' : 'Введите российский номер из 10 цифр после +7.');
-    phone.setAttribute('aria-invalid', String(!valid && Boolean(phone.value.trim())));
+    phone.setCustomValidity(valid || !hasValue ? '' : message);
+    phone.setAttribute('aria-invalid', String(!valid && hasValue));
 
-    if (phoneHint) {
-      phoneHint.textContent = valid
-        ? `Номер для связи: +${normalized}`
-        : 'Введите 10 цифр российского номера. Подойдут форматы +7 или 8.';
-      phoneHint.classList.toggle('is-success', valid);
-      phoneHint.classList.toggle('is-error', showMessage && !valid && Boolean(phone.value.trim()));
-    }
+    if (valid) setPhoneHint(`Номер для связи: ${formatRussianPhone(normalized)}`, 'success');
+    else setPhoneHint(
+      parsed.overflow ? message : 'Введите 10 цифр российского номера. Подойдут форматы +7 или 8.',
+      showMessage && hasValue ? 'error' : ''
+    );
 
     return valid;
   }
 
   if (phone) {
     phone.addEventListener('input', () => {
-      const formatted = formatRussianPhone(phone.value);
-      if (formatted) phone.value = formatted;
+      const parsed = parseRussianPhone(phone.value);
+      if (!parsed.overflow) {
+        const formatted = formatRussianPhone(phone.value);
+        if (formatted) phone.value = formatted;
+      }
       phone.setCustomValidity('');
       phone.removeAttribute('aria-invalid');
-      if (phoneHint) {
-        phoneHint.textContent = 'Введите 10 цифр российского номера. Подойдут форматы +7 или 8.';
-        phoneHint.classList.remove('is-success', 'is-error');
-      }
+      setPhoneHint(
+        parsed.overflow
+          ? 'В номере больше 10 цифр после +7. Удалите лишнюю цифру.'
+          : 'Введите 10 цифр российского номера. Подойдут форматы +7 или 8.',
+        parsed.overflow ? 'error' : ''
+      );
     });
 
     phone.addEventListener('blur', () => {
@@ -76,7 +99,7 @@
     event.preventDefault();
     event.stopImmediatePropagation();
     if (formStatus) {
-      formStatus.textContent = 'Проверьте номер телефона: нужно указать 10 цифр после +7.';
+      formStatus.textContent = 'Проверьте номер телефона: нужно указать ровно 10 цифр после +7.';
       formStatus.classList.remove('is-success');
       formStatus.classList.add('is-error');
     }
