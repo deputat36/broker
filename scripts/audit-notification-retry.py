@@ -58,6 +58,7 @@ def main() -> int:
             "notification_summary_fixed",
             "manual_recovery",
             "request_broker_lead_notification_retry",
+            "reason_code text",
             "and leads.notification_status = 'failed'",
             "notification_status = 'pending'",
             "notification_retry_requested",
@@ -87,6 +88,10 @@ def main() -> int:
             "notification_retry_sent",
             "notification_retry_failed",
             "retry_not_allowed",
+            "retry_reason_mismatch",
+            "recoveryAllowed",
+            "['pending', 'sending'].includes(currentStatus)",
+            "storedReasonCode === input.reasonCode",
             "Cache-Control",
             "no-store",
         ),
@@ -102,7 +107,8 @@ def main() -> int:
     if "and leads.notification_status = 'failed'" not in migration:
         annotation("SQL retry должен работать только из failed", MIGRATION)
         errors += 1
-    if "or leads.notification_status" in migration.split("request_broker_lead_notification_retry", 1)[-1].split("broker_lead_notification_queue_health", 1)[0]:
+    retry_sql = migration.split("request_broker_lead_notification_retry", 1)[-1].split("broker_lead_notification_queue_health", 1)[0]
+    if "or leads.notification_status" in retry_sql:
         annotation("SQL retry не должен разрешать дополнительные исходные статусы", MIGRATION)
         errors += 1
 
@@ -115,6 +121,8 @@ def main() -> int:
             "свободный комментарий администратора не принимается",
             "broker_lead_notification_queue_health",
             "без персональных данных",
+            "аварийн",
+            "тот же reason code",
             "endpoint: \"\"",
         ),
         CONTRACT,
@@ -126,10 +134,13 @@ def main() -> int:
             "контроль очереди без персональных данных",
             "unauthorized",
             "retry_not_allowed",
+            "retry_reason_mismatch",
             "notification_retry_requested",
             "notification_retry_sent",
             "notification_retry_failed",
             "access-control-allow-origin",
+            "восстановление pending",
+            "зависшего sending",
             "откат",
         ),
         SMOKE,
@@ -152,8 +163,8 @@ def main() -> int:
 
     print(
         "Аудит ручного retry уведомлений успешно завершён: "
-        "failed-only переход, whitelist причин, admin token, отсутствие CORS, "
-        "обезличенная очередь, журналирование и выключенный публичный endpoint подтверждены"
+        "failed-only переход, восстановление подтверждённого pending/sending, whitelist причин, "
+        "admin token, отсутствие CORS, обезличенная очередь, журналирование и выключенный endpoint подтверждены"
     )
     return 0
 
