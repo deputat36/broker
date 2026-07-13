@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет онлайн-заявку, атрибуцию, резервные каналы и безопасную готовность endpoint."""
+"""Проверяет Web3Forms-приём заявок, атрибуцию и резервные каналы."""
 
 from __future__ import annotations
 
@@ -13,6 +13,9 @@ from xml.etree import ElementTree
 
 BASE_URL = "https://sterlikova-ipoteka.ru"
 APPLICATION_URL = "/online-zayavka/"
+THANK_YOU_URL = "/spasibo/"
+CONSENT_URL = "/personal-data-consent/"
+POLICY_URL = "/policy/"
 PHONE_LINK = "tel:+79030250807"
 VK_PROFILE = "https://vk.com/tatyanasterlikova"
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -24,50 +27,22 @@ KEY_PAGE_REQUIREMENTS = {
 }
 
 REQUIRED_FIELDS = {
-    "source_page",
-    "request_id",
-    "form_started_at",
-    "form_version",
-    "website",
-    "client_name",
-    "phone",
-    "city",
-    "preferred_contact",
-    "scenario",
-    "object_type",
-    "object_price",
-    "down_payment",
-    "income_type",
-    "bank_history",
-    "comment",
-    "consent",
+    "source_page", "request_id", "form_started_at", "form_version", "website",
+    "client_name", "phone", "city", "preferred_contact", "scenario", "object_type",
+    "object_price", "down_payment", "income_type", "bank_history", "comment", "consent",
 }
 
 REQUIRED_FORM_MARKERS = {
-    "data-online-application",
-    "data-lead-mode",
-    "data-lead-endpoint",
-    "data-lead-timeout-ms",
-    "data-lead-min-fill-ms",
-    "data-application-status",
-    "data-application-result",
-    "data-application-output",
-    "data-application-direct-send",
-    "data-application-delivery-note",
-    "data-application-share",
-    "data-application-sms",
-    "data-application-copy",
-    "data-application-vk",
+    "data-online-application", "data-lead-mode", "data-lead-endpoint",
+    "data-lead-timeout-ms", "data-lead-min-fill-ms", "data-application-status",
+    "data-application-result", "data-application-output", "data-application-direct-send",
+    "data-application-delivery-note", "data-application-share", "data-application-sms",
+    "data-application-copy", "data-application-vk",
 }
 
 REQUIRED_LINKS = {
-    "/policy/",
-    "/konsultaciya/",
-    "/stoimost/",
-    "/etagi/",
-    "/geo/",
-    PHONE_LINK,
-    VK_PROFILE,
+    POLICY_URL, CONSENT_URL, "/konsultaciya/", "/stoimost/", "/etagi/", "/geo/",
+    PHONE_LINK, VK_PROFILE,
 }
 
 
@@ -76,6 +51,7 @@ class PageParser(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.title_parts: list[str] = []
         self.description = ""
+        self.robots = ""
         self.canonical = ""
         self.links: set[str] = set()
         self.contextual_application_links = 0
@@ -83,6 +59,7 @@ class PageParser(HTMLParser):
         self.scripts: set[str] = set()
         self.fields: set[str] = set()
         self.required_fields: set[str] = set()
+        self.ids: set[str] = set()
         self.form_count = 0
         self.form_actions: list[str] = []
         self.form_methods: list[str] = []
@@ -97,14 +74,21 @@ class PageParser(HTMLParser):
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         tag = tag.lower()
         attrs_map = {key.lower(): value for key, value in attrs}
+        element_id = attrs_map.get("id")
+        if element_id:
+            self.ids.add(element_id)
         for key in attrs_map:
             if key.startswith("data-"):
                 self.markers.add(key)
 
         if tag == "title":
             self._in_title = True
-        elif tag == "meta" and (attrs_map.get("name") or "").lower() == "description":
-            self.description = attrs_map.get("content") or ""
+        elif tag == "meta":
+            name = (attrs_map.get("name") or "").lower()
+            if name == "description":
+                self.description = attrs_map.get("content") or ""
+            elif name == "robots":
+                self.robots = attrs_map.get("content") or ""
         elif tag == "link":
             href = attrs_map.get("href") or ""
             rel = (attrs_map.get("rel") or "").lower().split()
@@ -262,19 +246,18 @@ def parse_int(value: str, minimum: int, maximum: int) -> int | None:
     return parsed if minimum <= parsed <= maximum else None
 
 
-def validate_disabled_transport(application: PageParser, html_file: Path) -> int:
+def validate_web3forms_transport(application: PageParser, html_file: Path) -> int:
     errors = 0
     mode = application.form_data.get("data-lead-mode", "")
     endpoint = application.form_data.get("data-lead-endpoint", "").strip()
-    if mode != "disabled":
-        annotation("Прямой endpoint нельзя активировать без подтверждённого получателя и обновления аудита", html_file)
+    if mode != "web3forms":
+        annotation("Рабочий режим приёма заявок должен быть web3forms", html_file)
         errors += 1
     if endpoint:
-        annotation("Endpoint должен оставаться пустым, пока прямой приём заявок не введён в эксплуатацию", html_file)
+        annotation("Дополнительный Supabase/CRM endpoint должен оставаться пустым до завершения issue #7", html_file)
         errors += 1
-
     if parse_int(application.form_data.get("data-lead-timeout-ms", ""), 2000, 20000) is None:
-        annotation("Некорректный таймаут прямой отправки", html_file)
+        annotation("Некорректный таймаут отправки", html_file)
         errors += 1
     if parse_int(application.form_data.get("data-lead-min-fill-ms", ""), 1000, 30000) is None:
         annotation("Некорректное минимальное время заполнения", html_file)
@@ -285,22 +268,39 @@ def validate_disabled_transport(application: PageParser, html_file: Path) -> int
 def validate_endpoint_documentation() -> int:
     doc_file = REPO_ROOT / "docs/lead-endpoint-contract.md"
     if not doc_file.is_file():
-        annotation("Не найден контракт серверного приёма заявок", doc_file)
+        annotation("Не найден контракт дополнительного серверного приёма заявок", doc_file)
         return 1
     text = doc_file.read_text(encoding="utf-8", errors="ignore").casefold()
-    required = (
-        "request_id",
-        "идемпотент",
-        "cors",
-        "rate limit",
-        "service_role",
-        "политика обработки данных",
-        "endpoint должен оставаться пустым",
-    )
+    required = ("request_id", "идемпотент", "cors", "rate limit", "service_role", "политика обработки данных")
     errors = 0
     for marker in required:
         if marker not in text:
             annotation(f"В контракте endpoint отсутствует раздел или маркер: {marker}", doc_file)
+            errors += 1
+    return errors
+
+
+def validate_support_page(site_dir: Path, page_url: str, required_texts: tuple[str, ...], required_ids: set[str] | None = None) -> int:
+    loaded = load_page(site_dir, page_url)
+    if loaded is None:
+        return 1
+    html_file, parser = loaded
+    errors = 0
+    if parser.canonical != BASE_URL + page_url:
+        annotation(f"Некорректный canonical страницы {page_url}", html_file)
+        errors += 1
+    if "noindex" not in parser.robots.casefold():
+        annotation(f"Служебная страница должна быть noindex: {page_url}", html_file)
+        errors += 1
+    for required_text in required_texts:
+        normalized = required_text.casefold().replace("ё", "е")
+        if normalized not in parser.text:
+            annotation(f"На странице {page_url} отсутствует текст: {required_text}", html_file)
+            errors += 1
+    if required_ids:
+        missing_ids = required_ids - parser.ids
+        if missing_ids:
+            annotation(f"На странице {page_url} отсутствуют ID: {', '.join(sorted(missing_ids))}", html_file)
             errors += 1
     return errors
 
@@ -316,11 +316,7 @@ def main() -> int:
     try:
         root = ElementTree.parse(sitemap_file).getroot()
         namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
-        sitemap_paths = {
-            urlparse(node.text.strip()).path or "/"
-            for node in root.findall("sm:url/sm:loc", namespace)
-            if node.text
-        }
+        sitemap_paths = {urlparse(node.text.strip()).path or "/" for node in root.findall("sm:url/sm:loc", namespace) if node.text}
     except (ElementTree.ParseError, OSError) as error:
         annotation(f"Не удалось разобрать sitemap.xml: {error}", sitemap_file)
         return 1
@@ -328,6 +324,10 @@ def main() -> int:
     if APPLICATION_URL not in sitemap_paths:
         annotation(f"Онлайн-заявка отсутствует в sitemap: {APPLICATION_URL}", sitemap_file)
         errors += 1
+    for noindex_url in (THANK_YOU_URL, CONSENT_URL):
+        if noindex_url in sitemap_paths:
+            annotation(f"Служебная noindex-страница не должна попадать в sitemap: {noindex_url}", sitemap_file)
+            errors += 1
 
     loaded_application = load_page(site_dir, APPLICATION_URL)
     if loaded_application is None:
@@ -338,19 +338,10 @@ def main() -> int:
         annotation("Title и description онлайн-заявки должны явно описывать онлайн-формат", application_file)
         errors += 1
     if application.canonical != BASE_URL + APPLICATION_URL:
-        annotation(
-            f"Canonical онлайн-заявки должен быть {BASE_URL + APPLICATION_URL}, получено: {application.canonical or 'отсутствует'}",
-            application_file,
-        )
+        annotation(f"Canonical онлайн-заявки должен быть {BASE_URL + APPLICATION_URL}", application_file)
         errors += 1
 
-    required_texts = (
-        "из любого города",
-        "форма не отправляет данные на сервер автоматически",
-        "решение принимает банк",
-        "прямая серверная отправка пока не подключена",
-    )
-    for required_text in required_texts:
+    for required_text in ("из любого города", "web3forms", "email", "решение принимает банк", "отправить заявку онлайн"):
         normalized = required_text.casefold().replace("ё", "е")
         if normalized not in application.text:
             annotation(f"На онлайн-заявке отсутствует обязательный текст: {required_text}", application_file)
@@ -360,10 +351,10 @@ def main() -> int:
         annotation(f"Ожидалась одна форма онлайн-заявки, найдено: {application.form_count}", application_file)
         errors += 1
     if any(action.strip() for action in application.form_actions):
-        annotation("Форма не должна иметь неподтверждённый серверный action", application_file)
+        annotation("Форма не должна иметь HTML action: отправкой управляет проверенный JS", application_file)
         errors += 1
     if any(method.strip() for method in application.form_methods):
-        annotation("Форма не должна заявлять серверный method", application_file)
+        annotation("Форма не должна заявлять HTML method: отправкой управляет проверенный JS", application_file)
         errors += 1
 
     missing_fields = REQUIRED_FIELDS - application.fields
@@ -378,13 +369,12 @@ def main() -> int:
     if missing_markers:
         annotation(f"В форме отсутствуют JS-маркеры: {', '.join(sorted(missing_markers))}", application_file)
         errors += 1
-
     missing_links = REQUIRED_LINKS - application.links
     if missing_links:
         annotation(f"На онлайн-заявке отсутствуют ссылки: {', '.join(sorted(missing_links))}", application_file)
         errors += 1
 
-    errors += validate_disabled_transport(application, application_file)
+    errors += validate_web3forms_transport(application, application_file)
 
     expected_style = "/assets/css/online-application.css"
     expected_script = "/assets/js/online-application.js"
@@ -413,28 +403,12 @@ def main() -> int:
     if script_file.is_file():
         script_text = script_file.read_text(encoding="utf-8", errors="ignore")
         for marker in (
-            "SCENARIO_BY_SLUG",
-            "CITY_BY_PREFIX",
-            "source_page",
-            "request_id",
-            "form_started_at",
-            "website",
-            "normalizeEndpoint",
-            "directDeliveryEnabled",
-            "AbortController",
-            "credentials: 'omit'",
-            "JSON.stringify(preparedPayload)",
-            "Источник обращения",
-            "online_application_prefill",
-            "online_application_prepare",
-            "online_application_direct_attempt",
-            "online_application_direct_success",
-            "online_application_direct_error",
-            "online_application_direct_timeout",
-            "online_application_spam_block",
-            "online_application_copy",
-            "online_application_share",
-            "online_application_sms",
+            "WEB3FORMS_ACCESS_KEY", "https://api.web3forms.com/submit", "Promise.allSettled",
+            "THANK_YOU_PATH", "sterlikovaMortgageLastLead", "SCENARIO_BY_SLUG", "CITY_BY_PREFIX",
+            "source_page", "request_id", "form_started_at", "website", "qualification",
+            "tracking_json", "fields_json", "normalizeEndpoint", "AbortController",
+            "credentials: 'omit'", "online_application_direct_success", "online_application_direct_error",
+            "online_application_direct_timeout", "online_application_spam_block", "lead_submit",
             "sms:+79030250807",
         ):
             if marker not in script_text:
@@ -444,13 +418,25 @@ def main() -> int:
     main_script = site_dir / "assets/js/main.js"
     if main_script.is_file():
         main_script_text = main_script.read_text(encoding="utf-8", errors="ignore")
-        for marker in ("window.sendGoal = sendGoal", "online_application_click"):
+        for marker in ("TRACKING_KEYS", "sterlikovaMortgageTracking", "window.getSiteTrackingData", "first_touch", "last_touch", "online_application_click"):
             if marker not in main_script_text:
                 annotation(f"В основном скрипте отсутствует маркер: {marker}", main_script)
                 errors += 1
 
     errors += validate_schema(application, application_file)
     errors += validate_endpoint_documentation()
+    errors += validate_support_page(site_dir, THANK_YOU_URL, ("заявка отправлена", "номер обращения", "lead_thankyou_view"), {"lead-id", "lead-scenario", "lead-city", "lead-status"})
+    errors += validate_support_page(site_dir, CONSENT_URL, ("web3forms", "отозвать согласие", "паспортные данные"))
+
+    loaded_policy = load_page(site_dir, POLICY_URL)
+    if loaded_policy is None:
+        errors += 1
+    else:
+        policy_file, policy = loaded_policy
+        for marker in ("web3forms", "utm", "email", "номер телефона в этой сводке не хранится"):
+            if marker.casefold().replace("ё", "е") not in policy.text:
+                annotation(f"В политике отсутствует обязательный маркер: {marker}", policy_file)
+                errors += 1
 
     for page_url, required_texts_for_page in KEY_PAGE_REQUIREMENTS.items():
         loaded_page = load_page(site_dir, page_url)
@@ -468,8 +454,7 @@ def main() -> int:
                 errors += 1
 
     contextual_urls = sorted(
-        page_url
-        for page_url in sitemap_paths
+        page_url for page_url in sitemap_paths
         if (page_url.startswith("/uslugi/") and page_url != "/uslugi/")
         or (page_url.startswith("/geo/") and page_url != "/geo/")
     )
@@ -492,7 +477,7 @@ def main() -> int:
 
     print(
         "Аудит онлайн-заявки успешно завершён: "
-        f"форма, disabled endpoint, антиспам, fallback и контекстные входы подтверждены; страниц {len(contextual_urls)}"
+        f"Web3Forms, email, атрибуция, согласие, страница благодарности и fallback подтверждены; страниц {len(contextual_urls)}"
     )
     return 0
 
