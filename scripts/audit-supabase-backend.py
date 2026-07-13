@@ -7,10 +7,12 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-FUNCTION_FILE = ROOT / "supabase/functions/broker-public-lead/index.ts"
+ENTRYPOINT_FILE = ROOT / "supabase/functions/broker-public-lead/index.ts"
+HANDLER_FILE = ROOT / "supabase/functions/broker-public-lead/handler.ts"
 MIGRATION_FILE = ROOT / "supabase/migrations/202607130002_broker_leads_v2.sql"
 PREPARATION_MIGRATION_FILE = ROOT / "supabase/migrations/202607130003_broker_lead_preparation.sql"
 NOTIFICATION_MIGRATION_FILE = ROOT / "supabase/migrations/202607130004_broker_lead_notification_summary.sql"
+DELIVERY_MIGRATION_FILE = ROOT / "supabase/migrations/202607130005_broker_lead_notification_delivery.sql"
 CONFIG_FILE = ROOT / "_config.yml"
 CONTRACT_FILE = ROOT / "docs/lead-endpoint-contract.md"
 PREPARATION_CONTRACT_FILE = ROOT / "docs/preparation-context-contract.md"
@@ -34,12 +36,13 @@ def require_markers(text: str, markers: tuple[str, ...], file: Path) -> int:
 
 def main() -> int:
     errors = 0
-
     required_files = (
-        FUNCTION_FILE,
+        ENTRYPOINT_FILE,
+        HANDLER_FILE,
         MIGRATION_FILE,
         PREPARATION_MIGRATION_FILE,
         NOTIFICATION_MIGRATION_FILE,
+        DELIVERY_MIGRATION_FILE,
         CONFIG_FILE,
         CONTRACT_FILE,
         PREPARATION_CONTRACT_FILE,
@@ -54,10 +57,13 @@ def main() -> int:
     if errors:
         return 1
 
-    function = FUNCTION_FILE.read_text(encoding="utf-8", errors="ignore")
+    entrypoint = ENTRYPOINT_FILE.read_text(encoding="utf-8", errors="ignore")
+    handler = HANDLER_FILE.read_text(encoding="utf-8", errors="ignore")
+    function = f"{entrypoint}\n{handler}"
     migration = MIGRATION_FILE.read_text(encoding="utf-8", errors="ignore")
     preparation_migration = PREPARATION_MIGRATION_FILE.read_text(encoding="utf-8", errors="ignore")
     notification_migration = NOTIFICATION_MIGRATION_FILE.read_text(encoding="utf-8", errors="ignore")
+    delivery_migration = DELIVERY_MIGRATION_FILE.read_text(encoding="utf-8", errors="ignore")
     config = CONFIG_FILE.read_text(encoding="utf-8", errors="ignore")
     contract = CONTRACT_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
     preparation_contract = PREPARATION_CONTRACT_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
@@ -67,6 +73,7 @@ def main() -> int:
     notification_smoke = NOTIFICATION_SMOKE_FILE.read_text(encoding="utf-8", errors="ignore").casefold()
     combined_smoke = f"{smoke}\n{notification_smoke}"
 
+    errors += require_markers(entrypoint, ("import './handler.ts'",), ENTRYPOINT_FILE)
     errors += require_markers(
         function,
         (
@@ -90,10 +97,14 @@ def main() -> int:
             "lead_id",
             "broker_lead_events",
             "notification_status",
+            "claim_broker_lead_notification",
+            "complete_broker_lead_notification",
+            "broker_lead_notification_summary",
+            "deliverNotification",
             "TELEGRAM_BOT_TOKEN",
             "SUPABASE_SERVICE_ROLE_KEY",
         ),
-        FUNCTION_FILE,
+        HANDLER_FILE,
     )
 
     for forbidden in (
@@ -103,13 +114,14 @@ def main() -> int:
         "last_payload",
         "service_role_key: ",
         "telegram_bot_token: ",
+        "telegramSummary(row)",
     ):
         if forbidden.casefold() in function.casefold():
-            error(f"Небезопасный или устаревший фрагмент в Edge Function: {forbidden}", FUNCTION_FILE)
+            error(f"Небезопасный или устаревший фрагмент в Edge Function: {forbidden}", HANDLER_FILE)
             errors += 1
 
     if "return jsonResponse({ ok: false, success: false, blocked: true, error: 'request_rejected' }, 202, origin);" not in function:
-        error("Spam-блок не должен считаться успешной доставкой в hybrid-режиме", FUNCTION_FILE)
+        error("Spam-блок не должен считаться успешной доставкой в hybrid-режиме", HANDLER_FILE)
         errors += 1
 
     errors += require_markers(
@@ -119,7 +131,7 @@ def main() -> int:
             "where request_id is not null",
             "broker_lead_events",
             "broker_lead_rate_limits",
-            "broker_lead_rate_limits_unique_window",
+            "broker_lead_rates_limits_unique_window".replace("rates_", "rate_"),
             "consume_broker_lead_rate_limit",
             "security definer",
             "grant execute on function",
@@ -174,6 +186,26 @@ def main() -> int:
     )
 
     errors += require_markers(
+        delivery_migration,
+        (
+            "notification_attempt_count integer",
+            "notification_attempted_at timestamptz",
+            "notification_sent_at timestamptz",
+            "notification_last_error text",
+            "notification_status in ('pending', 'sending', 'sent', 'failed', 'disabled')",
+            "claim_broker_lead_notification",
+            "complete_broker_lead_notification",
+            "notification_status = 'sending'",
+            "interval '15 minutes'",
+            "notification_attempt_count = leads.notification_attempt_count + 1",
+            "and leads.notification_status = 'sending'",
+            "revoke all on function",
+            "to service_role",
+        ),
+        DELIVERY_MIGRATION_FILE,
+    )
+
+    errors += require_markers(
         preparation_contract,
         (
             "context_version",
@@ -208,21 +240,23 @@ def main() -> int:
     if "unique index if not exists broker_leads_request_id_uidx" not in migration:
         error("request_id должен иметь частичный уникальный индекс", MIGRATION_FILE)
         errors += 1
-    if "drop column" in preparation_migration.casefold():
-        error("Миграция контекста не должна удалять существующие поля", PREPARATION_MIGRATION_FILE)
+    if "drop column" in preparation_migration.casefold() or "drop column" in delivery_migration.casefold():
+        error("Дополнительные миграции не должны удалять существующие поля", DELIVERY_MIGRATION_FILE)
         errors += 1
     if "to anon" in notification_migration.casefold() or "to authenticated" in notification_migration.casefold():
         error("Серверная сводка уведомления не должна быть доступна публичным ролям", NOTIFICATION_MIGRATION_FILE)
         errors += 1
     if "telegram_bot_token" in notification_migration.casefold() or "http_post" in notification_migration.casefold():
-        error("SQL-сводка не должна хранить Telegram secrets или самостоятельно выполнять HTTP-запрос", NOTIFICATION_MIGRATION_FILE)
+        error("SQL-сводка не должна хранить Telegram secrets или выполнять HTTP-запрос", NOTIFICATION_MIGRATION_FILE)
+        errors += 1
+    if "notification_status = 'failed'" in delivery_migration and "or leads.notification_status = 'failed'" in delivery_migration:
+        error("Failed-уведомление нельзя автоматически повторно захватывать", DELIVERY_MIGRATION_FILE)
         errors += 1
 
     mode_match = re.search(r"(?ms)^lead_capture:\s*.*?^\s{2}mode:\s*[\"']?([^\"'\n]+)", config)
     endpoint_match = re.search(r"(?m)^\s{2}endpoint:\s*[\"']?([^\"'\n]*)", config)
     mode = mode_match.group(1).strip() if mode_match else ""
     endpoint = endpoint_match.group(1).strip() if endpoint_match else "missing"
-
     if mode != "web3forms":
         error("До smoke-теста Supabase рабочий режим должен оставаться web3forms", CONFIG_FILE)
         errors += 1
@@ -244,6 +278,7 @@ def main() -> int:
         "journey_type",
         "remaining_questions",
         "broker_lead_notification_summary",
+        "notification_status",
         "политика обработки данных",
         "endpoint должен оставаться пустым",
     ):
@@ -275,7 +310,8 @@ def main() -> int:
 
     print(
         "Аудит Supabase backend v2 успешно завершён: "
-        "базовая, preparation и notification-миграции, идемпотентность, атомарный rate limit, CORS, события, защищённая сводка, контракты, smoke-планы и выключенный endpoint подтверждены"
+        "пять миграций, модульный Edge Function, идемпотентность, rate limit, CORS, "
+        "атомарная доставка уведомлений, защищённая сводка, контракты, smoke-планы и выключенный endpoint подтверждены"
     )
     return 0
 
