@@ -97,6 +97,8 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
         </div>
       </div>
 
+      {% include application-preparation-context.html %}
+
       <details class="application-more" data-application-more>
         <summary><span>Добавить подробности</span><small>Объект, стоимость, взнос, доход и обращения в банки</small></summary>
         <div class="application-step-label"><span>2</span><div><strong>Дополнительные вводные</strong><small>Необязательно, но поможет быстрее подготовиться к разговору</small></div></div>
@@ -203,3 +205,4 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
 <section class="section cta-section"><div><p class="eyebrow">Нужен быстрый ответ?</p><h2>Можно не заполнять анкету</h2><p>Позвоните или напишите кратко: ваш город, цель и были ли обращения в банки.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
 
 <script src="{{ '/assets/js/application-inputs.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/application-preparation.js' | relative_url }}" defer></script>
