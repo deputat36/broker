@@ -28,8 +28,23 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
       <p>Не прикладывайте паспорт, банковские документы и другие чувствительные файлы. Для первого обращения достаточно общих вводных.</p>
     </div>
 
-    <form class="application-card" data-online-application novalidate>
+    <form
+      class="application-card"
+      data-online-application
+      data-lead-mode="{{ site.lead_capture.mode | default: 'disabled' | escape }}"
+      data-lead-endpoint="{{ site.lead_capture.endpoint | default: '' | escape }}"
+      data-lead-timeout-ms="{{ site.lead_capture.timeout_ms | default: 8000 }}"
+      data-lead-min-fill-ms="{{ site.lead_capture.min_fill_ms | default: 3000 }}"
+      novalidate
+    >
       <input name="source_page" type="hidden" value="">
+      <input name="request_id" type="hidden" value="">
+      <input name="form_started_at" type="hidden" value="">
+      <input name="form_version" type="hidden" value="1">
+      <div class="application-honeypot" aria-hidden="true">
+        <label for="application-website">Оставьте это поле пустым</label>
+        <input id="application-website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
       <div class="application-grid">
         <div class="application-field">
           <label for="application-name">Как к вам обращаться <span aria-hidden="true">*</span></label>
@@ -129,7 +144,9 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
       <p class="eyebrow">Заявка готова</p>
       <h2>Проверьте текст и отправьте удобным способом</h2>
       <textarea data-application-output rows="16" readonly aria-label="Подготовленный текст заявки"></textarea>
+      <p class="application-delivery-note" data-application-delivery-note>Прямая серверная отправка пока не подключена. Используйте один из доступных способов ниже.</p>
       <div class="application-actions">
+        <button class="btn btn-primary" type="button" data-application-direct-send hidden>Отправить заявку онлайн</button>
         <button class="btn btn-primary" type="button" data-application-share>Поделиться заявкой</button>
         <a class="btn btn-secondary" href="#" data-application-sms>Отправить SMS</a>
         <button class="btn btn-light" type="button" data-application-copy>Скопировать текст</button>
