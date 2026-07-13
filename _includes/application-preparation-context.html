@@ -1,0 +1,31 @@
+<input name="journey_type" type="hidden" value="">
+<input name="journey_stage" type="hidden" value="">
+<section class="application-more application-preparation" data-application-preparation hidden>
+  <div class="application-step-label"><span>2</span><div><strong>Что уже успели проверить</strong><small>Отметьте только то, что действительно сделали до обращения</small></div></div>
+  <div class="application-more-grid">
+    <p class="application-privacy" data-preparation-intro>Вы пришли после маршрута подготовки. Эти отметки помогут быстрее понять, с какого этапа продолжить разбор.</p>
+    <div class="application-grid" data-preparation-options>
+      <label class="application-consent">
+        <input name="preparation_check" type="checkbox" value="diagnosis">
+        <span data-preparation-label="diagnosis">Разобрал исходную ситуацию</span>
+      </label>
+      <label class="application-consent">
+        <input name="preparation_check" type="checkbox" value="finances">
+        <span data-preparation-label="finances">Проверил доходы и обязательства</span>
+      </label>
+      <label class="application-consent">
+        <input name="preparation_check" type="checkbox" value="documents">
+        <span data-preparation-label="documents">Собрал основные сведения и документы</span>
+      </label>
+      <label class="application-consent">
+        <input name="preparation_check" type="checkbox" value="next_step">
+        <span data-preparation-label="next_step">Не подавал новую заявку без подготовки</span>
+      </label>
+    </div>
+    <div class="application-field application-field-wide">
+      <label for="application-remaining-questions">Что осталось непонятно или требует проверки</label>
+      <textarea id="application-remaining-questions" name="remaining_questions" rows="3" maxlength="700" placeholder="Например: неясна причина отказа, нужно проверить объект или способ подтверждения дохода"></textarea>
+      <small class="application-field-hint">Не указывайте паспортные данные, номера документов, коды и реквизиты счетов.</small>
+    </div>
+  </div>
+</section>
