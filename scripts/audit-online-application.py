@@ -438,9 +438,9 @@ def main() -> int:
         for marker in (
             "form.dataset.web3formsAccessKey", "form.dataset.web3formsEndpoint",
             "form.dataset.thankYouPath", "validWeb3FormsKey", "Promise.allSettled",
-            "sterlikovaMortgageLastLead", "SCENARIO_BY_SLUG", "CITY_BY_PREFIX",
+            "sterlikovaMortgageLastLead", "LAST_LEAD_RETENTION_MS", "SCENARIO_BY_SLUG", "CITY_BY_PREFIX",
             "source_page", "request_id", "form_started_at", "website", "qualification",
-            "tracking_json", "fields_json", "normalizeHttpsUrl", "AbortController",
+            "tracking_json", "fields_json", "expires_at", "normalizeHttpsUrl", "AbortController",
             "credentials: 'omit'", "online_application_direct_success", "online_application_direct_error",
             "online_application_direct_timeout", "online_application_spam_block", "lead_submit",
             "sms:+79030250807",
@@ -458,7 +458,8 @@ def main() -> int:
         main_script_text = main_script.read_text(encoding="utf-8", errors="ignore")
         for marker in (
             "TRACKING_KEYS", "sterlikovaMortgageTracking", "window.getSiteTrackingData",
-            "first_touch", "last_touch", "online_application_click",
+            "first_touch", "last_touch", "TRACKING_RETENTION_DAYS", "expires_at",
+            "window.clearSiteTrackingData", "online_application_click",
         ):
             if marker not in main_script_text:
                 annotation(f"В основном скрипте отсутствует маркер: {marker}", main_script)
@@ -469,7 +470,7 @@ def main() -> int:
     errors += validate_support_page(
         site_dir,
         THANK_YOU_URL,
-        ("заявка отправлена", "номер обращения", "lead_thankyou_view"),
+        ("заявка отправлена", "номер обращения", "expires_at", "lead_thankyou_view"),
         {"lead-id", "lead-scenario", "lead-city", "lead-status"},
     )
     errors += validate_support_page(
@@ -483,7 +484,10 @@ def main() -> int:
         errors += 1
     else:
         policy_file, policy = loaded_policy
-        for marker in ("web3forms", "utm", "email", "номер телефона в этой сводке не хранится"):
+        for marker in (
+            "web3forms", "utm", "email", "90 днями", "24 часа",
+            "номер телефона и полный текст заявки",
+        ):
             if marker.casefold().replace("ё", "е") not in policy.text:
                 annotation(f"В политике отсутствует обязательный маркер: {marker}", policy_file)
                 errors += 1
@@ -527,7 +531,7 @@ def main() -> int:
 
     print(
         "Аудит онлайн-заявки успешно завершён: "
-        f"Web3Forms-конфигурация, email, атрибуция, согласие, страница благодарности и fallback подтверждены; страниц {len(contextual_urls)}"
+        f"Web3Forms-конфигурация, сроки хранения, email, атрибуция, согласие, страница благодарности и fallback подтверждены; страниц {len(contextual_urls)}"
     )
     return 0
 
