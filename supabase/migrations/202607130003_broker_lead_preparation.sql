@@ -31,6 +31,7 @@ declare
   v_checks jsonb := '[]'::jsonb;
   v_labels jsonb := '[]'::jsonb;
   v_item text;
+  v_context_version integer := 1;
   v_journey_type text;
   v_journey_stage text;
   v_scenario_slug text;
@@ -50,7 +51,7 @@ begin
     loop
       v_item := left(trim(v_item), 80);
       if v_item in ('diagnosis', 'finances', 'documents', 'next_step')
-         and not v_checks @> jsonb_build_array(v_item) then
+         and not (v_checks @> jsonb_build_array(v_item)) then
         v_checks := v_checks || jsonb_build_array(v_item);
       end if;
     end loop;
@@ -63,10 +64,14 @@ begin
       limit 4
     loop
       v_item := left(trim(regexp_replace(v_item, '\s+', ' ', 'g')), 180);
-      if v_item <> '' and not v_labels @> jsonb_build_array(v_item) then
+      if v_item <> '' and not (v_labels @> jsonb_build_array(v_item)) then
         v_labels := v_labels || jsonb_build_array(v_item);
       end if;
     end loop;
+  end if;
+
+  if coalesce(v_raw ->> 'context_version', '') ~ '^\d{1,3}$' then
+    v_context_version := least(greatest((v_raw ->> 'context_version')::integer, 1), 100);
   end if;
 
   v_journey_type := nullif(left(trim(regexp_replace(coalesce(v_raw ->> 'journey_type', ''), '\s+', ' ', 'g')), 160), '');
@@ -74,9 +79,18 @@ begin
   v_scenario_slug := nullif(left(trim(coalesce(v_raw ->> 'scenario_slug', '')), 160), '');
   v_remaining_questions := nullif(left(trim(coalesce(v_raw ->> 'remaining_questions', '')), 700), '');
 
+  if v_scenario_slug not in (
+    'otkazali-v-ipoteke',
+    'ipoteka-s-plohoy-kreditnoy-istoriey',
+    'ipoteka-bez-oficialnogo-dohoda',
+    'ipoteka-bez-pervonachalnogo-vznosa'
+  ) then
+    v_scenario_slug := null;
+  end if;
+
   v_preparation := jsonb_build_object(
-    'context_version', case when (v_raw ->> 'context_version') ~ '^\d+$' then least(greatest((v_raw ->> 'context_version')::integer, 1), 100) else 1 end,
-    'active', coalesce(v_raw ->> 'active', 'false') = 'true',
+    'context_version', v_context_version,
+    'active', coalesce(v_raw ->> 'active', 'false') = 'true' and v_scenario_slug is not null,
     'journey_type', coalesce(v_journey_type, ''),
     'journey_stage', coalesce(v_journey_stage, ''),
     'scenario_slug', coalesce(v_scenario_slug, ''),
