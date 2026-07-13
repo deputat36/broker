@@ -57,6 +57,9 @@ def main() -> int:
             "consume_broker_lead_rate_limit",
             "backend_migration_required",
             "rate_limit_exceeded",
+            "request_rejected",
+            "duplicate_read_failed",
+            "request.headers.get('user-agent')",
             "request_id",
             "lead_id",
             "broker_lead_events",
@@ -70,6 +73,7 @@ def main() -> int:
     for forbidden in (
         "origin.startsWith(",
         "ALLOWED_ORIGINS.some((item) => origin.startsWith(item))",
+        "cleanText(payload.user_agent",
         "last_payload",
         "service_role_key: ",
         "telegram_bot_token: ",
@@ -77,6 +81,10 @@ def main() -> int:
         if forbidden.casefold() in function.casefold():
             error(f"Небезопасный или устаревший фрагмент в Edge Function: {forbidden}", FUNCTION_FILE)
             errors += 1
+
+    if "return jsonResponse({ ok: false, success: false, blocked: true, error: 'request_rejected' }, 202, origin);" not in function:
+        error("Spam-блок не должен считаться успешной доставкой в hybrid-режиме", FUNCTION_FILE)
+        errors += 1
 
     errors += require_markers(
         migration,
@@ -141,7 +149,7 @@ def main() -> int:
 
     print(
         "Аудит Supabase backend v2 успешно завершён: "
-        "миграция, идемпотентность, атомарный rate limit, CORS, события и выключенный endpoint подтверждены"
+        "миграция, идемпотентность, атомарный rate limit, CORS, события, edge-case защита и выключенный endpoint подтверждены"
     )
     return 0
 
