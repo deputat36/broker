@@ -306,7 +306,7 @@ async function consumeRateLimit(request: Request, payload: JsonRecord, requestId
   return { allowed: row.allowed === true, attemptCount, limit, fingerprint };
 }
 
-function buildLeadRow(payload: JsonRecord, lead: ValidatedLead, rateLimit: RateLimitResult): JsonRecord {
+function buildLeadRow(payload: JsonRecord, lead: ValidatedLead, rateLimit: RateLimitResult, userAgent: string): JsonRecord {
   const currentTracking = getCurrentTracking(lead.tracking);
   const status = qualificationStatus(lead.qualification);
   const priority = cleanText(lead.qualification.priority, 120) || status;
@@ -336,7 +336,7 @@ function buildLeadRow(payload: JsonRecord, lead: ValidatedLead, rateLimit: RateL
     utm_campaign: cleanText(currentTracking.utm_campaign, 200),
     utm_content: cleanText(currentTracking.utm_content, 200),
     utm_term: cleanText(currentTracking.utm_term, 200),
-    user_agent: cleanText(payload.user_agent, 500),
+    user_agent: userAgent,
     page_title: lead.pageTitle,
 
     request_id: lead.requestId,
@@ -515,13 +515,14 @@ Deno.serve(async (request) => {
 
   const validation = validatePayload(payload);
   if (validation.spam) {
-    return jsonResponse({ ok: true, success: true, blocked: true }, 202, origin);
+    return jsonResponse({ ok: false, success: false, blocked: true, error: 'request_rejected' }, 202, origin);
   }
   if (!validation.lead || validation.errors.length) {
     return jsonResponse({ ok: false, success: false, errors: validation.errors }, 422, origin);
   }
 
-  const row = buildLeadRow(payload, validation.lead, rateLimit);
+  const userAgent = cleanText(request.headers.get('user-agent'), 500);
+  const row = buildLeadRow(payload, validation.lead, rateLimit, userAgent);
   const { data, error } = await supabase
     .from('broker_leads')
     .insert(row)
@@ -530,17 +531,22 @@ Deno.serve(async (request) => {
 
   if (error) {
     if (error.code === '23505') {
-      const existing = await findExistingLead(validation.lead.requestId);
-      return jsonResponse({
-        ok: true,
-        success: true,
-        duplicate: true,
-        lead_id: existing?.id || null,
-        request_id: validation.lead.requestId,
-        crm_status: existing?.status || 'new',
-        technical_priority: existing?.technical_priority || row.technical_priority,
-        qualification: existing?.qualification || row.qualification
-      }, 200, origin);
+      try {
+        const existing = await findExistingLead(validation.lead.requestId);
+        return jsonResponse({
+          ok: true,
+          success: true,
+          duplicate: true,
+          lead_id: existing?.id || null,
+          request_id: validation.lead.requestId,
+          crm_status: existing?.status || 'new',
+          technical_priority: existing?.technical_priority || row.technical_priority,
+          qualification: existing?.qualification || row.qualification
+        }, 200, origin);
+      } catch (duplicateReadError) {
+        console.error(duplicateReadError instanceof Error ? duplicateReadError.message : 'duplicate_read_failed');
+        return jsonResponse({ ok: false, success: false, error: 'lead_storage_failed' }, 500, origin);
+      }
     }
 
     console.error('broker_lead_insert_failed', error.code || 'unknown');
