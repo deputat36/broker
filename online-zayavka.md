@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Онлайн-заявка ипотечному брокеру | Татьяна Стерликова
-description: Заполните и отправьте онлайн-заявку на консультацию и ипотечное сопровождение из любого города. Обращение передаётся через настроенный email-канал формы.
+description: Заполните и отправьте короткую онлайн-заявку на консультацию и ипотечное сопровождение из любого города. Подробные финансовые сведения можно добавить по желанию.
 permalink: /online-zayavka/
 breadcrumb: Онлайн-заявка
 og_type: website
@@ -11,21 +11,21 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
 <section class="page-hero section">
   <p class="eyebrow">Дистанционно из любого города</p>
   <h1>Онлайн-заявка ипотечному брокеру</h1>
-  <p class="lead">Заполните короткую анкету, проверьте сформированный текст и отправьте заявку онлайн. Обращение передаётся через настроенный email-канал, а при технической ошибке останутся SMS, ВКонтакте, MAX и копирование текста.</p>
+  <p class="lead">Для первого обращения достаточно имени, телефона, города и задачи. Стоимость объекта, взнос, доход и историю обращений в банки можно добавить по желанию.</p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="#application-form">Заполнить заявку</a>
+    <a class="btn btn-primary" href="#application-form">Заполнить короткую заявку</a>
     <a class="btn btn-light" href="tel:+79030250807">Позвонить</a>
     <a class="btn btn-light" href="{{ '/konsultaciya/' | relative_url }}">Как проходит консультация</a>
   </div>
-  <ul class="trust-list"><li>Можно обратиться из любого города</li><li>Заявка передаётся через email-канал</li><li>Решение принимает банк</li></ul>
+  <ul class="trust-list"><li>Можно обратиться из любого города</li><li>Обязательных полей немного</li><li>Решение принимает банк</li></ul>
 </section>
 
 <section class="section application-layout" id="application-form">
   <div>
     <div class="section-head">
-      <p class="eyebrow">Анкета</p>
-      <h2>Подготовьте заявку за несколько минут</h2>
-      <p>Не прикладывайте паспорт, банковские документы и другие чувствительные файлы. Для первого обращения достаточно общих вводных.</p>
+      <p class="eyebrow">Короткая анкета</p>
+      <h2>Подготовьте обращение за несколько минут</h2>
+      <p>Заполните основные поля. Дополнительные вводные помогут быстрее разобрать ситуацию, но не обязательны для отправки.</p>
     </div>
 
     <form
@@ -43,23 +43,26 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
       <input name="source_page" type="hidden" value="">
       <input name="request_id" type="hidden" value="">
       <input name="form_started_at" type="hidden" value="">
-      <input name="form_version" type="hidden" value="1">
+      <input name="form_version" type="hidden" value="2">
       <div class="application-honeypot" aria-hidden="true">
         <label for="application-website">Оставьте это поле пустым</label>
         <input id="application-website" name="website" type="text" tabindex="-1" autocomplete="off">
       </div>
+
+      <div class="application-step-label"><span>1</span><div><strong>Контакты и задача</strong><small>Этого достаточно для первого обращения</small></div></div>
       <div class="application-grid">
         <div class="application-field">
           <label for="application-name">Как к вам обращаться <span aria-hidden="true">*</span></label>
-          <input id="application-name" name="client_name" type="text" autocomplete="name" required maxlength="80" placeholder="Например, Анна">
+          <input id="application-name" name="client_name" type="text" autocomplete="name" autocapitalize="words" required maxlength="80" enterkeyhint="next" placeholder="Например, Анна">
         </div>
         <div class="application-field">
           <label for="application-phone">Телефон для связи <span aria-hidden="true">*</span></label>
-          <input id="application-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="30" placeholder="+7 900 000-00-00">
+          <input id="application-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="22" enterkeyhint="next" placeholder="+7 900 000-00-00" aria-describedby="application-phone-hint" data-phone-input>
+          <small class="application-field-hint" id="application-phone-hint">Введите 10 цифр российского номера. Подойдут форматы +7 или 8.</small>
         </div>
         <div class="application-field">
           <label for="application-city">Город или населённый пункт <span aria-hidden="true">*</span></label>
-          <input id="application-city" name="city" type="text" autocomplete="address-level2" required maxlength="120" placeholder="Можно указать любой город">
+          <input id="application-city" name="city" type="text" autocomplete="address-level2" autocapitalize="words" required maxlength="120" enterkeyhint="next" placeholder="Можно указать любой город">
         </div>
         <div class="application-field">
           <label for="application-contact">Удобный способ связи</label>
@@ -92,46 +95,53 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
             <option>Другая ситуация</option>
           </select>
         </div>
-        <div class="application-field">
-          <label for="application-object">Что планируете купить</label>
-          <select id="application-object" name="object_type">
-            <option value="Пока не выбрано">Пока не выбрано</option>
-            <option>Квартира в новостройке</option>
-            <option>Квартира на вторичном рынке</option>
-            <option>Дом с участком</option>
-            <option>Строительство дома</option>
-            <option>Другой объект</option>
-          </select>
-        </div>
-        <div class="application-field">
-          <label for="application-price">Примерная стоимость объекта</label>
-          <input id="application-price" name="object_price" type="text" inputmode="numeric" maxlength="40" placeholder="Например, 4 500 000 ₽">
-        </div>
-        <div class="application-field">
-          <label for="application-down">Первоначальный взнос</label>
-          <input id="application-down" name="down_payment" type="text" inputmode="numeric" maxlength="40" placeholder="Сумма, маткапитал или пока нет">
-        </div>
-        <div class="application-field">
-          <label for="application-income">Как подтверждается доход</label>
-          <select id="application-income" name="income_type">
-            <option value="Не указано">Не указано</option>
-            <option>Официальная работа</option>
-            <option>ИП</option>
-            <option>Самозанятость</option>
-            <option>Смешанный доход</option>
-            <option>Пенсия</option>
-            <option>Доход без стандартной справки</option>
-          </select>
-        </div>
-        <div class="application-field application-field-wide">
-          <label for="application-history">Заявки, одобрения или отказы банков</label>
-          <textarea id="application-history" name="bank_history" rows="3" maxlength="600" placeholder="Напишите кратко, в какие банки обращались и какой был результат"></textarea>
-        </div>
-        <div class="application-field application-field-wide">
-          <label for="application-comment">Комментарий к ситуации</label>
-          <textarea id="application-comment" name="comment" rows="5" maxlength="1200" placeholder="Доход, кредиты, состав семьи, сроки, выбранный объект и другие важные вводные"></textarea>
-        </div>
       </div>
+
+      <details class="application-more" data-application-more>
+        <summary><span>Добавить подробности</span><small>Объект, стоимость, взнос, доход и обращения в банки</small></summary>
+        <div class="application-step-label"><span>2</span><div><strong>Дополнительные вводные</strong><small>Необязательно, но поможет быстрее подготовиться к разговору</small></div></div>
+        <div class="application-grid application-more-grid">
+          <div class="application-field">
+            <label for="application-object">Что планируете купить</label>
+            <select id="application-object" name="object_type">
+              <option value="Пока не выбрано">Пока не выбрано</option>
+              <option>Квартира в новостройке</option>
+              <option>Квартира на вторичном рынке</option>
+              <option>Дом с участком</option>
+              <option>Строительство дома</option>
+              <option>Другой объект</option>
+            </select>
+          </div>
+          <div class="application-field">
+            <label for="application-price">Примерная стоимость объекта</label>
+            <input id="application-price" name="object_price" type="text" inputmode="numeric" maxlength="40" placeholder="Например, 4 500 000 ₽">
+          </div>
+          <div class="application-field">
+            <label for="application-down">Первоначальный взнос</label>
+            <input id="application-down" name="down_payment" type="text" inputmode="numeric" maxlength="40" placeholder="Сумма, маткапитал или пока нет">
+          </div>
+          <div class="application-field">
+            <label for="application-income">Как подтверждается доход</label>
+            <select id="application-income" name="income_type">
+              <option value="Не указано">Не указано</option>
+              <option>Официальная работа</option>
+              <option>ИП</option>
+              <option>Самозанятость</option>
+              <option>Смешанный доход</option>
+              <option>Пенсия</option>
+              <option>Доход без стандартной справки</option>
+            </select>
+          </div>
+          <div class="application-field application-field-wide">
+            <label for="application-history">Заявки, одобрения или отказы банков</label>
+            <textarea id="application-history" name="bank_history" rows="3" maxlength="600" placeholder="Напишите кратко, в какие банки обращались и какой был результат"></textarea>
+          </div>
+          <div class="application-field application-field-wide">
+            <label for="application-comment">Комментарий к ситуации</label>
+            <textarea id="application-comment" name="comment" rows="5" maxlength="1200" placeholder="Доход, кредиты, состав семьи, сроки, выбранный объект и другие важные вводные"></textarea>
+          </div>
+        </div>
+      </details>
 
       <label class="application-consent">
         <input name="consent" type="checkbox" required>
@@ -139,7 +149,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
       </label>
 
       <p class="application-privacy">После проверки и нажатия «Отправить заявку онлайн» сведения передаются через сервис Web3Forms в настроенный email-канал. Не указывайте паспортные данные, СНИЛС, реквизиты карт, коды подтверждения и не прикладывайте документы.</p>
-      <button class="btn btn-primary" type="submit">Проверить и подготовить заявку</button>
+      <button class="btn btn-primary application-submit" type="submit">Проверить и подготовить заявку</button>
       <p class="application-status" data-application-status aria-live="polite"></p>
     </form>
 
@@ -162,8 +172,8 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
 
   <aside class="application-aside">
     <div class="seo-panel">
-      <h3>География работы</h3>
-      <p>Первичную консультацию и подготовку ипотечного маршрута можно провести дистанционно из любого города. Возможность дальнейшего сопровождения зависит от региона, банка, объекта и задачи.</p>
+      <h3>Короткой заявки достаточно</h3>
+      <p>Для первого контакта нужны имя, телефон, город и задача. Остальные сведения можно уточнить во время разговора.</p>
     </div>
     <div class="seo-panel">
       <h3>Что произойдёт после обращения</h3>
@@ -175,8 +185,8 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
       </ol>
     </div>
     <div class="seo-panel">
-      <h3>Местные страницы</h3>
-      <p>Для Борисоглебска, Грибановского и Поворино действуют отдельные региональные разделы. Они не ограничивают дистанционные обращения из других населённых пунктов.</p>
+      <h3>География работы</h3>
+      <p>Первичную консультацию можно провести дистанционно из любого города. Локальные страницы Борисоглебска, Грибановского района и Поворино не ограничивают обращения из других регионов.</p>
       <p><a href="{{ '/geo/' | relative_url }}">Перейти к региональным материалам →</a></p>
     </div>
   </aside>
@@ -190,4 +200,6 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
   </div>
 </section>
 
-<section class="section cta-section"><div><p class="eyebrow">Нужен быстрый ответ?</p><h2>Можно не заполнять всю анкету</h2><p>Позвоните или напишите кратко: ваш город, цель, объект, примерная стоимость, взнос и были ли обращения в банки.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
+<section class="section cta-section"><div><p class="eyebrow">Нужен быстрый ответ?</p><h2>Можно не заполнять анкету</h2><p>Позвоните или напишите кратко: ваш город, цель и были ли обращения в банки.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
+
+<script src="{{ '/assets/js/application-inputs.js' | relative_url }}" defer></script>
