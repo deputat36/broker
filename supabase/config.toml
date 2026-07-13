@@ -1,14 +1,18 @@
 # Per-function Supabase Edge Function configuration.
 #
-# Both functions implement their own request security:
+# All listed functions implement their own request security:
 # - broker-public-lead validates exact Origin, payload, consent, spam and rate limit;
-# - broker-notification-retry has no CORS and validates NOTIFICATION_ADMIN_TOKEN.
+# - broker-notification-retry has no CORS and validates NOTIFICATION_ADMIN_TOKEN;
+# - broker-notification-health has no CORS and validates NOTIFICATION_MONITOR_TOKEN.
 #
 # Supabase platform JWT verification must be disabled so browser submissions and
-# the custom administrative bearer token reach the corresponding handlers.
+# the custom administrative bearer tokens reach the corresponding handlers.
 
 [functions.broker-public-lead]
 verify_jwt = false
 
 [functions.broker-notification-retry]
+verify_jwt = false
+
+[functions.broker-notification-health]
 verify_jwt = false
