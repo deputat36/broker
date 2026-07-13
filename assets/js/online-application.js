@@ -367,7 +367,7 @@
     }
   }
 
-  async function sendWeb3FormsLead(payload) {
+  async function sendWeb3FormsLead(payload, signal) {
     const tracking = payload.tracking || {};
     const current = tracking.current || {};
     const emailPayload = {
@@ -414,21 +414,23 @@
       credentials: 'omit',
       referrerPolicy: 'strict-origin-when-cross-origin',
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify(emailPayload)
+      body: JSON.stringify(emailPayload),
+      signal
     });
     const responsePayload = await parseJsonResponse(response);
     if (!response.ok || responsePayload.success === false) throw new Error(responsePayload.message || `Web3Forms HTTP ${response.status}`);
     return { channel: 'web3forms', response: responsePayload };
   }
 
-  async function sendCustomLead(payload) {
+  async function sendCustomLead(payload, signal) {
     const response = await fetch(leadConfig.endpoint, {
       method: 'POST',
       mode: 'cors',
       credentials: 'omit',
       referrerPolicy: 'strict-origin-when-cross-origin',
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      signal
     });
     const responsePayload = await parseJsonResponse(response);
     if (!response.ok || responsePayload.ok === false || responsePayload.success === false) {
@@ -439,13 +441,8 @@
 
   async function sendLead(payload, signal) {
     const tasks = [];
-    if (web3FormsEnabled) tasks.push(sendWeb3FormsLead(payload));
-    if (customEndpointEnabled) {
-      tasks.push(Promise.race([
-        sendCustomLead(payload),
-        new Promise((_, reject) => signal.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')), { once: true }))
-      ]));
-    }
+    if (web3FormsEnabled) tasks.push(sendWeb3FormsLead(payload, signal));
+    if (customEndpointEnabled) tasks.push(sendCustomLead(payload, signal));
     if (!tasks.length) throw new Error('Нет активного канала приёма заявок');
 
     const results = await Promise.allSettled(tasks);
