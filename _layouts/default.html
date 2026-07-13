@@ -123,9 +123,19 @@
     {{ content }}
     {% assign route_parts = page.url | split: '/' %}
     {% assign route_section = route_parts[1] %}
+    {% assign route_slug = route_parts[3] | default: '' %}
+    {% assign complex_route_slugs = '|otkazali-v-ipoteke|ipoteka-s-plohoy-kreditnoy-istoriey|ipoteka-bez-oficialnogo-dohoda|ipoteka-bez-pervonachalnogo-vznosa|' %}
+    {% capture complex_route_token %}|{{ route_slug }}|{% endcapture %}
+    {% assign show_complex_route = false %}
+    {% if route_section == 'geo' and complex_route_slugs contains complex_route_token %}{% assign show_complex_route = true %}{% endif %}
+    {% if show_complex_route %}
+      {% include complex-application-route.html slug=route_slug %}
+    {% endif %}
     {% assign show_online_route = false %}
     {% if route_section == 'uslugi' and page.url != '/uslugi/' %}{% assign show_online_route = true %}{% endif %}
-    {% if route_section == 'geo' and page.url != '/geo/' %}{% assign show_online_route = true %}{% endif %}
+    {% if route_section == 'geo' and page.url != '/geo/' %}
+      {% unless show_complex_route %}{% assign show_online_route = true %}{% endunless %}
+    {% endif %}
     {% if show_online_route %}
     <section class="section compact-section service-online-route">
       <div class="notice">
