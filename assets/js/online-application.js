@@ -12,6 +12,7 @@
   const directSendButton = document.querySelector('[data-application-direct-send]');
   const deliveryNote = document.querySelector('[data-application-delivery-note]');
   const LAST_LEAD_STORAGE_KEY = 'sterlikovaMortgageLastLead';
+  const LAST_LEAD_RETENTION_MS = 24 * 60 * 60 * 1000;
 
   let preparedText = '';
   let preparedPayload = null;
@@ -436,6 +437,7 @@
       city: payload.client.city,
       qualification: payload.qualification,
       submitted_at: payload.submitted_at,
+      expires_at: new Date(Date.now() + LAST_LEAD_RETENTION_MS).toISOString(),
       channels: channels.map((item) => item.channel)
     };
     try { window.localStorage.setItem(LAST_LEAD_STORAGE_KEY, JSON.stringify(safeLead)); } catch (error) { /* URL содержит резервную сводку. */ }
