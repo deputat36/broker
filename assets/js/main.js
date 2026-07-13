@@ -4,6 +4,28 @@ const copyPhoneButtons = document.querySelectorAll('[data-copy-phone]');
 const calcForms = document.querySelectorAll('[data-mortgage-calc]');
 const maxPhone = '89030250807';
 
+const TRACKING_KEYS = [
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_content',
+  'utm_term',
+  'utm_id',
+  'gclid',
+  'yclid',
+  'ymclid',
+  'vkclid',
+  'fbclid',
+  'roistat',
+  'openstat',
+  'realtor',
+  'realtor_id',
+  'manager',
+  'lead_source',
+  'placement'
+];
+const TRACKING_STORAGE_KEY = 'sterlikovaMortgageTracking';
+
 function sendGoal(goalName) {
   if (typeof window.ym !== 'function') return;
   const counterId = window.siteAnalytics && window.siteAnalytics.yandexMetrikaId;
@@ -17,6 +39,62 @@ function sendGoal(goalName) {
 }
 
 window.sendGoal = sendGoal;
+
+function safeJsonParse(value, fallback = {}) {
+  try {
+    return JSON.parse(value) || fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function readStoredTracking() {
+  try {
+    return safeJsonParse(window.localStorage.getItem(TRACKING_STORAGE_KEY), {});
+  } catch (error) {
+    return {};
+  }
+}
+
+function saveStoredTracking(tracking) {
+  try {
+    window.localStorage.setItem(TRACKING_STORAGE_KEY, JSON.stringify(tracking));
+  } catch (error) {
+    // Ограничения localStorage не должны мешать работе сайта и формы.
+  }
+}
+
+function getTrackingData() {
+  const params = new URLSearchParams(window.location.search);
+  const saved = readStoredTracking();
+  const incoming = {};
+
+  TRACKING_KEYS.forEach((key) => {
+    const value = params.get(key);
+    if (value) incoming[key] = value.trim().slice(0, 300);
+  });
+
+  const now = new Date().toISOString();
+  const pageSnapshot = {
+    page_url: window.location.href,
+    page_path: window.location.pathname,
+    page_title: document.title,
+    referrer: document.referrer || '',
+    captured_at: now
+  };
+  const current = { ...(saved.current || {}), ...incoming };
+  const tracking = {
+    first_touch: saved.first_touch || { ...pageSnapshot, values: current },
+    last_touch: { ...pageSnapshot, values: current },
+    current
+  };
+
+  saveStoredTracking(tracking);
+  return tracking;
+}
+
+window.getSiteTrackingData = getTrackingData;
+getTrackingData();
 
 function normalizePath(pathname) {
   const normalizedPath = String(pathname || '/')
