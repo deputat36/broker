@@ -6,6 +6,7 @@
   const phoneHint = document.getElementById('application-phone-hint');
   const moreDetails = form.querySelector('[data-application-more]');
   const formStatus = form.querySelector('[data-application-status]');
+  const documentLinks = form.querySelectorAll('.application-consent a');
 
   function track(goalName) {
     if (typeof window.sendGoal === 'function') window.sendGoal(goalName);
@@ -69,6 +70,12 @@
 
     return valid;
   }
+
+  documentLinks.forEach((link) => {
+    link.setAttribute('target', '_blank');
+    link.setAttribute('rel', 'noopener');
+    link.setAttribute('aria-label', `${link.textContent.trim()} — откроется в новой вкладке`);
+  });
 
   if (phone) {
     phone.addEventListener('input', () => {
