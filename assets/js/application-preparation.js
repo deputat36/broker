@@ -13,10 +13,16 @@
   const checkboxes = Array.from(form.querySelectorAll('input[name="preparation_check"]'));
   const output = document.querySelector('[data-application-output]');
   const smsLink = document.querySelector('[data-application-sms]');
-  const maxButton = document.querySelector('[data-application-max]');
+  const maxButton = document.querySelector('[data-application-max], [data-application-result] [data-copy-phone]');
   const formStatus = form.querySelector('[data-application-status]');
   const APPLICATION_TEXT_MARKER = 'ОНЛАЙН-ЗАЯВКА С САЙТА';
   const PREPARATION_TEXT_MARKER = 'ПОДГОТОВКА ДО ОБРАЩЕНИЯ';
+
+  if (maxButton) {
+    maxButton.removeAttribute('data-copy-phone');
+    maxButton.setAttribute('data-application-max', '');
+    maxButton.textContent = 'Скопировать заявку для MAX';
+  }
 
   const CONFIG_BY_SLUG = {
     'otkazali-v-ipoteke': {
