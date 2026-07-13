@@ -6,12 +6,10 @@
   const params = new URLSearchParams(window.location.search);
   const journeyTypeField = form.elements.namedItem('journey_type');
   const journeyStageField = form.elements.namedItem('journey_stage');
-  const remainingQuestions = form.elements.namedItem('remaining_questions');
-  const commentField = form.elements.namedItem('comment');
+  const journeyScenarioField = form.elements.namedItem('journey_scenario_slug');
   const detailsStepNumber = form.querySelector('[data-application-more] .application-step-label > span');
   const intro = preparation.querySelector('[data-preparation-intro]');
   const checkboxes = Array.from(form.querySelectorAll('input[name="preparation_check"]'));
-  const MAX_COMBINED_COMMENT_LENGTH = 1600;
 
   const CONFIG_BY_SLUG = {
     'otkazali-v-ipoteke': {
@@ -72,15 +70,6 @@
     return parts.length ? parts[parts.length - 1] : '';
   }
 
-  function checkedLabels() {
-    return checkboxes
-      .filter((checkbox) => checkbox.checked)
-      .map((checkbox) => {
-        const label = form.querySelector(`[data-preparation-label="${checkbox.value}"]`);
-        return label ? label.textContent.trim() : checkbox.value;
-      });
-  }
-
   const sourcePath = normalizeSourcePath(params.get('source'));
   const slug = sourceSlug(sourcePath);
   const config = CONFIG_BY_SLUG[slug];
@@ -89,11 +78,13 @@
   if (!isComplexJourney) return;
 
   preparation.hidden = false;
+  preparation.dataset.active = 'true';
   if (detailsStepNumber) detailsStepNumber.textContent = '3';
   if (journeyTypeField) journeyTypeField.value = 'Сложный региональный маршрут';
   if (journeyStageField) journeyStageField.value = params.get('stage') === 'route'
     ? 'После изучения маршрута подготовки'
     : 'Сложный сценарий';
+  if (journeyScenarioField) journeyScenarioField.value = slug;
   if (intro) intro.textContent = config.intro;
 
   Object.entries(config.labels).forEach(([key, value]) => {
@@ -111,28 +102,5 @@
         track('online_application_preparation_check');
       }
     });
-  });
-
-  form.addEventListener('submit', () => {
-    if (!commentField) return;
-
-    const originalComment = String(commentField.value || '').trim();
-    const completed = checkedLabels();
-    const remaining = remainingQuestions ? String(remainingQuestions.value || '').trim() : '';
-    const stage = journeyStageField ? String(journeyStageField.value || '').trim() : '';
-    const context = [
-      `Этап подготовки: ${stage || 'Сложный сценарий'}`,
-      `Что уже проверено: ${completed.length ? completed.join('; ') : 'не отмечено'}`,
-      `Что осталось уточнить: ${remaining || 'не указано'}`
-    ].join('\n');
-    const combinedComment = originalComment
-      ? `${context}\n\nКомментарий клиента: ${originalComment}`
-      : context;
-
-    commentField.value = combinedComment.slice(0, MAX_COMBINED_COMMENT_LENGTH);
-
-    const restore = () => { commentField.value = originalComment; };
-    if (typeof queueMicrotask === 'function') queueMicrotask(restore);
-    else Promise.resolve().then(restore);
   });
 })();
