@@ -78,7 +78,7 @@ def main() -> int:
             "Deno.env.get('NOTIFICATION_ADMIN_TOKEN')",
             "secureTokenEqual",
             "crypto.subtle.digest('SHA-256'",
-            "Authorization",
+            "request.headers.get('authorization')",
             "Bearer",
             "MAX_BODY_BYTES = 8192",
             "request_broker_lead_notification_retry",
