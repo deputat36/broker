@@ -34,7 +34,10 @@ create table if not exists public.broker_lead_retention_settings (
     check (delete_rate_limits_after_days between 1 and 90),
   terminal_statuses text[] not null default array['closed', 'lost', 'archived']::text[],
   updated_at timestamptz not null default now(),
-  check (cardinality(terminal_statuses) between 1 and 10)
+  check (cardinality(terminal_statuses) between 1 and 4),
+  check (
+    terminal_statuses <@ array['closed', 'lost', 'archived', 'cancelled']::text[]
+  )
 );
 
 insert into public.broker_lead_retention_settings (singleton)
@@ -43,15 +46,14 @@ on conflict (singleton) do nothing;
 
 create table if not exists public.broker_lead_retention_runs (
   id uuid primary key default gen_random_uuid(),
-  started_at timestamptz not null default now(),
-  finished_at timestamptz,
-  status text not null default 'running'
-    check (status in ('running', 'completed', 'failed')),
+  started_at timestamptz not null,
+  finished_at timestamptz not null,
+  status text not null default 'completed'
+    check (status = 'completed'),
   policy_snapshot jsonb not null default '{}'::jsonb,
   anonymized_leads bigint not null default 0,
   deleted_events bigint not null default 0,
-  deleted_rate_limits bigint not null default 0,
-  error_code text
+  deleted_rate_limits bigint not null default 0
 );
 
 create index if not exists broker_lead_retention_runs_started_idx
@@ -96,7 +98,10 @@ begin
     select
       leads.*,
       coalesce(leads.submitted_at, leads.created_at) as retention_date,
-      leads.status = any(v_settings.terminal_statuses) as terminal_status,
+      (
+        leads.status = any(v_settings.terminal_statuses)
+        and leads.status in ('closed', 'lost', 'archived', 'cancelled')
+      ) as terminal_status,
       leads.notification_status in ('sent', 'disabled') as notification_resolved
     from public.broker_leads as leads
     where leads.anonymized_at is null
@@ -160,6 +165,7 @@ as $$
 declare
   v_settings public.broker_lead_retention_settings%rowtype;
   v_run_id uuid := gen_random_uuid();
+  v_started_at timestamptz := now();
   v_anonymized bigint := 0;
   v_deleted_events bigint := 0;
   v_deleted_rate_limits bigint := 0;
@@ -181,21 +187,6 @@ begin
   if not v_settings.enabled then
     raise exception 'broker_retention_disabled';
   end if;
-
-  insert into public.broker_lead_retention_runs (
-    id,
-    status,
-    policy_snapshot
-  ) values (
-    v_run_id,
-    'running',
-    jsonb_build_object(
-      'anonymize_after_days', v_settings.anonymize_after_days,
-      'delete_events_after_days', v_settings.delete_events_after_days,
-      'delete_rate_limits_after_days', v_settings.delete_rate_limits_after_days,
-      'terminal_statuses', to_jsonb(v_settings.terminal_statuses)
-    )
-  );
 
   update public.broker_leads as leads
   set
@@ -247,6 +238,7 @@ begin
   where leads.anonymized_at is null
     and leads.retention_hold = false
     and leads.status = any(v_settings.terminal_statuses)
+    and leads.status in ('closed', 'lost', 'archived', 'cancelled')
     and leads.notification_status in ('sent', 'disabled')
     and coalesce(leads.submitted_at, leads.created_at)
       < now() - make_interval(days => v_settings.anonymize_after_days);
@@ -266,29 +258,36 @@ begin
     now() - make_interval(days => v_settings.delete_rate_limits_after_days)
   ) into v_deleted_rate_limits;
 
-  update public.broker_lead_retention_runs
-  set
-    finished_at = now(),
-    status = 'completed',
-    anonymized_leads = v_anonymized,
-    deleted_events = v_deleted_events,
-    deleted_rate_limits = coalesce(v_deleted_rate_limits, 0)
-  where id = v_run_id;
+  insert into public.broker_lead_retention_runs (
+    id,
+    started_at,
+    finished_at,
+    status,
+    policy_snapshot,
+    anonymized_leads,
+    deleted_events,
+    deleted_rate_limits
+  ) values (
+    v_run_id,
+    v_started_at,
+    now(),
+    'completed',
+    jsonb_build_object(
+      'anonymize_after_days', v_settings.anonymize_after_days,
+      'delete_events_after_days', v_settings.delete_events_after_days,
+      'delete_rate_limits_after_days', v_settings.delete_rate_limits_after_days,
+      'terminal_statuses', to_jsonb(v_settings.terminal_statuses)
+    ),
+    v_anonymized,
+    v_deleted_events,
+    coalesce(v_deleted_rate_limits, 0)
+  );
 
   return query select
     v_run_id,
     v_anonymized,
     v_deleted_events,
     coalesce(v_deleted_rate_limits, 0);
-exception
-  when others then
-    update public.broker_lead_retention_runs
-    set
-      finished_at = now(),
-      status = 'failed',
-      error_code = sqlstate
-    where id = v_run_id;
-    raise;
 end;
 $$;
 
@@ -299,7 +298,7 @@ grant select, insert, update on table public.broker_lead_retention_settings
 
 revoke all on table public.broker_lead_retention_runs
   from public, anon, authenticated;
-grant select, insert, update on table public.broker_lead_retention_runs
+grant select, insert on table public.broker_lead_retention_runs
   to service_role;
 
 revoke all on function public.broker_lead_retention_preview()
@@ -321,7 +320,7 @@ comment on column public.broker_leads.retention_reason_code is
 comment on table public.broker_lead_retention_settings is
   'Выключенная по умолчанию техническая конфигурация хранения; активируется только после утверждения сроков';
 comment on table public.broker_lead_retention_runs is
-  'Обезличенный журнал запусков retention без идентификаторов и содержимого заявок';
+  'Обезличенный журнал только успешно завершённых retention-запусков без идентификаторов и содержимого заявок';
 comment on function public.broker_lead_retention_preview() is
   'Возвращает только агрегированные количества кандидатов и защищённых записей без персональных данных';
 comment on function public.apply_broker_lead_retention(text) is
