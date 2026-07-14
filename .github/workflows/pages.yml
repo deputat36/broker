@@ -85,6 +85,8 @@ jobs:
         run: python3 scripts/audit-application-preparation-context.py ./_site
       - name: Audit online application and remote service route
         run: python3 scripts/audit-online-application.py ./_site
+      - name: Audit thank-you privacy
+        run: python3 scripts/audit-thankyou-privacy.py ./_site
       - name: Audit progressive mobile application UX
         run: python3 scripts/audit-application-ux.py ./_site
       - name: Upload artifact
