@@ -47,9 +47,22 @@ sitemap: false
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    var params = new URLSearchParams(window.location.search);
+    var legacyContext = window.thankYouContext || {};
     var storageKey = 'sterlikovaMortgageLastLead';
     var lastLead = {};
+
+    function cleanText(value, fallback, maxLength) {
+      var normalized = String(value || '').replace(/\s+/g, ' ').trim();
+      return normalized ? normalized.slice(0, maxLength) : fallback;
+    }
+
+    function cleanRequestId(value) {
+      var requestId = cleanText(value, '', 80);
+      var uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      var fallbackPattern = /^IP-\d{8}-[A-Z0-9]{6,16}$/;
+      return uuidPattern.test(requestId) || fallbackPattern.test(requestId) ? requestId : '—';
+    }
+
     try {
       lastLead = JSON.parse(window.localStorage.getItem(storageKey) || '{}');
       var expiresAt = Date.parse(lastLead.expires_at || '');
@@ -61,24 +74,21 @@ sitemap: false
       lastLead = {};
     }
 
-    var requestId = params.get('id') || lastLead.request_id || '—';
-    var scenario = params.get('scenario') || lastLead.scenario || 'Ипотечная консультация';
-    var city = lastLead.city || 'Не указан';
-    var status = params.get('status') || (lastLead.qualification && lastLead.qualification.status) || 'new';
+    var requestId = cleanRequestId(legacyContext.id || lastLead.request_id);
+    var scenario = cleanText(legacyContext.scenario || lastLead.scenario, 'Ипотечная консультация', 120);
+    var city = cleanText(lastLead.city, 'Не указан', 80);
+    var rawStatus = cleanText(legacyContext.status || (lastLead.qualification && lastLead.qualification.status), 'new', 20);
     var statusMap = { hot: 'Срочная', warm: 'Тёплая', cold: 'Требует уточнения', new: 'Новая' };
+    var status = Object.prototype.hasOwnProperty.call(statusMap, rawStatus) ? rawStatus : 'new';
 
     document.getElementById('lead-id').textContent = requestId;
     document.getElementById('lead-scenario').textContent = scenario;
     document.getElementById('lead-city').textContent = city;
-    document.getElementById('lead-status').textContent = statusMap[status] || 'Новая';
+    document.getElementById('lead-status').textContent = statusMap[status];
 
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'lead_thankyou_view',
-      request_id: requestId,
-      scenario: scenario,
-      qualification_status: status
-    });
+    window.dataLayer.push({ event: 'lead_thankyou_view' });
     if (typeof window.sendGoal === 'function') window.sendGoal('lead_thankyou_view');
+    try { delete window.thankYouContext; } catch (error) { window.thankYouContext = {}; }
   });
 </script>
