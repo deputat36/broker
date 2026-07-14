@@ -24,7 +24,6 @@ jobs:
         run: |
           node --check assets/js/main.js
           node --check assets/js/application-delivery-keepalive.js
-          node --check assets/js/thankyou-storage-privacy.js
           node --check assets/js/application-inputs.js
           node --check assets/js/application-preparation.js
           node --check assets/js/online-application.js
@@ -70,6 +69,8 @@ jobs:
         run: python3 scripts/audit-district-materials.py ./_site
       - name: Audit conversion pages and CTA
         run: python3 scripts/audit-conversion-pages.py ./_site
+      - name: Audit unconfirmed ETAGI terms
+        run: python3 scripts/audit-etagi-terms.py ./_site
       - name: Audit SEO of service pages
         run: python3 scripts/audit-service-seo.py ./_site
       - name: Audit regional landing pages
