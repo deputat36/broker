@@ -21,6 +21,12 @@ PAGES = {
     "/geo/": ROOT / "geo.md",
     "/kalkulyator-ipoteki/": ROOT / "kalkulyator-ipoteki.md",
     "/kak-prohodit-rabota/": ROOT / "kak-prohodit-rabota.md",
+    "/konsultaciya/": ROOT / "konsultaciya.md",
+}
+
+SOURCE_ONLY = {
+    "humans.txt": ROOT / "humans.txt",
+    "docs/README.md": ROOT / "docs/README.md",
 }
 
 FORBIDDEN = (
@@ -73,6 +79,23 @@ REQUIRED = {
         "состав сопровождения и порядок оплаты подтверждаются",
         "возможная дополнительная стоимость",
     ),
+    "/konsultaciya/": (
+        "условия ипотечного сопровождения подтверждаются отдельно",
+        "не означает, что любое дальнейшее сопровождение предоставляется без отдельной оплаты",
+        "действующих условий компании",
+    ),
+}
+
+SOURCE_REQUIRED = {
+    "humans.txt": (
+        "состав ипотечного сопровождения и порядок оплаты подтверждаются",
+        "до начала работы",
+    ),
+    "docs/README.md": (
+        "не обещать, что ипотечное сопровождение",
+        "подтверждаются до начала работы",
+        "scripts/audit-etagi-terms.py",
+    ),
 }
 
 
@@ -90,15 +113,19 @@ def built_file(site_dir: Path, page_url: str) -> Path:
     return site_dir / page_url.strip("/") / "index.html"
 
 
-def check_text(text: str, file: Path, page_url: str) -> int:
+def check_forbidden(text: str, file: Path, label: str) -> int:
     normalized = normalize(text)
     errors = 0
-
     for phrase in FORBIDDEN:
-        normalized_phrase = normalize(phrase)
-        if normalized_phrase in normalized:
-            error(f"Неподтверждённое обещание по условиям ЭТАЖИ на {page_url}: {phrase}", file)
+        if normalize(phrase) in normalized:
+            error(f"Неподтверждённое обещание по условиям ЭТАЖИ в {label}: {phrase}", file)
             errors += 1
+    return errors
+
+
+def check_text(text: str, file: Path, page_url: str) -> int:
+    normalized = normalize(text)
+    errors = check_forbidden(text, file, page_url)
 
     for marker in REQUIRED[page_url]:
         if normalize(marker) not in normalized:
@@ -145,13 +172,27 @@ def main() -> int:
         built_text = html_file.read_text(encoding="utf-8", errors="ignore")
         errors += check_text(built_text, html_file, page_url)
 
+    for label, source_file in SOURCE_ONLY.items():
+        if not source_file.is_file():
+            error(f"Не найден обязательный публичный документ {label}", source_file)
+            errors += 1
+            continue
+
+        source_text = source_file.read_text(encoding="utf-8", errors="ignore")
+        normalized = normalize(source_text)
+        errors += check_forbidden(source_text, source_file, label)
+        for marker in SOURCE_REQUIRED[label]:
+            if normalize(marker) not in normalized:
+                error(f"В {label} отсутствует безопасная формулировка: {marker}", source_file)
+                errors += 1
+
     if errors:
         print(f"Аудит условий ЭТАЖИ завершён с ошибками: {errors}")
         return 1
 
     print(
-        "Аудит условий ЭТАЖИ успешно завершён: десять ключевых страниц не содержат "
-        "неподтверждённых обещаний о бесплатности или включении в комиссию"
+        "Аудит условий ЭТАЖИ успешно завершён: одиннадцать ключевых страниц и два публичных "
+        "документа не содержат неподтверждённых обещаний о бесплатности или включении в комиссию"
     )
     return 0
 
