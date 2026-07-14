@@ -103,7 +103,8 @@ TEXT_REQUIREMENTS = {
     "/kak-prohodit-rabota/": (
         "сопровождение до решения банка",
         "конкретный объем помощи после решения банка",
-        "включено в комиссию компании",
+        "до начала работы отдельно подтверждаются состав сопровождения",
+        "возможная дополнительная стоимость",
     ),
     "/uslugi/podbor-ipoteki/": (
         "сопровождение до решения банка",
@@ -169,7 +170,7 @@ FORBIDDEN_TEXT = {
     )
     + UNCONFIRMED_ETAGI_TEXT,
     "/faq/": UNCONFIRMED_ETAGI_TEXT,
-    "/kak-prohodit-rabota/": ("полное сопровождение сделки включено",),
+    "/kak-prohodit-rabota/": ("полное сопровождение сделки включено",) + UNCONFIRMED_ETAGI_TEXT,
     "/uslugi/podbor-ipoteki/": ("ипотечное сопровождение для клиента бесплатно",),
     "/uslugi/refinansirovanie-ipoteki/": (
         "ипотечное сопровождение бесплатно",
