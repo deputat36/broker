@@ -272,11 +272,17 @@ async function findExistingLead(requestId: string): Promise<JsonRecord | null> {
   if (!supabase || !requestId) return null;
   const { data, error } = await supabase
     .from('broker_leads')
-    .select('id, request_id, status, technical_priority, qualification, notification_status')
+    .select('id, request_id, status, technical_priority, qualification, notification_status, processing_restricted, retention_hold, anonymized_at')
     .eq('request_id', requestId)
     .maybeSingle();
   if (error) throw new Error(`idempotency_check_failed:${error.code || 'unknown'}`);
   return data as JsonRecord | null;
+}
+
+function isOperationallyRestricted(existing: JsonRecord): boolean {
+  return existing.processing_restricted === true
+    || existing.retention_hold === true
+    || Boolean(existing.anonymized_at);
 }
 
 async function consumeRateLimit(request: Request, payload: JsonRecord, requestId: string): Promise<RateLimitResult> {
@@ -479,6 +485,16 @@ async function deliverNotification(leadId: string, requestId: string): Promise<N
 }
 
 async function duplicateResponse(existing: JsonRecord, requestId: string, origin: string | null): Promise<Response> {
+  if (isOperationallyRestricted(existing)) {
+    return jsonResponse({
+      ok: true,
+      success: true,
+      duplicate: true,
+      request_id: existing.request_id || requestId,
+      notification_status: 'disabled'
+    }, 200, origin);
+  }
+
   const leadId = cleanText(existing.id, 80);
   const notificationStatus = leadId
     ? await deliverNotification(leadId, requestId)
