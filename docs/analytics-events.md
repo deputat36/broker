@@ -27,6 +27,12 @@
 | `online_application_direct_error` | Все активные каналы завершились ошибкой | Ошибка без таймаута |
 | `online_application_direct_timeout` | Активный канал не ответил вовремя | AbortController по таймауту |
 | `online_application_spam_block` | Клиентская антиспам-проверка остановила отправку | Honeypot или слишком быстрое заполнение |
+| `online_application_endpoint_error` | Дополнительный endpoint вернул безопасный error envelope | Любой allowlist-код будущего Supabase endpoint |
+| `online_application_endpoint_error_validation` | Сервер не принял данные после валидации | Категория `validation` |
+| `online_application_endpoint_error_rate_limit` | Превышен лимит запросов | Категория `rate_limit` |
+| `online_application_endpoint_error_rejected` | Серверная антиспам-проверка отклонила запрос | Категория `rejected` |
+| `online_application_endpoint_error_backend` | Backend или хранение временно недоступны | Категория `backend` |
+| `online_application_endpoint_error_request` | Ошибка метода, Origin, Content-Type, JSON или размера | Категория `request` |
 | `lead_submit` | Заявка успешно передана хотя бы в один рабочий канал | Перед переходом на `/spasibo/` |
 | `lead_thankyou_view` | Пользователь увидел страницу подтверждения | Загрузка `/spasibo/` |
 | `online_application_copy` | Скопирован готовый текст | Кнопка «Скопировать текст» |
@@ -89,6 +95,14 @@ Web3Forms отправляет email-копию заявки. Конкретны
 
 Для резервных каналов формируется безопасная текстовая сводка `ПОДГОТОВКА ДО ОБРАЩЕНИЯ`. Она добавляется к готовой заявке в textarea, SMS, копировании, ВКонтакте, MAX и Web Share, но не записывается в поле комментария формы.
 
+## Ошибки дополнительного endpoint
+
+Сырой `error_code`, correlation request ID и персональные сведения в Метрику не передаются. Ошибки объединяются только в пять стабильных категорий: `validation`, `rate_limit`, `rejected`, `backend` и `request`.
+
+Общая цель `online_application_endpoint_error` показывает число ответов дополнительного endpoint с безопасным error envelope. Категорийные цели нужны для диагностики класса проблемы, но не означают, что вся заявка потеряна.
+
+В режиме `hybrid` Web3Forms и Supabase работают параллельно. Если Web3Forms успешен, а дополнительный endpoint ошибся, сохраняются `online_application_direct_success`, `lead_submit` и переход на `/spasibo/`; endpoint-ошибка учитывается отдельно.
+
 ## Как интерпретировать воронку
 
 `online_application_prepare` означает только подготовку заявки.
@@ -149,4 +163,6 @@ yandex_metrika_id: ""
 9. Проверить переход на `/spasibo/`.
 10. Убедиться, что телефон и полный текст подготовки не хранятся в `sterlikovaMortgageLastLead`.
 11. Проверить fallback при искусственной ошибке Web3Forms.
-12. После подключения Метрики проверить новые события подготовки, `online_application_max`, `lead_submit` и `lead_thankyou_view`.
+12. Проверить пять категорий будущего endpoint, технический номер и отсутствие сырого error code в интерфейсе и Метрике.
+13. Проверить hybrid: успешный Web3Forms не должен быть отменён ошибкой дополнительного endpoint.
+14. После подключения Метрики проверить новые endpoint error goals, `online_application_max`, `lead_submit` и `lead_thankyou_view`.
