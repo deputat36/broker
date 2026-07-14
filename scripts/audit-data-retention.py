@@ -111,7 +111,28 @@ def main() -> int:
         error("Жёсткий whitelist terminal-статусов изменён или разобран неоднозначно", MIGRATION)
         errors += 1
 
-    apply_section = migration_lower.split("create or replace function public.apply_broker_lead_retention", 1)[-1]
+    preview_section = migration_lower.split(
+        "create or replace function public.broker_lead_retention_preview", 1
+    )[-1].split(
+        "create or replace function public.apply_broker_lead_retention", 1
+    )[0]
+    for marker in (
+        "from public.broker_lead_events as events",
+        "leads.anonymized_at is not null",
+        "leads.anonymized_at is null",
+        "and leads.status = any(v_settings.terminal_statuses)",
+        "and leads.status in ('closed', 'lost', 'archived', 'cancelled')",
+        "and leads.notification_status in ('sent', 'disabled')",
+        "make_interval(days => v_settings.anonymize_after_days)",
+        "make_interval(days => v_settings.delete_events_after_days)",
+    ):
+        if marker not in preview_section:
+            error(f"Preview не прогнозирует события будущих кандидатов: {marker}", MIGRATION)
+            errors += 1
+
+    apply_section = migration_lower.split(
+        "create or replace function public.apply_broker_lead_retention", 1
+    )[-1]
     if "and leads.notification_status in ('sent', 'disabled')" not in apply_section:
         error("Apply должен защищать pending/sending/failed уведомления", MIGRATION)
         errors += 1
@@ -157,6 +178,7 @@ def main() -> int:
             "старый `closed` + `failed`",
             "retention_hold = true",
             "неизвестный статус",
+            "старое событие кандидата учитывается",
             "проверка атомарного отката",
             "строка лида физически не удалена",
             "enabled = false",
@@ -200,7 +222,7 @@ def main() -> int:
 
     print(
         "Аудит retention успешно завершён: policy выключена, active/unresolved/hold защищены, "
-        "hard delete и Cron отсутствуют, preview/apply/журнал/документы и пустой endpoint подтверждены"
+        "preview согласован с apply, hard delete и Cron отсутствуют, журнал/документы и пустой endpoint подтверждены"
     )
     return 0
 
