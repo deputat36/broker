@@ -18,6 +18,7 @@ MIGRATIONS = (
     ROOT / "supabase/migrations/202607140002_broker_lead_privacy_requests.sql",
     ROOT / "supabase/migrations/202607140003_broker_lead_operational_guard.sql",
     ROOT / "supabase/migrations/202607140004_broker_lead_restricted_delivery_status.sql",
+    ROOT / "supabase/migrations/202607140005_broker_lead_delivery_state.sql",
 )
 AUDITS = (
     ROOT / "scripts/audit-supabase-backend.py",
@@ -31,6 +32,7 @@ AUDITS = (
     ROOT / "scripts/audit-public-lead-response.py",
     ROOT / "scripts/audit-public-lead-errors.py",
     ROOT / "scripts/audit-application-error-ui.py",
+    ROOT / "scripts/audit-hybrid-delivery-state.py",
 )
 DOCS = (
     ROOT / "docs/supabase-migration-order.md",
@@ -50,6 +52,8 @@ DOCS = (
     ROOT / "docs/supabase-public-error-smoke.md",
     ROOT / "docs/application-error-ui-contract.md",
     ROOT / "docs/application-error-ui-smoke.md",
+    ROOT / "docs/hybrid-delivery-state-contract.md",
+    ROOT / "docs/hybrid-delivery-state-smoke.md",
 )
 WORKFLOW = ROOT / ".github/workflows/pages.yml"
 CONFIG = ROOT / "_config.yml"
@@ -75,18 +79,19 @@ def main() -> int:
     workflow = read(WORKFLOW)
     config = read(CONFIG)
     migration_order = read(DOCS[0]).casefold()
-    retention = read(MIGRATIONS[-4]).casefold()
-    privacy = read(MIGRATIONS[-3]).casefold()
-    operational = read(MIGRATIONS[-2]).casefold()
-    restricted_response = read(MIGRATIONS[-1]).casefold()
+    retention = read(MIGRATIONS[-5]).casefold()
+    privacy = read(MIGRATIONS[-4]).casefold()
+    operational = read(MIGRATIONS[-3]).casefold()
+    restricted_response = read(MIGRATIONS[-2]).casefold()
+    delivery_state = read(MIGRATIONS[-1]).casefold()
     all_docs = "\n".join(read(file).casefold() for file in DOCS)
 
     migration_names = [file.name for file in MIGRATIONS]
     if migration_names != sorted(migration_names):
         error("Миграции перечислены не в лексикографическом порядке применения", MIGRATIONS[0])
         errors += 1
-    if len(set(migration_names)) != 10:
-        error("Aggregate readiness должен проверять ровно десять уникальных миграций", MIGRATIONS[0])
+    if len(set(migration_names)) != 11:
+        error("Aggregate readiness должен проверять ровно 11 уникальных миграций", MIGRATIONS[0])
         errors += 1
 
     for index, migration_name in enumerate(migration_names, start=1):
@@ -104,6 +109,7 @@ def main() -> int:
         "audit-public-lead-response.py",
         "audit-public-lead-errors.py",
         "audit-application-error-ui.py",
+        "audit-hybrid-delivery-state.py",
     ):
         if marker not in migration_order:
             error(f"Канонический порядок не содержит обязательный marker: {marker}", DOCS[0])
@@ -121,6 +127,7 @@ def main() -> int:
         "python3 scripts/audit-public-lead-response.py",
         "python3 scripts/audit-public-lead-errors.py",
         "python3 scripts/audit-application-error-ui.py",
+        "python3 scripts/audit-hybrid-delivery-state.py",
         "python3 scripts/audit-supabase-readiness.py",
     )
     for command in workflow_commands:
@@ -142,10 +149,10 @@ def main() -> int:
         present = marker in retention
         if marker == "delete from public.broker_leads":
             if present:
-                error("Retention не должен физически удалять broker_leads", MIGRATIONS[-4])
+                error("Retention не должен физически удалять broker_leads", MIGRATIONS[-5])
                 errors += 1
         elif not present:
-            error(f"Retention migration не содержит обязательный marker: {marker}", MIGRATIONS[-4])
+            error(f"Retention migration не содержит обязательный marker: {marker}", MIGRATIONS[-5])
             errors += 1
 
     for marker in (
@@ -160,7 +167,7 @@ def main() -> int:
         "to service_role",
     ):
         if marker not in privacy:
-            error(f"Privacy migration не содержит обязательный marker: {marker}", MIGRATIONS[-3])
+            error(f"Privacy migration не содержит обязательный marker: {marker}", MIGRATIONS[-4])
             errors += 1
 
     for marker in (
@@ -180,14 +187,14 @@ def main() -> int:
         "to service_role",
     ):
         if marker not in operational:
-            error(f"Operational guard migration не содержит обязательный marker: {marker}", MIGRATIONS[-2])
+            error(f"Operational guard migration не содержит обязательный marker: {marker}", MIGRATIONS[-3])
             errors += 1
 
     if "delete from public.broker_leads" in operational:
-        error("Operational guard не должен физически удалять broker_leads", MIGRATIONS[-2])
+        error("Operational guard не должен физически удалять broker_leads", MIGRATIONS[-3])
         errors += 1
     if "cron.schedule" in operational or "http_post" in operational:
-        error("Operational guard migration не должна создавать Cron или внешние HTTP-вызовы", MIGRATIONS[-2])
+        error("Operational guard migration не должна создавать Cron или внешние HTTP-вызовы", MIGRATIONS[-3])
         errors += 1
 
     for marker in (
@@ -200,16 +207,33 @@ def main() -> int:
         "to service_role",
     ):
         if marker not in restricted_response:
-            error(f"Restricted delivery migration не содержит обязательный marker: {marker}", MIGRATIONS[-1])
-            errors += 1
-
-    for forbidden in ("delete from public.broker_leads", "cron.schedule", "http_post", "net.http"):
-        if forbidden in restricted_response:
-            error(f"Restricted delivery migration содержит запрещённый marker: {forbidden}", MIGRATIONS[-1])
+            error(f"Restricted delivery migration не содержит обязательный marker: {marker}", MIGRATIONS[-2])
             errors += 1
 
     for marker in (
-        "десять миграций",
+        "client_delivery_state text not null default 'supabase_only'",
+        "client_delivery_state in ('supabase_only', 'both')",
+        "mark_broker_lead_delivery_both",
+        "broker_lead_delivery_state",
+        "delivery_channel = 'both'",
+        "processing_restricted = false",
+        "retention_hold = false",
+        "anonymized_at is null",
+        "from public, anon, authenticated",
+        "to service_role",
+    ):
+        if marker not in delivery_state:
+            error(f"Delivery state migration не содержит обязательный marker: {marker}", MIGRATIONS[-1])
+            errors += 1
+
+    for file, text in ((MIGRATIONS[-2], restricted_response), (MIGRATIONS[-1], delivery_state)):
+        for forbidden in ("delete from public.broker_leads", "cron.schedule", "http_post", "net.http"):
+            if forbidden in text:
+                error(f"Миграция содержит запрещённый marker: {forbidden}", file)
+                errors += 1
+
+    for marker in (
+        "11 миграций",
         "web3forms",
         "supabase",
         "retention_hold",
@@ -227,6 +251,11 @@ def main() -> int:
         "пять стабильных категорий",
         "технический номер",
         "sms, max, вконтакте",
+        "web3forms_only",
+        "supabase_only",
+        "`both`",
+        "mark_broker_lead_delivery_both",
+        "broker-delivery-receipt",
         "restricted",
         "pending",
         "sending",
@@ -258,9 +287,10 @@ def main() -> int:
         return 1
 
     print(
-        "Aggregate Supabase readiness успешно завершён: канонический порядок из десяти миграций, "
+        "Aggregate Supabase readiness успешно завершён: канонический порядок из 11 миграций, "
         "специализированные source-аудиты, retention, privacy, operational guard, browser-safe disabled, "
-        "единые success/error envelopes, безопасный UI ошибок, документы, порядок CI и выключенный endpoint подтверждены"
+        "единые success/error envelopes, безопасный UI ошибок, hybrid delivery state, документы, "
+        "порядок CI и выключенный endpoint подтверждены"
     )
     return 0
 
