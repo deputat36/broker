@@ -2,7 +2,7 @@
 
 ## Preconditions
 
-- применены десять миграций по `docs/supabase-migration-order.md`;
+- применены 11 миграций по `docs/supabase-migration-order.md`;
 - функция развёрнута только в тестовом проекте;
 - рабочий сайт сохраняет `mode: "web3forms"` и `endpoint: ""`;
 - используются только тестовые данные.
@@ -87,7 +87,8 @@
 - `technical_priority`;
 - `qualification`;
 - `raw_payload`;
-- notification status и событий.
+- notification status и событий;
+- `client_delivery_state` после применения одиннадцатой миграции.
 
 Минимизация относится только к HTTP-ответу и не удаляет серверные сведения.
 
