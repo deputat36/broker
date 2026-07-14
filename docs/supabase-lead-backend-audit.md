@@ -18,16 +18,17 @@ lead_capture:
 - Web3Forms отправляет email-копию;
 - после успешного ответа открывается `/spasibo/`;
 - SMS, MAX, ВКонтакте, Web Share и копирование остаются резервными способами;
-- Supabase Edge Function не вызывается рабочим сайтом;
+- Supabase Edge Functions не вызываются рабочим сайтом;
 - наличие исходников не подтверждает миграции, deploy, secrets или Telegram.
 
 ## Проверенный комплект
 
-Канонический порядок содержит десять миграций и хранится в `docs/supabase-migration-order.md`.
+Канонический порядок содержит 11 миграций и хранится в `docs/supabase-migration-order.md`.
 
 Проверены исходники:
 
 - публичной `broker-public-lead`;
+- обезличенной `broker-delivery-receipt`;
 - закрытого notification retry;
 - закрытого notification health;
 - preparation-контекста;
@@ -36,7 +37,9 @@ lead_capture:
 - индивидуальных privacy-запросов;
 - operational guard;
 - browser-safe restricted status;
-- минимального public response.
+- минимального public response;
+- безопасного error envelope и интерфейса ошибок;
+- состояний `web3forms_only`, `supabase_only` и `both`.
 
 Проверки выполняют специализированные скрипты и агрегатор `scripts/audit-supabase-readiness.py`.
 
@@ -102,6 +105,12 @@ Edge Function:
 
 Внутренние поля сохраняются в защищённой серверной записи. Контракт проверяется `scripts/audit-public-lead-response.py`.
 
+## Безопасные ошибки
+
+Все публичные ошибки используют единый allowlist-код, correlation request ID и `Cache-Control: no-store`. PostgreSQL-коды, stack trace, внутренние поля и персональные данные не возвращаются.
+
+Интерфейс переводит серверные коды только в фиксированные категории и сохраняет SMS, MAX, ВКонтакте и копирование текста.
+
 ## Серверный rate limit
 
 `consume_broker_lead_rate_limit` атомарно считает запросы.
@@ -127,9 +136,11 @@ Fingerprint строится из:
 - проверка объектной структуры;
 - безопасные ошибки без stack trace и secrets.
 
+`broker-public-lead` и `broker-delivery-receipt` используют собственную точную Origin-проверку. Retry и health не разрешают CORS и используют отдельные bearer tokens.
+
 ## Серверная валидация
 
-Функция повторно проверяет:
+Основная функция повторно проверяет:
 
 - schema и request ID;
 - имя, российский телефон и город;
@@ -153,9 +164,22 @@ Fingerprint строится из:
 - preparation;
 - технический приоритет;
 - notification metadata;
-- privacy, retention и operational flags.
+- privacy, retention и operational flags;
+- `client_delivery_state` и время его обновления.
 
 События содержат техническую историю без повторного хранения полного payload и текста Telegram-сообщения.
+
+## Состояние каналов
+
+Браузер определяет:
+
+- `web3forms_only`;
+- `supabase_only`;
+- `both`.
+
+Строка Supabase начинается с `supabase_only`. При подтверждении обоих каналов `broker-delivery-receipt` отправляет только request ID и состояние `both`; сервер монотонно повышает запись и создаёт техническое событие.
+
+Квитанция не принимает контактные или ипотечные данные, не меняет restricted/hold/anonymized заявки и возвращает одинаковый HTTP `204` для существующей и отсутствующей строки.
 
 ## Telegram и очередь
 
@@ -189,7 +213,7 @@ Privacy workflow использует точную пару `lead_id + request_i
 Workflow до Jekyll-сборки запускает:
 
 - базовый backend audit;
-- function security config;
+- function security config для четырёх функций;
 - notification retry;
 - notification health;
 - retention;
@@ -197,6 +221,9 @@ Workflow до Jekyll-сборки запускает:
 - operational guard;
 - restricted delivery response;
 - минимальный public response;
+- безопасный public error response;
+- интерфейс ошибок;
+- hybrid delivery state;
 - aggregate Supabase readiness.
 
 После source-проверок выполняются сборка сайта и HTML/SEO/UX-аудиты.
@@ -210,6 +237,7 @@ Workflow до Jekyll-сборки запускает:
 - deploy Edge Functions;
 - production secrets и Origin;
 - запись в таблицы;
+- delivery receipt в реальном окружении;
 - Telegram-получателя;
 - роли реальных операторов;
 - утверждённые сроки хранения;
@@ -219,18 +247,19 @@ Workflow до Jekyll-сборки запускает:
 ## Безопасная последовательность запуска
 
 1. Подтвердить целевой проект.
-2. Применить десять миграций по каноническому порядку.
+2. Применить 11 миграций по каноническому порядку.
 3. Запустить все source-аудиты.
 4. Проверить таблицы, RLS, RPC и права.
-5. Развернуть функции в тестовом окружении.
+5. Развернуть четыре функции в тестовом окружении.
 6. Настроить secrets и точные Origin.
 7. Выполнить общий и специализированные smoke-тесты.
-8. Проверить минимальный public response и `/spasibo/`.
+8. Проверить минимальный public response, безопасные ошибки и `/spasibo/`.
 9. Проверить Web3Forms, строку Supabase и Telegram на одном request ID.
-10. Проверить retry, health, retention, privacy и operational guard.
-11. Утвердить ответственных, сроки и rollback.
-12. Обновить публичную политику под фактически развёрнутый канал.
-13. Только после этого указать endpoint и рассматривать `hybrid`.
+10. Проверить `web3forms_only`, `supabase_only`, `both` и receipt failure.
+11. Проверить retry, health, retention, privacy и operational guard.
+12. Утвердить ответственных, сроки и rollback.
+13. Обновить публичную политику под фактически развёрнутый канал.
+14. Только после этого указать endpoint и рассматривать `hybrid`.
 
 ## Решение на текущем этапе
 
