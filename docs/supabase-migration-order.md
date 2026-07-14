@@ -13,7 +13,8 @@
 7. `202607140001_broker_lead_retention.sql` — выключенная retention policy;
 8. `202607140002_broker_lead_privacy_requests.sql` — индивидуальные privacy-запросы;
 9. `202607140003_broker_lead_operational_guard.sql` — блокировка дальнейшей обработки;
-10. `202607140004_broker_lead_restricted_delivery_status.sql` — browser-safe `disabled` для restricted duplicate.
+10. `202607140004_broker_lead_restricted_delivery_status.sql` — browser-safe `disabled` для restricted duplicate;
+11. `202607140005_broker_lead_delivery_state.sql` — технические состояния `supabase_only` и `both`, receipt RPC и operator read.
 
 ## Обязательная проверка
 
@@ -22,7 +23,8 @@
 - `docs/supabase-restricted-delivery-response-smoke.md`;
 - `docs/supabase-public-response-smoke.md`;
 - `docs/supabase-public-error-smoke.md`;
-- `docs/application-error-ui-smoke.md`.
+- `docs/application-error-ui-smoke.md`;
+- `docs/hybrid-delivery-state-smoke.md`.
 
 Затем выполнить:
 
@@ -30,10 +32,11 @@
 python3 scripts/audit-public-lead-response.py
 python3 scripts/audit-public-lead-errors.py
 python3 scripts/audit-application-error-ui.py
+python3 scripts/audit-hybrid-delivery-state.py
 python3 scripts/audit-supabase-readiness.py
 ```
 
-Агрегирующий аудит должен подтвердить десять миграций, минимальный публичный success response, единый безопасный error envelope, понятный интерфейс ошибки с техническим номером и все специализированные source-аудиты.
+Агрегирующий аудит должен подтвердить 11 миграций, минимальный публичный success response, единый безопасный error envelope, понятный интерфейс ошибки, три состояния hybrid-доставки и все специализированные source-аудиты.
 
 ## До приёмки
 
@@ -45,4 +48,4 @@ lead_capture:
   endpoint: ""
 ```
 
-Применение миграций само по себе не включает `hybrid`, Telegram, health endpoint, административный retry, retention automation или публичный Supabase endpoint.
+Применение миграций само по себе не включает `hybrid`, Telegram, health endpoint, административный retry, retention automation, receipt-handler или публичный Supabase endpoint.
