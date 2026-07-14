@@ -16,6 +16,7 @@ MIGRATIONS = (
     ROOT / "supabase/migrations/202607130006_broker_lead_notification_manual_retry.sql",
     ROOT / "supabase/migrations/202607140001_broker_lead_retention.sql",
     ROOT / "supabase/migrations/202607140002_broker_lead_privacy_requests.sql",
+    ROOT / "supabase/migrations/202607140003_broker_lead_operational_guard.sql",
 )
 AUDITS = (
     ROOT / "scripts/audit-supabase-backend.py",
@@ -24,6 +25,7 @@ AUDITS = (
     ROOT / "scripts/audit-notification-health.py",
     ROOT / "scripts/audit-data-retention.py",
     ROOT / "scripts/audit-privacy-requests.py",
+    ROOT / "scripts/audit-processing-restriction.py",
 )
 DOCS = (
     ROOT / "docs/lead-endpoint-contract.md",
@@ -32,6 +34,8 @@ DOCS = (
     ROOT / "docs/supabase-retention-smoke.md",
     ROOT / "docs/privacy-request-contract.md",
     ROOT / "docs/supabase-privacy-request-smoke.md",
+    ROOT / "docs/operational-restriction-contract.md",
+    ROOT / "docs/supabase-operational-restriction-smoke.md",
 )
 WORKFLOW = ROOT / ".github/workflows/pages.yml"
 CONFIG = ROOT / "_config.yml"
@@ -56,16 +60,17 @@ def main() -> int:
     errors = 0
     workflow = read(WORKFLOW)
     config = read(CONFIG)
-    privacy = read(MIGRATIONS[-1]).casefold()
-    retention = read(MIGRATIONS[-2]).casefold()
+    retention = read(MIGRATIONS[-3]).casefold()
+    privacy = read(MIGRATIONS[-2]).casefold()
+    operational = read(MIGRATIONS[-1]).casefold()
     all_docs = "\n".join(read(file).casefold() for file in DOCS)
 
     migration_names = [file.name for file in MIGRATIONS]
     if migration_names != sorted(migration_names):
         error("Миграции перечислены не в лексикографическом порядке применения", MIGRATIONS[0])
         errors += 1
-    if len(set(migration_names)) != 8:
-        error("Aggregate readiness должен проверять ровно восемь уникальных миграций", MIGRATIONS[0])
+    if len(set(migration_names)) != 9:
+        error("Aggregate readiness должен проверять ровно девять уникальных миграций", MIGRATIONS[0])
         errors += 1
 
     workflow_commands = (
@@ -75,6 +80,7 @@ def main() -> int:
         "python3 scripts/audit-notification-health.py",
         "python3 scripts/audit-data-retention.py",
         "python3 scripts/audit-privacy-requests.py",
+        "python3 scripts/audit-processing-restriction.py",
         "python3 scripts/audit-supabase-readiness.py",
     )
     for command in workflow_commands:
@@ -82,8 +88,9 @@ def main() -> int:
             error(f"Pages workflow не запускает обязательный Supabase audit: {command}", WORKFLOW)
             errors += 1
 
-    if workflow.find(workflow_commands[-1]) < workflow.find(workflow_commands[0]):
-        error("Aggregate readiness должен запускаться после специализированных source-аудитов", WORKFLOW)
+    command_positions = [workflow.find(command) for command in workflow_commands]
+    if command_positions != sorted(command_positions) or any(position < 0 for position in command_positions):
+        error("Aggregate readiness должен запускаться после всех специализированных source-аудитов", WORKFLOW)
         errors += 1
 
     for marker in (
@@ -95,10 +102,10 @@ def main() -> int:
         present = marker in retention
         if marker == "delete from public.broker_leads":
             if present:
-                error("Retention не должен физически удалять broker_leads", MIGRATIONS[-2])
+                error("Retention не должен физически удалять broker_leads", MIGRATIONS[-3])
                 errors += 1
         elif not present:
-            error(f"Retention migration не содержит обязательный marker: {marker}", MIGRATIONS[-2])
+            error(f"Retention migration не содержит обязательный marker: {marker}", MIGRATIONS[-3])
             errors += 1
 
     for marker in (
@@ -113,19 +120,50 @@ def main() -> int:
         "to service_role",
     ):
         if marker not in privacy:
-            error(f"Privacy migration не содержит обязательный marker: {marker}", MIGRATIONS[-1])
+            error(f"Privacy migration не содержит обязательный marker: {marker}", MIGRATIONS[-2])
             errors += 1
 
     for marker in (
-        "восемь миграций",
+        "broker_lead_operational_guard",
+        "broker_lead_operational_snapshot",
+        "notification_claim",
+        "notification_retry",
+        "crm_update",
+        "export",
+        "follow_up",
+        "enforce_broker_lead_operational_restriction",
+        "enforce_broker_lead_event_restriction",
+        "leads.processing_restricted = false",
+        "leads.retention_hold = false",
+        "leads.anonymized_at is null",
+        "from public, anon, authenticated",
+        "to service_role",
+    ):
+        if marker not in operational:
+            error(f"Operational guard migration не содержит обязательный marker: {marker}", MIGRATIONS[-1])
+            errors += 1
+
+    if "delete from public.broker_leads" in operational:
+        error("Operational guard не должен физически удалять broker_leads", MIGRATIONS[-1])
+        errors += 1
+    if "cron.schedule" in operational or "http_post" in operational:
+        error("Operational guard migration не должна создавать Cron или внешние HTTP-вызовы", MIGRATIONS[-1])
+        errors += 1
+
+    for marker in (
+        "девять миграций",
         "web3forms",
         "supabase",
         "retention_hold",
+        "processing_restricted",
+        "broker_lead_operational_guard",
+        "broker_lead_operational_snapshot",
         "pending",
         "sending",
         "провер",
         "privacy",
         "не удаляет",
+        "raw_payload",
     ):
         if marker not in all_docs:
             error(f"Комплект Supabase документов не содержит marker: {marker}", DOCS[0])
@@ -147,8 +185,9 @@ def main() -> int:
         return 1
 
     print(
-        "Aggregate Supabase readiness успешно завершён: восемь миграций, специализированные source-аудиты, "
-        "retention, индивидуальные privacy-запросы, документы, порядок CI и выключенный endpoint подтверждены"
+        "Aggregate Supabase readiness успешно завершён: девять миграций, специализированные source-аудиты, "
+        "retention, индивидуальные privacy-запросы, operational guard, документы, порядок CI и выключенный "
+        "endpoint подтверждены"
     )
     return 0
 
