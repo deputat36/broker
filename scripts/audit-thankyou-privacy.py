@@ -12,6 +12,7 @@ LAYOUT = ROOT / "_layouts/default.html"
 THANK_YOU_SOURCE = ROOT / "spasibo.md"
 KEEPALIVE = ROOT / "assets/js/application-delivery-keepalive.js"
 PRIVACY_DOC = ROOT / "docs/thank-you-privacy.md"
+POLICY = ROOT / "policy.md"
 
 
 def error(message: str, file: Path) -> None:
@@ -35,7 +36,7 @@ def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     built_page = site_dir / "spasibo/index.html"
 
-    required_files = (LAYOUT, THANK_YOU_SOURCE, KEEPALIVE, PRIVACY_DOC, built_page)
+    required_files = (LAYOUT, THANK_YOU_SOURCE, KEEPALIVE, PRIVACY_DOC, POLICY, built_page)
     missing = [file for file in required_files if not file.is_file()]
     if missing:
         for file in missing:
@@ -46,6 +47,7 @@ def main() -> int:
     thank_you = read(THANK_YOU_SOURCE)
     keepalive = read(KEEPALIVE)
     documentation = read(PRIVACY_DOC).casefold()
+    policy = read(POLICY).casefold()
     built = read(built_page)
     errors = 0
 
@@ -169,13 +171,27 @@ def main() -> int:
             error(f"Документация приватности не содержит маркер: {marker}", PRIVACY_DOC)
             errors += 1
 
+    for marker in (
+        "технический номер обращения <code>request_id</code>",
+        "срок действия <code>expires_at</code>",
+        "город, сценарий, объект, квалификация, список каналов",
+        "сводка автоматически перестаёт использоваться через 24 часа",
+    ):
+        if marker not in policy:
+            error(f"Публичная политика не содержит маркер минимальной сводки: {marker}", POLICY)
+            errors += 1
+
+    if "технический номер, сценарий, город, статус квалификации" in policy:
+        error("Публичная политика всё ещё описывает расширенную локальную сводку", POLICY)
+        errors += 1
+
     if errors:
         print(f"Аудит приватности страницы благодарности завершён с ошибками: {errors}")
         return 1
 
     print(
         "Аудит приватности страницы благодарности успешно завершён: URL очищается до аналитики, "
-        "локальная сводка содержит только request_id/expires_at, а экран не показывает сценарий, город или qualification"
+        "локальная сводка содержит только request_id/expires_at, а экран и политика не раскрывают лишний контекст"
     )
     return 0
 
