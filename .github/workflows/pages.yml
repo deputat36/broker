@@ -23,6 +23,7 @@ jobs:
       - name: Validate source syntax
         run: |
           node --check assets/js/main.js
+          node --check assets/js/application-delivery-keepalive.js
           node --check assets/js/application-inputs.js
           node --check assets/js/application-preparation.js
           node --check assets/js/online-application.js
