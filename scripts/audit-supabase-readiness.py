@@ -28,6 +28,7 @@ AUDITS = (
     ROOT / "scripts/audit-privacy-requests.py",
     ROOT / "scripts/audit-processing-restriction.py",
     ROOT / "scripts/audit-restricted-delivery-response.py",
+    ROOT / "scripts/audit-public-lead-response.py",
 )
 DOCS = (
     ROOT / "docs/supabase-migration-order.md",
@@ -41,6 +42,8 @@ DOCS = (
     ROOT / "docs/supabase-operational-restriction-smoke.md",
     ROOT / "docs/restricted-delivery-response-contract.md",
     ROOT / "docs/supabase-restricted-delivery-response-smoke.md",
+    ROOT / "docs/public-lead-response-contract.md",
+    ROOT / "docs/supabase-public-response-smoke.md",
 )
 WORKFLOW = ROOT / ".github/workflows/pages.yml"
 CONFIG = ROOT / "_config.yml"
@@ -106,6 +109,7 @@ def main() -> int:
         "python3 scripts/audit-privacy-requests.py",
         "python3 scripts/audit-processing-restriction.py",
         "python3 scripts/audit-restricted-delivery-response.py",
+        "python3 scripts/audit-public-lead-response.py",
         "python3 scripts/audit-supabase-readiness.py",
     )
     for command in workflow_commands:
@@ -202,6 +206,9 @@ def main() -> int:
         "broker_lead_operational_guard",
         "broker_lead_operational_snapshot",
         "notification_status\": \"disabled",
+        "единый успешный envelope",
+        "ровно пять ключей",
+        "минимальный публичный ответ",
         "restricted",
         "pending",
         "sending",
@@ -209,6 +216,9 @@ def main() -> int:
         "privacy",
         "не удаляет",
         "raw_payload",
+        "lead_id",
+        "technical_priority",
+        "qualification",
     ):
         if marker not in all_docs:
             error(f"Комплект Supabase документов не содержит marker: {marker}", DOCS[0])
@@ -231,8 +241,8 @@ def main() -> int:
 
     print(
         "Aggregate Supabase readiness успешно завершён: канонический порядок из десяти миграций, "
-        "специализированные source-аудиты, retention, privacy, operational guard, browser-safe disabled "
-        "response, документы, порядок CI и выключенный endpoint подтверждены"
+        "специализированные source-аудиты, retention, privacy, operational guard, browser-safe disabled и "
+        "единый минимальный public response, документы, порядок CI и выключенный endpoint подтверждены"
     )
     return 0
 
