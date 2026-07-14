@@ -188,7 +188,7 @@ def main() -> int:
             errors += 1
 
     for marker in (
-        "применены десять миграций",
+        "применены 11 миграций",
         "общий критерий envelope",
         "invalid json",
         "rate limit",
