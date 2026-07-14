@@ -99,8 +99,9 @@ from public.claim_broker_lead_notification(
 
 1. Создать отдельную заявку без restriction, hold и anonymize.
 2. Повторить POST с тем же `request_id`.
-3. Подтвердить, что прежний обычный duplicate-контракт не изменён.
-4. Убедиться, что минимизация применяется только к restricted, hold и anonymized строкам.
+3. Подтвердить тот же пятиключевой envelope с `duplicate: true`.
+4. Убедиться, что внутренние `lead_id`, CRM-статус, приоритет и qualification отсутствуют так же, как в restricted-ответе.
+5. Подтвердить, что обычная duplicate может завершить ранее ожидавшее уведомление, а restricted duplicate не запускает доставку.
 
 ## 8. Административный retry
 
@@ -129,4 +130,4 @@ lead_capture:
 
 ## Критерий приёмки
 
-Smoke считается пройденным, когда restricted, hold и anonymized заявки возвращают браузеру только `ok`, `success`, `duplicate`, `request_id` и `notification_status: disabled`; внутренние CRM-поля отсутствуют, административный путь сохраняет `restricted`, счётчики и события не меняются, Telegram не отправляется, а публичный Supabase endpoint остаётся выключенным.
+Smoke считается пройденным, когда restricted, hold и anonymized заявки возвращают браузеру только `ok`, `success`, `duplicate`, `request_id` и `notification_status: disabled`; обычная duplicate использует тот же минимальный envelope; внутренние CRM-поля отсутствуют, административный путь сохраняет `restricted`, счётчики и события restricted-заявки не меняются, Telegram не отправляется, а публичный Supabase endpoint остаётся выключенным.
