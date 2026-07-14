@@ -115,8 +115,9 @@ def main() -> int:
             "existing.processing_restricted === true",
             "existing.retention_hold === true",
             "Boolean(existing.anonymized_at)",
+            "function successResponse(requestId: string, duplicate: boolean, notificationStatus: NotificationStatus): JsonRecord",
             "if (isOperationallyRestricted(existing)) {",
-            "notification_status: 'disabled'",
+            "return jsonResponse(successResponse(responseRequestId, true, 'disabled'), 200, origin);",
             "if (!claim.claimed) return normalizeNotificationStatus(claim.status);",
         ),
         HANDLER,
@@ -132,12 +133,8 @@ def main() -> int:
         errors += require(
             restricted_branch,
             (
-                "ok: true",
-                "success: true",
-                "duplicate: true",
-                "request_id: existing.request_id || requestId",
-                "notification_status: 'disabled'",
-                "}, 200, origin)",
+                "successResponse(responseRequestId, true, 'disabled')",
+                "200, origin",
             ),
             HANDLER,
         )
@@ -238,7 +235,7 @@ def main() -> int:
 
     print(
         "Аудит restricted delivery response успешно завершён: SQL возвращает browser-safe disabled, "
-        "restricted duplicate минимизирован до request_id и статуса доставки, Telegram/счётчики не запускаются, "
+        "restricted duplicate использует единый минимальный success envelope, Telegram/счётчики не запускаются, "
         "административный retry сохраняет диагностику, документы, smoke и выключенный endpoint подтверждены"
     )
     return 0
