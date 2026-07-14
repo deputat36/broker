@@ -43,7 +43,7 @@
 
 - создаётся ровно одна строка `broker_leads`;
 - `client_delivery_state = 'supabase_only'`;
-- `delivery_channel = 'supabase_only'` после применения актуального backend-контракта;
+- legacy-поле `delivery_channel` может оставаться `supabase`; точное состояние каналов хранится в `client_delivery_state`;
 - email не приходит;
 - клиент всё равно получает успешное подтверждение, потому что один канал принят;
 - итоговая аналитическая категория — `supabase_only`;
