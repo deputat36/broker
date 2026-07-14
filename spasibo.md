@@ -21,18 +21,17 @@ sitemap: false
 </section>
 
 <section class="section">
-  <div class="grid cards-4" aria-label="Данные отправленного обращения">
+  <div class="grid cards-3" aria-label="Подтверждение отправленного обращения">
     <article class="card"><p class="eyebrow">Номер обращения</p><h2 id="lead-id">—</h2><p>Сохраните этот номер до ответа Татьяны.</p></article>
-    <article class="card"><p class="eyebrow">Сценарий</p><h2 id="lead-scenario">Ипотечная консультация</h2><p>Основная задача, указанная в анкете.</p></article>
-    <article class="card"><p class="eyebrow">Город</p><h2 id="lead-city">Не указан</h2><p>Первичный разбор доступен дистанционно.</p></article>
-    <article class="card"><p class="eyebrow">Приоритет</p><h2 id="lead-status">Новая</h2><p>Внутренняя квалификация помогает быстрее разобрать вводные.</p></article>
+    <article class="card"><p class="eyebrow">Передача</p><h2>Подтверждена</h2><p>Хотя бы один настроенный канал принял обращение.</p></article>
+    <article class="card"><p class="eyebrow">Следующий шаг</p><h2>Обратная связь</h2><p>Татьяна изучит вводные и свяжется с вами удобным способом.</p></article>
   </div>
 </section>
 
 <section class="section muted">
   <div class="section-head"><p class="eyebrow">Что будет дальше</p><h2>От заявки до следующего шага</h2><p>Техническое подтверждение отправки не является одобрением ипотеки и не создаёт обязательств по платному сопровождению.</p></div>
   <div class="grid cards-3">
-    <article class="card"><h3>1. Проверка вводных</h3><p>Татьяна посмотрит город, цель, объект, первоначальный взнос, доход и историю обращений в банки.</p></article>
+    <article class="card"><h3>1. Проверка вводных</h3><p>Татьяна посмотрит цель, объект, первоначальный взнос, доход и историю обращений в банки.</p></article>
     <article class="card"><h3>2. Уточняющий контакт</h3><p>При необходимости задаст дополнительные вопросы и предложит удобный формат разговора.</p></article>
     <article class="card"><h3>3. Согласование маршрута</h3><p>Вы получите следующий шаг. Возможность и условия дальнейшего сопровождения обсуждаются отдельно.</p></article>
   </div>
@@ -51,13 +50,8 @@ sitemap: false
     var storageKey = 'sterlikovaMortgageLastLead';
     var lastLead = {};
 
-    function cleanText(value, fallback, maxLength) {
-      var normalized = String(value || '').replace(/\s+/g, ' ').trim();
-      return normalized ? normalized.slice(0, maxLength) : fallback;
-    }
-
     function cleanRequestId(value) {
-      var requestId = cleanText(value, '', 80);
+      var requestId = String(value || '').replace(/\s+/g, ' ').trim().slice(0, 80);
       var uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       var fallbackPattern = /^IP-\d{8}-[A-Z0-9]{6,16}$/;
       return uuidPattern.test(requestId) || fallbackPattern.test(requestId) ? requestId : '—';
@@ -71,20 +65,21 @@ sitemap: false
         lastLead = {};
       }
     } catch (error) {
+      try { window.localStorage.removeItem(storageKey); } catch (_storageError) { /* Доступ к хранилищу запрещён. */ }
       lastLead = {};
     }
 
     var requestId = cleanRequestId(legacyContext.id || lastLead.request_id);
-    var scenario = cleanText(legacyContext.scenario || lastLead.scenario, 'Ипотечная консультация', 120);
-    var city = cleanText(lastLead.city, 'Не указан', 80);
-    var rawStatus = cleanText(legacyContext.status || (lastLead.qualification && lastLead.qualification.status), 'new', 20);
-    var statusMap = { hot: 'Срочная', warm: 'Тёплая', cold: 'Требует уточнения', new: 'Новая' };
-    var status = Object.prototype.hasOwnProperty.call(statusMap, rawStatus) ? rawStatus : 'new';
-
     document.getElementById('lead-id').textContent = requestId;
-    document.getElementById('lead-scenario').textContent = scenario;
-    document.getElementById('lead-city').textContent = city;
-    document.getElementById('lead-status').textContent = statusMap[status];
+
+    if (requestId !== '—' && lastLead.expires_at) {
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify({
+          request_id: requestId,
+          expires_at: new Date(Date.parse(lastLead.expires_at)).toISOString()
+        }));
+      } catch (_storageError) { /* Страница продолжает работать без localStorage. */ }
+    }
 
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: 'lead_thankyou_view' });
