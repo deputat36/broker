@@ -30,6 +30,7 @@ AUDITS = (
     ROOT / "scripts/audit-restricted-delivery-response.py",
 )
 DOCS = (
+    ROOT / "docs/supabase-migration-order.md",
     ROOT / "docs/lead-endpoint-contract.md",
     ROOT / "docs/supabase-backend-smoke.md",
     ROOT / "docs/data-retention-contract.md",
@@ -64,6 +65,7 @@ def main() -> int:
     errors = 0
     workflow = read(WORKFLOW)
     config = read(CONFIG)
+    migration_order = read(DOCS[0]).casefold()
     retention = read(MIGRATIONS[-4]).casefold()
     privacy = read(MIGRATIONS[-3]).casefold()
     operational = read(MIGRATIONS[-2]).casefold()
@@ -77,6 +79,23 @@ def main() -> int:
     if len(set(migration_names)) != 10:
         error("Aggregate readiness должен проверять ровно десять уникальных миграций", MIGRATIONS[0])
         errors += 1
+
+    for index, migration_name in enumerate(migration_names, start=1):
+        marker = f"{index}. `{migration_name}`"
+        if marker not in migration_order:
+            error(f"Канонический порядок не содержит миграцию на позиции {index}: {migration_name}", DOCS[0])
+            errors += 1
+
+    for marker in (
+        "единственным актуальным списком миграций",
+        "python3 scripts/audit-supabase-readiness.py",
+        "mode: \"web3forms\"",
+        "endpoint: \"\"",
+        "не включает `hybrid`",
+    ):
+        if marker not in migration_order:
+            error(f"Канонический порядок не содержит обязательный marker: {marker}", DOCS[0])
+            errors += 1
 
     workflow_commands = (
         "python3 scripts/audit-supabase-backend.py",
@@ -211,9 +230,9 @@ def main() -> int:
         return 1
 
     print(
-        "Aggregate Supabase readiness успешно завершён: десять миграций, специализированные source-аудиты, "
-        "retention, privacy, operational guard, browser-safe disabled response, документы, порядок CI и "
-        "выключенный endpoint подтверждены"
+        "Aggregate Supabase readiness успешно завершён: канонический порядок из десяти миграций, "
+        "специализированные source-аудиты, retention, privacy, operational guard, browser-safe disabled "
+        "response, документы, порядок CI и выключенный endpoint подтверждены"
     )
     return 0
 
