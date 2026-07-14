@@ -54,6 +54,21 @@
     {% if section_schema == 'geo' and page.url != '/geo/' %}{% assign parent_label_schema = 'География' %}{% assign parent_url_schema = '/geo/' %}{% endif %}
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Главная","item":"{{ '/' | absolute_url }}"}{% if parent_label_schema != '' %},{"@type":"ListItem","position":2,"name":{{ parent_label_schema | jsonify }},"item":"{{ parent_url_schema | absolute_url }}"},{"@type":"ListItem","position":3,"name":{{ current_label_schema | strip_html | jsonify }},"item":"{{ page.url | absolute_url }}"}{% else %},{"@type":"ListItem","position":2,"name":{{ current_label_schema | strip_html | jsonify }},"item":"{{ page.url | absolute_url }}"}{% endif %}]}</script>
   {% endunless %}
+  {% if page.url == '/spasibo/' %}
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      window.thankYouContext = {
+        id: params.get('id') || '',
+        scenario: params.get('scenario') || '',
+        status: params.get('status') || ''
+      };
+      if (window.location.search || window.location.hash) {
+        window.history.replaceState(null, document.title, window.location.pathname);
+      }
+    })();
+  </script>
+  {% endif %}
   {% if site.yandex_metrika_id and site.yandex_metrika_id != '' %}
   <script>
     window.siteAnalytics = { yandexMetrikaId: {{ site.yandex_metrika_id | jsonify }} };
