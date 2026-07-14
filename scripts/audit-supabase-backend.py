@@ -15,17 +15,20 @@ PREPARATION_MIGRATION = ROOT / "supabase/migrations/202607130003_broker_lead_pre
 SUMMARY_MIGRATION = ROOT / "supabase/migrations/202607130004_broker_lead_notification_summary.sql"
 DELIVERY_MIGRATION = ROOT / "supabase/migrations/202607130005_broker_lead_notification_delivery.sql"
 RETRY_MIGRATION = ROOT / "supabase/migrations/202607130006_broker_lead_notification_manual_retry.sql"
+RETENTION_MIGRATION = ROOT / "supabase/migrations/202607140001_broker_lead_retention.sql"
 CONFIG = ROOT / "_config.yml"
 CONTRACTS = (
     ROOT / "docs/lead-endpoint-contract.md",
     ROOT / "docs/preparation-context-contract.md",
     ROOT / "docs/notification-summary-contract.md",
     ROOT / "docs/notification-retry-contract.md",
+    ROOT / "docs/data-retention-contract.md",
 )
 SMOKE_FILES = (
     ROOT / "docs/supabase-backend-smoke.md",
     ROOT / "docs/supabase-notification-smoke.md",
     ROOT / "docs/supabase-notification-retry-smoke.md",
+    ROOT / "docs/supabase-retention-smoke.md",
 )
 
 
@@ -54,6 +57,7 @@ def main() -> int:
         SUMMARY_MIGRATION,
         DELIVERY_MIGRATION,
         RETRY_MIGRATION,
+        RETENTION_MIGRATION,
         CONFIG,
         *CONTRACTS,
         *SMOKE_FILES,
@@ -74,6 +78,7 @@ def main() -> int:
     summary = read(SUMMARY_MIGRATION)
     delivery = read(DELIVERY_MIGRATION)
     retry = read(RETRY_MIGRATION)
+    retention = read(RETENTION_MIGRATION)
     config = read(CONFIG)
     contracts = "\n".join(read(file).casefold() for file in CONTRACTS)
     smoke = "\n".join(read(file).casefold() for file in SMOKE_FILES)
@@ -152,95 +157,116 @@ def main() -> int:
         error("Spam-блок ошибочно может считаться успешной доставкой", HANDLER)
         errors += 1
 
-    errors += require(
-        base,
+    migration_checks = (
         (
-            "broker_leads_request_id_uidx",
-            "broker_lead_events",
-            "broker_lead_rate_limits",
-            "broker_lead_rate_limits_unique_window",
-            "consume_broker_lead_rate_limit",
-            "purge_broker_lead_rate_limits",
-            "security definer",
-            "enable row level security",
-            "raw_payload jsonb",
-            "tracking jsonb",
-            "qualification jsonb",
-            "spam_check jsonb",
+            base,
+            BASE_MIGRATION,
+            (
+                "broker_leads_request_id_uidx",
+                "broker_lead_events",
+                "broker_lead_rate_limits",
+                "broker_lead_rate_limits_unique_window",
+                "consume_broker_lead_rate_limit",
+                "purge_broker_lead_rate_limits",
+                "security definer",
+                "enable row level security",
+                "raw_payload jsonb",
+                "tracking jsonb",
+                "qualification jsonb",
+                "spam_check jsonb",
+            ),
         ),
-        BASE_MIGRATION,
-    )
-    errors += require(
-        preparation,
         (
-            "journey_type text",
-            "journey_stage text",
-            "journey_scenario_slug text",
-            "preparation jsonb",
-            "preparation_completed jsonb",
-            "remaining_questions text",
-            "sync_broker_lead_preparation",
-            "before insert or update of raw_payload",
-            "raw_payload -> 'preparation'",
-            "completed_labels",
+            preparation,
+            PREPARATION_MIGRATION,
+            (
+                "journey_type text",
+                "journey_stage text",
+                "journey_scenario_slug text",
+                "preparation jsonb",
+                "preparation_completed jsonb",
+                "remaining_questions text",
+                "sync_broker_lead_preparation",
+                "before insert or update of raw_payload",
+                "raw_payload -> 'preparation'",
+                "completed_labels",
+            ),
         ),
-        PREPARATION_MIGRATION,
-    )
-    errors += require(
-        summary,
         (
-            "broker_lead_notification_summary",
-            "returns text",
-            "security definer",
-            "broker_lead_not_found",
-            "preparation_completed",
-            "ПОДГОТОВКА ДО ОБРАЩЕНИЯ",
-            "grant execute on function public.broker_lead_notification_summary(uuid)",
-            "to service_role",
+            summary,
+            SUMMARY_MIGRATION,
+            (
+                "broker_lead_notification_summary",
+                "returns text",
+                "security definer",
+                "broker_lead_not_found",
+                "preparation_completed",
+                "ПОДГОТОВКА ДО ОБРАЩЕНИЯ",
+                "grant execute on function public.broker_lead_notification_summary(uuid)",
+                "to service_role",
+            ),
         ),
-        SUMMARY_MIGRATION,
-    )
-    errors += require(
-        delivery,
         (
-            "notification_attempt_count integer",
-            "notification_attempted_at timestamptz",
-            "notification_sent_at timestamptz",
-            "notification_last_error text",
-            "notification_status in ('pending', 'sending', 'sent', 'failed', 'disabled')",
-            "claim_broker_lead_notification",
-            "complete_broker_lead_notification",
-            "notification_status = 'sending'",
-            "interval '15 minutes'",
-            "notification_attempt_count = leads.notification_attempt_count + 1",
-            "and leads.notification_status = 'sending'",
-            "to service_role",
+            delivery,
+            DELIVERY_MIGRATION,
+            (
+                "notification_attempt_count integer",
+                "notification_attempted_at timestamptz",
+                "notification_sent_at timestamptz",
+                "notification_last_error text",
+                "notification_status in ('pending', 'sending', 'sent', 'failed', 'disabled')",
+                "claim_broker_lead_notification",
+                "complete_broker_lead_notification",
+                "notification_status = 'sending'",
+                "interval '15 minutes'",
+                "notification_attempt_count = leads.notification_attempt_count + 1",
+                "and leads.notification_status = 'sending'",
+                "to service_role",
+            ),
         ),
-        DELIVERY_MIGRATION,
-    )
-    errors += require(
-        retry,
         (
-            "notification_manual_retry_count integer",
-            "notification_manual_retry_requested_at timestamptz",
-            "notification_manual_retry_reason_code text",
-            "request_broker_lead_notification_retry",
-            "and leads.notification_status = 'failed'",
-            "notification_status = 'pending'",
-            "notification_retry_requested",
-            "broker_lead_notification_queue_health",
-            "stale_count bigint",
-            "total_manual_retries bigint",
-            "to service_role",
+            retry,
+            RETRY_MIGRATION,
+            (
+                "notification_manual_retry_count integer",
+                "notification_manual_retry_requested_at timestamptz",
+                "notification_manual_retry_reason_code text",
+                "request_broker_lead_notification_retry",
+                "and leads.notification_status = 'failed'",
+                "notification_status = 'pending'",
+                "notification_retry_requested",
+                "broker_lead_notification_queue_health",
+                "stale_count bigint",
+                "total_manual_retries bigint",
+                "to service_role",
+            ),
         ),
-        RETRY_MIGRATION,
+        (
+            retention,
+            RETENTION_MIGRATION,
+            (
+                "retention_hold boolean not null default false",
+                "anonymized_at timestamptz",
+                "broker_lead_retention_settings",
+                "enabled boolean not null default false",
+                "broker_lead_retention_preview",
+                "apply_broker_lead_retention",
+                "APPLY_BROKER_RETENTION",
+                "leads.status in ('closed', 'lost', 'archived', 'cancelled')",
+                "leads.notification_status in ('sent', 'disabled')",
+                "broker_lead_retention_runs",
+                "to service_role",
+            ),
+        ),
     )
+    for text, file, markers in migration_checks:
+        errors += require(text, markers, file)
 
     if "last_payload" in base:
         error("Rate limit не должен хранить полный payload", BASE_MIGRATION)
         errors += 1
-    if any("drop column" in text.casefold() for text in (preparation, delivery, retry)):
-        error("Дополнительные миграции не должны удалять поля", RETRY_MIGRATION)
+    if any("drop column" in text.casefold() for text in (preparation, delivery, retry, retention)):
+        error("Дополнительные миграции не должны удалять поля", RETENTION_MIGRATION)
         errors += 1
     if "to anon" in summary.casefold() or "to authenticated" in summary.casefold():
         error("Сводка не должна быть доступна публичным ролям", SUMMARY_MIGRATION)
@@ -253,6 +279,12 @@ def main() -> int:
         errors += 1
     if "and leads.notification_status = 'failed'" not in retry:
         error("Ручной retry должен работать только из failed", RETRY_MIGRATION)
+        errors += 1
+    if "delete from public.broker_leads" in retention.casefold():
+        error("Retention не должен физически удалять лиды", RETENTION_MIGRATION)
+        errors += 1
+    if "cron.schedule" in retention.casefold() or "set enabled = true" in retention.casefold():
+        error("Retention migration не должна автоматически включать policy или Cron", RETENTION_MIGRATION)
         errors += 1
 
     mode_match = re.search(r"(?ms)^lead_capture:\s*.*?^\s{2}mode:\s*[\"']?([^\"'\n]+)", config)
@@ -280,6 +312,9 @@ def main() -> int:
         "claim_broker_lead_notification",
         "request_broker_lead_notification_retry",
         "broker_lead_notification_queue_health",
+        "broker_lead_retention_preview",
+        "apply_broker_lead_retention",
+        "retention_hold",
         "notification_status",
         "endpoint должен оставаться пустым",
     ):
@@ -299,6 +334,8 @@ def main() -> int:
         "claim_broker_lead_notification",
         "request_broker_lead_notification_retry",
         "broker_lead_notification_queue_health",
+        "broker_lead_retention_preview",
+        "broker_retention_disabled",
         "проверка прав",
         "неизвестный uuid",
         "retry_not_allowed",
@@ -314,9 +351,9 @@ def main() -> int:
         return 1
 
     print(
-        "Аудит Supabase backend успешно завершён: шесть миграций, публичный и административный Edge Function, "
+        "Аудит Supabase backend успешно завершён: семь миграций, публичный и административный Edge Function, "
         "идемпотентность, rate limit, CORS, preparation, атомарная доставка, ручной retry, "
-        "обезличенная очередь, контракты, smoke и выключенный endpoint подтверждены"
+        "обезличенная очередь, retention preview/apply, контракты, smoke и выключенный endpoint подтверждены"
     )
     return 0
 
