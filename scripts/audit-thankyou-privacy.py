@@ -119,7 +119,6 @@ def main() -> int:
         "lastLead.city",
         "lastLead.qualification",
         "statusMap",
-        "request_id: requestId,",
         "scenario: scenario",
         "qualification_status: status",
         "delivery_state:",
@@ -152,7 +151,6 @@ def main() -> int:
         'id="lead-scenario"',
         'id="lead-city"',
         'id="lead-status"',
-        "request_id: requestId,",
         "scenario: scenario",
         "qualification_status: status",
     ):
