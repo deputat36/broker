@@ -194,7 +194,7 @@ def main() -> int:
     errors += require(
         smoke,
         (
-            "применены десять миграций",
+            "применены 11 миграций",
             "current_status = disabled",
             "request_id\": \"<request_id>",
             "notification_status\": \"disabled",
