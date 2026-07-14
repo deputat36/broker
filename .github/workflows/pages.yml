@@ -35,6 +35,8 @@ jobs:
         run: python3 scripts/audit-notification-retry.py
       - name: Audit protected notification health
         run: python3 scripts/audit-notification-health.py
+      - name: Audit disabled-by-default lead retention
+        run: python3 scripts/audit-data-retention.py
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
