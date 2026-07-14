@@ -20,16 +20,18 @@
 После применения выполнить специализированные smoke-чеклисты в том же порядке, включая:
 
 - `docs/supabase-restricted-delivery-response-smoke.md`;
-- `docs/supabase-public-response-smoke.md`.
+- `docs/supabase-public-response-smoke.md`;
+- `docs/supabase-public-error-smoke.md`.
 
 Затем выполнить:
 
 ```bash
 python3 scripts/audit-public-lead-response.py
+python3 scripts/audit-public-lead-errors.py
 python3 scripts/audit-supabase-readiness.py
 ```
 
-Агрегирующий аудит должен подтвердить десять миграций, минимальный публичный success response и все специализированные source-аудиты.
+Агрегирующий аудит должен подтвердить десять миграций, минимальный публичный success response, единый безопасный error envelope и все специализированные source-аудиты.
 
 ## До приёмки
 
