@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Татьяна Стерликова — ипотечный брокер в Борисоглебске
-description: О работе ипотечного брокера Татьяны Стерликовой: консультации, подбор ипотеки, сложные заявки и сопровождение клиентов компании ЭТАЖИ, включенное в комиссию.
+description: О работе ипотечного брокера Татьяны Стерликовой: консультации, подбор ипотеки, сложные заявки, частное сопровождение и работа с клиентами компании ЭТАЖИ.
 permalink: /o-brokere/
 og_type: profile
 schema: '{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":{"@type":"Person","name":"Татьяна Стерликова","jobTitle":"Ипотечный брокер","telephone":"+79030250807","image":"https://sterlikova-ipoteka.ru/assets/img/tatyana-social.jpg","url":"https://sterlikova-ipoteka.ru/o-brokere/","sameAs":["https://vk.com/tatyanasterlikova"],"areaServed":["Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"]}}'
@@ -42,7 +42,7 @@ schema: '{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":{"@
   </div>
 </section>
 
-<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Два формата работы</p><h2>Частное сопровождение и работа с клиентами «ЭТАЖИ»</h2><p>При частном обращении стоимость зависит от задачи и начинается от 15 000 ₽. Если сделка проходит через компанию «ЭТАЖИ», ипотечное сопровождение включено в комиссию компании и отдельно клиентом не оплачивается.</p></div><div class="hero-actions"><a class="btn btn-dark" href="{{ '/stoimost/' | relative_url }}">Стоимость услуг</a><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Клиентам «ЭТАЖИ»</a></div></div></section>
+<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Два формата работы</p><h2>Частное сопровождение и работа с клиентами «ЭТАЖИ»</h2><p>При частном обращении стоимость зависит от задачи и начинается от 15 000 ₽. Для клиента компании «ЭТАЖИ» состав ипотечного сопровождения и порядок оплаты определяются действующими условиями компании и параметрами конкретной сделки и подтверждаются до начала работы.</p></div><div class="hero-actions"><a class="btn btn-dark" href="{{ '/stoimost/' | relative_url }}">Стоимость услуг</a><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Условия для клиентов «ЭТАЖИ»</a></div></div></section>
 
 <section class="section muted"><div class="section-head"><p class="eyebrow">География</p><h2>Основные территории работы</h2></div><div class="grid cards-3"><a class="location-card" href="{{ '/geo/borisoglebsk/' | relative_url }}"><strong>Борисоглебск</strong><span>город и Борисоглебский городской округ</span></a><a class="location-card" href="{{ '/geo/gribanovskiy/' | relative_url }}"><strong>Грибановский район</strong><span>пгт Грибановский и район</span></a><a class="location-card" href="{{ '/geo/povorino/' | relative_url }}"><strong>Поворино</strong><span>город и Поворинский район</span></a></div></section>
 
