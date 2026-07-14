@@ -24,6 +24,7 @@ jobs:
         run: |
           node --check assets/js/main.js
           node --check assets/js/application-delivery-keepalive.js
+          node --check assets/js/thankyou-storage-privacy.js
           node --check assets/js/application-inputs.js
           node --check assets/js/application-preparation.js
           node --check assets/js/online-application.js
