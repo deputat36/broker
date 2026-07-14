@@ -9,10 +9,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "supabase/config.toml"
 PUBLIC_FUNCTION = ROOT / "supabase/functions/broker-public-lead/handler.ts"
+RECEIPT_FUNCTION = ROOT / "supabase/functions/broker-delivery-receipt/index.ts"
 ADMIN_FUNCTION = ROOT / "supabase/functions/broker-notification-retry/index.ts"
 HEALTH_FUNCTION = ROOT / "supabase/functions/broker-notification-health/index.ts"
 ALLOWED_FUNCTIONS = {
     "broker-public-lead",
+    "broker-delivery-receipt",
     "broker-notification-retry",
     "broker-notification-health",
 }
@@ -46,7 +48,7 @@ def require_markers(text: str, markers: tuple[str, ...], file: Path, label: str)
 
 
 def main() -> int:
-    required = (CONFIG, PUBLIC_FUNCTION, ADMIN_FUNCTION, HEALTH_FUNCTION)
+    required = (CONFIG, PUBLIC_FUNCTION, RECEIPT_FUNCTION, ADMIN_FUNCTION, HEALTH_FUNCTION)
     missing = [file for file in required if not file.is_file()]
     for file in missing:
         error("Не найден обязательный файл конфигурации Edge Functions", file)
@@ -56,6 +58,7 @@ def main() -> int:
     errors = 0
     config = read(CONFIG)
     public_function = read(PUBLIC_FUNCTION)
+    receipt_function = read(RECEIPT_FUNCTION)
     admin_function = read(ADMIN_FUNCTION)
     health_function = read(HEALTH_FUNCTION)
     function_sections = sections(config)
@@ -75,8 +78,8 @@ def main() -> int:
             error(f"Для {function_name} ожидается явное verify_jwt = false", CONFIG)
             errors += 1
 
-    if len(re.findall(r"(?m)^\s*verify_jwt\s*=\s*false\s*$", config)) != 3:
-        error("verify_jwt = false должно быть задано ровно для трёх контрактных функций", CONFIG)
+    if len(re.findall(r"(?m)^\s*verify_jwt\s*=\s*false\s*$", config)) != 4:
+        error("verify_jwt = false должно быть задано ровно для четырёх контрактных функций", CONFIG)
         errors += 1
 
     errors += require_markers(
@@ -91,6 +94,22 @@ def main() -> int:
         ),
         PUBLIC_FUNCTION,
         "Публичная функция",
+    )
+    errors += require_markers(
+        receipt_function,
+        (
+            "ALLOWED_ORIGINS.has(normalizeOrigin(origin))",
+            "if (!isAllowedOrigin(origin))",
+            "requestKind !== 'delivery_receipt'",
+            "deliveryState !== 'both'",
+            "mark_broker_lead_delivery_both",
+            "MAX_BODY_BYTES = 4096",
+            "return new Response(null, { status: 204",
+            "Cache-Control",
+            "no-store",
+        ),
+        RECEIPT_FUNCTION,
+        "Delivery receipt функция",
     )
     errors += require_markers(
         admin_function,
@@ -128,6 +147,19 @@ def main() -> int:
             error("Закрытая функция не должна устанавливать CORS", file)
             errors += 1
 
+    for forbidden in (
+        "client_name",
+        "phone_normalized",
+        "mortgage_goal",
+        "raw_payload",
+        "TELEGRAM_BOT_TOKEN",
+        "NOTIFICATION_ADMIN_TOKEN",
+        "NOTIFICATION_MONITOR_TOKEN",
+    ):
+        if forbidden in receipt_function:
+            error(f"Delivery receipt не должна содержать данные или secrets: {forbidden}", RECEIPT_FUNCTION)
+            errors += 1
+
     if "verify_jwt = true" in config:
         error("Не смешивайте противоречивые JWT-настройки в контрактных секциях", CONFIG)
         errors += 1
@@ -137,8 +169,8 @@ def main() -> int:
         return 1
 
     print(
-        "Аудит Supabase function config успешно завершён: три известные функции, "
-        "явный verify_jwt=false и собственная защита публичного, retry и health handler подтверждены"
+        "Аудит Supabase function config успешно завершён: четыре известные функции, "
+        "явный verify_jwt=false и собственная защита lead, receipt, retry и health handler подтверждены"
     )
     return 0
 
