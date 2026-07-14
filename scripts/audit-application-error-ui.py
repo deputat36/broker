@@ -32,6 +32,15 @@ ERROR_CODES = (
     "invalid_json",
 )
 
+ANALYTICS_GOALS = (
+    "online_application_endpoint_error",
+    "online_application_endpoint_error_validation",
+    "online_application_endpoint_error_rate_limit",
+    "online_application_endpoint_error_rejected",
+    "online_application_endpoint_error_backend",
+    "online_application_endpoint_error_request",
+)
+
 
 def error(message: str, file: Path) -> None:
     print(f"::error file={file.as_posix()}::{message}")
@@ -81,7 +90,7 @@ def main() -> int:
     errors += require(
         error_ui,
         (
-            "validation: 'validation'" if False else "validation_failed: 'validation'",
+            "validation_failed: 'validation'",
             "rate_limit_exceeded: 'rate_limit'",
             "request_rejected: 'rejected'",
             "backend_unavailable: 'backend'",
@@ -116,17 +125,17 @@ def main() -> int:
             error(f"Серверный error-контракт не содержит код: {code}", SERVER_CONTRACT)
             errors += 1
 
-    for marker in (
-        "online_application_endpoint_error",
-        "online_application_endpoint_error_validation",
-        "online_application_endpoint_error_rate_limit",
-        "online_application_endpoint_error_rejected",
-        "online_application_endpoint_error_backend",
-        "online_application_endpoint_error_request",
-    ):
-        if marker not in error_ui:
-            error(f"Отсутствует фиксированная аналитическая цель: {marker}", INPUTS)
-            errors += 1
+    errors += require(
+        error_ui,
+        (
+            "window.sendGoal('online_application_endpoint_error')",
+            "const allowed = ['validation', 'rate_limit', 'rejected', 'backend', 'request'];",
+            "window.sendGoal(`online_application_endpoint_error_${category}`)",
+        ),
+        INPUTS,
+        "Аналитика error UI",
+    )
+    for marker in ANALYTICS_GOALS:
         if f"`{marker}`" not in contract:
             error(f"UI-контракт не описывает цель: {marker}", CONTRACT)
             errors += 1
