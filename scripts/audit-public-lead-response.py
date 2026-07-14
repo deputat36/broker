@@ -135,7 +135,10 @@ def main() -> int:
         if marker not in lookup_body:
             error(f"Idempotency lookup не содержит необходимое поле: {marker}", HANDLER)
             errors += 1
-    for forbidden in ("status,", "technical_priority", "qualification"):
+    if re.search(r"(?<![\w])status(?![\w])", lookup_body):
+        error("Idempotency lookup загружает ненужный CRM status", HANDLER)
+        errors += 1
+    for forbidden in ("technical_priority", "qualification"):
         if forbidden in lookup_body:
             error(f"Idempotency lookup загружает ненужное публичному ответу поле: {forbidden}", HANDLER)
             errors += 1
