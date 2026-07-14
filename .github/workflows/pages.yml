@@ -39,6 +39,8 @@ jobs:
         run: python3 scripts/audit-data-retention.py
       - name: Audit protected individual privacy requests
         run: python3 scripts/audit-privacy-requests.py
+      - name: Audit aggregate Supabase readiness
+        run: python3 scripts/audit-supabase-readiness.py
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
