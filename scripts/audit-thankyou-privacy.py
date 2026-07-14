@@ -9,10 +9,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LAYOUT = ROOT / "_layouts/default.html"
+APPLICATION_SOURCE = ROOT / "online-zayavka.md"
 THANK_YOU_SOURCE = ROOT / "spasibo.md"
-KEEPALIVE = ROOT / "assets/js/application-delivery-keepalive.js"
+STORAGE_PRIVACY = ROOT / "assets/js/thankyou-storage-privacy.js"
 PRIVACY_DOC = ROOT / "docs/thank-you-privacy.md"
 POLICY = ROOT / "policy.md"
+WORKFLOW = ROOT / ".github/workflows/pages.yml"
 
 
 def error(message: str, file: Path) -> None:
@@ -32,11 +34,30 @@ def require(text: str, markers: tuple[str, ...], file: Path, label: str) -> int:
     return errors
 
 
+def check_order(text: str, markers: tuple[str, ...], file: Path, label: str) -> int:
+    positions = [text.find(marker) for marker in markers]
+    if any(position < 0 for position in positions) or positions != sorted(positions):
+        error(f"{label}: нарушен безопасный порядок скриптов", file)
+        return 1
+    return 0
+
+
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     built_page = site_dir / "spasibo/index.html"
+    built_application = site_dir / "online-zayavka/index.html"
 
-    required_files = (LAYOUT, THANK_YOU_SOURCE, KEEPALIVE, PRIVACY_DOC, POLICY, built_page)
+    required_files = (
+        LAYOUT,
+        APPLICATION_SOURCE,
+        THANK_YOU_SOURCE,
+        STORAGE_PRIVACY,
+        PRIVACY_DOC,
+        POLICY,
+        WORKFLOW,
+        built_page,
+        built_application,
+    )
     missing = [file for file in required_files if not file.is_file()]
     if missing:
         for file in missing:
@@ -44,11 +65,14 @@ def main() -> int:
         return 1
 
     layout = read(LAYOUT)
+    application = read(APPLICATION_SOURCE)
     thank_you = read(THANK_YOU_SOURCE)
-    keepalive = read(KEEPALIVE)
+    storage_privacy = read(STORAGE_PRIVACY)
     documentation = read(PRIVACY_DOC).casefold()
     policy = read(POLICY).casefold()
+    workflow = read(WORKFLOW)
     built = read(built_page)
+    built_application_text = read(built_application)
     errors = 0
 
     errors += require(
@@ -70,7 +94,7 @@ def main() -> int:
         errors += 1
 
     errors += require(
-        keepalive,
+        storage_privacy,
         (
             "const STORAGE_KEY = 'sterlikovaMortgageLastLead'",
             "function sanitizeLastLead()",
@@ -79,11 +103,10 @@ def main() -> int:
             "new MutationObserver",
             "Переходим на страницу подтверждения",
         ),
-        KEEPALIVE,
+        STORAGE_PRIVACY,
         "Минимизация локальной сводки",
     )
 
-    storage_module = keepalive.split("const STORAGE_KEY = 'sterlikovaMortgageLastLead'", 1)[-1]
     for forbidden in (
         "scenario:",
         "object_type:",
@@ -92,10 +115,26 @@ def main() -> int:
         "channels:",
         "phone:",
         "tracking:",
+        "sessionStorage",
+        "sendGoal",
     ):
-        if forbidden in storage_module:
-            error(f"Локальная сводка содержит лишнее поле: {forbidden}", KEEPALIVE)
+        if forbidden in storage_privacy:
+            error(f"Локальная сводка содержит лишнее поле или действие: {forbidden}", STORAGE_PRIVACY)
             errors += 1
+
+    script_order = (
+        "assets/js/thankyou-storage-privacy.js",
+        "assets/js/application-delivery-keepalive.js",
+        "assets/js/application-inputs.js",
+        "assets/js/application-preparation.js",
+        "assets/js/online-application.js",
+    )
+    errors += check_order(application + "\n" + layout, script_order, APPLICATION_SOURCE, "Исходная онлайн-заявка")
+    errors += check_order(built_application_text, script_order, built_application, "Собранная онлайн-заявка")
+
+    if "node --check assets/js/thankyou-storage-privacy.js" not in workflow:
+        error("Workflow не проверяет синтаксис thankyou-storage-privacy.js", WORKFLOW)
+        errors += 1
 
     errors += require(
         thank_you,
