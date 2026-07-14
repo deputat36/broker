@@ -272,7 +272,7 @@ async function findExistingLead(requestId: string): Promise<JsonRecord | null> {
   if (!supabase || !requestId) return null;
   const { data, error } = await supabase
     .from('broker_leads')
-    .select('id, request_id, status, technical_priority, qualification, notification_status, processing_restricted, retention_hold, anonymized_at')
+    .select('id, request_id, notification_status, processing_restricted, retention_hold, anonymized_at')
     .eq('request_id', requestId)
     .maybeSingle();
   if (error) throw new Error(`idempotency_check_failed:${error.code || 'unknown'}`);
@@ -484,32 +484,27 @@ async function deliverNotification(leadId: string, requestId: string): Promise<N
   }
 }
 
+function successResponse(requestId: string, duplicate: boolean, notificationStatus: NotificationStatus): JsonRecord {
+  return {
+    ok: true,
+    success: true,
+    duplicate,
+    request_id: requestId,
+    notification_status: notificationStatus
+  };
+}
+
 async function duplicateResponse(existing: JsonRecord, requestId: string, origin: string | null): Promise<Response> {
+  const responseRequestId = cleanText(existing.request_id, 80) || requestId;
   if (isOperationallyRestricted(existing)) {
-    return jsonResponse({
-      ok: true,
-      success: true,
-      duplicate: true,
-      request_id: existing.request_id || requestId,
-      notification_status: 'disabled'
-    }, 200, origin);
+    return jsonResponse(successResponse(responseRequestId, true, 'disabled'), 200, origin);
   }
 
   const leadId = cleanText(existing.id, 80);
   const notificationStatus = leadId
     ? await deliverNotification(leadId, requestId)
     : normalizeNotificationStatus(existing.notification_status);
-  return jsonResponse({
-    ok: true,
-    success: true,
-    duplicate: true,
-    lead_id: existing.id || null,
-    request_id: existing.request_id || requestId,
-    crm_status: existing.status || 'new',
-    technical_priority: existing.technical_priority || '',
-    qualification: existing.qualification || {},
-    notification_status: notificationStatus
-  }, 200, origin);
+  return jsonResponse(successResponse(responseRequestId, true, notificationStatus), 200, origin);
 }
 
 Deno.serve(async (request) => {
@@ -580,7 +575,7 @@ Deno.serve(async (request) => {
   const { data, error } = await supabase
     .from('broker_leads')
     .insert(row)
-    .select('id, request_id, status, technical_priority, qualification, notification_status')
+    .select('id, request_id')
     .single();
 
   if (error) {
@@ -606,15 +601,5 @@ Deno.serve(async (request) => {
   });
 
   const notificationStatus = await deliverNotification(String(data.id), validation.lead.requestId);
-  return jsonResponse({
-    ok: true,
-    success: true,
-    duplicate: false,
-    lead_id: data.id,
-    request_id: data.request_id,
-    crm_status: data.status,
-    technical_priority: data.technical_priority,
-    qualification: data.qualification,
-    notification_status: notificationStatus
-  }, 201, origin);
+  return jsonResponse(successResponse(String(data.request_id || validation.lead.requestId), false, notificationStatus), 201, origin);
 });
