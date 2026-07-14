@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет browser-safe disabled для restricted/hold/anonymized duplicate-заявок."""
+"""Проверяет browser-safe и минимальный ответ restricted/hold/anonymized duplicate-заявок."""
 
 from __future__ import annotations
 
@@ -46,6 +46,7 @@ def main() -> int:
     migration_lower = migration.casefold()
     operational = read(OPERATIONAL_MIGRATION).casefold()
     handler = read(HANDLER)
+    handler_lower = handler.casefold()
     contract = read(CONTRACT).casefold()
     smoke = read(SMOKE).casefold()
     workflow = read(WORKFLOW)
@@ -109,14 +110,58 @@ def main() -> int:
         (
             "type NotificationStatus = 'pending' | 'sending' | 'sent' | 'failed' | 'disabled';",
             "['pending', 'sending', 'sent', 'failed', 'disabled'].includes(status)",
+            "processing_restricted, retention_hold, anonymized_at",
+            "function isOperationallyRestricted(existing: JsonRecord): boolean",
+            "existing.processing_restricted === true",
+            "existing.retention_hold === true",
+            "Boolean(existing.anonymized_at)",
+            "if (isOperationallyRestricted(existing)) {",
+            "notification_status: 'disabled'",
             "if (!claim.claimed) return normalizeNotificationStatus(claim.status);",
-            "duplicate: true",
-            "notification_status: notificationStatus",
         ),
         HANDLER,
     )
     if "'restricted'" in handler.split("type NotificationStatus", 1)[-1].split(";", 1)[0]:
         error("Публичный NotificationStatus не должен раскрывать внутренний restricted", HANDLER)
+        errors += 1
+
+    restricted_start = "if (isOperationallyRestricted(existing)) {"
+    restricted_end = "\n  }\n\n  const leadId"
+    if restricted_start in handler and restricted_end in handler.split(restricted_start, 1)[-1]:
+        restricted_branch = handler.split(restricted_start, 1)[-1].split(restricted_end, 1)[0]
+        errors += require(
+            restricted_branch,
+            (
+                "ok: true",
+                "success: true",
+                "duplicate: true",
+                "request_id: existing.request_id || requestId",
+                "notification_status: 'disabled'",
+                "}, 200, origin)",
+            ),
+            HANDLER,
+        )
+        for forbidden in (
+            "lead_id",
+            "crm_status",
+            "technical_priority",
+            "qualification",
+            "deliverNotification",
+            "existing.id",
+            "processing_restricted",
+            "retention_hold",
+            "anonymized_at",
+        ):
+            if forbidden in restricted_branch:
+                error(f"Restricted duplicate раскрывает или использует запрещённое поле: {forbidden}", HANDLER)
+                errors += 1
+    else:
+        error("Не удалось выделить минимальную restricted-ветку duplicateResponse", HANDLER)
+        errors += 1
+
+    duplicate_function = handler_lower.split("async function duplicateresponse", 1)[-1].split("deno.serve", 1)[0]
+    if duplicate_function.find("isoperationallyrestricted(existing)") > duplicate_function.find("delivernotification"):
+        error("Restricted duplicate должен завершаться до вызова deliverNotification", HANDLER)
         errors += 1
 
     errors += require(
@@ -135,7 +180,13 @@ def main() -> int:
         contract,
         (
             "notification_status\": \"disabled",
+            "request_id",
             "http-ответ остаётся `200`",
+            "минимизация данных",
+            "внутренний `lead_id`",
+            "`crm_status`",
+            "`technical_priority`",
+            "объект `qualification`",
             "внутренний административный статус",
             "`restricted`",
             "не увеличивать `notification_attempt_count`",
@@ -148,7 +199,13 @@ def main() -> int:
         (
             "применены десять миграций",
             "current_status = disabled",
+            "request_id\": \"<request_id>",
             "notification_status\": \"disabled",
+            "restricted duplicate не должен содержать",
+            "`lead_id`",
+            "`crm_status`",
+            "`technical_priority`",
+            "`qualification`",
             "статус не заменён на `pending`",
             "внутренний `notification_status = restricted`",
             "telegram-сообщение не отправлено",
@@ -181,8 +238,8 @@ def main() -> int:
 
     print(
         "Аудит restricted delivery response успешно завершён: SQL возвращает browser-safe disabled, "
-        "публичный handler не раскрывает restricted, административный retry сохраняет диагностику, "
-        "счётчики/Telegram не запускаются, документы, smoke и выключенный endpoint подтверждены"
+        "restricted duplicate минимизирован до request_id и статуса доставки, Telegram/счётчики не запускаются, "
+        "административный retry сохраняет диагностику, документы, smoke и выключенный endpoint подтверждены"
     )
     return 0
 
