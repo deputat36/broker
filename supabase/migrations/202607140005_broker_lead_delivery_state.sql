@@ -24,15 +24,17 @@ begin
 end;
 $$;
 
+-- Переносим только ранее подтверждённый legacy-статус both. Ограниченные строки
+-- не затрагиваются, чтобы не обходить operational guard и privacy hold.
 update public.broker_leads as leads
 set
-  client_delivery_state = case
-    when leads.delivery_channel = 'both' then 'both'
-    else 'supabase_only'
-  end,
+  client_delivery_state = 'both',
   delivery_state_updated_at = coalesce(leads.updated_at, leads.created_at, now())
-where leads.client_delivery_state not in ('supabase_only', 'both')
-   or leads.client_delivery_state is null;
+where leads.delivery_channel = 'both'
+  and leads.client_delivery_state = 'supabase_only'
+  and leads.processing_restricted = false
+  and leads.retention_hold = false
+  and leads.anonymized_at is null;
 
 create index if not exists broker_leads_client_delivery_state_idx
   on public.broker_leads (client_delivery_state, delivery_state_updated_at desc);
