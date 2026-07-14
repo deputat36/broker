@@ -38,6 +38,12 @@ STANDARD_SERVICE_URLS = (
     "/uslugi/ipoteka-dlya-pensionerov/",
 )
 
+MIGRATED_ETAGI_SERVICE_URLS = {
+    "/uslugi/podbor-ipoteki/",
+    "/uslugi/slozhnaya-ipoteka/",
+    "/uslugi/otkazali-v-ipoteke/",
+}
+
 ALL_SERVICE_URLS = set(STANDARD_SERVICE_URLS) | {
     "/uslugi/podbor-ipoteki/",
     "/uslugi/refinansirovanie-ipoteki/",
@@ -113,8 +119,8 @@ TEXT_REQUIREMENTS = {
     "/uslugi/podbor-ipoteki/": (
         "сопровождение до решения банка",
         "конкретный объем дальнейшей помощи после решения банка",
-        "включено в комиссию компании",
-        "отдельно клиентом не оплачивается",
+        "состав ипотечного сопровождения и порядок оплаты определяются",
+        "предусмотрена ли отдельная оплата",
     ),
     "/uslugi/refinansirovanie-ipoteki/": (
         "сопровождение до решения нового банка",
@@ -131,6 +137,19 @@ STANDARD_SERVICE_TEXT = (
 
 for service_url in STANDARD_SERVICE_URLS:
     TEXT_REQUIREMENTS[service_url] = STANDARD_SERVICE_TEXT
+
+MIGRATED_STANDARD_SERVICE_TEXT = (
+    "сопровождение до решения банка",
+    "состав ипотечного сопровождения и порядок оплаты зависят",
+    "действующих условий компании",
+    "подтверждаются до начала работы",
+)
+
+for service_url in (
+    "/uslugi/slozhnaya-ipoteka/",
+    "/uslugi/otkazali-v-ipoteke/",
+):
+    TEXT_REQUIREMENTS[service_url] = MIGRATED_STANDARD_SERVICE_TEXT
 
 TEXT_REQUIREMENTS["/uslugi/ipoteka-bez-pervonachalnogo-vznosa/"] += (
     "не используются схемы с фиктивным завышением стоимости",
@@ -176,7 +195,8 @@ FORBIDDEN_TEXT = {
     + UNCONFIRMED_ETAGI_TEXT,
     "/faq/": UNCONFIRMED_ETAGI_TEXT,
     "/kak-prohodit-rabota/": ("полное сопровождение сделки включено",) + UNCONFIRMED_ETAGI_TEXT,
-    "/uslugi/podbor-ipoteki/": ("ипотечное сопровождение для клиента бесплатно",),
+    "/uslugi/podbor-ipoteki/": ("ипотечное сопровождение для клиента бесплатно",)
+    + UNCONFIRMED_ETAGI_TEXT,
     "/uslugi/refinansirovanie-ipoteki/": (
         "ипотечное сопровождение бесплатно",
         "включено в комиссию компании",
@@ -201,6 +221,9 @@ for service_url in STANDARD_SERVICE_URLS:
         "ипотечное сопровождение для клиента бесплатно",
         "консультация и ипотечное сопровождение для клиента бесплатны",
     )
+
+for service_url in MIGRATED_ETAGI_SERVICE_URLS:
+    FORBIDDEN_TEXT[service_url] = FORBIDDEN_TEXT.get(service_url, ()) + UNCONFIRMED_ETAGI_TEXT
 
 
 class ConversionParser(HTMLParser):
