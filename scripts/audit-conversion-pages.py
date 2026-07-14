@@ -49,6 +49,7 @@ PAGE_REQUIREMENTS = {
     | {"/konsultaciya/", "/kak-prohodit-rabota/", "/stoimost/", "/etagi/"},
     "/konsultaciya/": {"/etagi/"},
     "/kontakty/": {"/konsultaciya/", "/etagi/"},
+    "/o-brokere/": {"/uslugi/", "/kontakty/", "/stoimost/", "/etagi/"},
     "/stoimost/": {"/konsultaciya/", "/etagi/"},
     "/etagi/": {"/stoimost/"},
     "/faq/": {"/stoimost/", "/etagi/"},
@@ -75,7 +76,18 @@ TEXT_REQUIREMENTS = {
         "условия сопровождения через «этажи» уточняются до сделки",
         "проверить условия",
     ),
-    "/uslugi/": ("включено в комиссию компании", "отдельно клиентом не оплачивается"),
+    "/uslugi/": (
+        "состав ипотечного сопровождения и порядок оплаты нужно подтвердить",
+        "действующим условиям компании",
+    ),
+    "/kontakty/": (
+        "условия зависят от действующих тарифов компании",
+        "предусмотрена ли отдельная оплата",
+    ),
+    "/o-brokere/": (
+        "состав ипотечного сопровождения и порядок оплаты определяются",
+        "подтверждаются до начала работы",
+    ),
     "/stoimost/": (
         "условия сопровождения определяются отдельно",
         "не совпадают автоматически с частными тарифами",
@@ -142,10 +154,13 @@ UNCONFIRMED_ETAGI_TEXT = (
 
 FORBIDDEN_TEXT = {
     "/": UNCONFIRMED_ETAGI_TEXT,
-    "/uslugi/": (
+    "/uslugi/": UNCONFIRMED_ETAGI_TEXT
+    + (
         "клиентам «этажи» ипотечное сопровождение бесплатно",
         "ипотечное сопровождение бесплатно",
     ),
+    "/kontakty/": UNCONFIRMED_ETAGI_TEXT,
+    "/o-brokere/": UNCONFIRMED_ETAGI_TEXT,
     "/stoimost/": UNCONFIRMED_ETAGI_TEXT,
     "/etagi/": (
         '"price":"0"',
