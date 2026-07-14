@@ -49,6 +49,8 @@ jobs:
         run: python3 scripts/audit-public-lead-errors.py
       - name: Audit application error UI
         run: python3 scripts/audit-application-error-ui.py
+      - name: Audit hybrid delivery state
+        run: python3 scripts/audit-hybrid-delivery-state.py
       - name: Audit aggregate Supabase readiness
         run: python3 scripts/audit-supabase-readiness.py
       - name: Setup Pages
