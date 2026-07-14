@@ -33,6 +33,11 @@
 | `online_application_endpoint_error_rejected` | Серверная антиспам-проверка отклонила запрос | Категория `rejected` |
 | `online_application_endpoint_error_backend` | Backend или хранение временно недоступны | Категория `backend` |
 | `online_application_endpoint_error_request` | Ошибка метода, Origin, Content-Type, JSON или размера | Категория `request` |
+| `online_application_delivery_web3forms_only` | Заявку подтвердил только Web3Forms | Итог двух независимых попыток |
+| `online_application_delivery_supabase_only` | Заявку подтвердил только Supabase | Итог двух независимых попыток |
+| `online_application_delivery_both` | Оба канала подтвердили приём | Итог двух независимых попыток |
+| `online_application_delivery_receipt_success` | Обезличенная квитанция `both` принята | Receipt-handler вернул HTTP `204` |
+| `online_application_delivery_receipt_error` | Квитанция `both` не подтверждена | Ошибка receipt-handler без изменения клиентского успеха |
 | `lead_submit` | Заявка успешно передана хотя бы в один рабочий канал | Перед переходом на `/spasibo/` |
 | `lead_thankyou_view` | Пользователь увидел страницу подтверждения | Загрузка `/spasibo/` |
 | `online_application_copy` | Скопирован готовый текст | Кнопка «Скопировать текст» |
@@ -103,6 +108,20 @@ Web3Forms отправляет email-копию заявки. Конкретны
 
 В режиме `hybrid` Web3Forms и Supabase работают параллельно. Если Web3Forms успешен, а дополнительный endpoint ошибся, сохраняются `online_application_direct_success`, `lead_submit` и переход на `/spasibo/`; endpoint-ошибка учитывается отдельно.
 
+## Состояние hybrid-доставки
+
+После завершения ожидаемых каналов браузер фиксирует только одну техническую категорию: `web3forms_only`, `supabase_only` или `both`.
+
+Эта категория:
+
+- не показывается клиенту;
+- не меняет страницу `/spasibo/`;
+- не содержит request ID или данные заявки;
+- не означает, что оператор уже прочитал обращение;
+- используется для контроля расхождений между email и Supabase.
+
+Receipt goals относятся только к best-effort подтверждению `both`. Ошибка квитанции не отменяет `online_application_direct_success` и `lead_submit`.
+
 ## Как интерпретировать воронку
 
 `online_application_prepare` означает только подготовку заявки.
@@ -165,4 +184,5 @@ yandex_metrika_id: ""
 11. Проверить fallback при искусственной ошибке Web3Forms.
 12. Проверить пять категорий будущего endpoint, технический номер и отсутствие сырого error code в интерфейсе и Метрике.
 13. Проверить hybrid: успешный Web3Forms не должен быть отменён ошибкой дополнительного endpoint.
-14. После подключения Метрики проверить новые endpoint error goals, `online_application_max`, `lead_submit` и `lead_thankyou_view`.
+14. Выполнить `docs/hybrid-delivery-state-smoke.md` для `web3forms_only`, `supabase_only`, `both` и receipt failure.
+15. После подключения Метрики проверить endpoint error goals, delivery state goals, `online_application_max`, `lead_submit` и `lead_thankyou_view`.
