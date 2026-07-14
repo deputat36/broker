@@ -130,9 +130,19 @@ begin
       select count(*)::bigint
       from public.broker_lead_events as events
       join public.broker_leads as leads on leads.id = events.lead_id
-      where leads.anonymized_at is not null
-        and leads.retention_hold = false
+      where leads.retention_hold = false
         and events.created_at < now() - make_interval(days => v_settings.delete_events_after_days)
+        and (
+          leads.anonymized_at is not null
+          or (
+            leads.anonymized_at is null
+            and leads.status = any(v_settings.terminal_statuses)
+            and leads.status in ('closed', 'lost', 'archived', 'cancelled')
+            and leads.notification_status in ('sent', 'disabled')
+            and coalesce(leads.submitted_at, leads.created_at)
+              < now() - make_interval(days => v_settings.anonymize_after_days)
+          )
+        )
     ),
     (
       select count(*)::bigint
@@ -322,6 +332,6 @@ comment on table public.broker_lead_retention_settings is
 comment on table public.broker_lead_retention_runs is
   'Обезличенный журнал только успешно завершённых retention-запусков без идентификаторов и содержимого заявок';
 comment on function public.broker_lead_retention_preview() is
-  'Возвращает только агрегированные количества кандидатов и защищённых записей без персональных данных';
+  'Возвращает агрегированные количества кандидатов, защищённых записей и событий, которые будут удалены в том же запуске';
 comment on function public.apply_broker_lead_retention(text) is
   'Обезличивает только завершённые лиды с разрешённым notification status, очищает старые события и rate-limit записи после явного подтверждения';
