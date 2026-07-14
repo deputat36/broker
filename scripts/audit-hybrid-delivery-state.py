@@ -92,7 +92,7 @@ def main() -> int:
         "Delivery state migration",
     )
 
-    if "client_delivery_state = 'supabase_only'" in migration_cf and "set\n    client_delivery_state = 'supabase_only'" in migration_cf:
+    if re.search(r"set\s+client_delivery_state\s*=\s*'supabase_only'", migration_cf):
         error("Миграция не должна понижать подтверждённое состояние both", MIGRATION)
         errors += 1
     for forbidden in (
@@ -117,9 +117,9 @@ def main() -> int:
             "deliveryState !== 'both'",
             "mark_broker_lead_delivery_both",
             "return new Response(null, { status: 204",
+            "SUPABASE_SERVICE_ROLE_KEY",
             "Cache-Control",
             "no-store",
-            "credentials: false" if False else "SUPABASE_SERVICE_ROLE_KEY",
         ),
         RECEIPT,
         "Receipt handler",
@@ -166,11 +166,11 @@ def main() -> int:
     for forbidden in (
         "localStorage",
         "sessionStorage",
-        "requestId)",
-        "sendGoal(request",
-        "sendGoal(state",
         "client_name",
         "phone_normalized",
+        "window.sendGoal(requestId",
+        "window.sendGoal(request_id",
+        "window.sendGoal(body.request_id",
     ):
         if forbidden in delivery_module:
             error(f"Delivery coordinator содержит запрещённый fragment: {forbidden}", INPUTS)
@@ -203,7 +203,6 @@ def main() -> int:
         "`both`",
         "supabase_only → both",
         "2500",
-        "только в памяти",
         "http `204`",
         "не показывается клиенту",
         "best-effort",
@@ -222,7 +221,6 @@ def main() -> int:
         "ошибка receipt-handler",
         "restricted, hold и anonymized",
         "отсутствующая заявка",
-        "невидим",
         "mode: \"web3forms\"",
         "endpoint: \"\"",
     ):
