@@ -9,8 +9,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MIGRATION = ROOT / "supabase/migrations/202607140005_broker_lead_delivery_state.sql"
 RECEIPT = ROOT / "supabase/functions/broker-delivery-receipt/index.ts"
+KEEPALIVE = ROOT / "assets/js/application-delivery-keepalive.js"
 INPUTS = ROOT / "assets/js/application-inputs.js"
 ONLINE = ROOT / "assets/js/online-application.js"
+PAGE = ROOT / "online-zayavka.md"
 CONFIG_TOML = ROOT / "supabase/config.toml"
 SITE_CONFIG = ROOT / "_config.yml"
 THANK_YOU = ROOT / "spasibo.md"
@@ -41,8 +43,10 @@ def main() -> int:
     required = (
         MIGRATION,
         RECEIPT,
+        KEEPALIVE,
         INPUTS,
         ONLINE,
+        PAGE,
         CONFIG_TOML,
         SITE_CONFIG,
         THANK_YOU,
@@ -61,8 +65,10 @@ def main() -> int:
     migration = read(MIGRATION)
     migration_cf = migration.casefold()
     receipt = read(RECEIPT)
+    keepalive = read(KEEPALIVE)
     inputs = read(INPUTS)
     online = read(ONLINE)
+    page = read(PAGE)
     config_toml = read(CONFIG_TOML)
     site_config = read(SITE_CONFIG)
     thank_you = read(THANK_YOU).casefold()
@@ -141,6 +147,27 @@ def main() -> int:
             errors += 1
 
     errors += require(
+        keepalive,
+        (
+            "payload.request_kind === 'delivery_receipt'",
+            "payload.delivery_state === 'both'",
+            "return originalFetch(input, { ...init, keepalive: true })",
+        ),
+        KEEPALIVE,
+        "Receipt keepalive adapter",
+    )
+    for forbidden in (
+        "client_name",
+        "phone_normalized",
+        "localStorage",
+        "sessionStorage",
+        "sendGoal",
+    ):
+        if forbidden in keepalive:
+            error(f"Keepalive adapter содержит запрещённый fragment: {forbidden}", KEEPALIVE)
+            errors += 1
+
+    errors += require(
         inputs,
         (
             "const WEB3FORMS_WAIT_MS = 2500",
@@ -188,6 +215,16 @@ def main() -> int:
         "Основной transport",
     )
 
+    script_order = (
+        "assets/js/application-delivery-keepalive.js",
+        "assets/js/application-inputs.js",
+        "assets/js/application-preparation.js",
+    )
+    positions = [page.find(marker) for marker in script_order]
+    if any(position < 0 for position in positions) or positions != sorted(positions):
+        error("Keepalive, inputs и preparation должны быть подключены в безопасном порядке", PAGE)
+        errors += 1
+
     if "delivery_state" in thank_you or "web3forms_only" in thank_you or "supabase_only" in thank_you:
         error("Страница благодарности не должна показывать внутреннее состояние каналов", THANK_YOU)
         errors += 1
@@ -203,6 +240,7 @@ def main() -> int:
         "`both`",
         "supabase_only → both",
         "2500",
+        "keepalive: true",
         "http `204`",
         "не показывается клиенту",
         "best-effort",
@@ -214,6 +252,8 @@ def main() -> int:
 
     for marker in (
         "применены все 11 миграций",
+        "порядок браузерных скриптов",
+        "keepalive: true",
         "web3forms-only",
         "supabase-only",
         "оба канала",
@@ -244,9 +284,13 @@ def main() -> int:
     if command not in workflow:
         error("Pages workflow не запускает hybrid delivery state audit", WORKFLOW)
         errors += 1
-    if "node --check assets/js/application-inputs.js" not in workflow:
-        error("Workflow не проверяет синтаксис delivery coordinator", WORKFLOW)
-        errors += 1
+    for command_marker in (
+        "node --check assets/js/application-delivery-keepalive.js",
+        "node --check assets/js/application-inputs.js",
+    ):
+        if command_marker not in workflow:
+            error(f"Workflow не проверяет syntax: {command_marker}", WORKFLOW)
+            errors += 1
 
     mode_match = re.search(r"(?ms)^lead_capture:\s*.*?^\s{2}mode:\s*[\"']?([^\"'\n]+)", site_config)
     endpoint_match = re.search(r"(?m)^\s{2}endpoint:\s*[\"']?([^\"'\n]*)", site_config)
@@ -265,8 +309,8 @@ def main() -> int:
 
     print(
         "Аудит hybrid delivery state успешно завершён: web3forms_only/supabase_only/both, "
-        "монотонная receipt-квитанция, operator RPC, безопасная аналитика, неизменная /spasibo/ "
-        "и выключенный endpoint подтверждены"
+        "монотонная receipt-квитанция, keepalive при навигации, operator RPC, безопасная аналитика, "
+        "неизменная /spasibo/ и выключенный endpoint подтверждены"
     )
     return 0
 
