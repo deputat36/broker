@@ -8,6 +8,18 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.4';
 
 type JsonRecord = Record<string, unknown>;
 type NotificationStatus = 'pending' | 'sending' | 'sent' | 'failed' | 'disabled';
+type PublicErrorCode =
+  | 'origin_not_allowed'
+  | 'method_not_allowed'
+  | 'backend_unavailable'
+  | 'content_type_not_supported'
+  | 'payload_too_large'
+  | 'invalid_json'
+  | 'backend_migration_required'
+  | 'rate_limit_exceeded'
+  | 'request_rejected'
+  | 'validation_failed'
+  | 'lead_storage_failed';
 
 type RateLimitResult = {
   allowed: boolean;
@@ -98,6 +110,7 @@ function corsHeaders(origin: string | null): HeadersInit {
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Content-Type': 'application/json; charset=utf-8',
+    'Cache-Control': 'no-store',
     'Vary': 'Origin'
   };
   if (origin && isAllowedOrigin(origin)) headers['Access-Control-Allow-Origin'] = normalizeOrigin(origin);
@@ -135,6 +148,29 @@ function cleanRequestId(value: unknown): string {
   const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   const fallbackPattern = /^IP-\d{8}-[A-Z0-9]{6,16}$/;
   return uuidPattern.test(requestId) || fallbackPattern.test(requestId) ? requestId : '';
+}
+
+function correlationRequestId(value: unknown = ''): string {
+  return cleanRequestId(value) || crypto.randomUUID();
+}
+
+function errorResponse(
+  errorCode: PublicErrorCode,
+  status: number,
+  origin: string | null,
+  requestId: string,
+  retryAfterSeconds = 0
+): Response {
+  const body: JsonRecord = {
+    ok: false,
+    success: false,
+    error_code: errorCode,
+    request_id: correlationRequestId(requestId)
+  };
+  if (Number.isInteger(retryAfterSeconds) && retryAfterSeconds > 0) {
+    body.retry_after_seconds = retryAfterSeconds;
+  }
+  return jsonResponse(body, status, origin);
 }
 
 function cleanIsoDate(value: unknown): string {
@@ -509,45 +545,47 @@ async function duplicateResponse(existing: JsonRecord, requestId: string, origin
 
 Deno.serve(async (request) => {
   const origin = request.headers.get('origin');
+  const correlationId = crypto.randomUUID();
 
   if (request.method === 'OPTIONS') {
-    if (!isAllowedOrigin(origin)) return jsonResponse({ ok: false, success: false, error: 'origin_not_allowed' }, 403, origin);
+    if (!isAllowedOrigin(origin)) return errorResponse('origin_not_allowed', 403, origin, correlationId);
     return new Response(null, { status: 204, headers: corsHeaders(origin) });
   }
-  if (!isAllowedOrigin(origin)) return jsonResponse({ ok: false, success: false, error: 'origin_not_allowed' }, 403, origin);
-  if (request.method !== 'POST') return jsonResponse({ ok: false, success: false, error: 'method_not_allowed' }, 405, origin);
-  if (!supabase) return jsonResponse({ ok: false, success: false, error: 'server_not_configured' }, 503, origin);
+  if (!isAllowedOrigin(origin)) return errorResponse('origin_not_allowed', 403, origin, correlationId);
+  if (request.method !== 'POST') return errorResponse('method_not_allowed', 405, origin, correlationId);
+  if (!supabase) return errorResponse('backend_unavailable', 503, origin, correlationId);
 
   const contentType = request.headers.get('content-type') || '';
   if (!contentType.toLowerCase().includes('application/json')) {
-    return jsonResponse({ ok: false, success: false, error: 'content_type_not_supported' }, 415, origin);
+    return errorResponse('content_type_not_supported', 415, origin, correlationId);
   }
   const declaredLength = Number(request.headers.get('content-length') || 0);
   if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) {
-    return jsonResponse({ ok: false, success: false, error: 'payload_too_large' }, 413, origin);
+    return errorResponse('payload_too_large', 413, origin, correlationId);
   }
 
   let payload: JsonRecord;
   try {
     const rawBody = await request.text();
     if (new TextEncoder().encode(rawBody).byteLength > MAX_BODY_BYTES) {
-      return jsonResponse({ ok: false, success: false, error: 'payload_too_large' }, 413, origin);
+      return errorResponse('payload_too_large', 413, origin, correlationId);
     }
     const parsed = JSON.parse(rawBody);
     if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) throw new Error('invalid_payload_shape');
     payload = parsed as JsonRecord;
   } catch (_error) {
-    return jsonResponse({ ok: false, success: false, error: 'invalid_json' }, 400, origin);
+    return errorResponse('invalid_json', 400, origin, correlationId);
   }
 
   const requestId = cleanRequestId(payload.request_id);
+  const responseRequestId = requestId || correlationId;
   if (requestId) {
     try {
       const existing = await findExistingLead(requestId);
       if (existing) return await duplicateResponse(existing, requestId, origin);
     } catch (error) {
       console.error(error instanceof Error ? error.message : 'idempotency_check_failed');
-      return jsonResponse({ ok: false, success: false, error: 'backend_migration_required' }, 503, origin);
+      return errorResponse('backend_migration_required', 503, origin, responseRequestId);
     }
   }
 
@@ -556,18 +594,20 @@ Deno.serve(async (request) => {
     rateLimit = await consumeRateLimit(request, payload, requestId);
   } catch (error) {
     console.error(error instanceof Error ? error.message : 'rate_limit_unavailable');
-    return jsonResponse({ ok: false, success: false, error: 'backend_migration_required' }, 503, origin);
+    return errorResponse('backend_migration_required', 503, origin, responseRequestId);
   }
   if (!rateLimit.allowed) {
-    return jsonResponse({ ok: false, success: false, blocked: true, error: 'rate_limit_exceeded', retry_after_seconds: 3600, attempt_count: rateLimit.attemptCount, rate_limit: rateLimit.limit }, 429, origin);
+    return errorResponse('rate_limit_exceeded', 429, origin, responseRequestId, 3600);
   }
 
   const validation = validatePayload(payload);
   if (validation.spam) {
-    return jsonResponse({ ok: false, success: false, blocked: true, error: 'request_rejected' }, 202, origin);
+    console.warn('broker_lead_request_rejected');
+    return errorResponse('request_rejected', 202, origin, responseRequestId);
   }
   if (!validation.lead || validation.errors.length) {
-    return jsonResponse({ ok: false, success: false, errors: validation.errors }, 422, origin);
+    console.warn('broker_lead_validation_failed', validation.errors.join(','));
+    return errorResponse('validation_failed', 422, origin, responseRequestId);
   }
 
   const userAgent = cleanText(request.headers.get('user-agent'), 500);
@@ -586,11 +626,11 @@ Deno.serve(async (request) => {
         throw new Error('duplicate_without_existing_row');
       } catch (duplicateReadError) {
         console.error(duplicateReadError instanceof Error ? duplicateReadError.message : 'duplicate_read_failed');
-        return jsonResponse({ ok: false, success: false, error: 'lead_storage_failed' }, 500, origin);
+        return errorResponse('lead_storage_failed', 500, origin, validation.lead.requestId);
       }
     }
     console.error('broker_lead_insert_failed', error.code || 'unknown');
-    return jsonResponse({ ok: false, success: false, error: 'lead_storage_failed' }, 500, origin);
+    return errorResponse('lead_storage_failed', 500, origin, validation.lead.requestId);
   }
 
   await addEvent(String(data.id), validation.lead.requestId, 'created', 'Заявка создана с сайта', 'Заявка принята через Supabase Edge Function v2', {
