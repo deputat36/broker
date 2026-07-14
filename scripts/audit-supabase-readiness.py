@@ -30,6 +30,7 @@ AUDITS = (
     ROOT / "scripts/audit-restricted-delivery-response.py",
     ROOT / "scripts/audit-public-lead-response.py",
     ROOT / "scripts/audit-public-lead-errors.py",
+    ROOT / "scripts/audit-application-error-ui.py",
 )
 DOCS = (
     ROOT / "docs/supabase-migration-order.md",
@@ -47,6 +48,8 @@ DOCS = (
     ROOT / "docs/supabase-public-response-smoke.md",
     ROOT / "docs/public-lead-error-contract.md",
     ROOT / "docs/supabase-public-error-smoke.md",
+    ROOT / "docs/application-error-ui-contract.md",
+    ROOT / "docs/application-error-ui-smoke.md",
 )
 WORKFLOW = ROOT / ".github/workflows/pages.yml"
 CONFIG = ROOT / "_config.yml"
@@ -100,6 +103,7 @@ def main() -> int:
         "не включает `hybrid`",
         "audit-public-lead-response.py",
         "audit-public-lead-errors.py",
+        "audit-application-error-ui.py",
     ):
         if marker not in migration_order:
             error(f"Канонический порядок не содержит обязательный marker: {marker}", DOCS[0])
@@ -116,6 +120,7 @@ def main() -> int:
         "python3 scripts/audit-restricted-delivery-response.py",
         "python3 scripts/audit-public-lead-response.py",
         "python3 scripts/audit-public-lead-errors.py",
+        "python3 scripts/audit-application-error-ui.py",
         "python3 scripts/audit-supabase-readiness.py",
     )
     for command in workflow_commands:
@@ -219,6 +224,9 @@ def main() -> int:
         "correlation request id",
         "validation_failed",
         "rate_limit_exceeded",
+        "пять стабильных категорий",
+        "технический номер",
+        "sms, max, вконтакте",
         "restricted",
         "pending",
         "sending",
@@ -252,7 +260,7 @@ def main() -> int:
     print(
         "Aggregate Supabase readiness успешно завершён: канонический порядок из десяти миграций, "
         "специализированные source-аудиты, retention, privacy, operational guard, browser-safe disabled, "
-        "единые success/error envelopes, документы, порядок CI и выключенный endpoint подтверждены"
+        "единые success/error envelopes, безопасный UI ошибок, документы, порядок CI и выключенный endpoint подтверждены"
     )
     return 0
 
