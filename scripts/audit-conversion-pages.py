@@ -42,6 +42,10 @@ MIGRATED_ETAGI_SERVICE_URLS = {
     "/uslugi/podbor-ipoteki/",
     "/uslugi/slozhnaya-ipoteka/",
     "/uslugi/otkazali-v-ipoteke/",
+    "/uslugi/ipoteka-na-novostroyku/",
+    "/uslugi/ipoteka-na-vtorichnoe-zhile/",
+    "/uslugi/ipoteka-na-dom/",
+    "/uslugi/ipoteka-na-stroitelstvo-doma/",
 }
 
 ALL_SERVICE_URLS = set(STANDARD_SERVICE_URLS) | {
@@ -148,6 +152,10 @@ MIGRATED_STANDARD_SERVICE_TEXT = (
 for service_url in (
     "/uslugi/slozhnaya-ipoteka/",
     "/uslugi/otkazali-v-ipoteke/",
+    "/uslugi/ipoteka-na-novostroyku/",
+    "/uslugi/ipoteka-na-vtorichnoe-zhile/",
+    "/uslugi/ipoteka-na-dom/",
+    "/uslugi/ipoteka-na-stroitelstvo-doma/",
 ):
     TEXT_REQUIREMENTS[service_url] = MIGRATED_STANDARD_SERVICE_TEXT
 
