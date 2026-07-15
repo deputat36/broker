@@ -1,0 +1,39 @@
+{
+  "safe": {
+    "/geo/borisoglebsk/ipoteka-na-stroitelstvo-doma/": "geo/borisoglebsk/ipoteka-na-stroitelstvo-doma.md",
+    "/geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/": "geo/gribanovskiy/ipoteka-na-stroitelstvo-doma.md",
+    "/geo/povorino/ipoteka-na-stroitelstvo-doma/": "geo/povorino/ipoteka-na-stroitelstvo-doma.md",
+    "/geo/borisoglebsk/semeynaya-ipoteka/": "geo/borisoglebsk/semeynaya-ipoteka.md",
+    "/geo/gribanovskiy/semeynaya-ipoteka/": "geo/gribanovskiy/semeynaya-ipoteka.md",
+    "/geo/povorino/semeynaya-ipoteka/": "geo/povorino/semeynaya-ipoteka.md",
+    "/geo/borisoglebsk/ipoteka-s-materinskim-kapitalom/": "geo/borisoglebsk/ipoteka-s-materinskim-kapitalom.md",
+    "/geo/gribanovskiy/ipoteka-s-materinskim-kapitalom/": "geo/gribanovskiy/ipoteka-s-materinskim-kapitalom.md",
+    "/geo/povorino/ipoteka-s-materinskim-kapitalom/": "geo/povorino/ipoteka-s-materinskim-kapitalom.md",
+    "/geo/gribanovskiy/ipoteka-na-dom/": "geo/gribanovskiy/ipoteka-na-dom.md",
+    "/geo/povorino/ipoteka-na-dom/": "geo/povorino/ipoteka-na-dom.md",
+    "/geo/gribanovskiy/ipoteka-na-kvartiru/": "geo/gribanovskiy/ipoteka-na-kvartiru.md",
+    "/geo/povorino/ipoteka-na-kvartiru/": "geo/povorino/ipoteka-na-kvartiru.md",
+    "/geo/borisoglebsk/ipoteka-s-sozaemshchikom/": "geo/borisoglebsk/ipoteka-s-sozaemshchikom.md",
+    "/geo/gribanovskiy/ipoteka-s-sozaemshchikom/": "geo/gribanovskiy/ipoteka-s-sozaemshchikom.md",
+    "/geo/povorino/ipoteka-s-sozaemshchikom/": "geo/povorino/ipoteka-s-sozaemshchikom.md",
+    "/geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh/": "geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh.md",
+    "/geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh/": "geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh.md",
+    "/geo/povorino/ipoteka-dlya-ip-samozanyatyh/": "geo/povorino/ipoteka-dlya-ip-samozanyatyh.md",
+    "/geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda/": "geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda.md",
+    "/geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda/": "geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda.md",
+    "/geo/povorino/ipoteka-bez-oficialnogo-dohoda/": "geo/povorino/ipoteka-bez-oficialnogo-dohoda.md",
+    "/geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey/": "geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey.md",
+    "/geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/": "geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey.md",
+    "/geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey/": "geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey.md",
+    "/geo/gribanovskiy/otkazali-v-ipoteke/": "geo/gribanovskiy/otkazali-v-ipoteke.md",
+    "/geo/povorino/otkazali-v-ipoteke/": "geo/povorino/otkazali-v-ipoteke.md",
+    "/geo/borisoglebsk/ipoteka-bez-pervonachalnogo-vznosa/": "geo/borisoglebsk/ipoteka-bez-pervonachalnogo-vznosa.md",
+    "/geo/gribanovskiy/ipoteka-bez-pervonachalnogo-vznosa/": "geo/gribanovskiy/ipoteka-bez-pervonachalnogo-vznosa.md",
+    "/geo/povorino/ipoteka-bez-pervonachalnogo-vznosa/": "geo/povorino/ipoteka-bez-pervonachalnogo-vznosa.md"
+  },
+  "reviewed": {
+    "/geo/borisoglebsk/ipoteka-na-dom/": "geo/borisoglebsk-ipoteka-na-dom.md",
+    "/geo/borisoglebsk/ipoteka-na-kvartiru/": "geo/borisoglebsk-ipoteka-na-kvartiru.md",
+    "/geo/borisoglebsk/otkazali-v-ipoteke/": "geo/borisoglebsk/otkazali-v-ipoteke.md"
+  }
+}
