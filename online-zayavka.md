@@ -28,6 +28,9 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
       <p>Заполните основные поля. Дополнительные вводные помогут быстрее разобрать ситуацию, но не обязательны для отправки.</p>
     </div>
 
+    {% include application-runtime-fallback.html runtime=true %}
+    <noscript>{% include application-runtime-fallback.html %}</noscript>
+
     <form
       class="application-card"
       data-online-application
@@ -151,8 +154,8 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
       </label>
 
       <p class="application-privacy">После проверки и нажатия «Отправить заявку онлайн» сведения передаются через сервис Web3Forms в настроенный email-канал. Не указывайте паспортные данные, СНИЛС, реквизиты карт, коды подтверждения и не прикладывайте документы.</p>
-      <button class="btn btn-primary application-submit" type="submit">Проверить и подготовить заявку</button>
-      <p class="application-status" data-application-status aria-live="polite"></p>
+      <button class="btn btn-primary application-submit" type="submit" data-application-submit disabled aria-busy="true">Проверить и подготовить заявку</button>
+      <p class="application-status" data-application-status aria-live="polite">Загружаем форму…</p>
     </form>
 
     <section class="application-result" data-application-result hidden>
@@ -204,6 +207,22 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
 
 <section class="section cta-section"><div><p class="eyebrow">Нужен быстрый ответ?</p><h2>Можно не заполнять анкету</h2><p>Позвоните или напишите кратко: ваш город, цель и были ли обращения в банки.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
 
+<script>
+  (function () {
+    var form = document.querySelector('[data-online-application]');
+    if (!form) return;
+    window.setTimeout(function () {
+      if (form.dataset.applicationReady === 'true') return;
+      var fallback = document.querySelector('[data-application-runtime-fallback]');
+      var status = form.querySelector('[data-application-status]');
+      if (fallback) fallback.hidden = false;
+      if (status) {
+        status.textContent = 'Форма не загрузилась. Используйте резервный способ обращения выше.';
+        status.classList.add('is-error');
+      }
+    }, 5000);
+  })();
+</script>
 <script src="{{ '/assets/js/thankyou-storage-privacy.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/application-delivery-keepalive.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/application-inputs.js' | relative_url }}" defer></script>

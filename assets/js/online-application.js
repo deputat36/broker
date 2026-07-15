@@ -5,6 +5,8 @@
   const result = document.querySelector('[data-application-result]');
   const output = document.querySelector('[data-application-output]');
   const status = form.querySelector('[data-application-status]');
+  const submitButton = form.querySelector('[data-application-submit]');
+  const runtimeFallback = document.querySelector('[data-application-runtime-fallback]');
   const copyButton = document.querySelector('[data-application-copy]');
   const shareButton = document.querySelector('[data-application-share]');
   const smsLink = document.querySelector('[data-application-sms]');
@@ -583,4 +585,12 @@
     }
     track('online_application_vk');
   });
+
+  form.dataset.applicationReady = 'true';
+  if (submitButton) {
+    submitButton.disabled = false;
+    submitButton.removeAttribute('aria-busy');
+  }
+  if (runtimeFallback) runtimeFallback.hidden = true;
+  setStatus('');
 })();
