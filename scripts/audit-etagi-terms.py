@@ -42,6 +42,9 @@ REGIONAL_SAFE_PAGES = {
     "/geo/povorino/ipoteka-na-dom/": ROOT / "geo/povorino/ipoteka-na-dom.md",
     "/geo/gribanovskiy/ipoteka-na-kvartiru/": ROOT / "geo/gribanovskiy/ipoteka-na-kvartiru.md",
     "/geo/povorino/ipoteka-na-kvartiru/": ROOT / "geo/povorino/ipoteka-na-kvartiru.md",
+    "/geo/borisoglebsk/ipoteka-s-sozaemshchikom/": ROOT / "geo/borisoglebsk/ipoteka-s-sozaemshchikom.md",
+    "/geo/gribanovskiy/ipoteka-s-sozaemshchikom/": ROOT / "geo/gribanovskiy/ipoteka-s-sozaemshchikom.md",
+    "/geo/povorino/ipoteka-s-sozaemshchikom/": ROOT / "geo/povorino/ipoteka-s-sozaemshchikom.md",
 }
 
 REGIONAL_REVIEWED_PAGES = {
