@@ -208,7 +208,7 @@ def main() -> int:
         (
             "Promise.allSettled(tasks)",
             "if (!successful.length)",
-            "saveLastLead(preparedPayload, channels)",
+            "saveLastLead(preparedPayload)",
             "window.location.assign(buildThankYouUrl(preparedPayload))",
         ),
         ONLINE,

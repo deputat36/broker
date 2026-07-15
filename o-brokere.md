@@ -1,9 +1,9 @@
 ---
-layout: default
-title: Татьяна Стерликова — ипотечный брокер в Борисоглебске
-description: О работе ипотечного брокера Татьяны Стерликовой: консультации, подбор ипотеки, сложные заявки, частное сопровождение и работа с клиентами компании ЭТАЖИ.
-permalink: /o-brokere/
-og_type: profile
+layout: "default"
+title: "Татьяна Стерликова — ипотечный брокер в Борисоглебске"
+description: "О работе ипотечного брокера Татьяны Стерликовой: консультации, подбор ипотеки, сложные заявки, частное сопровождение и работа с клиентами компании ЭТАЖИ."
+permalink: "/o-brokere/"
+og_type: "profile"
 schema: '{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":{"@type":"Person","name":"Татьяна Стерликова","jobTitle":"Ипотечный брокер","telephone":"+79030250807","image":"https://sterlikova-ipoteka.ru/assets/img/tatyana-social.jpg","url":"https://sterlikova-ipoteka.ru/o-brokere/","sameAs":["https://vk.com/tatyanasterlikova"],"areaServed":["Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"]}}'
 ---
 
@@ -16,7 +16,7 @@ schema: '{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":{"@
 </section>
 
 <section class="section split">
-  <figure class="portrait-frame"><img src="{{ '/assets/img/tatyana-hero.svg' | relative_url }}" alt="Татьяна Стерликова, ипотечный брокер" width="640" height="800" loading="eager"><figcaption><strong>Татьяна Стерликова</strong><span>ипотечный брокер</span></figcaption></figure>
+  <figure class="portrait-frame"><picture><source media="(max-width: 760px)" srcset="{{ '/assets/img/tatyana-hero-mobile.webp' | relative_url }}" type="image/webp"><img src="{{ '/assets/img/tatyana-hero.webp' | relative_url }}" alt="Татьяна Стерликова, ипотечный брокер" width="360" height="450" loading="eager" decoding="async"></picture><figcaption><strong>Татьяна Стерликова</strong><span>ипотечный брокер</span></figcaption></figure>
   <div><p class="eyebrow">Подход к работе</p><h2>Сначала анализ ситуации, затем заявка в банк</h2><p>Ипотека зависит от совокупности факторов: дохода, кредитной нагрузки, первоначального взноса, состава семьи, выбранной программы и самого объекта недвижимости.</p><p>Задача Татьяны — помочь собрать эту картину, объяснить требования понятным языком и определить обоснованный порядок действий. Окончательное решение по кредиту, ставке и условиям всегда принимает банк.</p><div class="hero-actions"><a class="btn btn-primary" href="{{ '/uslugi/' | relative_url }}">Посмотреть услуги</a><a class="btn btn-light" href="{{ '/kontakty/' | relative_url }}">Все контакты</a></div></div>
 </section>
 

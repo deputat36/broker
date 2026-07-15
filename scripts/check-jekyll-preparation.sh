@@ -29,15 +29,14 @@ if [[ "$before_hash" != "$after_hash" ]]; then
 fi
 
 for marker in \
-  "Front matter: нормализовано: файлов — 0" \
-  "Фото-разметка: подготовлена: файлов — 0" \
-  "Thank-you privacy: минимизирована: файлов — 0" \
-  "Условные ресурсы анкеты: подготовлены: файлов — 0"
+  "Канонический layout подтверждён:" \
+  "Канонические prepared-source подтверждены:" \
+  "Front matter: нормализовано: файлов — 0"
 do
   if ! grep -Fq "$marker" "$LOG_FILE"; then
-    echo "::error file=$LOG_FILE::Второй проход не подтвердил нулевое изменение: $marker" >&2
+    echo "::error file=$LOG_FILE::Второй проход не подтвердил ожидаемый маркер: $marker" >&2
     exit 1
   fi
 done
 
-echo "Jekyll source preparation идемпотентна: повторный проход не изменил diff"
+echo "Jekyll source preparation идемпотентна: исходники каноничны, повторный проход не изменил diff"

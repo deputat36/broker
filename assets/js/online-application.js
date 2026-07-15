@@ -429,25 +429,17 @@
     return successful;
   }
 
-  function saveLastLead(payload, channels) {
+  function saveLastLead(payload) {
     const safeLead = {
       request_id: payload.request_id,
-      scenario: payload.mortgage.scenario,
-      object_type: payload.mortgage.object_type,
-      city: payload.client.city,
-      qualification: payload.qualification,
-      submitted_at: payload.submitted_at,
-      expires_at: new Date(Date.now() + LAST_LEAD_RETENTION_MS).toISOString(),
-      channels: channels.map((item) => item.channel)
+      expires_at: new Date(Date.now() + LAST_LEAD_RETENTION_MS).toISOString()
     };
-    try { window.localStorage.setItem(LAST_LEAD_STORAGE_KEY, JSON.stringify(safeLead)); } catch (error) { /* URL содержит резервную сводку. */ }
+    try { window.localStorage.setItem(LAST_LEAD_STORAGE_KEY, JSON.stringify(safeLead)); } catch (error) { /* Fragment содержит резервный request_id. */ }
   }
 
   function buildThankYouUrl(payload) {
     const url = new URL(leadConfig.thankYouPath, window.location.origin);
-    url.searchParams.set('id', payload.request_id);
-    url.searchParams.set('status', payload.qualification.status);
-    url.searchParams.set('scenario', payload.mortgage.scenario);
+    url.hash = new URLSearchParams({ id: payload.request_id }).toString();
     return url.toString();
   }
 
@@ -469,7 +461,7 @@
       track('online_application_direct_attempt');
       const channels = await sendLead(preparedPayload, controller.signal);
       deliveryCompleted = true;
-      saveLastLead(preparedPayload, channels);
+      saveLastLead(preparedPayload);
       setDeliveryNote('Заявка отправлена. Переходим на страницу подтверждения.', 'success');
       directSendButton.textContent = 'Заявка отправлена';
       track('online_application_direct_success');
