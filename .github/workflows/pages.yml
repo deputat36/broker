@@ -32,43 +32,49 @@ jobs:
           node --check assets/js/application-preparation.js
           node --check assets/js/online-application.js
           python3 -m compileall -q scripts
-      - name: Audit Supabase backend v2 source
+      - name: Run source audit suite
         run: |
-          set -o pipefail
-          python3 scripts/audit-supabase-backend.py 2>&1 | tee source-audit-supabase.log
-      - name: Audit Supabase function security config
-        run: python3 scripts/audit-supabase-function-config.py
-      - name: Audit protected notification retry
-        run: python3 scripts/audit-notification-retry.py
-      - name: Audit protected notification health
-        run: python3 scripts/audit-notification-health.py
-      - name: Audit disabled-by-default lead retention
-        run: python3 scripts/audit-data-retention.py
-      - name: Audit protected individual privacy requests
-        run: |
-          set -o pipefail
-          python3 scripts/audit-privacy-requests.py 2>&1 | tee source-audit-privacy.log
-      - name: Audit restricted lead operational guard
-        run: python3 scripts/audit-processing-restriction.py
-      - name: Audit restricted delivery response
-        run: python3 scripts/audit-restricted-delivery-response.py
-      - name: Audit minimal public lead response
-        run: python3 scripts/audit-public-lead-response.py
-      - name: Audit safe public lead errors
-        run: python3 scripts/audit-public-lead-errors.py
-      - name: Audit application error UI
-        run: python3 scripts/audit-application-error-ui.py
-      - name: Audit hybrid delivery state
-        run: python3 scripts/audit-hybrid-delivery-state.py
-      - name: Audit aggregate Supabase readiness
-        run: python3 scripts/audit-supabase-readiness.py
+          set +e
+          : > source-audits.log
+          failures=0
+
+          run_audit() {
+            label="$1"
+            shift
+            echo "===== ${label} =====" | tee -a source-audits.log
+            "$@" 2>&1 | tee -a source-audits.log
+            status=${PIPESTATUS[0]}
+            if [ "$status" -ne 0 ]; then
+              echo "FAILED: ${label} (${status})" | tee -a source-audits.log
+              failures=$((failures + 1))
+            else
+              echo "PASSED: ${label}" | tee -a source-audits.log
+            fi
+          }
+
+          run_audit "Supabase backend v2 source" python3 scripts/audit-supabase-backend.py
+          run_audit "Supabase function security config" python3 scripts/audit-supabase-function-config.py
+          run_audit "Protected notification retry" python3 scripts/audit-notification-retry.py
+          run_audit "Protected notification health" python3 scripts/audit-notification-health.py
+          run_audit "Disabled-by-default lead retention" python3 scripts/audit-data-retention.py
+          run_audit "Protected individual privacy requests" python3 scripts/audit-privacy-requests.py
+          run_audit "Restricted lead operational guard" python3 scripts/audit-processing-restriction.py
+          run_audit "Restricted delivery response" python3 scripts/audit-restricted-delivery-response.py
+          run_audit "Minimal public lead response" python3 scripts/audit-public-lead-response.py
+          run_audit "Safe public lead errors" python3 scripts/audit-public-lead-errors.py
+          run_audit "Application error UI" python3 scripts/audit-application-error-ui.py
+          run_audit "Hybrid delivery state" python3 scripts/audit-hybrid-delivery-state.py
+          run_audit "Aggregate Supabase readiness" python3 scripts/audit-supabase-readiness.py
+
+          echo "Source audit failures: ${failures}" | tee -a source-audits.log
+          test "$failures" -eq 0
       - name: Upload source audit diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: source-audit-diagnostics
-          path: source-audit-*.log
-          if-no-files-found: ignore
+          path: source-audits.log
+          if-no-files-found: error
           retention-days: 7
 
   build:
