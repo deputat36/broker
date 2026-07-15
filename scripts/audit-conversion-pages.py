@@ -38,24 +38,12 @@ STANDARD_SERVICE_URLS = (
     "/uslugi/ipoteka-dlya-pensionerov/",
 )
 
-MIGRATED_ETAGI_SERVICE_URLS = {
-    "/uslugi/podbor-ipoteki/",
-    "/uslugi/slozhnaya-ipoteka/",
-    "/uslugi/otkazali-v-ipoteke/",
-    "/uslugi/ipoteka-na-novostroyku/",
-    "/uslugi/ipoteka-na-vtorichnoe-zhile/",
-    "/uslugi/ipoteka-na-dom/",
-    "/uslugi/ipoteka-na-stroitelstvo-doma/",
-    "/uslugi/semeynaya-ipoteka/",
-    "/uslugi/ipoteka-dlya-molodoy-semi/",
-    "/uslugi/ipoteka-dlya-pensionerov/",
-    "/uslugi/materinskiy-kapital/",
-}
-
 ALL_SERVICE_URLS = set(STANDARD_SERVICE_URLS) | {
     "/uslugi/podbor-ipoteki/",
     "/uslugi/refinansirovanie-ipoteki/",
 }
+
+MIGRATED_ETAGI_SERVICE_URLS = set(ALL_SERVICE_URLS)
 
 PAGE_REQUIREMENTS = {
     "/": {"/konsultaciya/", "/etagi/"},
@@ -134,17 +122,9 @@ TEXT_REQUIREMENTS = {
         "сопровождение до решения нового банка",
         "конкретный объем дальнейшей помощи",
         "условия компании «этажи» для рефинансирования не предполагаются автоматически",
+        "при необходимости уточняются отдельно",
     ),
 }
-
-STANDARD_SERVICE_TEXT = (
-    "сопровождение до решения банка",
-    "включено в комиссию компании",
-    "отдельно клиентом не оплачивается",
-)
-
-for service_url in STANDARD_SERVICE_URLS:
-    TEXT_REQUIREMENTS[service_url] = STANDARD_SERVICE_TEXT
 
 MIGRATED_STANDARD_SERVICE_TEXT = (
     "сопровождение до решения банка",
@@ -153,18 +133,7 @@ MIGRATED_STANDARD_SERVICE_TEXT = (
     "подтверждаются до начала работы",
 )
 
-for service_url in (
-    "/uslugi/slozhnaya-ipoteka/",
-    "/uslugi/otkazali-v-ipoteke/",
-    "/uslugi/ipoteka-na-novostroyku/",
-    "/uslugi/ipoteka-na-vtorichnoe-zhile/",
-    "/uslugi/ipoteka-na-dom/",
-    "/uslugi/ipoteka-na-stroitelstvo-doma/",
-    "/uslugi/semeynaya-ipoteka/",
-    "/uslugi/ipoteka-dlya-molodoy-semi/",
-    "/uslugi/ipoteka-dlya-pensionerov/",
-    "/uslugi/materinskiy-kapital/",
-):
+for service_url in STANDARD_SERVICE_URLS:
     TEXT_REQUIREMENTS[service_url] = MIGRATED_STANDARD_SERVICE_TEXT
 
 TEXT_REQUIREMENTS["/uslugi/ipoteka-bez-pervonachalnogo-vznosa/"] += (
@@ -348,7 +317,7 @@ def main() -> int:
     print(
         "Аудит конверсионных страниц успешно завершен: "
         f"проверено {len(PAGE_REQUIREMENTS)} страниц, "
-        f"каталог содержит обязательные ссылки на {len(ALL_SERVICE_URLS)} услуг"
+        f"все {len(MIGRATED_ETAGI_SERVICE_URLS)} услуг используют безопасный контракт ЭТАЖИ"
     )
     return 0
 
