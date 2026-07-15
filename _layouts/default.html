@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="{{ '/assets/css/seo.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/accessibility.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/nav-state.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/footer-trust.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/online-application.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/print.css' | relative_url }}" media="print">
   {% if page.hero_photo %}<link rel="preload" as="image" href="{{ page.hero_photo | relative_url }}">{% endif %}
@@ -162,7 +163,15 @@
   </main>
   <div class="sticky-contacts" aria-label="Быстрая связь с ипотечным брокером"><a class="sticky-action sticky-apply" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}">Заявка</a><a class="sticky-action sticky-call" href="tel:+79030250807">Позвонить</a><button class="sticky-action" type="button" data-copy-phone>MAX</button><a class="sticky-action" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
   <footer class="site-footer">
-    <div class="footer-brand"><strong>Татьяна Стерликова</strong><p>Онлайн-консультации из любого города. Локальные материалы: Борисоглебск, Грибановский район и Поворино.</p><a class="footer-phone" href="tel:+79030250807">8 903 025-08-07</a></div>
+    <div class="footer-brand">
+      <a class="footer-person" href="{{ '/o-brokere/' | relative_url }}">
+        <img class="footer-avatar" src="{{ '/assets/img/tatyana-avatar.webp' | relative_url }}" alt="" width="76" height="76" loading="lazy" decoding="async">
+        <span class="footer-person-copy"><span class="footer-person-name">Татьяна Стерликова</span><span class="footer-person-role">ипотечный брокер</span></span>
+      </a>
+      <p>Онлайн-консультации из любого города. Локальные материалы: Борисоглебск, Грибановский район и Поворино.</p>
+      <a class="footer-about-link" href="{{ '/o-brokere/' | relative_url }}">Подробнее о подходе к работе →</a><br>
+      <a class="footer-phone" href="tel:+79030250807">8 903 025-08-07</a>
+    </div>
     <nav class="footer-grid" aria-label="Навигация в подвале сайта">
       <div class="footer-col"><strong>Услуги</strong><a href="{{ '/uslugi/' | relative_url }}">Все услуги</a><a href="{{ '/uslugi/podbor-ipoteki/' | relative_url }}">Подбор ипотеки</a><a href="{{ '/uslugi/refinansirovanie-ipoteki/' | relative_url }}">Рефинансирование</a><a href="{{ '/uslugi/ipoteka-na-novostroyku/' | relative_url }}">Новостройка</a><a href="{{ '/uslugi/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Вторичное жилье</a><a href="{{ '/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/' | relative_url }}">Продажа старого жилья</a><a href="{{ '/uslugi/ipoteka-na-stroitelstvo-doma/' | relative_url }}">Строительство дома</a><a href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека</a><a href="{{ '/uslugi/ipoteka-dlya-molodoy-semi/' | relative_url }}">Молодая семья</a><a href="{{ '/uslugi/ipoteka-dlya-pensionerov/' | relative_url }}">Пенсионеры</a><a href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">Материнский капитал</a><a href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">Отказали в ипотеке</a></div>
       <div class="footer-col"><strong>Сложные случаи</strong><a href="{{ '/uslugi/slozhnaya-ipoteka/' | relative_url }}">Сложная ипотека</a><a href="{{ '/uslugi/ipoteka-s-sozaemshchikom/' | relative_url }}">Созаемщик</a><a href="{{ '/uslugi/ipoteka-bez-oficialnogo-dohoda/' | relative_url }}">Без официального дохода</a><a href="{{ '/uslugi/ipoteka-bez-pervonachalnogo-vznosa/' | relative_url }}">Без первоначального взноса</a><a href="{{ '/uslugi/ipoteka-dlya-ip-samozanyatyh/' | relative_url }}">ИП и самозанятые</a><a href="{{ '/uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/' | relative_url }}">Кредитная история</a><a href="{{ '/uslugi/ipoteka-na-dom/' | relative_url }}">Ипотека на дом</a></div>
