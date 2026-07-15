@@ -14,7 +14,7 @@ hash_diff() {
 }
 
 before_hash="$(hash_diff)"
-python3 scripts/prepare-jekyll-source.py --write 2>&1 | tee "$LOG_FILE"
+bash scripts/prepare-jekyll-source.sh 2>&1 | tee "$LOG_FILE"
 after_hash="$(hash_diff)"
 
 git diff --check
@@ -31,7 +31,8 @@ fi
 for marker in \
   "Front matter: нормализовано: файлов — 0" \
   "Фото-разметка: подготовлена: файлов — 0" \
-  "Thank-you privacy: минимизирована: файлов — 0"
+  "Thank-you privacy: минимизирована: файлов — 0" \
+  "Условные ресурсы анкеты: подготовлены: файлов — 0"
 do
   if ! grep -Fq "$marker" "$LOG_FILE"; then
     echo "::error file=$LOG_FILE::Второй проход не подтвердил нулевое изменение: $marker" >&2
