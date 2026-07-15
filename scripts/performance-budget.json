@@ -9,7 +9,7 @@
   "max_js_bytes": 32000,
   "max_image_bytes": 20000,
   "max_page_local_bytes": 170000,
-  "p95_page_local_bytes": 130000,
+  "p95_page_local_bytes": 115000,
   "allowed_orphans": [
     "assets/css/style.css"
   ]
