@@ -20,6 +20,9 @@ PAGES = {
     "/kontakty/": ROOT / "kontakty.md",
     "/o-brokere/": ROOT / "o-brokere.md",
     "/geo/": ROOT / "geo.md",
+    "/geo/borisoglebsk/": ROOT / "geo/borisoglebsk.md",
+    "/geo/gribanovskiy/": ROOT / "geo/gribanovskiy.md",
+    "/geo/povorino/": ROOT / "geo/povorino.md",
     "/kalkulyator-ipoteki/": ROOT / "kalkulyator-ipoteki.md",
     "/kak-prohodit-rabota/": ROOT / "kak-prohodit-rabota.md",
     "/konsultaciya/": ROOT / "konsultaciya.md",
@@ -75,6 +78,18 @@ REQUIRED = {
     ),
     "/geo/": (
         "состав помощи ипотечного брокера и порядок оплаты зависят",
+        "предусмотрена ли отдельная оплата",
+    ),
+    "/geo/borisoglebsk/": (
+        "состав ипотечного сопровождения и порядок оплаты зависят",
+        "подтверждаются до начала работы",
+    ),
+    "/geo/gribanovskiy/": (
+        "условия сопровождения подтверждаются до начала работы",
+        "предусмотрена ли отдельная оплата",
+    ),
+    "/geo/povorino/": (
+        "условия сопровождения подтверждаются до начала работы",
         "предусмотрена ли отдельная оплата",
     ),
     "/kalkulyator-ipoteki/": (
@@ -201,8 +216,8 @@ def main() -> int:
         return 1
 
     print(
-        "Аудит условий ЭТАЖИ успешно завершён: двенадцать ключевых страниц и три публичных "
-        "документа не содержат неподтверждённых обещаний о бесплатности или включении в комиссию"
+        "Аудит условий ЭТАЖИ успешно завершён: пятнадцать ключевых страниц, включая три "
+        "региональных хаба, и три публичных документа не содержат неподтверждённых обещаний"
     )
     return 0
 
