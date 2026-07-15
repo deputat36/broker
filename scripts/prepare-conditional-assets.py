@@ -25,10 +25,10 @@ def apply_replacements(path: Path, write: bool) -> bool:
         (CSS_OLD, CSS_NEW, "CSS онлайн-заявки"),
         (JS_OLD, JS_NEW, "JavaScript онлайн-заявки"),
     ):
+        if new in updated:
+            continue
         if old in updated:
             updated = updated.replace(old, new, 1)
-            continue
-        if new in updated:
             continue
         raise ValueError(f"Не найден ожидаемый маркер: {label}")
 
