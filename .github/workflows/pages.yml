@@ -26,6 +26,8 @@ jobs:
           show-progress: false
       - name: Normalize Jekyll front matter
         run: python3 scripts/prepare-jekyll-source.py --write
+      - name: Verify source preparation idempotence
+        run: bash scripts/check-jekyll-preparation.sh
       - name: Validate source syntax
         run: |
           node --check assets/js/main.js
@@ -76,7 +78,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: source-audit-diagnostics
-          path: source-audits.log
+          path: |
+            source-audits.log
+            prepare-second-pass.log
           if-no-files-found: error
           retention-days: 7
 
