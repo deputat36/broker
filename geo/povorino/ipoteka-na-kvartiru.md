@@ -66,6 +66,6 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
   </div>
 </section>
 
-<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Клиентам «ЭТАЖИ»</p><h2>Ипотечное сопровождение включено в комиссию</h2><p>Если покупка проходит через компанию «ЭТАЖИ», работа ипотечного брокера отдельно клиентом не оплачивается.</p></div><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Подробнее</a></div></section>
+<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Клиентам «ЭТАЖИ»</p><h2>Условия подтверждаются до начала работы</h2><p>Состав ипотечного сопровождения и порядок оплаты зависят от действующих условий компании и параметров конкретной сделки. До начала работы уточните, какие действия входят в услугу и предусмотрена ли отдельная оплата.</p></div><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Уточнить условия</a></div></section>
 
 <section class="section cta-section"><div><p class="eyebrow">Квартира в Поворинском районе</p><h2>Начните с первичного разбора</h2><p>Позвоните или напишите: где находится квартира, цена, взнос, доход, кредиты и были ли уже заявки или отказы.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
