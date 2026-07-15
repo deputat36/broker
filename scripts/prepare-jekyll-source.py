@@ -158,12 +158,20 @@ THANK_YOU_LAYOUT_NEW = """  {% if page.url == '/spasibo/' %}
   </script>
   {% endif %}
 """
+MINIMAL_SAVE_MARKER_OLD = "saveLastLead(preparedPayload, channels)"
+MINIMAL_SAVE_MARKER_NEW = "saveLastLead(preparedPayload)"
 PRIVACY_REPLACEMENTS = {
     "assets/js/online-application.js": (
         (LAST_LEAD_OLD, LAST_LEAD_NEW),
-        ("saveLastLead(preparedPayload, channels);", "saveLastLead(preparedPayload);"),
+        (f"{MINIMAL_SAVE_MARKER_OLD};", f"{MINIMAL_SAVE_MARKER_NEW};"),
     ),
     "_layouts/default.html": ((THANK_YOU_LAYOUT_OLD, THANK_YOU_LAYOUT_NEW),),
+    "scripts/audit-public-lead-response.py": (
+        (MINIMAL_SAVE_MARKER_OLD, MINIMAL_SAVE_MARKER_NEW),
+    ),
+    "scripts/audit-hybrid-delivery-state.py": (
+        (MINIMAL_SAVE_MARKER_OLD, MINIMAL_SAVE_MARKER_NEW),
+    ),
 }
 
 
