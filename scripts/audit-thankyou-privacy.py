@@ -9,9 +9,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LAYOUT = ROOT / "_layouts/default.html"
+APPLICATION_JS = ROOT / "assets/js/online-application.js"
 APPLICATION_SOURCE = ROOT / "online-zayavka.md"
 THANK_YOU_SOURCE = ROOT / "spasibo.md"
-STORAGE_PRIVACY = ROOT / "assets/js/thankyou-storage-privacy.js"
+STORAGE_MIGRATION = ROOT / "assets/js/thankyou-storage-privacy.js"
 PRIVACY_DOC = ROOT / "docs/thank-you-privacy.md"
 POLICY = ROOT / "policy.md"
 WORKFLOW = ROOT / ".github/workflows/pages.yml"
@@ -34,6 +35,24 @@ def require(text: str, markers: tuple[str, ...], file: Path, label: str) -> int:
     return errors
 
 
+def forbid(text: str, markers: tuple[str, ...], file: Path, label: str) -> int:
+    errors = 0
+    for marker in markers:
+        if marker in text:
+            error(f"{label}: найден запрещённый маркер {marker}", file)
+            errors += 1
+    return errors
+
+
+def extract(text: str, start: str, end: str, file: Path, label: str) -> tuple[str, int]:
+    start_position = text.find(start)
+    end_position = text.find(end, start_position + len(start)) if start_position >= 0 else -1
+    if start_position < 0 or end_position < 0:
+        error(f"{label}: не удалось выделить проверяемый блок", file)
+        return "", 1
+    return text[start_position:end_position], 0
+
+
 def check_order(text: str, markers: tuple[str, ...], file: Path, label: str) -> int:
     positions = [text.find(marker) for marker in markers]
     if any(position < 0 for position in positions) or positions != sorted(positions):
@@ -42,21 +61,161 @@ def check_order(text: str, markers: tuple[str, ...], file: Path, label: str) -> 
     return 0
 
 
+def check_application_js(text: str, file: Path, label: str) -> int:
+    errors = 0
+    storage, count = extract(
+        text,
+        "function saveLastLead",
+        "function buildThankYouUrl",
+        file,
+        f"{label}: локальная сводка",
+    )
+    errors += count
+    if storage:
+        errors += require(
+            storage,
+            (
+                "function saveLastLead(payload)",
+                "request_id: payload.request_id",
+                "expires_at: new Date(Date.now() + LAST_LEAD_RETENTION_MS).toISOString()",
+                "window.localStorage.setItem(LAST_LEAD_STORAGE_KEY, JSON.stringify(safeLead))",
+            ),
+            file,
+            f"{label}: локальная сводка",
+        )
+        errors += forbid(
+            storage,
+            (
+                "scenario:",
+                "object_type:",
+                "city:",
+                "qualification:",
+                "submitted_at:",
+                "channels:",
+                "phone:",
+                "tracking:",
+            ),
+            file,
+            f"{label}: локальная сводка",
+        )
+
+    redirect, count = extract(
+        text,
+        "function buildThankYouUrl",
+        "async function sendDirectly",
+        file,
+        f"{label}: redirect",
+    )
+    errors += count
+    if redirect:
+        errors += require(
+            redirect,
+            (
+                "url.hash = new URLSearchParams({ id: payload.request_id }).toString();",
+                "return url.toString();",
+            ),
+            file,
+            f"{label}: redirect",
+        )
+        errors += forbid(
+            redirect,
+            (
+                "searchParams.set",
+                "payload.qualification",
+                "payload.mortgage.scenario",
+                "status",
+                "scenario",
+            ),
+            file,
+            f"{label}: redirect",
+        )
+
+    errors += require(text, ("saveLastLead(preparedPayload);",), file, f"{label}: вызов сохранения")
+    errors += forbid(
+        text,
+        ("saveLastLead(preparedPayload, channels);",),
+        file,
+        f"{label}: вызов сохранения",
+    )
+    return errors
+
+
+def check_context_block(text: str, file: Path, label: str, start: str, end: str) -> int:
+    context, errors = extract(text, start, end, file, label)
+    if not context:
+        return errors
+    errors += require(
+        context,
+        (
+            "window.location.hash.replace(/^#/, '')",
+            "new URLSearchParams(window.location.search)",
+            "id: fragmentParams.get('id') || legacyParams.get('id') || ''",
+            "window.history.replaceState(null, document.title, window.location.pathname)",
+        ),
+        file,
+        label,
+    )
+    errors += forbid(
+        context,
+        ("scenario:", "status:", "get('scenario')", "get('status')"),
+        file,
+        label,
+    )
+    return errors
+
+
+def check_source_layout(text: str) -> int:
+    errors = check_context_block(
+        text,
+        LAYOUT,
+        "Исходный layout: ранняя очистка URL",
+        "{% if page.url == '/spasibo/' %}",
+        "{% if site.yandex_metrika_id",
+    )
+    sanitizer_position = text.find("window.history.replaceState")
+    metrika_position = text.find("https://mc.yandex.ru/metrika/tag.js")
+    if sanitizer_position < 0 or metrika_position < 0 or sanitizer_position > metrika_position:
+        error("Исходный layout: очистка URL должна выполняться до инициализации Метрики", LAYOUT)
+        errors += 1
+    return errors
+
+
+def check_built_layout(text: str, file: Path) -> int:
+    errors = check_context_block(
+        text,
+        file,
+        "Собранная страница: ранняя очистка URL",
+        "var fragmentParams",
+        "</script>",
+    )
+    sanitizer_position = text.find("window.history.replaceState")
+    main_position = text.find("/assets/js/main.js")
+    if sanitizer_position < 0 or main_position < 0 or sanitizer_position > main_position:
+        error("Собранная страница: очистка URL должна выполняться до main.js", file)
+        errors += 1
+    return errors
+
+
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     built_page = site_dir / "spasibo/index.html"
     built_application = site_dir / "online-zayavka/index.html"
+    built_application_js = site_dir / "assets/js/online-application.js"
+    built_migration_js = site_dir / "assets/js/thankyou-storage-privacy.js"
 
     required_files = (
         LAYOUT,
+        APPLICATION_JS,
         APPLICATION_SOURCE,
         THANK_YOU_SOURCE,
-        STORAGE_PRIVACY,
+        STORAGE_MIGRATION,
         PRIVACY_DOC,
         POLICY,
         WORKFLOW,
         built_page,
         built_application,
+        built_application_js,
+        built_migration_js,
     )
     missing = [file for file in required_files if not file.is_file()]
     if missing:
@@ -65,49 +224,37 @@ def main() -> int:
         return 1
 
     layout = read(LAYOUT)
+    application_js = read(APPLICATION_JS)
     application = read(APPLICATION_SOURCE)
     thank_you = read(THANK_YOU_SOURCE)
-    storage_privacy = read(STORAGE_PRIVACY)
+    migration = read(STORAGE_MIGRATION)
     documentation = read(PRIVACY_DOC).casefold()
     policy = read(POLICY).casefold()
     workflow = read(WORKFLOW)
     built = read(built_page)
     built_application_text = read(built_application)
+    built_js = read(built_application_js)
+    built_migration = read(built_migration_js)
     errors = 0
 
-    errors += require(
-        layout,
-        (
-            "{% if page.url == '/spasibo/' %}",
-            "window.thankYouContext",
-            "new URLSearchParams(window.location.search)",
-            "window.history.replaceState(null, document.title, window.location.pathname)",
-        ),
-        LAYOUT,
-        "Ранняя очистка URL",
+    errors += check_source_layout(layout)
+    errors += check_built_layout(built, built_page)
+    errors += check_application_js(application_js, APPLICATION_JS, "Исходный JS")
+    errors += check_application_js(built_js, built_application_js, "Собранный JS")
+
+    migration_markers = (
+        "const STORAGE_KEY = 'sterlikovaMortgageLastLead'",
+        "function migrateLegacyLastLead()",
+        "request_id: requestId",
+        "expires_at: new Date(expiresAt).toISOString()",
+        "migrateLegacyLastLead();",
     )
-
-    sanitizer_position = layout.find("window.history.replaceState")
-    metrika_position = layout.find("https://mc.yandex.ru/metrika/tag.js")
-    if sanitizer_position < 0 or metrika_position < 0 or sanitizer_position > metrika_position:
-        error("Очистка URL страницы благодарности должна выполняться до инициализации Метрики", LAYOUT)
-        errors += 1
-
-    errors += require(
-        storage_privacy,
-        (
-            "const STORAGE_KEY = 'sterlikovaMortgageLastLead'",
-            "function sanitizeLastLead()",
-            "request_id: requestId",
-            "expires_at: new Date(expiresAt).toISOString()",
-            "new MutationObserver",
-            "Переходим на страницу подтверждения",
-        ),
-        STORAGE_PRIVACY,
-        "Минимизация локальной сводки",
-    )
-
-    for forbidden in (
+    errors += require(migration, migration_markers, STORAGE_MIGRATION, "Legacy-миграция")
+    errors += require(built_migration, migration_markers, built_migration_js, "Собранная legacy-миграция")
+    migration_forbidden = (
+        "MutationObserver",
+        "deliveryNote",
+        "Переходим на страницу подтверждения",
         "scenario:",
         "object_type:",
         "city:",
@@ -117,10 +264,9 @@ def main() -> int:
         "tracking:",
         "sessionStorage",
         "sendGoal",
-    ):
-        if forbidden in storage_privacy:
-            error(f"Локальная сводка содержит лишнее поле или действие: {forbidden}", STORAGE_PRIVACY)
-            errors += 1
+    )
+    errors += forbid(migration, migration_forbidden, STORAGE_MIGRATION, "Legacy-миграция")
+    errors += forbid(built_migration, migration_forbidden, built_migration_js, "Собранная legacy-миграция")
 
     script_order = (
         "assets/js/thankyou-storage-privacy.js",
@@ -133,7 +279,7 @@ def main() -> int:
     errors += check_order(built_application_text, script_order, built_application, "Собранная онлайн-заявка")
 
     if "node --check assets/js/thankyou-storage-privacy.js" not in workflow:
-        error("Workflow не проверяет синтаксис thankyou-storage-privacy.js", WORKFLOW)
+        error("Workflow не проверяет синтаксис legacy-миграции", WORKFLOW)
         errors += 1
 
     errors += require(
@@ -142,7 +288,6 @@ def main() -> int:
             "var legacyContext = window.thankYouContext || {};",
             "function cleanRequestId(value)",
             "document.getElementById('lead-id').textContent = requestId;",
-            "JSON.stringify({",
             "request_id: requestId",
             "expires_at: new Date(Date.parse(lastLead.expires_at)).toISOString()",
             "window.dataLayer.push({ event: 'lead_thankyou_view' });",
@@ -151,28 +296,30 @@ def main() -> int:
         THANK_YOU_SOURCE,
         "Минимальная страница благодарности",
     )
-
-    for forbidden in (
-        'id="lead-scenario"',
-        'id="lead-city"',
-        'id="lead-status"',
-        "lastLead.scenario",
-        "lastLead.city",
-        "lastLead.qualification",
-        "statusMap",
-        "scenario: scenario",
-        "qualification_status: status",
-        "delivery_state:",
-        "phone:",
-    ):
-        if forbidden in thank_you:
-            error(f"Страница благодарности содержит лишний контекст: {forbidden}", THANK_YOU_SOURCE)
-            errors += 1
+    errors += forbid(
+        thank_you,
+        (
+            'id="lead-scenario"',
+            'id="lead-city"',
+            'id="lead-status"',
+            "lastLead.scenario",
+            "lastLead.city",
+            "lastLead.qualification",
+            "statusMap",
+            "scenario: scenario",
+            "qualification_status: status",
+            "delivery_state:",
+            "phone:",
+        ),
+        THANK_YOU_SOURCE,
+        "Минимальная страница благодарности",
+    )
 
     errors += require(
         built,
         (
             "window.thankYouContext",
+            "window.location.hash.replace(/^#/, '')",
             "window.history.replaceState(null, document.title, window.location.pathname)",
             "window.dataLayer.push({ event: 'lead_thankyou_view' });",
             'id="lead-id"',
@@ -181,27 +328,26 @@ def main() -> int:
         built_page,
         "Собранная страница благодарности",
     )
-
-    built_sanitizer_position = built.find("window.history.replaceState")
-    built_main_position = built.find("/assets/js/main.js")
-    if built_sanitizer_position < 0 or built_main_position < 0 or built_sanitizer_position > built_main_position:
-        error("В собранной странице URL должен очищаться до запуска main.js", built_page)
-        errors += 1
-
-    for forbidden in (
-        'id="lead-scenario"',
-        'id="lead-city"',
-        'id="lead-status"',
-        "scenario: scenario",
-        "qualification_status: status",
-    ):
-        if forbidden in built:
-            error(f"Собранная страница содержит лишний контекст: {forbidden}", built_page)
-            errors += 1
+    errors += forbid(
+        built,
+        (
+            'id="lead-scenario"',
+            'id="lead-city"',
+            'id="lead-status"',
+            "scenario: scenario",
+            "qualification_status: status",
+            "get('scenario')",
+            "get('status')",
+        ),
+        built_page,
+        "Собранная страница благодарности",
+    )
 
     for marker in (
         "только технический номер обращения",
-        "только `request_id` и `expires_at`",
+        "сразу только `request_id` и `expires_at`",
+        "fragment `#id=`",
+        "legacy query",
         "не должны содержать номер заявки",
         "window.datalayer.push({ event: 'lead_thankyou_view' });",
         "не показывает город, сценарий, объект или qualification",
@@ -229,8 +375,8 @@ def main() -> int:
         return 1
 
     print(
-        "Аудит приватности страницы благодарности успешно завершён: URL очищается до аналитики, "
-        "локальная сводка содержит только request_id/expires_at, а экран и политика не раскрывают лишний контекст"
+        "Аудит приватности страницы благодарности успешно завершён: новые данные минимизируются до записи, "
+        "request_id передаётся через fragment, URL очищается до аналитики, legacy-записи сокращаются до двух полей"
     )
     return 0
 

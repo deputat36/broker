@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Подготавливает исходники перед Jekyll-сборкой.
 
-Скрипт выполняет две детерминированные операции:
+Скрипт выполняет три детерминированные операции:
 
 1. Нормализует текстовые поля YAML front matter. Исторические страницы
    содержат двоеточие с пробелом внутри некавыченного `description`, из-за
@@ -9,6 +9,9 @@
 2. Переводит утверждённый портрет Татьяны на адаптивные WebP-файлы перед
    сборкой. Исходное лицо и композиция не изменяются: используются версии,
    подготовленные из уже находившегося в репозитории портрета.
+3. Минимизирует контекст страницы благодарности в момент создания данных:
+   localStorage получает только request_id/expires_at, новый redirect использует
+   fragment, а layout читает только технический ID и очищает URL до аналитики.
 """
 
 from __future__ import annotations
@@ -88,6 +91,89 @@ PHOTO_REPLACEMENTS = {
     "_layouts/default.html": ((PRELOAD_OLD, PRELOAD_NEW),),
 }
 
+LAST_LEAD_OLD = """  function saveLastLead(payload, channels) {
+    const safeLead = {
+      request_id: payload.request_id,
+      scenario: payload.mortgage.scenario,
+      object_type: payload.mortgage.object_type,
+      city: payload.client.city,
+      qualification: payload.qualification,
+      submitted_at: payload.submitted_at,
+      expires_at: new Date(Date.now() + LAST_LEAD_RETENTION_MS).toISOString(),
+      channels: channels.map((item) => item.channel)
+    };
+    try { window.localStorage.setItem(LAST_LEAD_STORAGE_KEY, JSON.stringify(safeLead)); } catch (error) { /* URL содержит резервную сводку. */ }
+  }
+
+  function buildThankYouUrl(payload) {
+    const url = new URL(leadConfig.thankYouPath, window.location.origin);
+    url.searchParams.set('id', payload.request_id);
+    url.searchParams.set('status', payload.qualification.status);
+    url.searchParams.set('scenario', payload.mortgage.scenario);
+    return url.toString();
+  }
+"""
+LAST_LEAD_NEW = """  function saveLastLead(payload) {
+    const safeLead = {
+      request_id: payload.request_id,
+      expires_at: new Date(Date.now() + LAST_LEAD_RETENTION_MS).toISOString()
+    };
+    try { window.localStorage.setItem(LAST_LEAD_STORAGE_KEY, JSON.stringify(safeLead)); } catch (error) { /* Fragment содержит резервный request_id. */ }
+  }
+
+  function buildThankYouUrl(payload) {
+    const url = new URL(leadConfig.thankYouPath, window.location.origin);
+    url.hash = new URLSearchParams({ id: payload.request_id }).toString();
+    return url.toString();
+  }
+"""
+THANK_YOU_LAYOUT_OLD = """  {% if page.url == '/spasibo/' %}
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      window.thankYouContext = {
+        id: params.get('id') || '',
+        scenario: params.get('scenario') || '',
+        status: params.get('status') || ''
+      };
+      if (window.location.search || window.location.hash) {
+        window.history.replaceState(null, document.title, window.location.pathname);
+      }
+    })();
+  </script>
+  {% endif %}
+"""
+THANK_YOU_LAYOUT_NEW = """  {% if page.url == '/spasibo/' %}
+  <script>
+    (function () {
+      var fragmentParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+      var legacyParams = new URLSearchParams(window.location.search);
+      window.thankYouContext = {
+        id: fragmentParams.get('id') || legacyParams.get('id') || ''
+      };
+      if (window.location.search || window.location.hash) {
+        window.history.replaceState(null, document.title, window.location.pathname);
+      }
+    })();
+  </script>
+  {% endif %}
+"""
+MINIMAL_SAVE_MARKER_OLD = "saveLastLead(preparedPayload, channels)"
+MINIMAL_SAVE_MARKER_NEW = "saveLastLead(preparedPayload)"
+PRIVACY_REPLACEMENTS = {
+    "assets/js/online-application.js": (
+        (LAST_LEAD_OLD, LAST_LEAD_NEW),
+        (f"{MINIMAL_SAVE_MARKER_OLD};", f"{MINIMAL_SAVE_MARKER_NEW};"),
+    ),
+    "_layouts/default.html": ((THANK_YOU_LAYOUT_OLD, THANK_YOU_LAYOUT_NEW),),
+    "scripts/audit-public-lead-response.py": (
+        (MINIMAL_SAVE_MARKER_OLD, MINIMAL_SAVE_MARKER_NEW),
+    ),
+    "scripts/audit-hybrid-delivery-state.py": (
+        (MINIMAL_SAVE_MARKER_OLD, MINIMAL_SAVE_MARKER_NEW),
+    ),
+}
+
 
 def front_matter_end(lines: list[str]) -> int | None:
     if not lines or lines[0].strip() != "---":
@@ -133,9 +219,14 @@ def normalize_file(path: Path, write: bool) -> bool:
     return changed
 
 
-def apply_photo_replacements(root: Path, write: bool) -> list[Path]:
+def apply_exact_replacements(
+    root: Path,
+    replacement_map: dict[str, tuple[tuple[str, str], ...]],
+    label: str,
+    write: bool,
+) -> list[Path]:
     changed_paths: list[Path] = []
-    for relative_path, replacements in PHOTO_REPLACEMENTS.items():
+    for relative_path, replacements in replacement_map.items():
         path = root / relative_path
         raw = path.read_text(encoding="utf-8-sig")
         updated = raw
@@ -146,9 +237,7 @@ def apply_photo_replacements(root: Path, write: bool) -> list[Path]:
                 continue
             if new in updated:
                 continue
-            raise ValueError(
-                f"Не найден ожидаемый маркер фото-разметки: {relative_path}"
-            )
+            raise ValueError(f"Не найден ожидаемый маркер {label}: {relative_path}")
 
         if updated == raw:
             continue
@@ -166,6 +255,14 @@ def iter_markdown(root: Path):
         yield path
 
 
+def print_paths(title: str, paths: list[Path], root: Path) -> None:
+    print(f"{title}: файлов — {len(paths)}")
+    for path in paths[:20]:
+        print(path.relative_to(root).as_posix())
+    if len(paths) > 20:
+        print(f"... и ещё {len(paths) - 20}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=".", help="Корень исходников Jekyll")
@@ -174,19 +271,15 @@ def main() -> int:
 
     root = Path(args.root).resolve()
     changed_files = [path for path in iter_markdown(root) if normalize_file(path, args.write)]
-    photo_files = apply_photo_replacements(root, args.write)
+    photo_files = apply_exact_replacements(root, PHOTO_REPLACEMENTS, "фото-разметки", args.write)
+    privacy_files = apply_exact_replacements(root, PRIVACY_REPLACEMENTS, "privacy-разметки", args.write)
 
     action = "нормализовано" if args.write else "требует нормализации"
-    print(f"Front matter: {action} файлов — {len(changed_files)}")
-    for path in changed_files[:20]:
-        print(path.relative_to(root).as_posix())
-    if len(changed_files) > 20:
-        print(f"... и ещё {len(changed_files) - 20}")
-
+    print_paths(f"Front matter: {action}", changed_files, root)
     photo_action = "подготовлена" if args.write else "требует подготовки"
-    print(f"Фото-разметка: {photo_action} файлов — {len(photo_files)}")
-    for path in photo_files:
-        print(path.relative_to(root).as_posix())
+    print_paths(f"Фото-разметка: {photo_action}", photo_files, root)
+    privacy_action = "минимизирована" if args.write else "требует минимизации"
+    print_paths(f"Thank-you privacy: {privacy_action}", privacy_files, root)
     return 0
 
 
