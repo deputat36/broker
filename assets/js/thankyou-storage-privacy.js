@@ -1,6 +1,5 @@
 (() => {
   const STORAGE_KEY = 'sterlikovaMortgageLastLead';
-  const deliveryNote = document.querySelector('[data-application-delivery-note]');
 
   function cleanRequestId(value) {
     const requestId = String(value || '').replace(/\s+/g, ' ').trim().slice(0, 80);
@@ -9,7 +8,7 @@
     return uuidPattern.test(requestId) || fallbackPattern.test(requestId) ? requestId : '';
   }
 
-  function sanitizeLastLead() {
+  function migrateLegacyLastLead() {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
@@ -34,14 +33,5 @@
     }
   }
 
-  sanitizeLastLead();
-
-  if (deliveryNote) {
-    const observer = new MutationObserver(() => {
-      if (!deliveryNote.classList.contains('is-success')) return;
-      if (!String(deliveryNote.textContent || '').includes('Переходим на страницу подтверждения')) return;
-      sanitizeLastLead();
-    });
-    observer.observe(deliveryNote, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
-  }
+  migrateLegacyLastLead();
 })();
