@@ -45,6 +45,12 @@ REGIONAL_SAFE_PAGES = {
     "/geo/borisoglebsk/ipoteka-s-sozaemshchikom/": ROOT / "geo/borisoglebsk/ipoteka-s-sozaemshchikom.md",
     "/geo/gribanovskiy/ipoteka-s-sozaemshchikom/": ROOT / "geo/gribanovskiy/ipoteka-s-sozaemshchikom.md",
     "/geo/povorino/ipoteka-s-sozaemshchikom/": ROOT / "geo/povorino/ipoteka-s-sozaemshchikom.md",
+    "/geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh/": ROOT / "geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh.md",
+    "/geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh/": ROOT / "geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh.md",
+    "/geo/povorino/ipoteka-dlya-ip-samozanyatyh/": ROOT / "geo/povorino/ipoteka-dlya-ip-samozanyatyh.md",
+    "/geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda/": ROOT / "geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda.md",
+    "/geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda/": ROOT / "geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda.md",
+    "/geo/povorino/ipoteka-bez-oficialnogo-dohoda/": ROOT / "geo/povorino/ipoteka-bez-oficialnogo-dohoda.md",
 }
 
 REGIONAL_REVIEWED_PAGES = {
