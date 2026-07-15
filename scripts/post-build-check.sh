@@ -12,7 +12,6 @@ required_files=(
   "$SITE_DIR/assets/css/footer-trust.css"
   "$SITE_DIR/assets/js/main.js"
   "$SITE_DIR/assets/img/favicon.svg"
-  "$SITE_DIR/assets/img/tatyana-hero.svg"
   "$SITE_DIR/assets/img/tatyana-hero.webp"
   "$SITE_DIR/assets/img/tatyana-hero-mobile.webp"
   "$SITE_DIR/assets/img/tatyana-avatar.webp"
@@ -79,6 +78,7 @@ fi
 python3 scripts/audit-time-sensitive-content.py "$SITE_DIR"
 python3 scripts/audit-useful-content-quality.py "$SITE_DIR"
 python3 scripts/audit-accessibility-structure.py "$SITE_DIR"
+python3 scripts/audit-performance-budget.py "$SITE_DIR"
 python3 scripts/audit-tatyana-photo.py "$SITE_DIR"
 python3 scripts/audit-footer-trust.py "$SITE_DIR"
 
