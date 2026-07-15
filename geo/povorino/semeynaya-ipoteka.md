@@ -2,7 +2,7 @@
 layout: default
 title: Семейная ипотека в Поворино и Поворинском районе | Татьяна Стерликова
 description: Консультация по семейной ипотеке в Поворино и Поворинском районе: семья, объект, первоначальный взнос, материнский капитал, документы и требования банка.
-permalink: /geo/povorino/semeynaya-ipoteka/
+permalink: /geo/povorino/semeynaya-ipotека/
 breadcrumb: Семейная ипотека в Поворинском районе
 og_type: article
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейная ипотека в Поворино и Поворинском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по семейной ипотеке","url":"https://sterlikova-ipoteka.ru/geo/povorino/semeynaya-ipoteka/"}'
@@ -42,7 +42,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейн
     </ul>
 
     <h2>Если сделка через «ЭТАЖИ»</h2>
-    <p>Если покупка проводится через компанию «ЭТАЖИ», сопровождение ипотечного брокера включено в комиссию компании и отдельно клиентом не оплачивается.</p>
+    <p>Состав ипотечного сопровождения и порядок оплаты зависят от действующих условий компании и параметров конкретной сделки. До начала работы уточните, какие действия входят в услугу и предусмотрена ли отдельная оплата.</p>
   </article>
 
   <aside class="sidebar">
@@ -53,6 +53,6 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейн
 
 <section class="section muted"><div class="section-head"><p class="eyebrow">Чек-лист</p><h2>Перед семейной ипотекой</h2></div><div class="checklist"><div><strong>1</strong><span>Проверить, подходит ли семья под требования выбранной программы.</span></div><div><strong>2</strong><span>Понять, подходит ли выбранный объект под условия банка.</span></div><div><strong>3</strong><span>Посчитать взнос, маткапитал, расходы и комфортный платеж.</span></div><div><strong>4</strong><span>Проверить доход, нагрузку и кредитную историю.</span></div><div><strong>5</strong><span>Не передавать аванс, пока не понятны ипотечные ограничения.</span></div></div></section>
 
-<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Клиентам «ЭТАЖИ»</p><h2>Ипотечное сопровождение включено в комиссию</h2><p>Если покупка проходит через компанию «ЭТАЖИ», работа ипотечного брокера отдельно клиентом не оплачивается.</p></div><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Подробнее</a></div></section>
+<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Клиентам «ЭТАЖИ»</p><h2>Условия подтверждаются до начала работы</h2><p>Состав ипотечного сопровождения и порядок оплаты зависят от действующих условий компании и параметров конкретной сделки. До начала работы уточните, какие действия входят в услугу и предусмотрена ли отдельная оплата.</p></div><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Уточнить условия</a></div></section>
 
 <section class="section cta-section"><div><p class="eyebrow">Семейная ипотека</p><h2>Разберите покупку до заявки</h2><p>Позвоните или напишите: состав семьи, объект, цена, взнос, маткапитал, доход и были ли уже обращения в банки.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
