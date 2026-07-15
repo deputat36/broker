@@ -3,14 +3,16 @@
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "docs/etagi-terms-policy.md"
+REGIONAL_MANIFEST = ROOT / "scripts/etagi-regional-pages.json"
 
-PAGES = {
+CORE_PAGES = {
     "/": ROOT / "index.md",
     "/etagi/": ROOT / "etagi.md",
     "/stoimost/": ROOT / "stoimost.md",
@@ -28,45 +30,6 @@ PAGES = {
     "/konsultaciya/": ROOT / "konsultaciya.md",
 }
 
-REGIONAL_SAFE_PAGES = {
-    "/geo/borisoglebsk/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/borisoglebsk/ipoteka-na-stroitelstvo-doma.md",
-    "/geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/gribanovskiy/ipoteka-na-stroitelstvo-doma.md",
-    "/geo/povorino/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/povorino/ipoteka-na-stroitelstvo-doma.md",
-    "/geo/borisoglebsk/semeynaya-ipoteka/": ROOT / "geo/borisoglebsk/semeynaya-ipoteka.md",
-    "/geo/gribanovskiy/semeynaya-ipoteka/": ROOT / "geo/gribanovskiy/semeynaya-ipoteka.md",
-    "/geo/povorino/semeynaya-ipoteka/": ROOT / "geo/povorino/semeynaya-ipoteka.md",
-    "/geo/borisoglebsk/ipoteka-s-materinskim-kapitalom/": ROOT / "geo/borisoglebsk/ipoteka-s-materinskim-kapitalom.md",
-    "/geo/gribanovskiy/ipoteka-s-materinskim-kapitalom/": ROOT / "geo/gribanovskiy/ipoteka-s-materinskim-kapitalom.md",
-    "/geo/povorino/ipoteka-s-materinskim-kapitalom/": ROOT / "geo/povorino/ipoteka-s-materinskim-kapitalom.md",
-    "/geo/gribanovskiy/ipoteka-na-dom/": ROOT / "geo/gribanovskiy/ipoteka-na-dom.md",
-    "/geo/povorino/ipoteka-na-dom/": ROOT / "geo/povorino/ipoteka-na-dom.md",
-    "/geo/gribanovskiy/ipoteka-na-kvartiru/": ROOT / "geo/gribanovskiy/ipoteka-na-kvartiru.md",
-    "/geo/povorino/ipoteka-na-kvartiru/": ROOT / "geo/povorino/ipoteka-na-kvartiru.md",
-    "/geo/borisoglebsk/ipoteka-s-sozaemshchikom/": ROOT / "geo/borisoglebsk/ipoteka-s-sozaemshchikom.md",
-    "/geo/gribanovskiy/ipoteka-s-sozaemshchikom/": ROOT / "geo/gribanovskiy/ipoteka-s-sozaemshchikom.md",
-    "/geo/povorino/ipoteka-s-sozaemshchikom/": ROOT / "geo/povorino/ipoteka-s-sozaemshchikom.md",
-    "/geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh/": ROOT / "geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh.md",
-    "/geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh/": ROOT / "geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh.md",
-    "/geo/povorino/ipoteka-dlya-ip-samozanyatyh/": ROOT / "geo/povorino/ipoteka-dlya-ip-samozanyatyh.md",
-    "/geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda/": ROOT / "geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda.md",
-    "/geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda/": ROOT / "geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda.md",
-    "/geo/povorino/ipoteka-bez-oficialnogo-dohoda/": ROOT / "geo/povorino/ipoteka-bez-oficialnogo-dohoda.md",
-    "/geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey/": ROOT / "geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey.md",
-    "/geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/": ROOT / "geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey.md",
-    "/geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey/": ROOT / "geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey.md",
-    "/geo/gribanovskiy/otkazali-v-ipoteke/": ROOT / "geo/gribanovskiy/otkazali-v-ipoteke.md",
-    "/geo/povorino/otkazali-v-ipoteke/": ROOT / "geo/povorino/otkazali-v-ipoteke.md",
-}
-
-REGIONAL_REVIEWED_PAGES = {
-    "/geo/borisoglebsk/ipoteka-na-dom/": ROOT / "geo/borisoglebsk-ipoteka-na-dom.md",
-    "/geo/borisoglebsk/ipoteka-na-kvartiru/": ROOT / "geo/borisoglebsk-ipoteka-na-kvartiru.md",
-    "/geo/borisoglebsk/otkazali-v-ipoteke/": ROOT / "geo/borisoglebsk/otkazali-v-ipoteke.md",
-}
-
-PAGES.update(REGIONAL_SAFE_PAGES)
-PAGES.update(REGIONAL_REVIEWED_PAGES)
-
 SOURCE_ONLY = {
     "README.md": ROOT / "README.md",
     "humans.txt": ROOT / "humans.txt",
@@ -81,7 +44,7 @@ FORBIDDEN = (
     "бесплатно для клиентов этажи",
 )
 
-REQUIRED = {
+CORE_REQUIRED = {
     "/": (
         "условия сопровождения через «этажи» уточняются до сделки",
         "проверить условия",
@@ -146,14 +109,10 @@ REQUIRED = {
     ),
 }
 
-for page_url in REGIONAL_SAFE_PAGES:
-    REQUIRED[page_url] = (
-        "состав ипотечного сопровождения и порядок оплаты зависят",
-        "предусмотрена ли отдельная оплата",
-    )
-
-for page_url in REGIONAL_REVIEWED_PAGES:
-    REQUIRED[page_url] = ()
+SAFE_REGIONAL_REQUIRED = (
+    "состав ипотечного сопровождения и порядок оплаты зависят",
+    "предусмотрена ли отдельная оплата",
+)
 
 SOURCE_REQUIRED = {
     "README.md": (
@@ -196,16 +155,67 @@ def check_forbidden(text: str, file: Path, label: str) -> int:
     return errors
 
 
-def check_text(text: str, file: Path, page_url: str) -> int:
+def check_text(
+    text: str,
+    file: Path,
+    page_url: str,
+    required_markers: tuple[str, ...],
+) -> int:
     normalized = normalize(text)
     errors = check_forbidden(text, file, page_url)
 
-    for marker in REQUIRED[page_url]:
+    for marker in required_markers:
         if normalize(marker) not in normalized:
             error(f"На {page_url} отсутствует безопасная формулировка: {marker}", file)
             errors += 1
 
     return errors
+
+
+def load_regional_pages() -> tuple[dict[str, Path], dict[str, Path], int]:
+    if not REGIONAL_MANIFEST.is_file():
+        error("Не найден manifest региональных страниц", REGIONAL_MANIFEST)
+        return {}, {}, 1
+
+    try:
+        payload = json.loads(REGIONAL_MANIFEST.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        error(f"Не удалось прочитать manifest региональных страниц: {exc}", REGIONAL_MANIFEST)
+        return {}, {}, 1
+
+    errors = 0
+    groups: dict[str, dict[str, Path]] = {"safe": {}, "reviewed": {}}
+
+    for group_name in groups:
+        raw_group = payload.get(group_name)
+        if not isinstance(raw_group, dict):
+            error(f"В manifest отсутствует объект {group_name}", REGIONAL_MANIFEST)
+            errors += 1
+            continue
+
+        for page_url, relative_path in raw_group.items():
+            if not isinstance(page_url, str) or not page_url.startswith("/") or not page_url.endswith("/"):
+                error(f"Некорректный URL в группе {group_name}: {page_url!r}", REGIONAL_MANIFEST)
+                errors += 1
+                continue
+            if not isinstance(relative_path, str) or not relative_path.endswith(".md"):
+                error(f"Некорректный путь для {page_url}: {relative_path!r}", REGIONAL_MANIFEST)
+                errors += 1
+                continue
+
+            source_file = (ROOT / relative_path).resolve()
+            if not source_file.is_relative_to(ROOT):
+                error(f"Путь выходит за пределы репозитория: {relative_path}", REGIONAL_MANIFEST)
+                errors += 1
+                continue
+            groups[group_name][page_url] = source_file
+
+    overlap = set(groups["safe"]) & set(groups["reviewed"])
+    for page_url in sorted(overlap):
+        error(f"Региональная страница одновременно safe и reviewed: {page_url}", REGIONAL_MANIFEST)
+        errors += 1
+
+    return groups["safe"], groups["reviewed"], errors
 
 
 def main() -> int:
@@ -215,6 +225,17 @@ def main() -> int:
     if not POLICY.is_file():
         error("Не найден документ правил условий ЭТАЖИ", POLICY)
         return 1
+
+    safe_pages, reviewed_pages, manifest_errors = load_regional_pages()
+    errors += manifest_errors
+
+    pages = dict(CORE_PAGES)
+    pages.update(safe_pages)
+    pages.update(reviewed_pages)
+
+    required = dict(CORE_REQUIRED)
+    required.update({page_url: SAFE_REGIONAL_REQUIRED for page_url in safe_pages})
+    required.update({page_url: () for page_url in reviewed_pages})
 
     policy_text = normalize(POLICY.read_text(encoding="utf-8", errors="ignore"))
     for marker in (
@@ -227,14 +248,14 @@ def main() -> int:
             error(f"В документе правил отсутствует маркер: {marker}", POLICY)
             errors += 1
 
-    for page_url, source_file in PAGES.items():
+    for page_url, source_file in pages.items():
         if not source_file.is_file():
             error(f"Не найден исходник ключевой страницы {page_url}", source_file)
             errors += 1
             continue
 
         source_text = source_file.read_text(encoding="utf-8", errors="ignore")
-        errors += check_text(source_text, source_file, page_url)
+        errors += check_text(source_text, source_file, page_url, required[page_url])
 
         html_file = built_file(site_dir, page_url)
         if not html_file.is_file():
@@ -243,7 +264,7 @@ def main() -> int:
             continue
 
         built_text = html_file.read_text(encoding="utf-8", errors="ignore")
-        errors += check_text(built_text, html_file, page_url)
+        errors += check_text(built_text, html_file, page_url, required[page_url])
 
     for label, source_file in SOURCE_ONLY.items():
         if not source_file.is_file():
@@ -265,8 +286,8 @@ def main() -> int:
 
     print(
         "Аудит условий ЭТАЖИ успешно завершён: "
-        f"{len(PAGES)} ключевых страниц, включая {len(REGIONAL_SAFE_PAGES)} дочерних региональных "
-        f"маршрутов с безопасной формулировкой и {len(REGIONAL_REVIEWED_PAGES)} проверенных маршрутов "
+        f"{len(pages)} ключевых страниц, включая {len(safe_pages)} дочерних региональных "
+        f"маршрутов с безопасной формулировкой и {len(reviewed_pages)} проверенных маршрутов "
         "без корпоративного блока, а также три публичных документа, не содержат неподтверждённых обещаний"
     )
     return 0
