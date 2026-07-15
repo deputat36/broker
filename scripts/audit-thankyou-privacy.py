@@ -287,7 +287,7 @@ def main() -> int:
         (
             "var legacyContext = window.thankYouContext || {};",
             "function cleanRequestId(value)",
-            "document.getElementById('lead-id').textContent = requestId;",
+            "setText('lead-id', requestId);",
             "request_id: requestId",
             "expires_at: new Date(Date.parse(lastLead.expires_at)).toISOString()",
             "window.dataLayer.push({ event: 'lead_thankyou_view' });",
