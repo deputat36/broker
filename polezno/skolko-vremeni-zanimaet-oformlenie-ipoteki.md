@@ -87,7 +87,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Скол
   </div>
 </section>
 
-<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Клиентам «ЭТАЖИ»</p><h2>Ипотечное сопровождение включено в комиссию</h2><p>Если покупка проводится через компанию «ЭТАЖИ», работа ипотечного брокера отдельно клиентом не оплачивается.</p></div><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Подробнее</a></div></section>
+<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Клиентам «ЭТАЖИ»</p><h2>Условия подтверждаются до начала работы</h2><p>Если покупка проводится через компанию «ЭТАЖИ», состав ипотечного сопровождения и порядок оплаты зависят от действующих условий компании и параметров конкретной сделки. До начала работы уточните, какие действия входят в услугу и предусмотрена ли отдельная оплата.</p></div><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Уточнить условия</a></div></section>
 
 <section class="section cta-section">
   <div>
