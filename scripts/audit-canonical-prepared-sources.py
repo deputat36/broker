@@ -81,13 +81,20 @@ def check_photo_source(relative: str, uses_front_matter: bool) -> int:
         'width="360" height="450"',
         'type="image/webp"',
     ]
-    if uses_front_matter:
-        required.append("hero_photo: /assets/img/tatyana-hero.webp")
 
     for marker in required:
         if marker not in text:
             fail(path, f"Отсутствует канонический фото-маркер: {marker}")
             errors += 1
+
+    if uses_front_matter and not re.search(
+        r'^hero_photo:\s*["\']?/assets/img/tatyana-hero\.webp["\']?\s*$',
+        text,
+        re.MULTILINE,
+    ):
+        fail(path, "Front matter не указывает канонический WebP-портрет")
+        errors += 1
+
     if "tatyana-hero.svg" in text:
         fail(path, "Исходник продолжает ссылаться на удалённый SVG-портрет")
         errors += 1
