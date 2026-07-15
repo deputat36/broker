@@ -12,6 +12,9 @@ required_files=(
   "$SITE_DIR/assets/js/main.js"
   "$SITE_DIR/assets/img/favicon.svg"
   "$SITE_DIR/assets/img/tatyana-hero.svg"
+  "$SITE_DIR/assets/img/tatyana-hero.webp"
+  "$SITE_DIR/assets/img/tatyana-hero-mobile.webp"
+  "$SITE_DIR/assets/img/tatyana-avatar.webp"
   "$SITE_DIR/assets/img/tatyana-social.jpg"
 )
 
@@ -71,5 +74,7 @@ if [[ "$legacy_count" != "0" ]]; then
   grep -Rni 'https://deputat36.github.io/broker' "$SITE_DIR" --include='*.html' || true
   exit 1
 fi
+
+python3 scripts/audit-tatyana-photo.py "$SITE_DIR"
 
 echo "Post-build проверка успешно завершена: $sitemap_count URL в sitemap"
