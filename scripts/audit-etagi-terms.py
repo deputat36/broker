@@ -25,6 +25,7 @@ CORE_PAGES = {
     "/geo/borisoglebsk/": ROOT / "geo/borisoglebsk.md",
     "/geo/gribanovskiy/": ROOT / "geo/gribanovskiy.md",
     "/geo/povorino/": ROOT / "geo/povorino.md",
+    "/polezno/dokumenty-dlya-ipoteki/": ROOT / "polezno/dokumenty-dlya-ipoteki.md",
     "/kalkulyator-ipoteki/": ROOT / "kalkulyator-ipoteki.md",
     "/kak-prohodit-rabota/": ROOT / "kak-prohodit-rabota.md",
     "/konsultaciya/": ROOT / "konsultaciya.md",
@@ -92,6 +93,10 @@ CORE_REQUIRED = {
     ),
     "/geo/povorino/": (
         "условия сопровождения подтверждаются до начала работы",
+        "предусмотрена ли отдельная оплата",
+    ),
+    "/polezno/dokumenty-dlya-ipoteki/": (
+        "состав ипотечного сопровождения, перечень документов и порядок оплаты зависят",
         "предусмотрена ли отдельная оплата",
     ),
     "/kalkulyator-ipoteki/": (
