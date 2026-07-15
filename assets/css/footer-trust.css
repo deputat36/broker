@@ -1,0 +1,42 @@
+.footer-person {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-person:hover .footer-person-name { color: #ffd8dc; }
+
+.footer-avatar {
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  object-fit: cover;
+  object-position: center top;
+  border: 2px solid rgba(255, 255, 255, .78);
+  border-radius: 50%;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
+}
+
+.footer-person-copy { display: grid; gap: 2px; }
+.footer-person-name {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1.12;
+  transition: color .2s ease;
+}
+.footer-person-role { color: rgba(255, 255, 255, .68); font-size: 14px; }
+.footer-brand .footer-about-link {
+  display: inline-block;
+  margin: 0 0 18px;
+  color: #ffd8dc;
+  font-weight: 800;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+  .footer-person { align-items: flex-start; }
+  .footer-avatar { width: 64px; height: 64px; flex-basis: 64px; }
+  .footer-person-name { font-size: 18px; }
+}
