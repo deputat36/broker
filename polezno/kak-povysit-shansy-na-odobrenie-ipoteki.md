@@ -1,9 +1,9 @@
 ---
-layout: default
-title: Как повысить шансы на одобрение ипотеки | Татьяна Стерликова
-description: Как подготовиться к ипотеке и повысить шансы на одобрение: доход, кредитная история, первоначальный взнос, нагрузка, объект и выбор банка.
-permalink: /polezno/kak-povysit-shansy-na-odobrenie-ipoteki/
-og_type: article
+layout: "default"
+title: "Как повысить шансы на одобрение ипотеки | Татьяна Стерликова"
+description: "Как подготовиться к ипотеке и повысить шансы на одобрение: доход, кредитная история, первоначальный взнос, нагрузка, объект и выбор банка."
+permalink: "/polezno/kak-povysit-shansy-na-odobrenie-ipoteki/"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как повысить шансы на одобрение ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"about":"Подготовка ипотечной заявки"}'
 ---
 

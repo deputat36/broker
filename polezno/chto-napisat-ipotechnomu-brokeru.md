@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Что написать ипотечному брокеру перед консультацией | Татьяна Стерликова
-description: Что написать ипотечному брокеру перед консультацией: готовый шаблон сообщения, какие данные указать, какие вопросы задать, как описать доход, объект, взнос, кредиты и прошлые заявки.
-permalink: /polezno/chto-napisat-ipotechnomu-brokeru/
-breadcrumb: Что написать брокеру
-og_type: article
+layout: "default"
+title: "Что написать ипотечному брокеру перед консультацией | Татьяна Стерликова"
+description: "Что написать ипотечному брокеру перед консультацией: готовый шаблон сообщения, какие данные указать, какие вопросы задать, как описать доход, объект, взнос, кредиты и прошлые заявки."
+permalink: "/polezno/chto-napisat-ipotechnomu-brokeru/"
+breadcrumb: "Что написать брокеру"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Что написать ипотечному брокеру перед консультацией","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/chto-napisat-ipotechnomu-brokeru/"}'
 ---
 

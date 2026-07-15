@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Рефинансирование ипотеки в Борисоглебске | Татьяна Стерликова
-description: Консультация по рефинансированию ипотеки в Борисоглебске: когда стоит снижать платеж, что проверить по ставке, сроку, страховке, расходам и требованиям банка.
-permalink: /geo/borisoglebsk/refinansirovanie-ipoteki/
-breadcrumb: Рефинансирование ипотеки
-og_type: article
+layout: "default"
+title: "Рефинансирование ипотеки в Борисоглебске | Татьяна Стерликова"
+description: "Консультация по рефинансированию ипотеки в Борисоглебске: когда стоит снижать платеж, что проверить по ставке, сроку, страховке, расходам и требованиям банка."
+permalink: "/geo/borisoglebsk/refinansirovanie-ipoteki/"
+breadcrumb: "Рефинансирование ипотеки"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Рефинансирование ипотеки в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по рефинансированию ипотеки","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/refinansirovanie-ipoteki/"}'
 ---
 

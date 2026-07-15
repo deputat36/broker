@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека без официального дохода в Борисоглебске | Татьяна Стерликова
-description: Консультация по ипотеке без официального дохода в Борисоглебске: работа без 2-НДФЛ, маленькая официальная зарплата, ИП, самозанятость и смешанный доход.
-permalink: /geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda/
-breadcrumb: Без официального дохода
-og_type: article
+layout: "default"
+title: "Ипотека без официального дохода в Борисоглебске | Татьяна Стерликова"
+description: "Консультация по ипотеке без официального дохода в Борисоглебске: работа без 2-НДФЛ, маленькая официальная зарплата, ИП, самозанятость и смешанный доход."
+permalink: "/geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda/"
+breadcrumb: "Без официального дохода"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека без официального дохода в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке при нестандартном подтверждении дохода","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda/"}'
 ---
 

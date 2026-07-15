@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Контакты и онлайн-заявка ипотечному брокеру | Татьяна Стерликова
-description: Контакты ипотечного брокера Татьяны Стерликовой: онлайн-заявка из любого города, телефон 8 903 025-08-07, MAX и ВКонтакте.
-permalink: /kontakty/
-breadcrumb: Контакты
-og_type: article
+layout: "default"
+title: "Контакты и онлайн-заявка ипотечному брокеру | Татьяна Стерликова"
+description: "Контакты ипотечного брокера Татьяны Стерликовой: онлайн-заявка из любого города, телефон 8 903 025-08-07, MAX и ВКонтакте."
+permalink: "/kontakty/"
+breadcrumb: "Контакты"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"ContactPage","name":"Контакты ипотечного брокера Татьяны Стерликовой","url":"https://sterlikova-ipoteka.ru/kontakty/","about":{"@type":"FinancialService","name":"Ипотечный брокер Татьяна Стерликова","telephone":"+79030250807","areaServed":["Россия","Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"],"sameAs":["https://vk.com/tatyanasterlikova"]}}'
 ---
 

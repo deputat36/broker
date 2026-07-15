@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Почему банк не одобряет объект по ипотеке | Татьяна Стерликова
-description: Почему банк может не принять квартиру, дом, участок или новостройку по ипотеке: документы, состояние объекта, обременения, перепланировка, земля и риски сделки.
-permalink: /polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/
-breadcrumb: Банк не одобряет объект
-og_type: article
+layout: "default"
+title: "Почему банк не одобряет объект по ипотеке | Татьяна Стерликова"
+description: "Почему банк может не принять квартиру, дом, участок или новостройку по ипотеке: документы, состояние объекта, обременения, перепланировка, земля и риски сделки."
+permalink: "/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/"
+breadcrumb: "Банк не одобряет объект"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Почему банк не одобряет объект по ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/"}'
 ---
 

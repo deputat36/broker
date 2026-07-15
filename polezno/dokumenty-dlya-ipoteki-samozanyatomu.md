@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Документы для ипотеки самозанятому | Татьяна Стерликова
-description: Какие документы подготовить самозанятому для ипотеки: доход, занятость, поступления, кредитная нагрузка, объект, первоначальный взнос и консультация брокера.
-permalink: /polezno/dokumenty-dlya-ipoteki-samozanyatomu/
-breadcrumb: Документы самозанятому
-og_type: article
+layout: "default"
+title: "Документы для ипотеки самозанятому | Татьяна Стерликова"
+description: "Какие документы подготовить самозанятому для ипотеки: доход, занятость, поступления, кредитная нагрузка, объект, первоначальный взнос и консультация брокера."
+permalink: "/polezno/dokumenty-dlya-ipoteki-samozanyatomu/"
+breadcrumb: "Документы самозанятому"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Документы для ипотеки самозанятому","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/dokumenty-dlya-ipoteki-samozanyatomu/"}'
 ---
 

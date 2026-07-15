@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека без официального дохода в Поворино | Татьяна Стерликова
-description: Консультация по ипотеке без официального дохода в Поворино и Поворинском районе: работа без 2-НДФЛ, маленькая официальная зарплата, ИП, самозанятость и смешанный доход.
-permalink: /geo/povorino/ipoteka-bez-oficialnogo-dohoda/
-breadcrumb: Без официального дохода
-og_type: article
+layout: "default"
+title: "Ипотека без официального дохода в Поворино | Татьяна Стерликова"
+description: "Консультация по ипотеке без официального дохода в Поворино и Поворинском районе: работа без 2-НДФЛ, маленькая официальная зарплата, ИП, самозанятость и смешанный доход."
+permalink: "/geo/povorino/ipoteka-bez-oficialnogo-dohoda/"
+breadcrumb: "Без официального дохода"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека без официального дохода в Поворино","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Поворино и Поворинский район"},"serviceType":"Консультация по ипотеке при нестандартном подтверждении дохода","url":"https://sterlikova-ipoteka.ru/geo/povorino/ipoteka-bez-oficialnogo-dohoda/"}'
 ---
 

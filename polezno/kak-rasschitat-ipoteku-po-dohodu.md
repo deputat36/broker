@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Как рассчитать ипотеку по доходу | Татьяна Стерликова
-description: Как предварительно рассчитать ипотеку по доходу: платеж, кредитная нагрузка, первоначальный взнос, срок, действующие кредиты и запас после сделки.
-permalink: /polezno/kak-rasschitat-ipoteku-po-dohodu/
-breadcrumb: Расчет ипотеки по доходу
-og_type: article
+layout: "default"
+title: "Как рассчитать ипотеку по доходу | Татьяна Стерликова"
+description: "Как предварительно рассчитать ипотеку по доходу: платеж, кредитная нагрузка, первоначальный взнос, срок, действующие кредиты и запас после сделки."
+permalink: "/polezno/kak-rasschitat-ipoteku-po-dohodu/"
+breadcrumb: "Расчет ипотеки по доходу"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как рассчитать ипотеку по доходу","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kak-rasschitat-ipoteku-po-dohodu/"}'
 ---
 

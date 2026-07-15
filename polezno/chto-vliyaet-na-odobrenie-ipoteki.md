@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Что влияет на одобрение ипотеки | Татьяна Стерликова
-description: Что банк учитывает при рассмотрении ипотечной заявки: доход, кредитная нагрузка, кредитная история, первоначальный взнос, объект, документы, созаемщик, ошибки подготовки и частые заявки.
-permalink: /polezno/chto-vliyaet-na-odobrenie-ipoteki/
-breadcrumb: Что влияет на одобрение
-og_type: article
+layout: "default"
+title: "Что влияет на одобрение ипотеки | Татьяна Стерликова"
+description: "Что банк учитывает при рассмотрении ипотечной заявки: доход, кредитная нагрузка, кредитная история, первоначальный взнос, объект, документы, созаемщик, ошибки подготовки и частые заявки."
+permalink: "/polezno/chto-vliyaet-na-odobrenie-ipoteki/"
+breadcrumb: "Что влияет на одобрение"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Что влияет на одобрение ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/chto-vliyaet-na-odobrenie-ipoteki/"}'
 ---
 

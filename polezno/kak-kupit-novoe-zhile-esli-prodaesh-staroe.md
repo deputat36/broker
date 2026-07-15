@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Как купить новое жилье, если продаешь старое | Ипотека
-description: Как подготовиться к покупке нового жилья в ипотеку, если первоначальный взнос зависит от продажи старой квартиры или дома: сроки, аванс, расчет платежа и риски.
-permalink: /polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/
-breadcrumb: Покупка при продаже старого жилья
-og_type: article
+layout: "default"
+title: "Как купить новое жилье, если продаешь старое | Ипотека"
+description: "Как подготовиться к покупке нового жилья в ипотеку, если первоначальный взнос зависит от продажи старой квартиры или дома: сроки, аванс, расчет платежа и риски."
+permalink: "/polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/"
+breadcrumb: "Покупка при продаже старого жилья"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как купить новое жилье, если продаешь старое","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/"}'
 ---
 

@@ -1,9 +1,9 @@
 ---
-layout: default
-title: Отказали в ипотеке: что делать дальше | Борисоглебск
-description: Пошаговый разбор действий после отказа банка по ипотеке: кредитная история, нагрузка, доход, объект, повторная заявка и помощь брокера.
-permalink: /polezno/chto-delat-posle-otkaza/
-og_type: article
+layout: "default"
+title: "Отказали в ипотеке: что делать дальше | Борисоглебск"
+description: "Пошаговый разбор действий после отказа банка по ипотеке: кредитная история, нагрузка, доход, объект, повторная заявка и помощь брокера."
+permalink: "/polezno/chto-delat-posle-otkaza/"
+og_type: "article"
 ---
 
 <section class="page-hero section">

@@ -1,9 +1,9 @@
 ---
-layout: default
-title: Что проверить перед покупкой дома в ипотеку
-description: Чек-лист перед покупкой дома в ипотеку: оформление дома и земли, назначение участка, границы, коммуникации, состояние объекта, оценка и требования банка.
-permalink: /polezno/chto-proverit-pered-pokupkoy-doma-v-ipoteku/
-og_type: article
+layout: "default"
+title: "Что проверить перед покупкой дома в ипотеку"
+description: "Чек-лист перед покупкой дома в ипотеку: оформление дома и земли, назначение участка, границы, коммуникации, состояние объекта, оценка и требования банка."
+permalink: "/polezno/chto-proverit-pered-pokupkoy-doma-v-ipoteku/"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Что проверить перед покупкой дома в ипотеку","author":{"@type":"Person","name":"Татьяна Стерликова"},"about":"Подготовка покупки дома в ипотеку"}'
 ---
 

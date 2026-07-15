@@ -1,9 +1,9 @@
 ---
-layout: default
-title: Рефинансирование ипотеки | Татьяна Стерликова
-description: Рефинансирование ипотеки: расчёт выгоды, остаток долга, срок, расходы, документы и подготовка заявки в новый банк.
-permalink: /uslugi/refinansirovanie-ipoteki/
-og_type: article
+layout: "default"
+title: "Рефинансирование ипотеки | Татьяна Стерликова"
+description: "Рефинансирование ипотеки: расчёт выгоды, остаток долга, срок, расходы, документы и подготовка заявки в новый банк."
+permalink: "/uslugi/refinansirovanie-ipoteki/"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Рефинансирование ипотеки","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":["Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"],"serviceType":"Консультация и подготовка заявки на рефинансирование"}'
 ---
 

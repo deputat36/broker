@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека без первоначального взноса в Борисоглебске | Татьяна Стерликова
-description: Консультация по ипотеке без первоначального взноса в Борисоглебске: разбор рисков, маткапитала, дохода, объекта, кредитной нагрузки и требований банка.
-permalink: /geo/borisoglebsk/ipoteka-bez-pervonachalnogo-vznosa/
-breadcrumb: Ипотека без взноса
-og_type: article
+layout: "default"
+title: "Ипотека без первоначального взноса в Борисоглебске | Татьяна Стерликова"
+description: "Консультация по ипотеке без первоначального взноса в Борисоглебске: разбор рисков, маткапитала, дохода, объекта, кредитной нагрузки и требований банка."
+permalink: "/geo/borisoglebsk/ipoteka-bez-pervonachalnogo-vznosa/"
+breadcrumb: "Ипотека без взноса"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека без первоначального взноса в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке без первоначального взноса","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-bez-pervonachalnogo-vznosa/"}'
 ---
 

@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека на дом в Поворино и Поворинском районе | Татьяна Стерликова
-description: Консультация по ипотеке на покупку дома в Поворино и Поворинском районе: заемщик, участок, документы, первоначальный взнос, оценка и требования банка.
-permalink: /geo/povorino/ipoteka-na-dom/
-breadcrumb: Ипотека на дом в Поворинском районе
-og_type: article
+layout: "default"
+title: "Ипотека на дом в Поворино и Поворинском районе | Татьяна Стерликова"
+description: "Консультация по ипотеке на покупку дома в Поворино и Поворинском районе: заемщик, участок, документы, первоначальный взнос, оценка и требования банка."
+permalink: "/geo/povorino/ipoteka-na-dom/"
+breadcrumb: "Ипотека на дом в Поворинском районе"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на дом в Поворино и Поворинском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по ипотеке на покупку дома","url":"https://sterlikova-ipoteka.ru/geo/povorino/ipoteka-na-dom/"}'
 ---
 

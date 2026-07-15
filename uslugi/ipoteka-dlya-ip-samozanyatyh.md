@@ -1,9 +1,9 @@
 ---
-layout: default
-title: Ипотека для ИП и самозанятых | Борисоглебск
-description: Ипотека для ИП и самозанятых в Борисоглебске: подтверждение дохода, документы, кредитная нагрузка и подготовка заявки.
-permalink: /uslugi/ipoteka-dlya-ip-samozanyatyh/
-og_type: article
+layout: "default"
+title: "Ипотека для ИП и самозанятых | Борисоглебск"
+description: "Ипотека для ИП и самозанятых в Борисоглебске: подтверждение дохода, документы, кредитная нагрузка и подготовка заявки."
+permalink: "/uslugi/ipoteka-dlya-ip-samozanyatyh/"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека для ИП и самозанятых","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":["Борисоглебск","Борисоглебский городской округ","Грибановский район","Поворинский район"],"serviceType":"Ипотечное консультирование и подготовка заявки"}'
 ---
 

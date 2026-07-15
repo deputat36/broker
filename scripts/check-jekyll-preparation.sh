@@ -20,10 +20,10 @@ after_hash="$(hash_diff)"
 git diff --check
 
 if [[ "$before_hash" != "$after_hash" ]]; then
-  echo "::error::Повторный Jekyll prebuild изменил подготовленные исходники" >&2
+  echo "::error::Проверка Jekyll-исходников изменила рабочее дерево" >&2
   echo "Diff hash до:    $before_hash" >&2
   echo "Diff hash после: $after_hash" >&2
-  echo "Изменённые файлы после второго прохода:" >&2
+  echo "Изменённые файлы:" >&2
   git diff --name-only >&2
   exit 1
 fi
@@ -31,12 +31,12 @@ fi
 for marker in \
   "Канонический layout подтверждён:" \
   "Канонические prepared-source подтверждены:" \
-  "Front matter: нормализовано: файлов — 0"
+  "Front matter каноничен: файлов с нарушениями — 0"
 do
   if ! grep -Fq "$marker" "$LOG_FILE"; then
-    echo "::error file=$LOG_FILE::Второй проход не подтвердил ожидаемый маркер: $marker" >&2
+    echo "::error file=$LOG_FILE::Проверка не подтвердила ожидаемый маркер: $marker" >&2
     exit 1
   fi
 done
 
-echo "Jekyll source preparation идемпотентна: исходники каноничны, повторный проход не изменил diff"
+echo "Jekyll-исходники каноничны: проверки не изменили рабочее дерево"

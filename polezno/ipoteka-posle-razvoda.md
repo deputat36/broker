@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека после развода | Татьяна Стерликова
-description: Что проверить перед ипотекой после развода: доход, алименты, дети, созаемщик, кредитная нагрузка, материнский капитал, объект и документы.
-permalink: /polezno/ipoteka-posle-razvoda/
-breadcrumb: Ипотека после развода
-og_type: article
+layout: "default"
+title: "Ипотека после развода | Татьяна Стерликова"
+description: "Что проверить перед ипотекой после развода: доход, алименты, дети, созаемщик, кредитная нагрузка, материнский капитал, объект и документы."
+permalink: "/polezno/ipoteka-posle-razvoda/"
+breadcrumb: "Ипотека после развода"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипотека после развода","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ipoteka-posle-razvoda/"}'
 ---
 

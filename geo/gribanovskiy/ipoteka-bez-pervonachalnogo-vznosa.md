@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека без первоначального взноса в Грибановском районе | Татьяна Стерликова
-description: Ипотека без накопленного взноса в Грибановском районе: маткапитал, продажа имущества, покупка дома или жилья в Борисоглебске, семейный бюджет и законные источники средств.
-permalink: /geo/gribanovskiy/ipoteka-bez-pervonachalnogo-vznosa/
-breadcrumb: Ипотека без взноса
-og_type: article
+layout: "default"
+title: "Ипотека без первоначального взноса в Грибановском районе | Татьяна Стерликова"
+description: "Ипотека без накопленного взноса в Грибановском районе: маткапитал, продажа имущества, покупка дома или жилья в Борисоглебске, семейный бюджет и законные источники средств."
+permalink: "/geo/gribanovskiy/ipoteka-bez-pervonachalnogo-vznosa/"
+breadcrumb: "Ипотека без взноса"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека без первоначального взноса в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке без первоначального взноса","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-bez-pervonachalnogo-vznosa/"}'
 ---
 

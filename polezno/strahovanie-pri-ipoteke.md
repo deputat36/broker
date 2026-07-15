@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Страхование при ипотеке | Татьяна Стерликова
-description: Что важно знать о страховании при ипотеке: какие виды страховки могут потребоваться, как условия банка влияют на платеж и что проверить до сделки.
-permalink: /polezno/strahovanie-pri-ipoteke/
-breadcrumb: Страхование при ипотеке
-og_type: article
+layout: "default"
+title: "Страхование при ипотеке | Татьяна Стерликова"
+description: "Что важно знать о страховании при ипотеке: какие виды страховки могут потребоваться, как условия банка влияют на платеж и что проверить до сделки."
+permalink: "/polezno/strahovanie-pri-ipoteke/"
+breadcrumb: "Страхование при ипотеке"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Страхование при ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/strahovanie-pri-ipoteke/"}'
 ---
 

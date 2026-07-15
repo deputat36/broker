@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека на строительство дома в Грибановском районе | Татьяна Стерликова
-description: Ипотека на строительство дома в Грибановском районе: семейный участок, подрядчик из другого города, смета, коммуникации, взнос и финансовый резерв.
-permalink: /geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/
-breadcrumb: Строительство дома
-og_type: article
+layout: "default"
+title: "Ипотека на строительство дома в Грибановском районе | Татьяна Стерликова"
+description: "Ипотека на строительство дома в Грибановском районе: семейный участок, подрядчик из другого города, смета, коммуникации, взнос и финансовый резерв."
+permalink: "/geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/"
+breadcrumb: "Строительство дома"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на строительство дома в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке на строительство дома","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/"}'
 ---
 

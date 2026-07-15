@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Предварительное одобрение ипотеки | Татьяна Стерликова
-description: Что значит предварительное одобрение ипотеки, чем оно отличается от финального решения банка, что проверяют после одобрения и почему важно не торопиться с авансом.
-permalink: /polezno/predvaritelnoe-odobrenie-ipoteki/
-breadcrumb: Предварительное одобрение
-og_type: article
+layout: "default"
+title: "Предварительное одобрение ипотеки | Татьяна Стерликова"
+description: "Что значит предварительное одобрение ипотеки, чем оно отличается от финального решения банка, что проверяют после одобрения и почему важно не торопиться с авансом."
+permalink: "/polezno/predvaritelnoe-odobrenie-ipoteki/"
+breadcrumb: "Предварительное одобрение"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Предварительное одобрение ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/predvaritelnoe-odobrenie-ipoteki/"}'
 ---
 

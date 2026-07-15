@@ -1,9 +1,9 @@
 ---
-layout: default
-title: Как проверить кредитную историю перед ипотекой | Татьяна Стерликова
-description: Что проверить в кредитной истории перед ипотекой: просрочки, действующие кредиты, кредитные карты, ошибки, частые заявки и причины возможного отказа банка.
-permalink: /polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/
-og_type: article
+layout: "default"
+title: "Как проверить кредитную историю перед ипотекой | Татьяна Стерликова"
+description: "Что проверить в кредитной истории перед ипотекой: просрочки, действующие кредиты, кредитные карты, ошибки, частые заявки и причины возможного отказа банка."
+permalink: "/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как проверить кредитную историю перед ипотекой","author":{"@type":"Person","name":"Татьяна Стерликова"},"about":"Проверка кредитной истории перед ипотекой"}'
 ---
 

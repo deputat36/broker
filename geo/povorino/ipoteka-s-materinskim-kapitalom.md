@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека с материнским капиталом в Поворино | Татьяна Стерликова
-description: Ипотека с материнским капиталом в Поворино и районе: выбор между квартирой и домом, собственные средства, сроки продавца, объект и ипотечный маршрут.
-permalink: /geo/povorino/ipoteka-s-materinskim-kapitalom/
-breadcrumb: Ипотека с маткапиталом
-og_type: article
+layout: "default"
+title: "Ипотека с материнским капиталом в Поворино | Татьяна Стерликова"
+description: "Ипотека с материнским капиталом в Поворино и районе: выбор между квартирой и домом, собственные средства, сроки продавца, объект и ипотечный маршрут."
+permalink: "/geo/povorino/ipoteka-s-materinskim-kapitalom/"
+breadcrumb: "Ипотека с маткапиталом"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с материнским капиталом в Поворино и Поворинском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по ипотеке с материнским капиталом","url":"https://sterlikova-ipoteka.ru/geo/povorino/ipoteka-s-materinskim-kapitalom/"}'
 ---
 

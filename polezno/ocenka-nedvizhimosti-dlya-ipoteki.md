@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Оценка недвижимости для ипотеки | Татьяна Стерликова
-description: Зачем нужна оценка недвижимости для ипотеки, что влияет на оценочную стоимость, почему она может отличаться от цены продавца и как подготовиться к проверке объекта.
-permalink: /polezno/ocenka-nedvizhimosti-dlya-ipoteki/
-breadcrumb: Оценка недвижимости
-og_type: article
+layout: "default"
+title: "Оценка недвижимости для ипотеки | Татьяна Стерликова"
+description: "Зачем нужна оценка недвижимости для ипотеки, что влияет на оценочную стоимость, почему она может отличаться от цены продавца и как подготовиться к проверке объекта."
+permalink: "/polezno/ocenka-nedvizhimosti-dlya-ipoteki/"
+breadcrumb: "Оценка недвижимости"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оценка недвижимости для ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ocenka-nedvizhimosti-dlya-ipoteki/"}'
 ---
 

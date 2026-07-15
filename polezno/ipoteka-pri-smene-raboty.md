@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека при смене работы | Татьяна Стерликова
-description: Можно ли подать заявку на ипотеку при смене работы: как банк смотрит стаж, испытательный срок, доход, документы, нагрузку и кредитную историю.
-permalink: /polezno/ipoteka-pri-smene-raboty/
-breadcrumb: Ипотека при смене работы
-og_type: article
+layout: "default"
+title: "Ипотека при смене работы | Татьяна Стерликова"
+description: "Можно ли подать заявку на ипотеку при смене работы: как банк смотрит стаж, испытательный срок, доход, документы, нагрузку и кредитную историю."
+permalink: "/polezno/ipoteka-pri-smene-raboty/"
+breadcrumb: "Ипотека при смене работы"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипотека при смене работы","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ipoteka-pri-smene-raboty/"}'
 ---
 

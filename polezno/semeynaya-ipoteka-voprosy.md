@@ -1,9 +1,9 @@
 ---
-layout: default
-title: Семейная ипотека: что проверить перед заявкой | Борисоглебск
-description: Практический чек-лист семейной ипотеки: семья, заемщики, объект, первоначальный взнос, маткапитал, документы и порядок действий до задатка.
-permalink: /polezno/semeynaya-ipoteka-voprosy/
-og_type: article
+layout: "default"
+title: "Семейная ипотека: что проверить перед заявкой | Борисоглебск"
+description: "Практический чек-лист семейной ипотеки: семья, заемщики, объект, первоначальный взнос, маткапитал, документы и порядок действий до задатка."
+permalink: "/polezno/semeynaya-ipoteka-voprosy/"
+og_type: "article"
 ---
 
 <section class="page-hero section">

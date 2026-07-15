@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Как выбрать банк для ипотеки | Татьяна Стерликова
-description: Как подойти к выбору банка для ипотеки: ставка, платеж, требования к заемщику, объект, доход, сроки, риски отказа и почему не стоит подавать заявки наугад.
-permalink: /polezno/kak-vybrat-bank-dlya-ipoteki/
-breadcrumb: Как выбрать банк
-og_type: article
+layout: "default"
+title: "Как выбрать банк для ипотеки | Татьяна Стерликова"
+description: "Как подойти к выбору банка для ипотеки: ставка, платеж, требования к заемщику, объект, доход, сроки, риски отказа и почему не стоит подавать заявки наугад."
+permalink: "/polezno/kak-vybrat-bank-dlya-ipoteki/"
+breadcrumb: "Как выбрать банк"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как выбрать банк для ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kak-vybrat-bank-dlya-ipoteki/"}'
 ---
 

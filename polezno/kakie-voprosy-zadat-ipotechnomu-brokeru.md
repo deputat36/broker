@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Какие вопросы задать ипотечному брокеру | Татьяна Стерликова
-description: Какие вопросы задать ипотечному брокеру перед заявкой: по шансам, банкам, платежу, документам, объекту, срокам, расходам, отказам и сопровождению сделки.
-permalink: /polezno/kakie-voprosy-zadat-ipotechnomu-brokeru/
-breadcrumb: Вопросы брокеру
-og_type: article
+layout: "default"
+title: "Какие вопросы задать ипотечному брокеру | Татьяна Стерликова"
+description: "Какие вопросы задать ипотечному брокеру перед заявкой: по шансам, банкам, платежу, документам, объекту, срокам, расходам, отказам и сопровождению сделки."
+permalink: "/polezno/kakie-voprosy-zadat-ipotechnomu-brokeru/"
+breadcrumb: "Вопросы брокеру"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Какие вопросы задать ипотечному брокеру","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kakie-voprosy-zadat-ipotechnomu-brokeru/"}'
 ---
 

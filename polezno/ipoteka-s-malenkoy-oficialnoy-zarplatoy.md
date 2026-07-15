@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека с маленькой официальной зарплатой | Татьяна Стерликова
-description: Что делать, если официальная зарплата маленькая, а доход выше: как банк смотрит платежеспособность, смену работы, какие документы подготовить и когда нужен ипотечный брокер.
-permalink: /polezno/ipoteka-s-malenkoy-oficialnoy-zarplatoy/
-breadcrumb: Маленькая официальная зарплата
-og_type: article
+layout: "default"
+title: "Ипотека с маленькой официальной зарплатой | Татьяна Стерликова"
+description: "Что делать, если официальная зарплата маленькая, а доход выше: как банк смотрит платежеспособность, смену работы, какие документы подготовить и когда нужен ипотечный брокер."
+permalink: "/polezno/ipoteka-s-malenkoy-oficialnoy-zarplatoy/"
+breadcrumb: "Маленькая официальная зарплата"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипотека с маленькой официальной зарплатой","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ipoteka-s-malenkoy-oficialnoy-zarplatoy/"}'
 ---
 

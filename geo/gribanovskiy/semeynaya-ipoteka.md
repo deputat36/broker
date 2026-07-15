@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Семейная ипотека в Грибановском районе | Татьяна Стерликова
-description: Консультация по семейной ипотеке в пгт Грибановский и Грибановском районе: семья, объект, первоначальный взнос, материнский капитал, документы и требования банка.
-permalink: /geo/gribanovskiy/semeynaya-ipoteka/
-breadcrumb: Семейная ипотека в Грибановском районе
-og_type: article
+layout: "default"
+title: "Семейная ипотека в Грибановском районе | Татьяна Стерликова"
+description: "Консультация по семейной ипотеке в пгт Грибановский и Грибановском районе: семья, объект, первоначальный взнос, материнский капитал, документы и требования банка."
+permalink: "/geo/gribanovskiy/semeynaya-ipoteka/"
+breadcrumb: "Семейная ипотека в Грибановском районе"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейная ипотека в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по семейной ипотеке","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/semeynaya-ipoteka/"}'
 ---
 

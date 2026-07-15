@@ -1,11 +1,11 @@
 ---
-layout: default
-title: Согласие на обработку персональных данных | Татьяна Стерликова
-description: Согласие пользователя на обработку и передачу сведений из онлайн-заявки ипотечному брокеру Татьяне Стерликовой.
-permalink: /personal-data-consent/
-breadcrumb: Согласие на обработку данных
-og_type: article
-robots: noindex, follow
+layout: "default"
+title: "Согласие на обработку персональных данных | Татьяна Стерликова"
+description: "Согласие пользователя на обработку и передачу сведений из онлайн-заявки ипотечному брокеру Татьяне Стерликовой."
+permalink: "/personal-data-consent/"
+breadcrumb: "Согласие на обработку данных"
+og_type: "article"
+robots: "noindex, follow"
 sitemap: false
 ---
 

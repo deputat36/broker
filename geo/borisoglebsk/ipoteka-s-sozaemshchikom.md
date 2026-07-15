@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека с созаемщиком в Борисоглебске | Татьяна Стерликова
-description: Консультация по ипотеке с созаемщиком в Борисоглебске: супруги, родители, доход семьи, кредитная нагрузка, документы, риски и требования банка.
-permalink: /geo/borisoglebsk/ipoteka-s-sozaemshchikom/
-breadcrumb: Созаемщик
-og_type: article
+layout: "default"
+title: "Ипотека с созаемщиком в Борисоглебске | Татьяна Стерликова"
+description: "Консультация по ипотеке с созаемщиком в Борисоглебске: супруги, родители, доход семьи, кредитная нагрузка, документы, риски и требования банка."
+permalink: "/geo/borisoglebsk/ipoteka-s-sozaemshchikom/"
+breadcrumb: "Созаемщик"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с созаемщиком в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке с созаемщиком","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-s-sozaemshchikom/"}'
 ---
 

@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Рефинансирование ипотеки в Поворино | Татьяна Стерликова
-description: Консультация по рефинансированию ипотеки в Поворино и Поворинском районе: расчет выгоды, снижение платежа, ставка, срок, расходы, страховка и требования банка.
-permalink: /geo/povorino/refinansirovanie-ipoteki/
-breadcrumb: Рефинансирование ипотеки
-og_type: article
+layout: "default"
+title: "Рефинансирование ипотеки в Поворино | Татьяна Стерликова"
+description: "Консультация по рефинансированию ипотеки в Поворино и Поворинском районе: расчет выгоды, снижение платежа, ставка, срок, расходы, страховка и требования банка."
+permalink: "/geo/povorino/refinansirovanie-ipoteki/"
+breadcrumb: "Рефинансирование ипотеки"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Рефинансирование ипотеки в Поворино","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Поворино и Поворинский район"},"serviceType":"Консультация по рефинансированию ипотеки","url":"https://sterlikova-ipoteka.ru/geo/povorino/refinansirovanie-ipoteki/"}'
 ---
 

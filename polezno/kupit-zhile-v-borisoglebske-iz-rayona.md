@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Как купить жилье в Борисоглебске, если живете в районе | Татьяна Стерликова
-description: Ипотека на покупку квартиры или дома в Борисоглебске для жителей Грибановского района, Поворино, Поворинского района и Борисоглебского городского округа: что проверить до заявки, как подготовить доход, взнос, объект и документы.
-permalink: /polezno/kupit-zhile-v-borisoglebske-iz-rayona/
-breadcrumb: Покупка в Борисоглебске из района
-og_type: article
+layout: "default"
+title: "Как купить жилье в Борисоглебске, если живете в районе | Татьяна Стерликова"
+description: "Ипотека на покупку квартиры или дома в Борисоглебске для жителей Грибановского района, Поворино, Поворинского района и Борисоглебского городского округа: что проверить до заявки, как подготовить доход, взнос, объект и документы."
+permalink: "/polezno/kupit-zhile-v-borisoglebske-iz-rayona/"
+breadcrumb: "Покупка в Борисоглебске из района"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как купить жилье в Борисоглебске, если живете в районе","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kupit-zhile-v-borisoglebske-iz-rayona/"}'
 ---
 

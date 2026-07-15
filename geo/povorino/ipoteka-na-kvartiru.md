@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека на квартиру в Поворино и Поворинском районе | Татьяна Стерликова
-description: Консультация по ипотеке на покупку квартиры в Поворино и Поворинском районе: расчет платежа, доход, первоначальный взнос, документы, объект и требования банка.
-permalink: /geo/povorino/ipoteka-na-kvartiru/
-breadcrumb: Ипотека на квартиру в Поворинском районе
-og_type: article
+layout: "default"
+title: "Ипотека на квартиру в Поворино и Поворинском районе | Татьяна Стерликова"
+description: "Консультация по ипотеке на покупку квартиры в Поворино и Поворинском районе: расчет платежа, доход, первоначальный взнос, документы, объект и требования банка."
+permalink: "/geo/povorino/ipoteka-na-kvartiru/"
+breadcrumb: "Ипотека на квартиру в Поворинском районе"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на квартиру в Поворино и Поворинском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по ипотеке на покупку квартиры","url":"https://sterlikova-ipoteka.ru/geo/povorino/ipoteka-na-kvartiru/"}'
 ---
 
