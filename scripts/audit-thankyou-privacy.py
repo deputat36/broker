@@ -44,7 +44,7 @@ def forbid(text: str, markers: tuple[str, ...], file: Path, label: str) -> int:
     return errors
 
 
-def block(text: str, start: str, end: str, file: Path, label: str) -> tuple[str, int]:
+def extract(text: str, start: str, end: str, file: Path, label: str) -> tuple[str, int]:
     start_position = text.find(start)
     end_position = text.find(end, start_position + len(start)) if start_position >= 0 else -1
     if start_position < 0 or end_position < 0:
@@ -63,17 +63,17 @@ def check_order(text: str, markers: tuple[str, ...], file: Path, label: str) -> 
 
 def check_application_js(text: str, file: Path, label: str) -> int:
     errors = 0
-    storage_block, block_errors = block(
+    storage, count = extract(
         text,
         "function saveLastLead",
         "function buildThankYouUrl",
         file,
         f"{label}: локальная сводка",
     )
-    errors += block_errors
-    if storage_block:
+    errors += count
+    if storage:
         errors += require(
-            storage_block,
+            storage,
             (
                 "function saveLastLead(payload)",
                 "request_id: payload.request_id",
@@ -84,7 +84,7 @@ def check_application_js(text: str, file: Path, label: str) -> int:
             f"{label}: локальная сводка",
         )
         errors += forbid(
-            storage_block,
+            storage,
             (
                 "scenario:",
                 "object_type:",
@@ -99,17 +99,17 @@ def check_application_js(text: str, file: Path, label: str) -> int:
             f"{label}: локальная сводка",
         )
 
-    redirect_block, block_errors = block(
+    redirect, count = extract(
         text,
         "function buildThankYouUrl",
         "async function sendDirectly",
         file,
         f"{label}: redirect",
     )
-    errors += block_errors
-    if redirect_block:
+    errors += count
+    if redirect:
         errors += require(
-            redirect_block,
+            redirect,
             (
                 "url.hash = new URLSearchParams({ id: payload.request_id }).toString();",
                 "return url.toString();",
@@ -118,7 +118,7 @@ def check_application_js(text: str, file: Path, label: str) -> int:
             f"{label}: redirect",
         )
         errors += forbid(
-            redirect_block,
+            redirect,
             (
                 "searchParams.set",
                 "payload.qualification",
@@ -130,12 +130,7 @@ def check_application_js(text: str, file: Path, label: str) -> int:
             f"{label}: redirect",
         )
 
-    errors += require(
-        text,
-        ("saveLastLead(preparedPayload);",),
-        file,
-        f"{label}: вызов сохранения",
-    )
+    errors += require(text, ("saveLastLead(preparedPayload);",), file, f"{label}: вызов сохранения")
     errors += forbid(
         text,
         ("saveLastLead(preparedPayload, channels);",),
@@ -145,44 +140,58 @@ def check_application_js(text: str, file: Path, label: str) -> int:
     return errors
 
 
-def check_layout(text: str, file: Path, label: str) -> int:
-    errors = 0
-    context_block, block_errors = block(
+def check_context_block(text: str, file: Path, label: str, start: str, end: str) -> int:
+    context, errors = extract(text, start, end, file, label)
+    if not context:
+        return errors
+    errors += require(
+        context,
+        (
+            "window.location.hash.replace(/^#/, '')",
+            "new URLSearchParams(window.location.search)",
+            "id: fragmentParams.get('id') || legacyParams.get('id') || ''",
+            "window.history.replaceState(null, document.title, window.location.pathname)",
+        ),
+        file,
+        label,
+    )
+    errors += forbid(
+        context,
+        ("scenario:", "status:", "get('scenario')", "get('status')"),
+        file,
+        label,
+    )
+    return errors
+
+
+def check_source_layout(text: str) -> int:
+    errors = check_context_block(
         text,
+        LAYOUT,
+        "Исходный layout: ранняя очистка URL",
         "{% if page.url == '/spasibo/' %}",
         "{% if site.yandex_metrika_id",
-        file,
-        f"{label}: ранняя очистка URL",
     )
-    errors += block_errors
-    if context_block:
-        errors += require(
-            context_block,
-            (
-                "window.location.hash.replace(/^#/, '')",
-                "new URLSearchParams(window.location.search)",
-                "id: fragmentParams.get('id') || legacyParams.get('id') || ''",
-                "window.history.replaceState(null, document.title, window.location.pathname)",
-            ),
-            file,
-            f"{label}: ранняя очистка URL",
-        )
-        errors += forbid(
-            context_block,
-            (
-                "scenario:",
-                "status:",
-                "get('scenario')",
-                "get('status')",
-            ),
-            file,
-            f"{label}: ранняя очистка URL",
-        )
-
     sanitizer_position = text.find("window.history.replaceState")
     metrika_position = text.find("https://mc.yandex.ru/metrika/tag.js")
     if sanitizer_position < 0 or metrika_position < 0 or sanitizer_position > metrika_position:
-        error(f"{label}: очистка URL должна выполняться до инициализации Метрики", file)
+        error("Исходный layout: очистка URL должна выполняться до инициализации Метрики", LAYOUT)
+        errors += 1
+    return errors
+
+
+def check_built_layout(text: str, file: Path) -> int:
+    errors = check_context_block(
+        text,
+        file,
+        "Собранная страница: ранняя очистка URL",
+        "var fragmentParams",
+        "</script>",
+    )
+    sanitizer_position = text.find("window.history.replaceState")
+    main_position = text.find("/assets/js/main.js")
+    if sanitizer_position < 0 or main_position < 0 or sanitizer_position > main_position:
+        error("Собранная страница: очистка URL должна выполняться до main.js", file)
         errors += 1
     return errors
 
@@ -228,8 +237,8 @@ def main() -> int:
     built_migration = read(built_migration_js)
     errors = 0
 
-    errors += check_layout(layout, LAYOUT, "Исходный layout")
-    errors += check_layout(built, built_page, "Собранная страница")
+    errors += check_source_layout(layout)
+    errors += check_built_layout(built, built_page)
     errors += check_application_js(application_js, APPLICATION_JS, "Исходный JS")
     errors += check_application_js(built_js, built_application_js, "Собранный JS")
 
