@@ -1,35 +1,35 @@
 ---
 layout: "default"
-title: "Заявка отправлена | Ипотечный брокер Татьяна Стерликова"
-description: "Сервис подтвердил передачу онлайн-заявки ипотечному брокеру. Сохраните номер обращения и при необходимости свяжитесь с Татьяной Стерликовой напрямую."
+title: "Статус онлайн-заявки | Ипотечный брокер Татьяна Стерликова"
+description: "Проверка статуса онлайн-заявки ипотечному брокеру. Подтверждение отправки показывается только при наличии корректного номера обращения."
 permalink: "/spasibo/"
-breadcrumb: "Заявка отправлена"
+breadcrumb: "Статус заявки"
 og_type: "website"
 robots: "noindex, follow"
 sitemap: false
 ---
 
-<section class="page-hero section">
-  <p class="eyebrow">Заявка отправлена</p>
-  <h1>Спасибо, обращение передано</h1>
-  <p class="lead" id="thankyou-message">Сервис подтвердил передачу обращения через настроенный канал. Сохраните номер заявки до ответа Татьяны.</p>
+<section class="page-hero section" data-thankyou-page data-state="unverified">
+  <p class="eyebrow" id="thankyou-eyebrow">Статус обращения</p>
+  <h1 id="thankyou-title">Проверяем подтверждение обращения</h1>
+  <p class="lead" id="thankyou-message">Подтверждение появится, если сервис действительно принял заявку и передал номер обращения. При прямом переходе на эту страницу статус отправки не считается подтверждённым.</p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="tel:+79030250807">Позвонить брокеру</a>
+    <a class="btn btn-light" href="{{ '/online-zayavka/' | relative_url }}">Вернуться к онлайн-заявке</a>
     <a class="btn btn-light" href="{{ '/uslugi/' | relative_url }}">Посмотреть услуги</a>
-    <a class="btn btn-light" href="{{ '/online-zayavka/' | relative_url }}">Отправить ещё одну заявку</a>
   </div>
 </section>
 
 <section class="section">
-  <div class="grid cards-3" aria-label="Подтверждение отправленного обращения">
-    <article class="card"><p class="eyebrow">Номер обращения</p><h2 id="lead-id">—</h2><p>Сохраните этот номер до ответа Татьяны.</p></article>
-    <article class="card"><p class="eyebrow">Передача</p><h2>Подтверждена</h2><p>Хотя бы один настроенный канал принял обращение.</p></article>
-    <article class="card"><p class="eyebrow">Следующий шаг</p><h2>Обратная связь</h2><p>Татьяна изучит вводные и свяжется с вами удобным способом.</p></article>
+  <div class="grid cards-3" aria-label="Статус обращения">
+    <article class="card"><p class="eyebrow">Номер обращения</p><h2 id="lead-id">—</h2><p id="lead-id-note">Номер появится после подтверждённой отправки.</p></article>
+    <article class="card"><p class="eyebrow">Передача</p><h2 id="delivery-status">Не подтверждена</h2><p id="delivery-note">Прямой переход на страницу не подтверждает передачу данных.</p></article>
+    <article class="card"><p class="eyebrow">Следующий шаг</p><h2 id="next-step-title">Проверьте отправку</h2><p id="next-step-note">Вернитесь к форме или свяжитесь с Татьяной напрямую.</p></article>
   </div>
 </section>
 
 <section class="section muted">
-  <div class="section-head"><p class="eyebrow">Что будет дальше</p><h2>От заявки до следующего шага</h2><p>Техническое подтверждение отправки не является одобрением ипотеки и не создаёт обязательств по платному сопровождению.</p></div>
+  <div class="section-head"><p class="eyebrow">После подтверждённой отправки</p><h2>Что произойдёт дальше</h2><p>Техническое подтверждение отправки не является одобрением ипотеки и не создаёт обязательств по платному сопровождению.</p></div>
   <div class="grid cards-3">
     <article class="card"><h3>1. Проверка вводных</h3><p>Татьяна посмотрит цель, объект, первоначальный взнос, доход и историю обращений в банки.</p></article>
     <article class="card"><h3>2. Уточняющий контакт</h3><p>При необходимости задаст дополнительные вопросы и предложит удобный формат разговора.</p></article>
@@ -54,7 +54,23 @@ sitemap: false
       var requestId = String(value || '').replace(/\s+/g, ' ').trim().slice(0, 80);
       var uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       var fallbackPattern = /^IP-\d{8}-[A-Z0-9]{6,16}$/;
-      return uuidPattern.test(requestId) || fallbackPattern.test(requestId) ? requestId : '—';
+      return uuidPattern.test(requestId) || fallbackPattern.test(requestId) ? requestId : '';
+    }
+
+    function setText(id, value) {
+      var element = document.getElementById(id);
+      if (element) element.textContent = value;
+    }
+
+    function trackVerifiedView(requestId) {
+      var trackingKey = 'sterlikovaThankYouTracked:' + requestId;
+      try {
+        if (window.sessionStorage.getItem(trackingKey) === '1') return;
+        window.sessionStorage.setItem(trackingKey, '1');
+      } catch (_storageError) { /* Аналитика продолжает работать без sessionStorage. */ }
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'lead_thankyou_view' });
+      if (typeof window.sendGoal === 'function') window.sendGoal('lead_thankyou_view');
     }
 
     try {
@@ -69,21 +85,36 @@ sitemap: false
       lastLead = {};
     }
 
-    var requestId = cleanRequestId(legacyContext.id || lastLead.request_id);
-    document.getElementById('lead-id').textContent = requestId;
+    var requestId = cleanRequestId(legacyContext.id) || cleanRequestId(lastLead.request_id);
+    var page = document.querySelector('[data-thankyou-page]');
 
-    if (requestId !== '—' && lastLead.expires_at) {
-      try {
-        window.localStorage.setItem(storageKey, JSON.stringify({
-          request_id: requestId,
-          expires_at: new Date(Date.parse(lastLead.expires_at)).toISOString()
-        }));
-      } catch (_storageError) { /* Страница продолжает работать без localStorage. */ }
+    if (requestId) {
+      if (page) page.dataset.state = 'verified';
+      setText('thankyou-eyebrow', 'Заявка отправлена');
+      setText('thankyou-title', 'Спасибо, обращение передано');
+      setText('thankyou-message', 'Сервис подтвердил передачу обращения через настроенный канал. Сохраните номер заявки до ответа Татьяны.');
+      setText('lead-id', requestId);
+      setText('lead-id-note', 'Сохраните этот номер до ответа Татьяны.');
+      setText('delivery-status', 'Подтверждена');
+      setText('delivery-note', 'Хотя бы один настроенный канал принял обращение.');
+      setText('next-step-title', 'Обратная связь');
+      setText('next-step-note', 'Татьяна изучит вводные и свяжется с вами удобным способом.');
+
+      if (lastLead.expires_at) {
+        try {
+          window.localStorage.setItem(storageKey, JSON.stringify({
+            request_id: requestId,
+            expires_at: new Date(Date.parse(lastLead.expires_at)).toISOString()
+          }));
+        } catch (_storageError) { /* Страница продолжает работать без localStorage. */ }
+      }
+      trackVerifiedView(requestId);
+    } else {
+      if (page) page.dataset.state = 'unverified';
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'lead_thankyou_unverified_view' });
     }
 
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: 'lead_thankyou_view' });
-    if (typeof window.sendGoal === 'function') window.sendGoal('lead_thankyou_view');
     try { delete window.thankYouContext; } catch (error) { window.thankYouContext = {}; }
   });
 </script>
