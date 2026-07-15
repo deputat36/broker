@@ -92,39 +92,54 @@ jobs:
         with:
           source: ./
           destination: ./_site
-      - name: Run required post-build checks
-        run: bash scripts/post-build-check.sh ./_site
-      - name: Audit built HTML, links and structured data
-        run: python3 scripts/audit-built-site.py ./_site
-      - name: Audit district materials cluster
-        run: python3 scripts/audit-district-materials.py ./_site
-      - name: Audit conversion pages and CTA
-        run: python3 scripts/audit-conversion-pages.py ./_site
-      - name: Audit unconfirmed ETAGI terms
-        run: python3 scripts/audit-etagi-terms.py ./_site
-      - name: Audit ETAGI terms in useful materials
-        run: python3 scripts/audit-etagi-content-pages.py ./_site
-      - name: Audit SEO of service pages
-        run: python3 scripts/audit-service-seo.py ./_site
-      - name: Audit regional landing pages
-        run: python3 scripts/audit-regional-pages.py ./_site
-      - name: Audit regional content uniqueness
-        run: python3 scripts/audit-regional-uniqueness.py ./_site
-      - name: Audit distinct regional content intents
-        run: python3 scripts/audit-regional-intents.py ./_site
-      - name: Audit regional reading paths
-        run: python3 scripts/audit-regional-link-paths.py ./_site
-      - name: Audit complex application routes
-        run: python3 scripts/audit-complex-application-routes.py ./_site
-      - name: Audit complex application preparation context
-        run: python3 scripts/audit-application-preparation-context.py ./_site
-      - name: Audit online application and remote service route
-        run: python3 scripts/audit-online-application.py ./_site
-      - name: Audit thank-you privacy
-        run: python3 scripts/audit-thankyou-privacy.py ./_site
-      - name: Audit progressive mobile application UX
-        run: python3 scripts/audit-application-ux.py ./_site
-      - name: Upload artifact
+      - name: Run post-build audit suite
+        run: |
+          set +e
+          : > post-build-audits.log
+          failures=0
+
+          run_audit() {
+            label="$1"
+            shift
+            echo "===== ${label} =====" | tee -a post-build-audits.log
+            "$@" 2>&1 | tee -a post-build-audits.log
+            status=${PIPESTATUS[0]}
+            if [ "$status" -ne 0 ]; then
+              echo "FAILED: ${label} (${status})" | tee -a post-build-audits.log
+              failures=$((failures + 1))
+            else
+              echo "PASSED: ${label}" | tee -a post-build-audits.log
+            fi
+          }
+
+          run_audit "Required post-build checks" bash scripts/post-build-check.sh ./_site
+          run_audit "Built HTML, links and structured data" python3 scripts/audit-built-site.py ./_site
+          run_audit "District materials cluster" python3 scripts/audit-district-materials.py ./_site
+          run_audit "Conversion pages and CTA" python3 scripts/audit-conversion-pages.py ./_site
+          run_audit "Unconfirmed ETAGI terms" python3 scripts/audit-etagi-terms.py ./_site
+          run_audit "ETAGI terms in useful materials" python3 scripts/audit-etagi-content-pages.py ./_site
+          run_audit "SEO of service pages" python3 scripts/audit-service-seo.py ./_site
+          run_audit "Regional landing pages" python3 scripts/audit-regional-pages.py ./_site
+          run_audit "Regional content uniqueness" python3 scripts/audit-regional-uniqueness.py ./_site
+          run_audit "Distinct regional content intents" python3 scripts/audit-regional-intents.py ./_site
+          run_audit "Regional reading paths" python3 scripts/audit-regional-link-paths.py ./_site
+          run_audit "Complex application routes" python3 scripts/audit-complex-application-routes.py ./_site
+          run_audit "Complex application preparation context" python3 scripts/audit-application-preparation-context.py ./_site
+          run_audit "Online application and remote service route" python3 scripts/audit-online-application.py ./_site
+          run_audit "Thank-you privacy" python3 scripts/audit-thankyou-privacy.py ./_site
+          run_audit "Progressive mobile application UX" python3 scripts/audit-application-ux.py ./_site
+
+          echo "Post-build audit failures: ${failures}" | tee -a post-build-audits.log
+          test "$failures" -eq 0
+      - name: Upload post-build diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-build-audit-diagnostics
+          path: post-build-audits.log
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./_site
