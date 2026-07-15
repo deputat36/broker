@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Как начать ипотеку дистанционно из района | Татьяна Стерликова
-description: Как жителю Грибановского района, Поворино, Поворинского района или Борисоглебского городского округа начать ипотечную консультацию дистанционно: что написать брокеру, какие данные подготовить, как не отправлять лишние документы и когда ехать в офис или банк.
-permalink: /polezno/ipoteka-v-rayone-distantsionno/
-breadcrumb: Ипотека дистанционно
-og_type: article
+layout: "default"
+title: "Как начать ипотеку дистанционно из района | Татьяна Стерликова"
+description: "Как жителю Грибановского района, Поворино, Поворинского района или Борисоглебского городского округа начать ипотечную консультацию дистанционно: что написать брокеру, какие данные подготовить, как не отправлять лишние документы и когда ехать в офис или банк."
+permalink: "/polezno/ipoteka-v-rayone-distantsionno/"
+breadcrumb: "Ипотека дистанционно"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как начать ипотеку дистанционно из района","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ipoteka-v-rayone-distantsionno/"}'
 ---
 

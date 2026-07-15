@@ -1,9 +1,9 @@
 ---
-layout: default
-title: Ипотечный калькулятор | Рассчитать платеж по ипотеке
-description: Предварительный ипотечный калькулятор: рассчитайте примерный платеж, сумму кредита, первоначальный взнос и срок перед консультацией с ипотечным брокером.
-permalink: /kalkulyator-ipoteki/
-og_type: article
+layout: "default"
+title: "Ипотечный калькулятор | Рассчитать платеж по ипотеке"
+description: "Предварительный ипотечный калькулятор: рассчитайте примерный платеж, сумму кредита, первоначальный взнос и срок перед консультацией с ипотечным брокером."
+permalink: "/kalkulyator-ipoteki/"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"WebApplication","name":"Ипотечный калькулятор Татьяны Стерликовой","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"RUB"}}'
 ---
 

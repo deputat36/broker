@@ -1,9 +1,9 @@
 ---
-layout: default
-title: Как подготовиться к ипотеке перед заявкой | Борисоглебск
-description: Что проверить перед подачей заявки на ипотеку: доход, кредитная история, первоначальный взнос, документы, объект, банк и частые ошибки подготовки.
-permalink: /polezno/kak-podgotovitsya-k-ipoteke/
-og_type: article
+layout: "default"
+title: "Как подготовиться к ипотеке перед заявкой | Борисоглебск"
+description: "Что проверить перед подачей заявки на ипотеку: доход, кредитная история, первоначальный взнос, документы, объект, банк и частые ошибки подготовки."
+permalink: "/polezno/kak-podgotovitsya-k-ipoteke/"
+og_type: "article"
 ---
 
 <section class="page-hero section"><div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / <a href="{{ '/polezno/' | relative_url }}">Полезно</a> / Подготовка</div><p class="eyebrow">Перед заявкой</p><h1>Как подготовиться к ипотеке и не испортить заявку</h1><p class="lead">Перед ипотекой важно не спешить. Несколько простых проверок помогают понять реальные шансы и не отправлять заявку в банк наугад.</p><div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Разобрать ситуацию</a><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">Написать ВКонтакте</a></div></section>

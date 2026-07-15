@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Оценка ниже цены продавца по ипотеке | Татьяна Стерликова
-description: Что делать, если оценка недвижимости для ипотеки оказалась ниже цены продавца: как это влияет на сумму кредита, первоначальный взнос, аванс, банк и переговоры по сделке.
-permalink: /polezno/ocenka-nizhe-ceny-prodavca/
-breadcrumb: Оценка ниже цены продавца
-og_type: article
+layout: "default"
+title: "Оценка ниже цены продавца по ипотеке | Татьяна Стерликова"
+description: "Что делать, если оценка недвижимости для ипотеки оказалась ниже цены продавца: как это влияет на сумму кредита, первоначальный взнос, аванс, банк и переговоры по сделке."
+permalink: "/polezno/ocenka-nizhe-ceny-prodavca/"
+breadcrumb: "Оценка ниже цены продавца"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оценка ниже цены продавца по ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ocenka-nizhe-ceny-prodavca/"}'
 ---
 

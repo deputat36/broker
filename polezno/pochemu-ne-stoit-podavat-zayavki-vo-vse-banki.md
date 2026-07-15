@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Почему не стоит подавать заявки на ипотеку во все банки | Татьяна Стерликова
-description: Почему не стоит отправлять ипотечные заявки во все банки подряд: частые обращения, кредитная история, отказы, выбор банка и подготовка заявки.
-permalink: /polezno/pochemu-ne-stoit-podavat-zayavki-vo-vse-banki/
-breadcrumb: Не подавать заявки во все банки
-og_type: article
+layout: "default"
+title: "Почему не стоит подавать заявки на ипотеку во все банки | Татьяна Стерликова"
+description: "Почему не стоит отправлять ипотечные заявки во все банки подряд: частые обращения, кредитная история, отказы, выбор банка и подготовка заявки."
+permalink: "/polezno/pochemu-ne-stoit-podavat-zayavki-vo-vse-banki/"
+breadcrumb: "Не подавать заявки во все банки"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Почему не стоит подавать заявки на ипотеку во все банки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Organization","name":"Ипотечный брокер Татьяна Стерликова"}}'
 ---
 

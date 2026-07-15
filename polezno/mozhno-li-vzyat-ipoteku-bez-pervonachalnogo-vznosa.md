@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Можно ли взять ипотеку без первоначального взноса | Татьяна Стерликова
-description: Можно ли взять ипотеку без первоначального взноса: что проверяет банк, какие варианты возможны, почему опасны сомнительные схемы и когда нужна консультация брокера.
-permalink: /polezno/mozhno-li-vzyat-ipoteku-bez-pervonachalnogo-vznosa/
-breadcrumb: Ипотека без первоначального взноса
-og_type: article
+layout: "default"
+title: "Можно ли взять ипотеку без первоначального взноса | Татьяна Стерликова"
+description: "Можно ли взять ипотеку без первоначального взноса: что проверяет банк, какие варианты возможны, почему опасны сомнительные схемы и когда нужна консультация брокера."
+permalink: "/polezno/mozhno-li-vzyat-ipoteku-bez-pervonachalnogo-vznosa/"
+breadcrumb: "Ипотека без первоначального взноса"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Можно ли взять ипотеку без первоначального взноса","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/mozhno-li-vzyat-ipoteku-bez-pervonachalnogo-vznosa/"}'
 ---
 

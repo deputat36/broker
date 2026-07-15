@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Как подготовиться к просмотру жилья в Борисоглебске из района | Татьяна Стерликова
-description: Что проверить перед поездкой на просмотр квартиры или дома в Борисоглебске, если вы живете в районе: бюджет, ипотека, документы, аванс, сроки, объект и вопросы продавцу.
-permalink: /polezno/prosmotr-zhilya-v-borisoglebske-iz-rayona/
-breadcrumb: Просмотр жилья из района
-og_type: article
+layout: "default"
+title: "Как подготовиться к просмотру жилья в Борисоглебске из района | Татьяна Стерликова"
+description: "Что проверить перед поездкой на просмотр квартиры или дома в Борисоглебске, если вы живете в районе: бюджет, ипотека, документы, аванс, сроки, объект и вопросы продавцу."
+permalink: "/polezno/prosmotr-zhilya-v-borisoglebske-iz-rayona/"
+breadcrumb: "Просмотр жилья из района"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как подготовиться к просмотру жилья в Борисоглебске из района","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/prosmotr-zhilya-v-borisoglebske-iz-rayona/"}'
 ---
 

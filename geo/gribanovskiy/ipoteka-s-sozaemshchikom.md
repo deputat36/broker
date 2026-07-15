@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека с созаемщиком в Грибановском районе | Татьяна Стерликова
-description: Ипотека с созаемщиком в Грибановском районе: семейный бюджет, работа в разных населённых пунктах, смешанный доход, кредиты и состав заявки.
-permalink: /geo/gribanovskiy/ipoteka-s-sozaemshchikom/
-breadcrumb: Созаемщик
-og_type: article
+layout: "default"
+title: "Ипотека с созаемщиком в Грибановском районе | Татьяна Стерликова"
+description: "Ипотека с созаемщиком в Грибановском районе: семейный бюджет, работа в разных населённых пунктах, смешанный доход, кредиты и состав заявки."
+permalink: "/geo/gribanovskiy/ipoteka-s-sozaemshchikom/"
+breadcrumb: "Созаемщик"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с созаемщиком в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке с созаемщиком","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-s-sozaemshchikom/"}'
 ---
 

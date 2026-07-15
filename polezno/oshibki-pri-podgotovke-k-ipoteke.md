@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ошибки при подготовке к ипотеке | Татьяна Стерликова
-description: Практический разбор ошибок перед ипотекой: хаотичные заявки, новые кредиты, карты, доход, объект, аванс, документы и отсутствие финансового запаса.
-permalink: /polezno/oshibki-pri-podgotovke-k-ipoteke/
-breadcrumb: Ошибки перед ипотекой
-og_type: article
+layout: "default"
+title: "Ошибки при подготовке к ипотеке | Татьяна Стерликова"
+description: "Практический разбор ошибок перед ипотекой: хаотичные заявки, новые кредиты, карты, доход, объект, аванс, документы и отсутствие финансового запаса."
+permalink: "/polezno/oshibki-pri-podgotovke-k-ipoteke/"
+breadcrumb: "Ошибки перед ипотекой"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ошибки при подготовке к ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/oshibki-pri-podgotovke-k-ipoteke/"}'
 ---
 

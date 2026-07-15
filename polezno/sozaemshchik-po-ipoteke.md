@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Созаемщик по ипотеке | Когда помогает и какие риски
-description: Когда нужен созаемщик по ипотеке, как банк может учитывать доход, кредиты и кредитную историю созаемщика, какие риски проверить перед заявкой.
-permalink: /polezno/sozaemshchik-po-ipoteke/
-breadcrumb: Созаемщик по ипотеке
-og_type: article
+layout: "default"
+title: "Созаемщик по ипотеке | Когда помогает и какие риски"
+description: "Когда нужен созаемщик по ипотеке, как банк может учитывать доход, кредиты и кредитную историю созаемщика, какие риски проверить перед заявкой."
+permalink: "/polezno/sozaemshchik-po-ipoteke/"
+breadcrumb: "Созаемщик по ипотеке"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Созаемщик по ипотеке: когда помогает и какие риски проверить","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/sozaemshchik-po-ipoteke/"}'
 ---
 

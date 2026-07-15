@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека в декрете | Татьяна Стерликова
-description: Можно ли оформить ипотеку в декрете или отпуске по уходу за ребенком: как банк смотрит доход, созаемщика, маткапитал, кредитную нагрузку и объект.
-permalink: /polezno/ipoteka-v-dekrete/
-breadcrumb: Ипотека в декрете
-og_type: article
+layout: "default"
+title: "Ипотека в декрете | Татьяна Стерликова"
+description: "Можно ли оформить ипотеку в декрете или отпуске по уходу за ребенком: как банк смотрит доход, созаемщика, маткапитал, кредитную нагрузку и объект."
+permalink: "/polezno/ipoteka-v-dekrete/"
+breadcrumb: "Ипотека в декрете"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипотека в декрете","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ipoteka-v-dekrete/"}'
 ---
 

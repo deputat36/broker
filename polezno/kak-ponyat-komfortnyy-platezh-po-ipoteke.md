@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Как понять комфортный платеж по ипотеке | Татьяна Стерликова
-description: Как заранее оценить комфортный платеж по ипотеке: доход, кредитная нагрузка, первоначальный взнос, срок кредита, запас на расходы и предварительный расчет.
-permalink: /polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/
-breadcrumb: Комфортный платеж по ипотеке
-og_type: article
+layout: "default"
+title: "Как понять комфортный платеж по ипотеке | Татьяна Стерликова"
+description: "Как заранее оценить комфортный платеж по ипотеке: доход, кредитная нагрузка, первоначальный взнос, срок кредита, запас на расходы и предварительный расчет."
+permalink: "/polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/"
+breadcrumb: "Комфортный платеж по ипотеке"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как понять комфортный платеж по ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Organization","name":"Ипотечный брокер Татьяна Стерликова"}}'
 ---
 

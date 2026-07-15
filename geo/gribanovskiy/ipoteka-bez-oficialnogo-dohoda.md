@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека без официального дохода в Грибановском районе | Татьяна Стерликова
-description: Ипотека без официального дохода в Грибановском районе: несколько источников поступлений, работа в другом городе, ИП, самозанятость и покупка жилья в районе или Борисоглебске.
-permalink: /geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda/
-breadcrumb: Без официального дохода
-og_type: article
+layout: "default"
+title: "Ипотека без официального дохода в Грибановском районе | Татьяна Стерликова"
+description: "Ипотека без официального дохода в Грибановском районе: несколько источников поступлений, работа в другом городе, ИП, самозанятость и покупка жилья в районе или Борисоглебске."
+permalink: "/geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda/"
+breadcrumb: "Без официального дохода"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека без официального дохода в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке при нестандартном подтверждении дохода","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda/"}'
 ---
 

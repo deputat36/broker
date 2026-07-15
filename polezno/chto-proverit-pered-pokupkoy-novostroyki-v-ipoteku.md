@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Что проверить перед покупкой новостройки в ипотеку
-description: Что проверить перед покупкой новостройки в ипотеку: объект, застройщик, программа, первоначальный взнос, семейная ипотека, документы, сроки и риски заявки.
-permalink: /polezno/chto-proverit-pered-pokupkoy-novostroyki-v-ipoteku/
-breadcrumb: Покупка новостройки в ипотеку
-og_type: article
+layout: "default"
+title: "Что проверить перед покупкой новостройки в ипотеку"
+description: "Что проверить перед покупкой новостройки в ипотеку: объект, застройщик, программа, первоначальный взнос, семейная ипотека, документы, сроки и риски заявки."
+permalink: "/polezno/chto-proverit-pered-pokupkoy-novostroyki-v-ipoteku/"
+breadcrumb: "Покупка новостройки в ипотеку"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Что проверить перед покупкой новостройки в ипотеку","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/chto-proverit-pered-pokupkoy-novostroyki-v-ipoteku/"}'
 ---
 

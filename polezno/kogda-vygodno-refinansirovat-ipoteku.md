@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Когда выгодно рефинансировать ипотеку | Что проверить
-description: Когда рефинансирование ипотеки может быть выгодным: ставка, остаток долга, срок, платеж, расходы на переоформление, страховка, оценка и требования банка.
-permalink: /polezno/kogda-vygodno-refinansirovat-ipoteku/
-breadcrumb: Когда выгодно рефинансировать ипотеку
-og_type: article
+layout: "default"
+title: "Когда выгодно рефинансировать ипотеку | Что проверить"
+description: "Когда рефинансирование ипотеки может быть выгодным: ставка, остаток долга, срок, платеж, расходы на переоформление, страховка, оценка и требования банка."
+permalink: "/polezno/kogda-vygodno-refinansirovat-ipoteku/"
+breadcrumb: "Когда выгодно рефинансировать ипотеку"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Когда выгодно рефинансировать ипотеку","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kogda-vygodno-refinansirovat-ipoteku/"}'
 ---
 

@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Сколько времени занимает оформление ипотеки | Татьяна Стерликова
-description: От чего зависят сроки оформления ипотеки: подготовка документов, выбор банка, рассмотрение заявки, проверка объекта, оценка, страхование и выход на сделку.
-permalink: /polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/
-breadcrumb: Сроки оформления ипотеки
-og_type: article
+layout: "default"
+title: "Сколько времени занимает оформление ипотеки | Татьяна Стерликова"
+description: "От чего зависят сроки оформления ипотеки: подготовка документов, выбор банка, рассмотрение заявки, проверка объекта, оценка, страхование и выход на сделку."
+permalink: "/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/"
+breadcrumb: "Сроки оформления ипотеки"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Сколько времени занимает оформление ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/"}'
 ---
 

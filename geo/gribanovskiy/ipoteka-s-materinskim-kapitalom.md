@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека с материнским капиталом в Грибановском районе | Татьяна Стерликова
-description: Ипотека с материнским капиталом в Грибановском районе: покупка жилья в районе или Борисоглебске, продажа своего объекта, взнос, сроки и документы.
-permalink: /geo/gribanovskiy/ipoteka-s-materinskim-kapitalom/
-breadcrumb: Ипотека с маткапиталом
-og_type: article
+layout: "default"
+title: "Ипотека с материнским капиталом в Грибановском районе | Татьяна Стерликова"
+description: "Ипотека с материнским капиталом в Грибановском районе: покупка жилья в районе или Борисоглебске, продажа своего объекта, взнос, сроки и документы."
+permalink: "/geo/gribanovskiy/ipoteka-s-materinskim-kapitalom/"
+breadcrumb: "Ипотека с маткапиталом"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с материнским капиталом в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке с материнским капиталом","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-s-materinskim-kapitalom/"}'
 ---
 

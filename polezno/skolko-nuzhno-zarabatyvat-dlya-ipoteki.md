@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Сколько нужно зарабатывать для ипотеки | Татьяна Стерликова
-description: Как понять, хватит ли дохода для ипотеки: платеж, кредитная нагрузка, первоначальный взнос, состав семьи, действующие кредиты и предварительный расчет.
-permalink: /polezno/skolko-nuzhno-zarabatyvat-dlya-ipoteki/
-breadcrumb: Доход для ипотеки
-og_type: article
+layout: "default"
+title: "Сколько нужно зарабатывать для ипотеки | Татьяна Стерликова"
+description: "Как понять, хватит ли дохода для ипотеки: платеж, кредитная нагрузка, первоначальный взнос, состав семьи, действующие кредиты и предварительный расчет."
+permalink: "/polezno/skolko-nuzhno-zarabatyvat-dlya-ipoteki/"
+breadcrumb: "Доход для ипотеки"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Сколько нужно зарабатывать для ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/skolko-nuzhno-zarabatyvat-dlya-ipoteki/"}'
 ---
 

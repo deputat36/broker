@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Стоимость услуг ипотечного брокера | Татьяна Стерликова
-description: Сколько стоят услуги ипотечного брокера в Борисоглебске: бесплатная консультация, подбор ипотеки от 15 000 ₽, сложные заявки от 25 000 ₽. Для клиентов ЭТАЖИ состав услуги и порядок оплаты уточняются отдельно.
-permalink: /stoimost/
-breadcrumb: Стоимость
-og_type: article
+layout: "default"
+title: "Стоимость услуг ипотечного брокера | Татьяна Стерликова"
+description: "Сколько стоят услуги ипотечного брокера в Борисоглебске: бесплатная консультация, подбор ипотеки от 15 000 ₽, сложные заявки от 25 000 ₽. Для клиентов ЭТАЖИ состав услуги и порядок оплаты уточняются отдельно."
+permalink: "/stoimost/"
+breadcrumb: "Стоимость"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"OfferCatalog","name":"Стоимость услуг ипотечного брокера Татьяны Стерликовой","itemListElement":[{"@type":"Offer","name":"Первичная консультация","price":"0","priceCurrency":"RUB"},{"@type":"Offer","name":"Подбор ипотеки и заявка","priceSpecification":{"@type":"PriceSpecification","minPrice":"15000","priceCurrency":"RUB"}},{"@type":"Offer","name":"Сложная ипотечная ситуация","priceSpecification":{"@type":"PriceSpecification","minPrice":"25000","priceCurrency":"RUB"}}]}'
 ---
 

@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека с материнским капиталом в Борисоглебске | Татьяна Стерликова
-description: Консультация по ипотеке с материнским капиталом в Борисоглебске: первоначальный взнос, семейная ипотека, документы, объект, доли и требования банка.
-permalink: /geo/borisoglebsk/ipoteka-s-materinskim-kapitalom/
-breadcrumb: Ипотека с маткапиталом
-og_type: article
+layout: "default"
+title: "Ипотека с материнским капиталом в Борисоглебске | Татьяна Стерликова"
+description: "Консультация по ипотеке с материнским капиталом в Борисоглебске: первоначальный взнос, семейная ипотека, документы, объект, доли и требования банка."
+permalink: "/geo/borisoglebsk/ipoteka-s-materinskim-kapitalom/"
+breadcrumb: "Ипотека с маткапиталом"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с материнским капиталом в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке с материнским капиталом","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-s-materinskim-kapitalom/"}'
 ---
 

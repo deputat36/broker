@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека с плохой кредитной историей в Поворино | Татьяна Стерликова
-description: Ипотека после просрочек в Поворино и Поворинском районе: микрозаймы, кредитные карты, частые заявки, текущая нагрузка и подготовка покупки дома или квартиры.
-permalink: /geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey/
-breadcrumb: Кредитная история
-og_type: article
+layout: "default"
+title: "Ипотека с плохой кредитной историей в Поворино | Татьяна Стерликова"
+description: "Ипотека после просрочек в Поворино и Поворинском районе: микрозаймы, кредитные карты, частые заявки, текущая нагрузка и подготовка покупки дома или квартиры."
+permalink: "/geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey/"
+breadcrumb: "Кредитная история"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с плохой кредитной историей в Поворино","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по ипотеке после просрочек и отказов","url":"https://sterlikova-ipoteka.ru/geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey/"}'
 ---
 

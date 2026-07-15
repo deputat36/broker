@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Услуги ипотечного брокера в Борисоглебске | Татьяна Стерликова
-description: Услуги ипотечного брокера Татьяны Стерликовой: подбор ипотеки, новостройки, вторичное жильё, дома, семейные сценарии, маткапитал, сложные заявки и рефинансирование.
-permalink: /uslugi/
-breadcrumb: Услуги
-og_type: article
+layout: "default"
+title: "Услуги ипотечного брокера в Борисоглебске | Татьяна Стерликова"
+description: "Услуги ипотечного брокера Татьяны Стерликовой: подбор ипотеки, новостройки, вторичное жильё, дома, семейные сценарии, маткапитал, сложные заявки и рефинансирование."
+permalink: "/uslugi/"
+breadcrumb: "Услуги"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"ItemList","name":"Услуги ипотечного брокера Татьяны Стерликовой","itemListElement":[{"@type":"ListItem","position":1,"name":"Подбор ипотеки","url":"https://sterlikova-ipoteka.ru/uslugi/podbor-ipoteki/"},{"@type":"ListItem","position":2,"name":"Ипотека на новостройку","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-na-novostroyku/"},{"@type":"ListItem","position":3,"name":"Ипотека на вторичное жильё","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-na-vtorichnoe-zhile/"},{"@type":"ListItem","position":4,"name":"Ипотека на строительство дома","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-na-stroitelstvo-doma/"},{"@type":"ListItem","position":5,"name":"Рефинансирование ипотеки","url":"https://sterlikova-ipoteka.ru/uslugi/refinansirovanie-ipoteki/"},{"@type":"ListItem","position":6,"name":"Семейная ипотека","url":"https://sterlikova-ipoteka.ru/uslugi/semeynaya-ipoteka/"},{"@type":"ListItem","position":7,"name":"Ипотека для молодой семьи","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-dlya-molodoy-semi/"},{"@type":"ListItem","position":8,"name":"Ипотека для пенсионеров","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-dlya-pensionerov/"},{"@type":"ListItem","position":9,"name":"Материнский капитал в ипотеке","url":"https://sterlikova-ipoteka.ru/uslugi/materinskiy-kapital/"},{"@type":"ListItem","position":10,"name":"Разбор отказа по ипотеке","url":"https://sterlikova-ipoteka.ru/uslugi/otkazali-v-ipoteke/"},{"@type":"ListItem","position":11,"name":"Сложная ипотека","url":"https://sterlikova-ipoteka.ru/uslugi/slozhnaya-ipoteka/"},{"@type":"ListItem","position":12,"name":"Ипотека без официального дохода","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-bez-oficialnogo-dohoda/"},{"@type":"ListItem","position":13,"name":"Ипотека без первоначального взноса","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-bez-pervonachalnogo-vznosa/"},{"@type":"ListItem","position":14,"name":"Ипотека для ИП и самозанятых","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-dlya-ip-samozanyatyh/"},{"@type":"ListItem","position":15,"name":"Ипотека с плохой кредитной историей","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/"},{"@type":"ListItem","position":16,"name":"Ипотека на дом","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-na-dom/"},{"@type":"ListItem","position":17,"name":"Ипотека с созаёмщиком","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-s-sozaemshchikom/"},{"@type":"ListItem","position":18,"name":"Ипотека при продаже старого жилья","url":"https://sterlikova-ipoteka.ru/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/"}]}'
 ---
 

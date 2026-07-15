@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Отказали в ипотеке в Поворино | Татьяна Стерликова
-description: Разбор отказа по ипотеке в Поворино и Поворинском районе: этап решения банка, анкета заемщика, дом или квартира, оценка объекта и повторная заявка.
-permalink: /geo/povorino/otkazali-v-ipoteke/
-breadcrumb: Отказали в ипотеке
-og_type: article
+layout: "default"
+title: "Отказали в ипотеке в Поворино | Татьяна Стерликова"
+description: "Разбор отказа по ипотеке в Поворино и Поворинском районе: этап решения банка, анкета заемщика, дом или квартира, оценка объекта и повторная заявка."
+permalink: "/geo/povorino/otkazali-v-ipoteke/"
+breadcrumb: "Отказали в ипотеке"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Разбор отказа по ипотеке в Поворино","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Поворино и Поворинский район"},"serviceType":"Консультация после отказа банка по ипотеке","url":"https://sterlikova-ipoteka.ru/geo/povorino/otkazali-v-ipoteke/"}'
 ---
 

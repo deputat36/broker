@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека с плохой кредитной историей в Борисоглебске | Татьяна Стерликова
-description: Консультация по ипотеке с плохой кредитной историей в Борисоглебске: разбор просрочек, отказов, кредитной нагрузки, карт и порядка подачи заявки.
-permalink: /geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey/
-breadcrumb: Кредитная история
-og_type: article
+layout: "default"
+title: "Ипотека с плохой кредитной историей в Борисоглебске | Татьяна Стерликова"
+description: "Консультация по ипотеке с плохой кредитной историей в Борисоглебске: разбор просрочек, отказов, кредитной нагрузки, карт и порядка подачи заявки."
+permalink: "/geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey/"
+breadcrumb: "Кредитная история"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с плохой кредитной историей в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке после просрочек и отказов","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey/"}'
 ---
 

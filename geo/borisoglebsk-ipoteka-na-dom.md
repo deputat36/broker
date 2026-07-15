@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека на дом в Борисоглебске | Татьяна Стерликова
-description: Консультация по ипотеке на покупку дома в Борисоглебске и Борисоглебском городском округе: требования банка к дому, участку, документам, взносу и заявке.
-permalink: /geo/borisoglebsk/ipoteka-na-dom/
-breadcrumb: Ипотека на дом в Борисоглебске
-og_type: article
+layout: "default"
+title: "Ипотека на дом в Борисоглебске | Татьяна Стерликова"
+description: "Консультация по ипотеке на покупку дома в Борисоглебске и Борисоглебском городском округе: требования банка к дому, участку, документам, взносу и заявке."
+permalink: "/geo/borisoglebsk/ipoteka-na-dom/"
+breadcrumb: "Ипотека на дом в Борисоглебске"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на дом в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке на покупку дома","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-na-dom/"}'
 ---
 

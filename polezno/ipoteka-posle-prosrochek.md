@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека после просрочек | Татьяна Стерликова
-description: Можно ли взять ипотеку после просрочек: что проверить в кредитной истории, как влияют закрытые долги, текущая нагрузка, доход и повторные заявки.
-permalink: /polezno/ipoteka-posle-prosrochek/
-breadcrumb: Ипотека после просрочек
-og_type: article
+layout: "default"
+title: "Ипотека после просрочек | Татьяна Стерликова"
+description: "Можно ли взять ипотеку после просрочек: что проверить в кредитной истории, как влияют закрытые долги, текущая нагрузка, доход и повторные заявки."
+permalink: "/polezno/ipoteka-posle-prosrochek/"
+breadcrumb: "Ипотека после просрочек"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ипотека после просрочек","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/ipoteka-posle-prosrochek/"}'
 ---
 

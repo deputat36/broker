@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Отказали в ипотеке в Борисоглебске | Татьяна Стерликова
-description: Что делать, если отказали в ипотеке в Борисоглебске: разбор причин отказа, кредитной истории, нагрузки, дохода, объекта и порядка повторной заявки.
-permalink: /geo/borisoglebsk/otkazali-v-ipoteke/
-breadcrumb: Отказали в ипотеке
-og_type: article
+layout: "default"
+title: "Отказали в ипотеке в Борисоглебске | Татьяна Стерликова"
+description: "Что делать, если отказали в ипотеке в Борисоглебске: разбор причин отказа, кредитной истории, нагрузки, дохода, объекта и порядка повторной заявки."
+permalink: "/geo/borisoglebsk/otkazali-v-ipoteke/"
+breadcrumb: "Отказали в ипотеке"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Разбор отказа по ипотеке в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"City","name":"Борисоглебск"},"serviceType":"Консультация после отказа банка по ипотеке","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/otkazali-v-ipoteke/"}'
 ---
 

@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека с плохой кредитной историей в Грибановском районе | Татьяна Стерликова
-description: Ипотека после просрочек в Грибановском районе: семейный бюджет, кредиты и карты супругов, созаемщик, несколько источников дохода и подготовка заявки.
-permalink: /geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/
-breadcrumb: Кредитная история
-og_type: article
+layout: "default"
+title: "Ипотека с плохой кредитной историей в Грибановском районе | Татьяна Стерликова"
+description: "Ипотека после просрочек в Грибановском районе: семейный бюджет, кредиты и карты супругов, созаемщик, несколько источников дохода и подготовка заявки."
+permalink: "/geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/"
+breadcrumb: "Кредитная история"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека с плохой кредитной историей в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке после просрочек и отказов","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/"}'
 ---
 

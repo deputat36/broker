@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Расходы при оформлении ипотеки | Татьяна Стерликова
-description: Какие расходы могут быть при оформлении ипотеки: первоначальный взнос, оценка недвижимости, страхование, госпошлины, услуги специалистов, аванс, переезд и финансовый резерв.
-permalink: /polezno/rashody-pri-oformlenii-ipoteki/
-breadcrumb: Расходы при ипотеке
-og_type: article
+layout: "default"
+title: "Расходы при оформлении ипотеки | Татьяна Стерликова"
+description: "Какие расходы могут быть при оформлении ипотеки: первоначальный взнос, оценка недвижимости, страхование, госпошлины, услуги специалистов, аванс, переезд и финансовый резерв."
+permalink: "/polezno/rashody-pri-oformlenii-ipoteki/"
+breadcrumb: "Расходы при ипотеке"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Расходы при оформлении ипотеки","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/rashody-pri-oformlenii-ipoteki/"}'
 ---
 

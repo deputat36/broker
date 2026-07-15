@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека на квартиру в Борисоглебске | Татьяна Стерликова
-description: Консультация по ипотеке на квартиру в Борисоглебске: новостройка, вторичное жилье, платеж, первоначальный взнос, материнский капитал и риски заявки.
-permalink: /geo/borisoglebsk/ipoteka-na-kvartiru/
-breadcrumb: Ипотека на квартиру в Борисоглебске
-og_type: article
+layout: "default"
+title: "Ипотека на квартиру в Борисоглебске | Татьяна Стерликова"
+description: "Консультация по ипотеке на квартиру в Борисоглебске: новостройка, вторичное жилье, платеж, первоначальный взнос, материнский капитал и риски заявки."
+permalink: "/geo/borisoglebsk/ipoteka-na-kvartiru/"
+breadcrumb: "Ипотека на квартиру в Борисоглебске"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на квартиру в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"City","name":"Борисоглебск"},"serviceType":"Консультация по ипотеке на квартиру","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-na-kvartiru/"}'
 ---
 

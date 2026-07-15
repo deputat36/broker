@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека для ИП и самозанятых в Грибановском районе | Татьяна Стерликова
-description: Консультация по ипотеке для ИП и самозанятых в Грибановском районе: подтверждение дохода, налоговый режим, выписки, кредитная нагрузка, взнос и выбор банка.
-permalink: /geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh/
-breadcrumb: ИП и самозанятые
-og_type: article
+layout: "default"
+title: "Ипотека для ИП и самозанятых в Грибановском районе | Татьяна Стерликова"
+description: "Консультация по ипотеке для ИП и самозанятых в Грибановском районе: подтверждение дохода, налоговый режим, выписки, кредитная нагрузка, взнос и выбор банка."
+permalink: "/geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh/"
+breadcrumb: "ИП и самозанятые"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека для ИП и самозанятых в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке для ИП и самозанятых","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-dlya-ip-samozanyatyh/"}'
 ---
 

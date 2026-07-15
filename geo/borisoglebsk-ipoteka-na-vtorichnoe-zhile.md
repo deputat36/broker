@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека на вторичное жилье в Борисоглебске | Татьяна Стерликова
-description: Консультация по ипотеке на вторичное жилье в Борисоглебске: платеж, первоначальный взнос, документы, проверка квартиры, аванс, риски заявки и требования банка.
-permalink: /geo/borisoglebsk/ipoteka-na-vtorichnoe-zhile/
-breadcrumb: Ипотека на вторичку в Борисоглебске
-og_type: article
+layout: "default"
+title: "Ипотека на вторичное жилье в Борисоглебске | Татьяна Стерликова"
+description: "Консультация по ипотеке на вторичное жилье в Борисоглебске: платеж, первоначальный взнос, документы, проверка квартиры, аванс, риски заявки и требования банка."
+permalink: "/geo/borisoglebsk/ipoteka-na-vtorichnoe-zhile/"
+breadcrumb: "Ипотека на вторичку в Борисоглебске"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на вторичное жилье в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке на вторичное жилье","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-na-vtorichnoe-zhile/"}'
 ---
 

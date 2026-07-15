@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека на дом в Грибановском районе | Татьяна Стерликова
-description: Консультация по ипотеке на покупку дома в пгт Грибановский и Грибановском районе: заемщик, участок, документы, первоначальный взнос, оценка и требования банка.
-permalink: /geo/gribanovskiy/ipoteka-na-dom/
-breadcrumb: Ипотека на дом в Грибановском районе
-og_type: article
+layout: "default"
+title: "Ипотека на дом в Грибановском районе | Татьяна Стерликова"
+description: "Консультация по ипотеке на покупку дома в пгт Грибановский и Грибановском районе: заемщик, участок, документы, первоначальный взнос, оценка и требования банка."
+permalink: "/geo/gribanovskiy/ipoteka-na-dom/"
+breadcrumb: "Ипотека на дом в Грибановском районе"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека на дом в Грибановском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"AdministrativeArea","name":"Грибановский район"},"serviceType":"Консультация по ипотеке на покупку дома","url":"https://sterlikova-ipoteka.ru/geo/gribanovskiy/ipoteka-na-dom/"}'
 ---
 

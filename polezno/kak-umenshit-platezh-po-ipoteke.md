@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Как уменьшить платеж по ипотеке | Татьяна Стерликова
-description: Как снизить будущий платеж по ипотеке: первоначальный взнос, срок, сумма кредита, банк, программа, кредитная нагрузка, созаемщик и подготовка заявки.
-permalink: /polezno/kak-umenshit-platezh-po-ipoteke/
-breadcrumb: Как уменьшить платеж
-og_type: article
+layout: "default"
+title: "Как уменьшить платеж по ипотеке | Татьяна Стерликова"
+description: "Как снизить будущий платеж по ипотеке: первоначальный взнос, срок, сумма кредита, банк, программа, кредитная нагрузка, созаемщик и подготовка заявки."
+permalink: "/polezno/kak-umenshit-platezh-po-ipoteke/"
+breadcrumb: "Как уменьшить платеж"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как уменьшить платеж по ипотеке","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Person","name":"Татьяна Стерликова"},"mainEntityOfPage":"https://sterlikova-ipoteka.ru/polezno/kak-umenshit-platezh-po-ipoteke/"}'
 ---
 

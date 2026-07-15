@@ -1,9 +1,9 @@
 ---
-layout: default
-title: Что проверить перед покупкой вторичного жилья в ипотеку
-description: Что проверить до аванса за вторичное жилье: документы, собственников, перепланировку, обременения, требования банка, оценку и готовность ипотечной заявки.
-permalink: /polezno/chto-proverit-pered-pokupkoy-vtorichnogo-zhilya/
-og_type: article
+layout: "default"
+title: "Что проверить перед покупкой вторичного жилья в ипотеку"
+description: "Что проверить до аванса за вторичное жилье: документы, собственников, перепланировку, обременения, требования банка, оценку и готовность ипотечной заявки."
+permalink: "/polezno/chto-proverit-pered-pokupkoy-vtorichnogo-zhilya/"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Что проверить перед покупкой вторичного жилья в ипотеку","author":{"@type":"Person","name":"Татьяна Стерликова"},"about":"Подготовка покупки вторичного жилья в ипотеку"}'
 ---
 

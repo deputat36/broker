@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Действующие кредиты перед ипотекой: как влияют на заявку | Татьяна Стерликова
-description: Как действующие кредиты, рассрочки и платежи влияют на ипотечную заявку: долговая нагрузка, комфортный платеж, закрытие кредитов и подготовка к банку.
-permalink: /polezno/deystvuyushchie-kredity-pered-ipotekoy/
-breadcrumb: Действующие кредиты перед ипотекой
-og_type: article
+layout: "default"
+title: "Действующие кредиты перед ипотекой: как влияют на заявку | Татьяна Стерликова"
+description: "Как действующие кредиты, рассрочки и платежи влияют на ипотечную заявку: долговая нагрузка, комфортный платеж, закрытие кредитов и подготовка к банку."
+permalink: "/polezno/deystvuyushchie-kredity-pered-ipotekoy/"
+breadcrumb: "Действующие кредиты перед ипотекой"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Действующие кредиты перед ипотекой: как влияют на заявку","author":{"@type":"Person","name":"Татьяна Стерликова"},"publisher":{"@type":"Organization","name":"Ипотечный брокер Татьяна Стерликова"}}'
 ---
 

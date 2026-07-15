@@ -1,10 +1,10 @@
 ---
-layout: default
-title: Ипотека для ИП и самозанятых в Борисоглебске | Татьяна Стерликова
-description: Консультация по ипотеке для ИП и самозанятых в Борисоглебске: подтверждение дохода, налоговый режим, выписки, кредитная нагрузка, взнос и выбор банка.
-permalink: /geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh/
-breadcrumb: ИП и самозанятые
-og_type: article
+layout: "default"
+title: "Ипотека для ИП и самозанятых в Борисоглебске | Татьяна Стерликова"
+description: "Консультация по ипотеке для ИП и самозанятых в Борисоглебске: подтверждение дохода, налоговый режим, выписки, кредитная нагрузка, взнос и выбор банка."
+permalink: "/geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh/"
+breadcrumb: "ИП и самозанятые"
+og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотека для ИП и самозанятых в Борисоглебске","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Борисоглебск"},{"@type":"AdministrativeArea","name":"Борисоглебский городской округ"}],"serviceType":"Консультация по ипотеке для ИП и самозанятых","url":"https://sterlikova-ipoteka.ru/geo/borisoglebsk/ipoteka-dlya-ip-samozanyatyh/"}'
 ---
 
