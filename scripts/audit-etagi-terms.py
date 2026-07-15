@@ -51,11 +51,17 @@ REGIONAL_SAFE_PAGES = {
     "/geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda/": ROOT / "geo/borisoglebsk/ipoteka-bez-oficialnogo-dohoda.md",
     "/geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda/": ROOT / "geo/gribanovskiy/ipoteka-bez-oficialnogo-dohoda.md",
     "/geo/povorino/ipoteka-bez-oficialnogo-dohoda/": ROOT / "geo/povorino/ipoteka-bez-oficialnogo-dohoda.md",
+    "/geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey/": ROOT / "geo/borisoglebsk/ipoteka-s-plohoy-kreditnoy-istoriey.md",
+    "/geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey/": ROOT / "geo/gribanovskiy/ipoteka-s-plohoy-kreditnoy-istoriey.md",
+    "/geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey/": ROOT / "geo/povorino/ipoteka-s-plohoy-kreditnoy-istoriey.md",
+    "/geo/gribanovskiy/otkazali-v-ipoteke/": ROOT / "geo/gribanovskiy/otkazali-v-ipoteke.md",
+    "/geo/povorino/otkazali-v-ipoteke/": ROOT / "geo/povorino/otkazali-v-ipoteke.md",
 }
 
 REGIONAL_REVIEWED_PAGES = {
     "/geo/borisoglebsk/ipoteka-na-dom/": ROOT / "geo/borisoglebsk-ipoteka-na-dom.md",
     "/geo/borisoglebsk/ipoteka-na-kvartiru/": ROOT / "geo/borisoglebsk-ipoteka-na-kvartiru.md",
+    "/geo/borisoglebsk/otkazali-v-ipoteke/": ROOT / "geo/borisoglebsk/otkazali-v-ipoteke.md",
 }
 
 PAGES.update(REGIONAL_SAFE_PAGES)
