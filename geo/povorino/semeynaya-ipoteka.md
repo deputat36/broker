@@ -2,7 +2,7 @@
 layout: default
 title: Семейная ипотека в Поворино и Поворинском районе | Татьяна Стерликова
 description: Консультация по семейной ипотеке в Поворино и Поворинском районе: семья, объект, первоначальный взнос, материнский капитал, документы и требования банка.
-permalink: /geo/povorino/semeynaya-ipotека/
+permalink: /geo/povorino/semeynaya-ipoteka/
 breadcrumb: Семейная ипотека в Поворинском районе
 og_type: article
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейная ипотека в Поворино и Поворинском районе","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":[{"@type":"City","name":"Поворино"},{"@type":"AdministrativeArea","name":"Поворинский район"}],"serviceType":"Консультация по семейной ипотеке","url":"https://sterlikova-ipoteka.ru/geo/povorino/semeynaya-ipoteka/"}'
