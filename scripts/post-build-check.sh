@@ -9,6 +9,7 @@ required_files=(
   "$SITE_DIR/robots.txt"
   "$SITE_DIR/sitemap.xml"
   "$SITE_DIR/assets/css/styles.css"
+  "$SITE_DIR/assets/css/footer-trust.css"
   "$SITE_DIR/assets/js/main.js"
   "$SITE_DIR/assets/img/favicon.svg"
   "$SITE_DIR/assets/img/tatyana-hero.svg"
@@ -76,5 +77,6 @@ if [[ "$legacy_count" != "0" ]]; then
 fi
 
 python3 scripts/audit-tatyana-photo.py "$SITE_DIR"
+python3 scripts/audit-footer-trust.py "$SITE_DIR"
 
 echo "Post-build проверка успешно завершена: $sitemap_count URL в sitemap"
