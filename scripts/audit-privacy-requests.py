@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+
 ROOT = Path(__file__).resolve().parents[1]
 MIGRATION = ROOT / "supabase/migrations/202607140002_broker_lead_privacy_requests.sql"
 CONTRACT = ROOT / "docs/privacy-request-contract.md"
@@ -191,7 +192,8 @@ def main() -> int:
         smoke,
         (
             "восемь миграций",
-            "проверить права",
+            "execute только для `service_role`",
+            "у `public`, `anon`, `authenticated` прав быть не должно",
             "lead_not_found",
             "notification_unresolved",
             "existing_retention_hold",
