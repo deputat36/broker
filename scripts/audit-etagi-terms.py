@@ -23,13 +23,23 @@ PAGES = {
     "/geo/borisoglebsk/": ROOT / "geo/borisoglebsk.md",
     "/geo/gribanovskiy/": ROOT / "geo/gribanovskiy.md",
     "/geo/povorino/": ROOT / "geo/povorino.md",
-    "/geo/borisoglebsk/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/borisoglebsk/ipoteka-na-stroitelstvo-doma.md",
-    "/geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/gribanovskiy/ipoteka-na-stroitelstvo-doma.md",
-    "/geo/povorino/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/povorino/ipoteka-na-stroitelstvo-doma.md",
     "/kalkulyator-ipoteki/": ROOT / "kalkulyator-ipoteki.md",
     "/kak-prohodit-rabota/": ROOT / "kak-prohodit-rabota.md",
     "/konsultaciya/": ROOT / "konsultaciya.md",
 }
+
+REGIONAL_SAFE_PAGES = {
+    "/geo/borisoglebsk/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/borisoglebsk/ipoteka-na-stroitelstvo-doma.md",
+    "/geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/gribanovskiy/ipoteka-na-stroitelstvo-doma.md",
+    "/geo/povorino/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/povorino/ipoteka-na-stroitelstvo-doma.md",
+    "/geo/borisoglebsk/semeynaya-ipoteka/": ROOT / "geo/borisoglebsk/semeynaya-ipoteka.md",
+    "/geo/gribanovskiy/semeynaya-ipoteka/": ROOT / "geo/gribanovskiy/semeynaya-ipoteka.md",
+    "/geo/povorino/semeynaya-ipoteka/": ROOT / "geo/povorino/semeynaya-ipoteka.md",
+    "/geo/borisoglebsk/ipoteka-s-materinskim-kapitalom/": ROOT / "geo/borisoglebsk/ipoteka-s-materinskim-kapitalom.md",
+    "/geo/gribanovskiy/ipoteka-s-materinskim-kapitalom/": ROOT / "geo/gribanovskiy/ipoteka-s-materinskim-kapitalom.md",
+    "/geo/povorino/ipoteka-s-materinskim-kapitalom/": ROOT / "geo/povorino/ipoteka-s-materinskim-kapitalom.md",
+}
+PAGES.update(REGIONAL_SAFE_PAGES)
 
 SOURCE_ONLY = {
     "README.md": ROOT / "README.md",
@@ -95,18 +105,6 @@ REQUIRED = {
         "условия сопровождения подтверждаются до начала работы",
         "предусмотрена ли отдельная оплата",
     ),
-    "/geo/borisoglebsk/ipoteka-na-stroitelstvo-doma/": (
-        "состав ипотечного сопровождения и порядок оплаты зависят",
-        "предусмотрена ли отдельная оплата",
-    ),
-    "/geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/": (
-        "состав ипотечного сопровождения и порядок оплаты зависят",
-        "предусмотрена ли отдельная оплата",
-    ),
-    "/geo/povorino/ipoteka-na-stroitelstvo-doma/": (
-        "состав ипотечного сопровождения и порядок оплаты зависят",
-        "предусмотрена ли отдельная оплата",
-    ),
     "/kalkulyator-ipoteki/": (
         "условия сопровождения уточняются до начала работы",
         "порядок оплаты зависят от действующих условий компании",
@@ -121,6 +119,12 @@ REQUIRED = {
         "действующих условий компании",
     ),
 }
+
+for page_url in REGIONAL_SAFE_PAGES:
+    REQUIRED[page_url] = (
+        "состав ипотечного сопровождения и порядок оплаты зависят",
+        "предусмотрена ли отдельная оплата",
+    )
 
 SOURCE_REQUIRED = {
     "README.md": (
@@ -231,9 +235,9 @@ def main() -> int:
         return 1
 
     print(
-        "Аудит условий ЭТАЖИ успешно завершён: восемнадцать ключевых страниц, включая три "
-        "региональных хаба и три страницы строительства дома, а также три публичных документа "
-        "не содержат неподтверждённых обещаний"
+        "Аудит условий ЭТАЖИ успешно завершён: "
+        f"{len(PAGES)} ключевых страниц, включая {len(REGIONAL_SAFE_PAGES)} дочерних региональных "
+        "маршрутов, и три публичных документа не содержат неподтверждённых обещаний"
     )
     return 0
 
