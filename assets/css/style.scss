@@ -1,0 +1,10 @@
+---
+published: false
+sitemap: false
+---
+
+/*
+ * GitHub Pages theme может добавлять Primer asset по пути /assets/css/style.css.
+ * Проект использует собственный /assets/css/styles.css, поэтому theme asset
+ * не публикуется и не должен попадать в sitemap.
+ */
