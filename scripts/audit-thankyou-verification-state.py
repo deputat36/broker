@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет, что /spasibo/ не имитирует успешную отправку без request ID."""
+"""Проверяет безопасные состояния /spasibo/ и точность conversion goal."""
 
 from __future__ import annotations
 
@@ -94,29 +94,33 @@ def main() -> int:
         errors += 1
 
     visible_page = " ".join(parser.visible_text)
-    for forbidden in ("Спасибо, обращение передано", "Заявка отправлена", "Передача Подтверждена"):
+    for forbidden in (
+        "Спасибо, обращение передано",
+        "Заявка отправлена",
+        "Найдено ранее подтверждённое обращение",
+        "Передача Подтверждена",
+    ):
         if forbidden in visible_page:
-            fail(page_path, f"Успешное состояние видно без проверки request ID: {forbidden}")
+            fail(page_path, f"Динамическое состояние видно до проверки request ID: {forbidden}")
             errors += 1
 
     inline_js = "\n".join(parser.scripts)
     required_markers = (
-        "var requestId = cleanRequestId(legacyContext.id) || cleanRequestId(lastLead.request_id);",
-        "if (requestId) {",
-        "page.dataset.state = 'verified';",
-        "trackVerifiedView(requestId);",
+        "var contextRequestId = cleanRequestId(legacyContext.id);",
+        "var storedRequestId = cleanRequestId(lastLead.request_id);",
+        "var requestId = contextRequestId || storedRequestId;",
+        "var currentRedirectVerified = Boolean(contextRequestId);",
+        "page.dataset.state = currentRedirectVerified ? 'verified' : 'restored';",
+        "trackVerifiedView(contextRequestId);",
         "window.sessionStorage.getItem(trackingKey) === '1'",
         "window.sessionStorage.setItem(trackingKey, '1')",
+        "window.dataLayer.push({ event: 'lead_thankyou_restored_view' });",
         "window.dataLayer.push({ event: 'lead_thankyou_unverified_view' });",
     )
     for marker in required_markers:
         if marker not in inline_js:
             fail(page_path, f"Отсутствует маркер проверенного состояния: {marker}")
             errors += 1
-
-    if "lead_thankyou_view" not in inline_js or "window.sendGoal('lead_thankyou_view')" not in inline_js:
-        fail(page_path, "Подтверждённая конверсия не отправляется после проверки request ID")
-        errors += 1
 
     verified_function = re.search(
         r"function trackVerifiedView\(requestId\) \{(?P<body>.*?)\n    \}",
@@ -133,23 +137,50 @@ def main() -> int:
                 fail(page_path, f"В trackVerifiedView отсутствует обязательный маркер: {marker}")
                 errors += 1
 
-    else_block = re.search(
+    state_split = re.search(
+        r"if \(currentRedirectVerified\) \{(?P<current>.*?)\n      \} else \{(?P<restored>.*?)\n      \}",
+        inline_js,
+        re.DOTALL,
+    )
+    if not state_split:
+        fail(page_path, "Не удалось разделить текущее и восстановленное подтверждение")
+        errors += 1
+    else:
+        current = state_split.group("current")
+        restored = state_split.group("restored")
+        for marker in ("Спасибо, обращение передано", "trackVerifiedView(contextRequestId)"):
+            if marker not in current:
+                fail(page_path, f"В текущем redirect-состоянии отсутствует маркер: {marker}")
+                errors += 1
+        for marker in ("Найдено ранее подтверждённое обращение", "lead_thankyou_restored_view"):
+            if marker not in restored:
+                fail(page_path, f"В restored-состоянии отсутствует маркер: {marker}")
+                errors += 1
+        if "trackVerifiedView" in restored or "sendGoal" in restored or "lead_thankyou_view'" in restored:
+            fail(page_path, "Восстановленный из localStorage статус ошибочно считается новой конверсией")
+            errors += 1
+
+    outer_else = re.search(
         r"if \(requestId\) \{.*?\n    \} else \{(?P<body>.*?)\n    \}",
         inline_js,
         re.DOTALL,
     )
-    if not else_block:
+    if not outer_else:
         fail(page_path, "Не удалось выделить неподтверждённое состояние")
         errors += 1
-    elif "sendGoal" in else_block.group("body") or "lead_thankyou_view'" in else_block.group("body"):
+    elif "sendGoal" in outer_else.group("body") or "lead_thankyou_view'" in outer_else.group("body"):
         fail(page_path, "Неподтверждённый визит ошибочно считается успешной конверсией")
+        errors += 1
+
+    if inline_js.count("trackVerifiedView(contextRequestId);") != 1:
+        fail(page_path, "Conversion goal должна вызываться ровно один раз и только для текущего redirect")
         errors += 1
 
     if errors:
         print(f"Аудит статуса /spasibo/ завершён с ошибками: {errors}")
         return 1
 
-    print("Статус /spasibo/ безопасен: нейтральный по умолчанию, успех только по валидному request ID, конверсия дедуплицирована")
+    print("Статус /spasibo/ безопасен: neutral/verified/restored разделены, conversion goal только для текущего redirect")
     return 0
 
 
