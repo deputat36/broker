@@ -1,3 +1,19 @@
+.brand-mark {
+  overflow: hidden;
+  color: transparent;
+  background: url("/assets/img/tatyana-avatar.webp") center 12% / cover no-repeat;
+  border: 2px solid rgba(181, 18, 27, .18);
+  border-radius: 50%;
+  box-shadow: 0 10px 26px rgba(20, 20, 20, .18);
+  text-shadow: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.brand:hover .brand-mark {
+  transform: scale(1.04);
+  box-shadow: 0 12px 30px rgba(181, 18, 27, .22);
+}
+
 .footer-person {
   display: inline-flex;
   align-items: center;

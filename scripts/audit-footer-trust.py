@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет контактный блок Татьяны в общем подвале сайта."""
+"""Проверяет персональные trust-элементы Татьяны в шапке и подвале."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ LAYOUT = ROOT / "_layouts" / "default.html"
 CSS_SOURCE = ROOT / "assets" / "css" / "footer-trust.css"
 LAYOUT_MARKERS = (
     "footer-trust.css",
+    'class="brand-mark"',
     'class="footer-person"',
     'class="footer-avatar"',
     "tatyana-avatar.webp",
@@ -20,6 +21,10 @@ LAYOUT_MARKERS = (
     "Подробнее о подходе к работе",
 )
 CSS_MARKERS = (
+    ".brand-mark",
+    'url("/assets/img/tatyana-avatar.webp")',
+    "color: transparent",
+    ".brand:hover .brand-mark",
     ".footer-person",
     ".footer-avatar",
     ".footer-person-name",
@@ -30,6 +35,7 @@ CSS_MARKERS = (
     "@media (max-width: 760px)",
 )
 HTML_MARKERS = (
+    'class="brand-mark"',
     'class="footer-person"',
     'class="footer-avatar"',
     'src="/assets/img/tatyana-avatar.webp"',
@@ -76,12 +82,19 @@ def check_built_pages(site_dir: Path) -> tuple[int, int]:
         text = page.read_text(encoding="utf-8")
         for marker in HTML_MARKERS:
             if marker not in text:
-                error(f"В подвале отсутствует маркер: {marker}", page)
+                error(f"На странице отсутствует trust-маркер: {marker}", page)
                 failures += 1
-        avatar_count = text.count("tatyana-avatar.webp")
+        avatar_count = text.count('src="/assets/img/tatyana-avatar.webp"')
         if avatar_count != 1:
             error(
                 f"Ожидалось одно footer-avatar изображение, найдено: {avatar_count}",
+                page,
+            )
+            failures += 1
+        brand_count = text.count('class="brand-mark"')
+        if brand_count != 1:
+            error(
+                f"Ожидался один знак личного бренда в шапке, найдено: {brand_count}",
                 page,
             )
             failures += 1
@@ -95,23 +108,23 @@ def main() -> int:
         return 1
 
     failures = 0
-    failures += require_markers(LAYOUT, LAYOUT_MARKERS, "layout подвала")
-    failures += require_markers(CSS_SOURCE, CSS_MARKERS, "CSS контактного блока")
+    failures += require_markers(LAYOUT, LAYOUT_MARKERS, "layout trust-блоков")
+    failures += require_markers(CSS_SOURCE, CSS_MARKERS, "CSS trust-блоков")
     failures += require_markers(
         site_dir / "assets" / "css" / "footer-trust.css",
         CSS_MARKERS,
-        "собранный CSS контактного блока",
+        "собранный CSS trust-блоков",
     )
     page_failures, page_count = check_built_pages(site_dir)
     failures += page_failures
 
     if failures:
-        print(f"Аудит контактного блока завершён с ошибками: {failures}")
+        print(f"Аудит trust-блоков завершён с ошибками: {failures}")
         return 1
 
     print(
-        "Аудит контактного блока успешно завершён: "
-        f"HTML-страниц {page_count}, avatar на каждой странице"
+        "Аудит trust-блоков успешно завершён: "
+        f"HTML-страниц {page_count}, портрет в шапке и avatar в подвале на каждой странице"
     )
     return 0
 
