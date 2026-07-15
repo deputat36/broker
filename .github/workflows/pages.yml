@@ -71,6 +71,8 @@ jobs:
         run: python3 scripts/audit-conversion-pages.py ./_site
       - name: Audit unconfirmed ETAGI terms
         run: python3 scripts/audit-etagi-terms.py ./_site
+      - name: Audit ETAGI terms in useful materials
+        run: python3 scripts/audit-etagi-content-pages.py ./_site
       - name: Audit SEO of service pages
         run: python3 scripts/audit-service-seo.py ./_site
       - name: Audit regional landing pages
