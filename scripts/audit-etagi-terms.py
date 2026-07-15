@@ -23,6 +23,9 @@ PAGES = {
     "/geo/borisoglebsk/": ROOT / "geo/borisoglebsk.md",
     "/geo/gribanovskiy/": ROOT / "geo/gribanovskiy.md",
     "/geo/povorino/": ROOT / "geo/povorino.md",
+    "/geo/borisoglebsk/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/borisoglebsk/ipoteka-na-stroitelstvo-doma.md",
+    "/geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/gribanovskiy/ipoteka-na-stroitelstvo-doma.md",
+    "/geo/povorino/ipoteka-na-stroitelstvo-doma/": ROOT / "geo/povorino/ipoteka-na-stroitelstvo-doma.md",
     "/kalkulyator-ipoteki/": ROOT / "kalkulyator-ipoteki.md",
     "/kak-prohodit-rabota/": ROOT / "kak-prohodit-rabota.md",
     "/konsultaciya/": ROOT / "konsultaciya.md",
@@ -90,6 +93,18 @@ REQUIRED = {
     ),
     "/geo/povorino/": (
         "условия сопровождения подтверждаются до начала работы",
+        "предусмотрена ли отдельная оплата",
+    ),
+    "/geo/borisoglebsk/ipoteka-na-stroitelstvo-doma/": (
+        "состав ипотечного сопровождения и порядок оплаты зависят",
+        "предусмотрена ли отдельная оплата",
+    ),
+    "/geo/gribanovskiy/ipoteka-na-stroitelstvo-doma/": (
+        "состав ипотечного сопровождения и порядок оплаты зависят",
+        "предусмотрена ли отдельная оплата",
+    ),
+    "/geo/povorino/ipoteka-na-stroitelstvo-doma/": (
+        "состав ипотечного сопровождения и порядок оплаты зависят",
         "предусмотрена ли отдельная оплата",
     ),
     "/kalkulyator-ipoteki/": (
@@ -216,8 +231,9 @@ def main() -> int:
         return 1
 
     print(
-        "Аудит условий ЭТАЖИ успешно завершён: пятнадцать ключевых страниц, включая три "
-        "региональных хаба, и три публичных документа не содержат неподтверждённых обещаний"
+        "Аудит условий ЭТАЖИ успешно завершён: восемнадцать ключевых страниц, включая три "
+        "региональных хаба и три страницы строительства дома, а также три публичных документа "
+        "не содержат неподтверждённых обещаний"
     )
     return 0
 
