@@ -162,7 +162,7 @@ def main() -> int:
         "responsePayload.ok === false",
         "responsePayload.success === false",
         "buildThankYouUrl(preparedPayload)",
-        "saveLastLead(preparedPayload, channels)",
+        "saveLastLead(preparedPayload)",
     ):
         if marker not in client:
             error(f"Не подтверждена клиентская совместимость минимального ответа: {marker}", CLIENT)
