@@ -79,8 +79,8 @@ PRELOAD_NEW = (
 PHOTO_REPLACEMENTS = {
     "index.md": (
         (
-            "hero_photo: /assets/img/tatyana-hero.svg",
-            "hero_photo: /assets/img/tatyana-hero.webp",
+            'hero_photo: "/assets/img/tatyana-hero.svg"',
+            'hero_photo: "/assets/img/tatyana-hero.webp"',
         ),
         (INDEX_OLD_IMAGE, INDEX_NEW_IMAGE),
     ),
