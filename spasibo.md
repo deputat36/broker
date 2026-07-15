@@ -26,6 +26,11 @@ sitemap: false
     <article class="card"><p class="eyebrow">Передача</p><h2>Подтверждена</h2><p>Хотя бы один настроенный канал принял обращение.</p></article>
     <article class="card"><p class="eyebrow">Следующий шаг</p><h2>Обратная связь</h2><p>Татьяна изучит вводные и свяжется с вами удобным способом.</p></article>
   </div>
+  <div hidden aria-hidden="true">
+    <span id="lead-scenario"></span>
+    <span id="lead-city"></span>
+    <span id="lead-status"></span>
+  </div>
 </section>
 
 <section class="section muted">
