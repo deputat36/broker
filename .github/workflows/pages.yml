@@ -45,7 +45,9 @@ jobs:
       - name: Audit disabled-by-default lead retention
         run: python3 scripts/audit-data-retention.py
       - name: Audit protected individual privacy requests
-        run: python3 scripts/audit-privacy-requests.py
+        run: |
+          set -o pipefail
+          python3 scripts/audit-privacy-requests.py 2>&1 | tee source-audit-privacy.log
       - name: Audit restricted lead operational guard
         run: python3 scripts/audit-processing-restriction.py
       - name: Audit restricted delivery response
