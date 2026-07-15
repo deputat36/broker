@@ -1,0 +1,17 @@
+{
+  "article": {
+    "min_words": 270,
+    "min_internal_links": 6,
+    "min_unique_internal_links": 4,
+    "min_section_headings": 4
+  },
+  "hub": {
+    "min_words": 120,
+    "min_internal_links": 8,
+    "min_unique_internal_links": 6,
+    "min_section_headings": 2
+  },
+  "hubs": [
+    "/polezno/materialy-dlya-zhiteley-rayonov/"
+  ]
+}
