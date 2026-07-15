@@ -6,7 +6,7 @@ layout: null
 {% assign sitemap_pages = site.pages | sort: "url" %}
 {% for sitemap_page in sitemap_pages %}
   {% assign robots_value = sitemap_page.robots | default: "index, follow" %}
-  {% unless sitemap_page.url == "/404.html" or sitemap_page.url == "/robots.txt" or sitemap_page.url == "/sitemap.xml" or sitemap_page.output_ext != ".html" or sitemap_page.sitemap == false or robots_value contains "noindex" %}
+  {% unless sitemap_page.url == "/404.html" or sitemap_page.url == "/robots.txt" or sitemap_page.url == "/sitemap.xml" or sitemap_page.url contains "/assets/" or sitemap_page.sitemap == false or robots_value contains "noindex" %}
   <url>
     <loc>{{ sitemap_page.url | absolute_url | xml_escape }}</loc>
     {% if sitemap_page.last_modified_at %}<lastmod>{{ sitemap_page.last_modified_at | date_to_xmlschema }}</lastmod>{% elsif sitemap_page.date %}<lastmod>{{ sitemap_page.date | date_to_xmlschema }}</lastmod>{% endif %}
