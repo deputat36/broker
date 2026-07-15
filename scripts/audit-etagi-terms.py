@@ -40,10 +40,13 @@ REGIONAL_SAFE_PAGES = {
     "/geo/povorino/ipoteka-s-materinskim-kapitalom/": ROOT / "geo/povorino/ipoteka-s-materinskim-kapitalom.md",
     "/geo/gribanovskiy/ipoteka-na-dom/": ROOT / "geo/gribanovskiy/ipoteka-na-dom.md",
     "/geo/povorino/ipoteka-na-dom/": ROOT / "geo/povorino/ipoteka-na-dom.md",
+    "/geo/gribanovskiy/ipoteka-na-kvartiru/": ROOT / "geo/gribanovskiy/ipoteka-na-kvartiru.md",
+    "/geo/povorino/ipoteka-na-kvartiru/": ROOT / "geo/povorino/ipoteka-na-kvartiru.md",
 }
 
 REGIONAL_REVIEWED_PAGES = {
     "/geo/borisoglebsk/ipoteka-na-dom/": ROOT / "geo/borisoglebsk-ipoteka-na-dom.md",
+    "/geo/borisoglebsk/ipoteka-na-kvartiru/": ROOT / "geo/borisoglebsk-ipoteka-na-kvartiru.md",
 }
 
 PAGES.update(REGIONAL_SAFE_PAGES)
