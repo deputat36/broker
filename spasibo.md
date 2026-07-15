@@ -85,20 +85,36 @@ sitemap: false
       lastLead = {};
     }
 
-    var requestId = cleanRequestId(legacyContext.id) || cleanRequestId(lastLead.request_id);
+    var contextRequestId = cleanRequestId(legacyContext.id);
+    var storedRequestId = cleanRequestId(lastLead.request_id);
+    var requestId = contextRequestId || storedRequestId;
+    var currentRedirectVerified = Boolean(contextRequestId);
     var page = document.querySelector('[data-thankyou-page]');
 
     if (requestId) {
-      if (page) page.dataset.state = 'verified';
-      setText('thankyou-eyebrow', 'Заявка отправлена');
-      setText('thankyou-title', 'Спасибо, обращение передано');
-      setText('thankyou-message', 'Сервис подтвердил передачу обращения через настроенный канал. Сохраните номер заявки до ответа Татьяны.');
+      if (page) page.dataset.state = currentRedirectVerified ? 'verified' : 'restored';
       setText('lead-id', requestId);
-      setText('lead-id-note', 'Сохраните этот номер до ответа Татьяны.');
-      setText('delivery-status', 'Подтверждена');
-      setText('delivery-note', 'Хотя бы один настроенный канал принял обращение.');
       setText('next-step-title', 'Обратная связь');
       setText('next-step-note', 'Татьяна изучит вводные и свяжется с вами удобным способом.');
+
+      if (currentRedirectVerified) {
+        setText('thankyou-eyebrow', 'Заявка отправлена');
+        setText('thankyou-title', 'Спасибо, обращение передано');
+        setText('thankyou-message', 'Сервис подтвердил передачу обращения через настроенный канал. Сохраните номер заявки до ответа Татьяны.');
+        setText('lead-id-note', 'Сохраните этот номер до ответа Татьяны.');
+        setText('delivery-status', 'Подтверждена');
+        setText('delivery-note', 'Хотя бы один настроенный канал принял обращение.');
+        trackVerifiedView(contextRequestId);
+      } else {
+        setText('thankyou-eyebrow', 'Последнее подтверждённое обращение');
+        setText('thankyou-title', 'Найдено ранее подтверждённое обращение');
+        setText('thankyou-message', 'В этом браузере сохранён номер недавнего обращения. Это не новая отправка заявки.');
+        setText('lead-id-note', 'Это номер последнего сохранённого обращения в этом браузере.');
+        setText('delivery-status', 'Подтверждена ранее');
+        setText('delivery-note', 'Сохранённый статус не считается новой отправкой и новой конверсией.');
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'lead_thankyou_restored_view' });
+      }
 
       if (lastLead.expires_at) {
         try {
@@ -108,7 +124,6 @@ sitemap: false
           }));
         } catch (_storageError) { /* Страница продолжает работать без localStorage. */ }
       }
-      trackVerifiedView(requestId);
     } else {
       if (page) page.dataset.state = 'unverified';
       window.dataLayer = window.dataLayer || [];
