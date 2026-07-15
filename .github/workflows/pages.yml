@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  source-audit:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -56,6 +56,13 @@ jobs:
         run: python3 scripts/audit-hybrid-delivery-state.py
       - name: Audit aggregate Supabase readiness
         run: python3 scripts/audit-supabase-readiness.py
+
+  build:
+    runs-on: ubuntu-latest
+    needs: source-audit
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
