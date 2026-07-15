@@ -139,6 +139,14 @@ jobs:
           path: post-build-audits.log
           if-no-files-found: error
           retention-days: 7
+      - name: Upload built site diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-site-diagnostics
+          path: ./_site
+          if-no-files-found: error
+          retention-days: 1
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
