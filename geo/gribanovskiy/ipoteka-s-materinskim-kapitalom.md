@@ -50,7 +50,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
 
   <aside class="sidebar">
     <div class="seo-panel"><h3>Соберите финансовый маршрут</h3><p>Опишите, что продаёте, где покупаете, сколько собственных средств и какую роль должен сыграть материнский капитал.</p><a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}">Заполнить онлайн-заявку</a></div>
-    <div class="seo-panel"><h3>Связанные страницы</h3><ul><li><a href="{{ '/geo/gribanovskiy/ipoteka-pri-prodazhe-starogo-zhilya/' | relative_url }}">Продажа старого и покупка нового жилья</a></li><li><a href="{{ '/geo/gribanovskiy/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека в районе</a></li><li><a href="{{ '/geo/gribanovskiy/ipoteka-na-dom/' | relative_url }}">Ипотека на дом</a></li><li><a href="{{ '/polezno/matkapital-kak-pervonachalnyy-vznos-po-ipoteke/' | relative_url }}">Маткапитал как первоначальный взнос</a></li></ul></div>
+    <div class="seo-panel"><h3>Связанные страницы</h3><ul><li><a href="{{ '/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/' | relative_url }}">Продажа старого и покупка нового жилья</a></li><li><a href="{{ '/geo/gribanovskiy/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека в районе</a></li><li><a href="{{ '/geo/gribanovskiy/ipoteka-na-dom/' | relative_url }}">Ипотека на дом</a></li><li><a href="{{ '/polezno/matkapital-kak-pervonachalnyy-vznos-po-ipoteke/' | relative_url }}">Маткапитал как первоначальный взнос</a></li></ul></div>
   </aside>
 </section>
 

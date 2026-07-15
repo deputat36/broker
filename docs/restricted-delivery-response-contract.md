@@ -67,6 +67,8 @@ Restricted duplicate не возвращает:
 
 ## Запрещённое поведение
 
+Базовое правило restricted duplicate — не увеличивать `notification_attempt_count`, не захватывать уведомление и не запускать новый канал доставки.
+
 Нельзя:
 
 - нормализовать `restricted` в `pending`;

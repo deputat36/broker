@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+
 ROOT = Path(__file__).resolve().parents[1]
 ENTRYPOINT = ROOT / "supabase/functions/broker-public-lead/index.ts"
 HANDLER = ROOT / "supabase/functions/broker-public-lead/handler.ts"
@@ -51,6 +52,17 @@ def require(text: str, markers: tuple[str, ...], file: Path, label: str) -> int:
             error(f"{label}: отсутствует marker {marker}", file)
             errors += 1
     return errors
+
+
+def section(text: str, start: str, end: str, file: Path) -> tuple[str, int]:
+    if start not in text:
+        error(f"Не найдено начало проверяемого блока: {start}", file)
+        return "", 1
+    tail = text.split(start, 1)[1]
+    if end not in tail:
+        error(f"Не найден конец проверяемого блока: {end}", file)
+        return "", 1
+    return tail.split(end, 1)[0], 0
 
 
 def main() -> int:
@@ -152,11 +164,16 @@ def main() -> int:
         "return jsonResponse({ ok: false",
         "blocked: true",
         "errors: validation.errors",
-        "attempt_count: rateLimit.attemptCount",
-        "rate_limit: rateLimit.limit",
     ):
         if forbidden.casefold() in handler.casefold():
             error(f"Handler содержит небезопасный или устаревший фрагмент: {forbidden}", HANDLER)
+            errors += 1
+
+    public_serve, section_errors = section(handler, "Deno.serve(async (request) => {", "\n});", HANDLER)
+    errors += section_errors
+    for property_name in ("attempt_count", "rate_limit"):
+        if re.search(rf"(?<![A-Za-z0-9_]){property_name}\s*:", public_serve):
+            error(f"Публичный handler раскрывает запрещённое поле: {property_name}", HANDLER)
             errors += 1
 
     if "Access-Control-Allow-Origin" in admin_retry:
@@ -167,85 +184,61 @@ def main() -> int:
         errors += 1
 
     migration_checks = (
-        (
-            base,
-            BASE,
-            (
-                "broker_leads_request_id_uidx",
-                "broker_lead_events",
-                "broker_lead_rate_limits",
-                "consume_broker_lead_rate_limit",
-                "purge_broker_lead_rate_limits",
-                "security definer",
-                "enable row level security",
-                "raw_payload jsonb",
-                "tracking jsonb",
-                "qualification jsonb",
-                "spam_check jsonb",
-            ),
-        ),
-        (
-            preparation,
-            PREPARATION,
-            (
-                "journey_type text",
-                "journey_stage text",
-                "journey_scenario_slug text",
-                "preparation jsonb",
-                "preparation_completed jsonb",
-                "remaining_questions text",
-                "sync_broker_lead_preparation",
-                "raw_payload -> 'preparation'",
-            ),
-        ),
-        (
-            summary,
-            SUMMARY,
-            (
-                "broker_lead_notification_summary",
-                "returns text",
-                "security definer",
-                "broker_lead_not_found",
-                "preparation_completed",
-                "to service_role",
-            ),
-        ),
-        (
-            delivery,
-            DELIVERY,
-            (
-                "notification_attempt_count integer",
-                "claim_broker_lead_notification",
-                "complete_broker_lead_notification",
-                "notification_status = 'sending'",
-                "interval '15 minutes'",
-                "to service_role",
-            ),
-        ),
-        (
-            retry,
-            RETRY,
-            (
-                "notification_manual_retry_count integer",
-                "request_broker_lead_notification_retry",
-                "and leads.notification_status = 'failed'",
-                "broker_lead_notification_queue_health",
-                "to service_role",
-            ),
-        ),
-        (
-            retention,
-            RETENTION,
-            (
-                "retention_hold boolean not null default false",
-                "anonymized_at timestamptz",
-                "enabled boolean not null default false",
-                "broker_lead_retention_preview",
-                "apply_broker_lead_retention",
-                "APPLY_BROKER_RETENTION",
-                "to service_role",
-            ),
-        ),
+        (base, BASE, (
+            "broker_leads_request_id_uidx",
+            "broker_lead_events",
+            "broker_lead_rate_limits",
+            "consume_broker_lead_rate_limit",
+            "purge_broker_lead_rate_limits",
+            "security definer",
+            "enable row level security",
+            "raw_payload jsonb",
+            "tracking jsonb",
+            "qualification jsonb",
+            "spam_check jsonb",
+        )),
+        (preparation, PREPARATION, (
+            "journey_type text",
+            "journey_stage text",
+            "journey_scenario_slug text",
+            "preparation jsonb",
+            "preparation_completed jsonb",
+            "remaining_questions text",
+            "sync_broker_lead_preparation",
+            "raw_payload -> 'preparation'",
+        )),
+        (summary, SUMMARY, (
+            "broker_lead_notification_summary",
+            "returns text",
+            "security definer",
+            "broker_lead_not_found",
+            "preparation_completed",
+            "to service_role",
+        )),
+        (delivery, DELIVERY, (
+            "notification_attempt_count integer",
+            "claim_broker_lead_notification",
+            "complete_broker_lead_notification",
+            "notification_status = 'sending'",
+            "interval '15 minutes'",
+            "to service_role",
+        )),
+        (retry, RETRY, (
+            "notification_manual_retry_count integer",
+            "request_broker_lead_notification_retry",
+            "and leads.notification_status = 'failed'",
+            "broker_lead_notification_queue_health",
+            "to service_role",
+        )),
+        (retention, RETENTION, (
+            "retention_hold boolean not null default false",
+            "anonymized_at timestamptz",
+            "enabled boolean not null default false",
+            "broker_lead_retention_preview",
+            "apply_broker_lead_retention",
+            "APPLY_BROKER_RETENTION",
+            "to service_role",
+        )),
     )
     for text, file, markers in migration_checks:
         errors += require(text, markers, file, "Migration")

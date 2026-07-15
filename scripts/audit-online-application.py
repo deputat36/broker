@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет Web3Forms-приём заявок, конфигурацию, атрибуцию и резервные каналы."""
+"""Проверяет Web3Forms-заявку, privacy-safe thank-you и дистанционные CTA."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from typing import Any
 from urllib.parse import urlparse
 from xml.etree import ElementTree
 
+
 BASE_URL = "https://sterlikova-ipoteka.ru"
 APPLICATION_URL = "/online-zayavka/"
 THANK_YOU_URL = "/spasibo/"
@@ -20,6 +21,8 @@ POLICY_URL = "/policy/"
 PHONE_LINK = "tel:+79030250807"
 VK_PROFILE = "https://vk.com/tatyanasterlikova"
 WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit"
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
 WEB3FORMS_KEY_PATTERN = re.compile(
     r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
     re.IGNORECASE,
@@ -28,7 +31,6 @@ INLINE_UUID_PATTERN = re.compile(
     r"(?<![0-9a-f])[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(?![0-9a-f])",
     re.IGNORECASE,
 )
-REPO_ROOT = Path(__file__).resolve().parents[1]
 
 KEY_PAGE_REQUIREMENTS = {
     "/": ("любого города",),
@@ -37,23 +39,52 @@ KEY_PAGE_REQUIREMENTS = {
 }
 
 REQUIRED_FIELDS = {
-    "source_page", "request_id", "form_started_at", "form_version", "website",
-    "client_name", "phone", "city", "preferred_contact", "scenario", "object_type",
-    "object_price", "down_payment", "income_type", "bank_history", "comment", "consent",
+    "source_page",
+    "request_id",
+    "form_started_at",
+    "form_version",
+    "website",
+    "client_name",
+    "phone",
+    "city",
+    "preferred_contact",
+    "scenario",
+    "object_type",
+    "object_price",
+    "down_payment",
+    "income_type",
+    "bank_history",
+    "comment",
+    "consent",
 }
-
 REQUIRED_FORM_MARKERS = {
-    "data-online-application", "data-lead-mode", "data-web3forms-access-key",
-    "data-web3forms-endpoint", "data-lead-endpoint", "data-thank-you-path",
-    "data-lead-timeout-ms", "data-lead-min-fill-ms", "data-application-status",
-    "data-application-result", "data-application-output", "data-application-direct-send",
-    "data-application-delivery-note", "data-application-share", "data-application-sms",
-    "data-application-copy", "data-application-vk",
+    "data-online-application",
+    "data-lead-mode",
+    "data-web3forms-access-key",
+    "data-web3forms-endpoint",
+    "data-lead-endpoint",
+    "data-thank-you-path",
+    "data-lead-timeout-ms",
+    "data-lead-min-fill-ms",
+    "data-application-status",
+    "data-application-result",
+    "data-application-output",
+    "data-application-direct-send",
+    "data-application-delivery-note",
+    "data-application-share",
+    "data-application-sms",
+    "data-application-copy",
+    "data-application-vk",
 }
-
 REQUIRED_LINKS = {
-    POLICY_URL, CONSENT_URL, "/konsultaciya/", "/stoimost/", "/etagi/", "/geo/",
-    PHONE_LINK, VK_PROFILE,
+    POLICY_URL,
+    CONSENT_URL,
+    "/konsultaciya/",
+    "/stoimost/",
+    "/etagi/",
+    "/geo/",
+    PHONE_LINK,
+    VK_PROFILE,
 }
 
 
@@ -88,9 +119,7 @@ class PageParser(HTMLParser):
         element_id = attrs_map.get("id")
         if element_id:
             self.ids.add(element_id)
-        for key in attrs_map:
-            if key.startswith("data-"):
-                self.markers.add(key)
+        self.markers.update(key for key in attrs_map if key.startswith("data-"))
 
         if tag == "title":
             self._in_title = True
@@ -171,6 +200,10 @@ def annotation(message: str, file: Path | None = None) -> None:
     print(f"{prefix}::{message}")
 
 
+def normalize(value: str) -> str:
+    return " ".join(value.casefold().replace("ё", "е").split())
+
+
 def url_to_file(site_dir: Path, page_url: str) -> Path:
     if page_url == "/":
         return site_dir / "index.html"
@@ -184,8 +217,8 @@ def load_page(site_dir: Path, page_url: str) -> tuple[Path, PageParser] | None:
         return None
     try:
         raw_html = html_file.read_text(encoding="utf-8")
-    except (OSError, UnicodeDecodeError) as error:
-        annotation(f"Не удалось прочитать HTML: {error}", html_file)
+    except (OSError, UnicodeDecodeError) as exc:
+        annotation(f"Не удалось прочитать HTML: {exc}", html_file)
         return None
     parser = PageParser()
     parser.feed(raw_html)
@@ -222,13 +255,13 @@ def area_contains_russia(value: Any) -> bool:
 def validate_schema(parser: PageParser, html_file: Path) -> int:
     errors = 0
     services: list[dict[str, Any]] = []
-    for block_number, block in enumerate(parser.ld_json_blocks, start=1):
+    for number, block in enumerate(parser.ld_json_blocks, start=1):
         if not block:
             continue
         try:
             payload = json.loads(block)
-        except json.JSONDecodeError as error:
-            annotation(f"Некорректный JSON-LD блок #{block_number}: {error.msg}", html_file)
+        except json.JSONDecodeError as exc:
+            annotation(f"Некорректный JSON-LD блок #{number}: {exc.msg}", html_file)
             errors += 1
             continue
         services.extend(obj for obj in iter_json_objects(payload) if has_type(obj, "Service"))
@@ -237,7 +270,6 @@ def validate_schema(parser: PageParser, html_file: Path) -> int:
     if not matching:
         annotation("Не найден Service JSON-LD с URL онлайн-заявки", html_file)
         return errors + 1
-
     service = matching[0]
     provider = service.get("provider")
     if not isinstance(provider, dict) or provider.get("name") != "Татьяна Стерликова":
@@ -294,8 +326,15 @@ def validate_endpoint_documentation() -> int:
     if not doc_file.is_file():
         annotation("Не найден контракт дополнительного серверного приёма заявок", doc_file)
         return 1
-    text = doc_file.read_text(encoding="utf-8", errors="ignore").casefold()
-    required = ("request_id", "идемпотент", "cors", "rate limit", "service_role", "политика обработки данных")
+    text = normalize(doc_file.read_text(encoding="utf-8", errors="ignore"))
+    required = (
+        "request_id",
+        "идемпотент",
+        "cors",
+        "rate limit",
+        "service_role",
+        "политики обработки данных",
+    )
     errors = 0
     for marker in required:
         if marker not in text:
@@ -322,8 +361,7 @@ def validate_support_page(
         annotation(f"Служебная страница должна быть noindex: {page_url}", html_file)
         errors += 1
     for required_text in required_texts:
-        normalized = required_text.casefold().replace("ё", "е")
-        if normalized not in parser.text:
+        if normalize(required_text) not in parser.text:
             annotation(f"На странице {page_url} отсутствует текст: {required_text}", html_file)
             errors += 1
     if required_ids:
@@ -350,8 +388,8 @@ def main() -> int:
             for node in root.findall("sm:url/sm:loc", namespace)
             if node.text
         }
-    except (ElementTree.ParseError, OSError) as error:
-        annotation(f"Не удалось разобрать sitemap.xml: {error}", sitemap_file)
+    except (ElementTree.ParseError, OSError) as exc:
+        annotation(f"Не удалось разобрать sitemap.xml: {exc}", sitemap_file)
         return 1
 
     if APPLICATION_URL not in sitemap_paths:
@@ -375,8 +413,7 @@ def main() -> int:
         errors += 1
 
     for required_text in ("из любого города", "web3forms", "email", "решение принимает банк", "отправить заявку онлайн"):
-        normalized = required_text.casefold().replace("ё", "е")
-        if normalized not in application.text:
+        if normalize(required_text) not in application.text:
             annotation(f"На онлайн-заявке отсутствует обязательный текст: {required_text}", application_file)
             errors += 1
 
@@ -435,33 +472,57 @@ def main() -> int:
     script_file = site_dir / expected_script.lstrip("/")
     if script_file.is_file():
         script_text = script_file.read_text(encoding="utf-8", errors="ignore")
-        for marker in (
-            "form.dataset.web3formsAccessKey", "form.dataset.web3formsEndpoint",
-            "form.dataset.thankYouPath", "validWeb3FormsKey", "Promise.allSettled",
-            "sterlikovaMortgageLastLead", "LAST_LEAD_RETENTION_MS", "SCENARIO_BY_SLUG", "CITY_BY_PREFIX",
-            "source_page", "request_id", "form_started_at", "website", "qualification",
-            "tracking_json", "fields_json", "expires_at", "normalizeHttpsUrl", "AbortController",
-            "credentials: 'omit'", "online_application_direct_success", "online_application_direct_error",
-            "online_application_direct_timeout", "online_application_spam_block", "lead_submit",
+        script_markers = (
+            "form.dataset.web3formsAccessKey",
+            "form.dataset.web3formsEndpoint",
+            "form.dataset.thankYouPath",
+            "validWeb3FormsKey",
+            "Promise.allSettled",
+            "sterlikovaMortgageLastLead",
+            "LAST_LEAD_RETENTION_MS",
+            "SCENARIO_BY_SLUG",
+            "CITY_BY_PREFIX",
+            "source_page",
+            "request_id",
+            "form_started_at",
+            "website",
+            "qualification",
+            "tracking_json",
+            "fields_json",
+            "expires_at",
+            "normalizeHttpsUrl",
+            "AbortController",
+            "credentials: 'omit'",
+            "online_application_direct_success",
+            "online_application_direct_error",
+            "online_application_direct_timeout",
+            "online_application_spam_block",
+            "lead_submit",
             "sms:+79030250807",
-        ):
+        )
+        for marker in script_markers:
             if marker not in script_text:
                 annotation(f"В скрипте онлайн-заявки отсутствует маркер: {marker}", script_file)
                 errors += 1
-        embedded_keys = INLINE_UUID_PATTERN.findall(script_text)
-        if embedded_keys:
+        if INLINE_UUID_PATTERN.findall(script_text):
             annotation("Web3Forms access key не должен быть жёстко зашит в JavaScript", script_file)
             errors += 1
 
     main_script = site_dir / "assets/js/main.js"
     if main_script.is_file():
-        main_script_text = main_script.read_text(encoding="utf-8", errors="ignore")
+        main_text = main_script.read_text(encoding="utf-8", errors="ignore")
         for marker in (
-            "TRACKING_KEYS", "sterlikovaMortgageTracking", "window.getSiteTrackingData",
-            "first_touch", "last_touch", "TRACKING_RETENTION_DAYS", "expires_at",
-            "window.clearSiteTrackingData", "online_application_click",
+            "TRACKING_KEYS",
+            "sterlikovaMortgageTracking",
+            "window.getSiteTrackingData",
+            "first_touch",
+            "last_touch",
+            "TRACKING_RETENTION_DAYS",
+            "expires_at",
+            "window.clearSiteTrackingData",
+            "online_application_click",
         ):
-            if marker not in main_script_text:
+            if marker not in main_text:
                 annotation(f"В основном скрипте отсутствует маркер: {marker}", main_script)
                 errors += 1
 
@@ -471,7 +532,7 @@ def main() -> int:
         site_dir,
         THANK_YOU_URL,
         ("заявка отправлена", "номер обращения", "expires_at", "lead_thankyou_view"),
-        {"lead-id", "lead-scenario", "lead-city", "lead-status"},
+        {"lead-id"},
     )
     errors += validate_support_page(
         site_dir,
@@ -485,14 +546,19 @@ def main() -> int:
     else:
         policy_file, policy = loaded_policy
         for marker in (
-            "web3forms", "utm", "email", "90 днями", "24 часа",
-            "номер телефона и полный текст заявки",
+            "web3forms",
+            "utm",
+            "email",
+            "90 днями",
+            "24 часа",
+            "номер телефона",
+            "полный текст заявки",
         ):
-            if marker.casefold().replace("ё", "е") not in policy.text:
+            if normalize(marker) not in policy.text:
                 annotation(f"В политике отсутствует обязательный маркер: {marker}", policy_file)
                 errors += 1
 
-    for page_url, required_texts_for_page in KEY_PAGE_REQUIREMENTS.items():
+    for page_url, required_texts in KEY_PAGE_REQUIREMENTS.items():
         loaded_page = load_page(site_dir, page_url)
         if loaded_page is None:
             errors += 1
@@ -501,14 +567,14 @@ def main() -> int:
         if APPLICATION_URL not in parser.links:
             annotation(f"Ключевая страница не ведёт на онлайн-заявку: {page_url}", html_file)
             errors += 1
-        for required_text in required_texts_for_page:
-            normalized = required_text.casefold().replace("ё", "е")
-            if normalized not in parser.text:
+        for required_text in required_texts:
+            if normalize(required_text) not in parser.text:
                 annotation(f"На странице {page_url} отсутствует дистанционная формулировка: {required_text}", html_file)
                 errors += 1
 
     contextual_urls = sorted(
-        page_url for page_url in sitemap_paths
+        page_url
+        for page_url in sitemap_paths
         if (page_url.startswith("/uslugi/") and page_url != "/uslugi/")
         or (page_url.startswith("/geo/") and page_url != "/geo/")
     )
@@ -531,7 +597,7 @@ def main() -> int:
 
     print(
         "Аудит онлайн-заявки успешно завершён: "
-        f"Web3Forms-конфигурация, сроки хранения, email, атрибуция, согласие, страница благодарности и fallback подтверждены; страниц {len(contextual_urls)}"
+        f"Web3Forms, privacy-safe thank-you, email, атрибуция, согласие и fallback подтверждены; страниц {len(contextual_urls)}"
     )
     return 0
 

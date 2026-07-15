@@ -3,6 +3,8 @@ name: Deploy Jekyll site to Pages
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -11,15 +13,19 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: "pages-${{ github.ref }}"
   cancel-in-progress: false
 
 jobs:
-  build:
+  source-audit:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          show-progress: false
+      - name: Normalize Jekyll front matter
+        run: python3 scripts/prepare-jekyll-source.py --write
       - name: Validate source syntax
         run: |
           node --check assets/js/main.js
@@ -27,33 +33,63 @@ jobs:
           node --check assets/js/application-inputs.js
           node --check assets/js/application-preparation.js
           node --check assets/js/online-application.js
+          node --check assets/js/thankyou-storage-privacy.js
           python3 -m compileall -q scripts
-      - name: Audit Supabase backend v2 source
-        run: python3 scripts/audit-supabase-backend.py
-      - name: Audit Supabase function security config
-        run: python3 scripts/audit-supabase-function-config.py
-      - name: Audit protected notification retry
-        run: python3 scripts/audit-notification-retry.py
-      - name: Audit protected notification health
-        run: python3 scripts/audit-notification-health.py
-      - name: Audit disabled-by-default lead retention
-        run: python3 scripts/audit-data-retention.py
-      - name: Audit protected individual privacy requests
-        run: python3 scripts/audit-privacy-requests.py
-      - name: Audit restricted lead operational guard
-        run: python3 scripts/audit-processing-restriction.py
-      - name: Audit restricted delivery response
-        run: python3 scripts/audit-restricted-delivery-response.py
-      - name: Audit minimal public lead response
-        run: python3 scripts/audit-public-lead-response.py
-      - name: Audit safe public lead errors
-        run: python3 scripts/audit-public-lead-errors.py
-      - name: Audit application error UI
-        run: python3 scripts/audit-application-error-ui.py
-      - name: Audit hybrid delivery state
-        run: python3 scripts/audit-hybrid-delivery-state.py
-      - name: Audit aggregate Supabase readiness
-        run: python3 scripts/audit-supabase-readiness.py
+      - name: Run source audit suite
+        run: |
+          set +e
+          : > source-audits.log
+          failures=0
+
+          run_audit() {
+            label="$1"
+            shift
+            echo "===== ${label} =====" | tee -a source-audits.log
+            "$@" 2>&1 | tee -a source-audits.log
+            status=${PIPESTATUS[0]}
+            if [ "$status" -ne 0 ]; then
+              echo "FAILED: ${label} (${status})" | tee -a source-audits.log
+              failures=$((failures + 1))
+            else
+              echo "PASSED: ${label}" | tee -a source-audits.log
+            fi
+          }
+
+          run_audit "Supabase backend v2 source" python3 scripts/audit-supabase-backend.py
+          run_audit "Supabase function security config" python3 scripts/audit-supabase-function-config.py
+          run_audit "Protected notification retry" python3 scripts/audit-notification-retry.py
+          run_audit "Protected notification health" python3 scripts/audit-notification-health.py
+          run_audit "Disabled-by-default lead retention" python3 scripts/audit-data-retention.py
+          run_audit "Protected individual privacy requests" python3 scripts/audit-privacy-requests.py
+          run_audit "Restricted lead operational guard" python3 scripts/audit-processing-restriction.py
+          run_audit "Restricted delivery response" python3 scripts/audit-restricted-delivery-response.py
+          run_audit "Minimal public lead response" python3 scripts/audit-public-lead-response.py
+          run_audit "Safe public lead errors" python3 scripts/audit-public-lead-errors.py
+          run_audit "Application error UI" python3 scripts/audit-application-error-ui.py
+          run_audit "Hybrid delivery state" python3 scripts/audit-hybrid-delivery-state.py
+          run_audit "Aggregate Supabase readiness" python3 scripts/audit-supabase-readiness.py
+
+          echo "Source audit failures: ${failures}" | tee -a source-audits.log
+          test "$failures" -eq 0
+      - name: Upload source audit diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-audit-diagnostics
+          path: source-audits.log
+          if-no-files-found: error
+          retention-days: 7
+
+  build:
+    runs-on: ubuntu-latest
+    needs: source-audit
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+      - name: Prepare Jekyll source
+        run: python3 scripts/prepare-jekyll-source.py --write
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
@@ -61,42 +97,68 @@ jobs:
         with:
           source: ./
           destination: ./_site
-      - name: Run required post-build checks
-        run: bash scripts/post-build-check.sh ./_site
-      - name: Audit built HTML, links and structured data
-        run: python3 scripts/audit-built-site.py ./_site
-      - name: Audit district materials cluster
-        run: python3 scripts/audit-district-materials.py ./_site
-      - name: Audit conversion pages and CTA
-        run: python3 scripts/audit-conversion-pages.py ./_site
-      - name: Audit unconfirmed ETAGI terms
-        run: python3 scripts/audit-etagi-terms.py ./_site
-      - name: Audit SEO of service pages
-        run: python3 scripts/audit-service-seo.py ./_site
-      - name: Audit regional landing pages
-        run: python3 scripts/audit-regional-pages.py ./_site
-      - name: Audit regional content uniqueness
-        run: python3 scripts/audit-regional-uniqueness.py ./_site
-      - name: Audit distinct regional content intents
-        run: python3 scripts/audit-regional-intents.py ./_site
-      - name: Audit regional reading paths
-        run: python3 scripts/audit-regional-link-paths.py ./_site
-      - name: Audit complex application routes
-        run: python3 scripts/audit-complex-application-routes.py ./_site
-      - name: Audit complex application preparation context
-        run: python3 scripts/audit-application-preparation-context.py ./_site
-      - name: Audit online application and remote service route
-        run: python3 scripts/audit-online-application.py ./_site
-      - name: Audit thank-you privacy
-        run: python3 scripts/audit-thankyou-privacy.py ./_site
-      - name: Audit progressive mobile application UX
-        run: python3 scripts/audit-application-ux.py ./_site
-      - name: Upload artifact
+      - name: Run post-build audit suite
+        run: |
+          set +e
+          : > post-build-audits.log
+          failures=0
+
+          run_audit() {
+            label="$1"
+            shift
+            echo "===== ${label} =====" | tee -a post-build-audits.log
+            "$@" 2>&1 | tee -a post-build-audits.log
+            status=${PIPESTATUS[0]}
+            if [ "$status" -ne 0 ]; then
+              echo "FAILED: ${label} (${status})" | tee -a post-build-audits.log
+              failures=$((failures + 1))
+            else
+              echo "PASSED: ${label}" | tee -a post-build-audits.log
+            fi
+          }
+
+          run_audit "Required post-build checks" bash scripts/post-build-check.sh ./_site
+          run_audit "Built HTML, links and structured data" python3 scripts/audit-built-site.py ./_site
+          run_audit "District materials cluster" python3 scripts/audit-district-materials.py ./_site
+          run_audit "Conversion pages and CTA" python3 scripts/audit-conversion-pages.py ./_site
+          run_audit "Unconfirmed ETAGI terms" python3 scripts/audit-etagi-terms.py ./_site
+          run_audit "ETAGI terms in useful materials" python3 scripts/audit-etagi-content-pages.py ./_site
+          run_audit "SEO of service pages" python3 scripts/audit-service-seo.py ./_site
+          run_audit "Regional landing pages" python3 scripts/audit-regional-pages.py ./_site
+          run_audit "Regional content uniqueness" python3 scripts/audit-regional-uniqueness.py ./_site
+          run_audit "Distinct regional content intents" python3 scripts/audit-regional-intents.py ./_site
+          run_audit "Regional reading paths" python3 scripts/audit-regional-link-paths.py ./_site
+          run_audit "Complex application routes" python3 scripts/audit-complex-application-routes.py ./_site
+          run_audit "Complex application preparation context" python3 scripts/audit-application-preparation-context.py ./_site
+          run_audit "Online application and remote service route" python3 scripts/audit-online-application.py ./_site
+          run_audit "Thank-you privacy" python3 scripts/audit-thankyou-privacy.py ./_site
+          run_audit "Progressive mobile application UX" python3 scripts/audit-application-ux.py ./_site
+
+          echo "Post-build audit failures: ${failures}" | tee -a post-build-audits.log
+          test "$failures" -eq 0
+      - name: Upload post-build diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-build-audit-diagnostics
+          path: post-build-audits.log
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload built site diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-site-diagnostics
+          path: ./_site
+          if-no-files-found: error
+          retention-days: 1
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./_site
 
   deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
