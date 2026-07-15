@@ -38,8 +38,16 @@ REGIONAL_SAFE_PAGES = {
     "/geo/borisoglebsk/ipoteka-s-materinskim-kapitalom/": ROOT / "geo/borisoglebsk/ipoteka-s-materinskim-kapitalom.md",
     "/geo/gribanovskiy/ipoteka-s-materinskim-kapitalom/": ROOT / "geo/gribanovskiy/ipoteka-s-materinskim-kapitalom.md",
     "/geo/povorino/ipoteka-s-materinskim-kapitalom/": ROOT / "geo/povorino/ipoteka-s-materinskim-kapitalom.md",
+    "/geo/gribanovskiy/ipoteka-na-dom/": ROOT / "geo/gribanovskiy/ipoteka-na-dom.md",
+    "/geo/povorino/ipoteka-na-dom/": ROOT / "geo/povorino/ipoteka-na-dom.md",
 }
+
+REGIONAL_REVIEWED_PAGES = {
+    "/geo/borisoglebsk/ipoteka-na-dom/": ROOT / "geo/borisoglebsk-ipoteka-na-dom.md",
+}
+
 PAGES.update(REGIONAL_SAFE_PAGES)
+PAGES.update(REGIONAL_REVIEWED_PAGES)
 
 SOURCE_ONLY = {
     "README.md": ROOT / "README.md",
@@ -125,6 +133,9 @@ for page_url in REGIONAL_SAFE_PAGES:
         "состав ипотечного сопровождения и порядок оплаты зависят",
         "предусмотрена ли отдельная оплата",
     )
+
+for page_url in REGIONAL_REVIEWED_PAGES:
+    REQUIRED[page_url] = ()
 
 SOURCE_REQUIRED = {
     "README.md": (
@@ -237,7 +248,8 @@ def main() -> int:
     print(
         "Аудит условий ЭТАЖИ успешно завершён: "
         f"{len(PAGES)} ключевых страниц, включая {len(REGIONAL_SAFE_PAGES)} дочерних региональных "
-        "маршрутов, и три публичных документа не содержат неподтверждённых обещаний"
+        f"маршрутов с безопасной формулировкой и {len(REGIONAL_REVIEWED_PAGES)} проверенных маршрутов "
+        "без корпоративного блока, а также три публичных документа, не содержат неподтверждённых обещаний"
     )
     return 0
 
