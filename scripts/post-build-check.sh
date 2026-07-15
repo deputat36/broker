@@ -78,6 +78,7 @@ fi
 
 python3 scripts/audit-time-sensitive-content.py "$SITE_DIR"
 python3 scripts/audit-useful-content-quality.py "$SITE_DIR"
+python3 scripts/audit-accessibility-structure.py "$SITE_DIR"
 python3 scripts/audit-tatyana-photo.py "$SITE_DIR"
 python3 scripts/audit-footer-trust.py "$SITE_DIR"
 
