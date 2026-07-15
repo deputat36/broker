@@ -1,0 +1,45 @@
+name: Update thank-you privacy audit marker
+
+on:
+  push:
+    branches: ["fix/verified-thankyou-state"]
+
+permissions:
+  contents: write
+
+jobs:
+  update-marker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/verified-thankyou-state
+          fetch-depth: 0
+          show-progress: false
+      - name: Replace exact canonical marker
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('scripts/audit-thankyou-privacy.py')
+          text = path.read_text(encoding='utf-8')
+          old = '"document.getElementById(\'lead-id\').textContent = requestId;",'
+          new = '"setText(\'lead-id\', requestId);",'
+          if new not in text:
+              if old not in text:
+                  raise SystemExit('Expected privacy-audit marker not found')
+              path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+          python3 -m py_compile scripts/audit-thankyou-privacy.py
+          git diff --check
+      - name: Commit audit update
+        run: |
+          git add scripts/audit-thankyou-privacy.py
+          if git diff --cached --quiet; then
+            echo "Privacy audit marker is already current"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Обновить маркер privacy-аудита страницы благодарности"
+          git push origin HEAD:fix/verified-thankyou-state
