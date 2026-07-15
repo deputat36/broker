@@ -24,8 +24,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           show-progress: false
-      - name: Normalize Jekyll front matter
-        run: python3 scripts/prepare-jekyll-source.py --write
+      - name: Prepare Jekyll source
+        run: bash scripts/prepare-jekyll-source.sh
       - name: Verify source preparation idempotence
         run: bash scripts/check-jekyll-preparation.sh
       - name: Validate source syntax
@@ -93,7 +93,7 @@ jobs:
         with:
           show-progress: false
       - name: Prepare Jekyll source
-        run: python3 scripts/prepare-jekyll-source.py --write
+        run: bash scripts/prepare-jekyll-source.sh
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
