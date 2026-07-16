@@ -7,9 +7,17 @@
   const moreDetails = form.querySelector('[data-application-more]');
   const formStatus = form.querySelector('[data-application-status]');
   const documentLinks = form.querySelectorAll('.application-consent a');
+  const consent = form.elements.namedItem('consent');
 
   function track(goalName) {
     if (typeof window.sendGoal === 'function') window.sendGoal(goalName);
+  }
+
+  function setFormError(message) {
+    if (!formStatus) return;
+    formStatus.textContent = message;
+    formStatus.classList.remove('is-success');
+    formStatus.classList.add('is-error');
   }
 
   function parseRussianPhone(value) {
@@ -71,6 +79,13 @@
     return valid;
   }
 
+  function setConsentValidity() {
+    if (!consent) return true;
+    const valid = consent.checked;
+    consent.setAttribute('aria-invalid', String(!valid));
+    return valid;
+  }
+
   documentLinks.forEach((link) => {
     link.setAttribute('target', '_blank');
     link.setAttribute('rel', 'noopener');
@@ -101,18 +116,27 @@
     });
   }
 
+  if (consent) consent.addEventListener('change', () => {
+    if (consent.checked) consent.removeAttribute('aria-invalid');
+  });
+
   form.addEventListener('submit', (event) => {
-    if (setPhoneValidity(true)) return;
+    const phoneValid = setPhoneValidity(true);
+    const consentValid = setConsentValidity();
+    if (phoneValid && consentValid) return;
     event.preventDefault();
     event.stopImmediatePropagation();
-    if (formStatus) {
-      formStatus.textContent = 'Проверьте номер телефона: нужно указать ровно 10 цифр после +7.';
-      formStatus.classList.remove('is-success');
-      formStatus.classList.add('is-error');
+    if (!phoneValid) {
+      setFormError('Проверьте номер телефона: нужно указать ровно 10 цифр после +7.');
+      phone.focus();
+      phone.reportValidity();
+      track('online_application_phone_error');
+      return;
     }
-    phone.focus();
-    phone.reportValidity();
-    track('online_application_phone_error');
+    setFormError('Подтвердите согласие на обработку данных, чтобы подготовить заявку.');
+    consent.focus();
+    consent.reportValidity();
+    track('online_application_consent_error');
   }, true);
 
   if (moreDetails) {
@@ -257,236 +281,4 @@
 
   const observer = new MutationObserver(renderSafeError);
   observer.observe(deliveryNote, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
-
-  directSendButton.addEventListener('click', () => {
-    lastEndpointError = null;
-    delete deliveryNote.dataset.errorCategory;
-  }, true);
-})();
-
-(() => {
-  const form = document.querySelector('[data-online-application]');
-  if (!form || typeof window.fetch !== 'function') return;
-
-  const mode = String(form.dataset.leadMode || 'disabled').trim().toLowerCase();
-  const web3FormsEndpoint = normalizeHttpsUrl(form.dataset.web3formsEndpoint);
-  const leadEndpoint = normalizeHttpsUrl(form.dataset.leadEndpoint);
-  const expectsWeb3Forms = ['web3forms', 'hybrid'].includes(mode) && Boolean(web3FormsEndpoint);
-  const expectsSupabase = ['direct', 'hybrid'].includes(mode) && Boolean(leadEndpoint);
-  if (!expectsWeb3Forms && !expectsSupabase) return;
-
-  const previousFetch = window.fetch.bind(window);
-  const attempts = new Map();
-  const WEB3FORMS_WAIT_MS = 2500;
-  const receiptEndpoint = deriveReceiptEndpoint(leadEndpoint);
-
-  function normalizeHttpsUrl(value) {
-    const raw = String(value || '').trim();
-    if (!raw) return '';
-    try {
-      const url = new URL(raw, window.location.origin);
-      return url.protocol === 'https:' ? url.href : '';
-    } catch (_error) {
-      return '';
-    }
-  }
-
-  function deriveReceiptEndpoint(value) {
-    if (!value) return '';
-    try {
-      const url = new URL(value);
-      const normalizedPath = url.pathname.replace(/\/+$/, '');
-      if (!normalizedPath.endsWith('/broker-public-lead')) return '';
-      url.pathname = `${normalizedPath.replace(/\/broker-public-lead$/, '')}/broker-delivery-receipt`;
-      url.search = '';
-      url.hash = '';
-      return url.href;
-    } catch (_error) {
-      return '';
-    }
-  }
-
-  function cleanText(value, maxLength = 100) {
-    return typeof value === 'string' ? value.replace(/\s+/g, ' ').trim().slice(0, maxLength) : '';
-  }
-
-  function validRequestId(value) {
-    const requestId = cleanText(value, 80);
-    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    const fallbackPattern = /^IP-\d{8}-[A-Z0-9]{6,16}$/;
-    return uuidPattern.test(requestId) || fallbackPattern.test(requestId) ? requestId : '';
-  }
-
-  function parseBody(options) {
-    if (!options || typeof options.body !== 'string') return {};
-    try {
-      const parsed = JSON.parse(options.body);
-      return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
-    } catch (_error) {
-      return {};
-    }
-  }
-
-  function sameEndpoint(left, right) {
-    if (!left || !right) return false;
-    try {
-      return new URL(left, window.location.origin).href === new URL(right, window.location.origin).href;
-    } catch (_error) {
-      return false;
-    }
-  }
-
-  function ensureAttempt(requestId) {
-    if (!attempts.has(requestId)) {
-      attempts.set(requestId, {
-        requestId,
-        expected: { web3forms: expectsWeb3Forms, supabase: expectsSupabase },
-        channels: {
-          web3forms: { settled: !expectsWeb3Forms, accepted: false },
-          supabase: { settled: !expectsSupabase, accepted: false }
-        },
-        waiters: [],
-        finalized: false
-      });
-    }
-    return attempts.get(requestId);
-  }
-
-  function notifySupabaseWaiters(attempt) {
-    if (!attempt.channels.supabase.settled) return;
-    attempt.waiters.splice(0).forEach((resolve) => resolve(true));
-  }
-
-  function waitForSupabase(attempt) {
-    if (!attempt.expected.supabase || attempt.channels.supabase.settled) return Promise.resolve(true);
-    return new Promise((resolve) => {
-      const timer = window.setTimeout(() => resolve(false), WEB3FORMS_WAIT_MS);
-      attempt.waiters.push(() => {
-        window.clearTimeout(timer);
-        resolve(true);
-      });
-    });
-  }
-
-  function addDeliveryStateToWeb3FormsArgs(args, state) {
-    if (!state || !args[1] || typeof args[1].body !== 'string') return args;
-    try {
-      const payload = JSON.parse(args[1].body);
-      payload.delivery_state = state;
-      payload.delivery_state_source = 'browser_confirmed';
-      const options = { ...args[1], body: JSON.stringify(payload) };
-      return [args[0], options];
-    } catch (_error) {
-      return args;
-    }
-  }
-
-  async function responseAccepted(channel, response) {
-    if (!response || !response.ok) return false;
-    const contentType = response.headers.get('content-type') || '';
-    if (!contentType.includes('application/json')) return channel === 'supabase' && response.status === 204;
-    try {
-      const payload = await response.clone().json();
-      if (channel === 'web3forms') return payload.success !== false;
-      return payload.ok !== false && payload.success !== false;
-    } catch (_error) {
-      return false;
-    }
-  }
-
-  function track(goalName) {
-    if (typeof window.sendGoal === 'function') window.sendGoal(goalName);
-  }
-
-  async function sendBothReceipt(requestId) {
-    if (!receiptEndpoint || !validRequestId(requestId)) return false;
-    try {
-      const response = await previousFetch(receiptEndpoint, {
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'omit',
-        referrerPolicy: 'strict-origin-when-cross-origin',
-        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          request_kind: 'delivery_receipt',
-          request_id: requestId,
-          delivery_state: 'both'
-        })
-      });
-      if (response.status === 204) {
-        track('online_application_delivery_receipt_success');
-        return true;
-      }
-    } catch (_error) {
-      // Квитанция не должна менять успешный клиентский результат.
-    }
-    track('online_application_delivery_receipt_error');
-    return false;
-  }
-
-  function finalizeAttempt(attempt) {
-    if (attempt.finalized) return;
-    if (!attempt.channels.web3forms.settled || !attempt.channels.supabase.settled) return;
-
-    const web3formsAccepted = attempt.channels.web3forms.accepted;
-    const supabaseAccepted = attempt.channels.supabase.accepted;
-    if (!web3formsAccepted && !supabaseAccepted) return;
-
-    const state = web3formsAccepted && supabaseAccepted
-      ? 'both'
-      : web3formsAccepted
-        ? 'web3forms_only'
-        : 'supabase_only';
-
-    attempt.finalized = true;
-    window.applicationDeliveryState = state;
-    track(`online_application_delivery_${state}`);
-    if (state === 'both') void sendBothReceipt(attempt.requestId);
-  }
-
-  window.fetch = async (...initialArgs) => {
-    let args = initialArgs;
-    const options = args[1] && typeof args[1] === 'object' ? args[1] : {};
-    const body = parseBody(options);
-    const requestKind = cleanText(body.request_kind, 40).toLowerCase();
-    if (requestKind === 'delivery_receipt') return previousFetch(...args);
-
-    const requestId = validRequestId(body.request_id);
-    const requestUrl = String(args[0] || '');
-    const channel = sameEndpoint(requestUrl, web3FormsEndpoint)
-      ? 'web3forms'
-      : sameEndpoint(requestUrl, leadEndpoint)
-        ? 'supabase'
-        : '';
-
-    if (!channel || !requestId) return previousFetch(...args);
-    const attempt = ensureAttempt(requestId);
-
-    if (channel === 'web3forms') {
-      const supabaseSettled = await waitForSupabase(attempt);
-      if (!attempt.expected.supabase) {
-        args = addDeliveryStateToWeb3FormsArgs(args, 'web3forms_only');
-      } else if (supabaseSettled) {
-        args = addDeliveryStateToWeb3FormsArgs(
-          args,
-          attempt.channels.supabase.accepted ? 'both' : 'web3forms_only'
-        );
-      }
-    }
-
-    try {
-      const response = await previousFetch(...args);
-      attempt.channels[channel].accepted = await responseAccepted(channel, response);
-      attempt.channels[channel].settled = true;
-      if (channel === 'supabase') notifySupabaseWaiters(attempt);
-      finalizeAttempt(attempt);
-      return response;
-    } catch (error) {
-      attempt.channels[channel].accepted = false;
-      attempt.channels[channel].settled = true;
-      if (channel === 'supabase') notifySupabaseWaiters(attempt);
-      finalizeAttempt(attempt);
-      throw error;
-    }
-  };
 })();
