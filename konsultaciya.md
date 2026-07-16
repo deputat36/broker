@@ -13,7 +13,7 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
   <h1>Онлайн-консультация ипотечного брокера</h1>
   <p class="lead">Помогу понять, с чего начать ипотеку, какой платеж ориентировочно подходит, какие риски могут помешать одобрению и нужен ли вам полный подбор банка.</p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}">Заполнить онлайн-заявку</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}">Заполнить онлайн-заявку</a>
     <a class="btn btn-light" href="tel:+79030250807">Позвонить</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a>
@@ -29,7 +29,7 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
       <p>Не отправляйте персональные документы в открытые комментарии или незнакомые чаты. На первом этапе достаточно краткого описания ситуации, а порядок передачи документов лучше согласовать отдельно.</p>
     </div>
     <div class="cta-actions">
-      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}">Перейти к анкете</a>
+      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}">Перейти к анкете</a>
       <a class="btn btn-dark" href="tel:+79030250807">Позвонить</a>
     </div>
   </div>
@@ -74,7 +74,7 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
       <p><strong>Здравствуйте, Татьяна. Хочу проконсультироваться по ипотеке.</strong></p>
       <p>Город: ___. Объект: квартира / дом / новостройка / строительство. Стоимость примерно: ___ ₽. Первоначальный взнос: ___ ₽. Доход: официально / ИП / самозанятость / другой вариант. Были ли заявки или отказы: да / нет.</p>
     </div>
-    <a class="btn btn-dark" href="{{ '/online-zayavka/' | relative_url }}">Заполнить готовую форму</a>
+    <a class="btn btn-dark" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}">Заполнить готовую форму</a>
   </div>
 </section>
 
@@ -96,7 +96,7 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
     <p>Заполните анкету из любого города или позвоните, если нужен короткий первичный ответ.</p>
   </div>
   <div class="cta-actions">
-    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}">Онлайн-заявка</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}">Онлайн-заявка</a>
     <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a>
