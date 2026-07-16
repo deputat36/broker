@@ -1,3 +1,4 @@
+# Второй push запускает workflow после его появления в ветке.
 name: Apply referrer policy
 
 on:
