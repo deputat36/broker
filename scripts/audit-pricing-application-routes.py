@@ -12,6 +12,7 @@ from urllib.parse import parse_qs, urlsplit
 PRICING_URL = "/stoimost/"
 APPLICATION_URL = "/online-zayavka/"
 ETAGI_URL = "/etagi/"
+ETAGI_ROUTE_LABEL = "Условия для клиентов «ЭТАЖИ»"
 STANDARD_SCENARIO = "Первичная консультация и подбор ипотеки"
 COMPLEX_SCENARIO = "Другая ситуация"
 REQUIRED_ROUTE_LABELS = {
@@ -136,16 +137,16 @@ def main() -> int:
         errors += 1
 
     application_links: list[dict[str, str]] = []
-    etagi_links = 0
+    etagi_links: list[dict[str, str]] = []
     for anchor in parser.anchors:
         parsed = urlsplit(anchor["href"])
-        if parsed.path == APPLICATION_URL:
+        if parsed.path == APPLICATION_URL and anchor["text"] in REQUIRED_ROUTE_LABELS:
             application_links.append(anchor)
-        elif parsed.path == ETAGI_URL:
-            etagi_links += 1
+        elif parsed.path == ETAGI_URL and anchor["text"] == ETAGI_ROUTE_LABEL:
+            etagi_links.append(anchor)
 
     if len(application_links) != 5:
-        error(f"Ожидалось пять CTA в онлайн-заявку, найдено: {len(application_links)}", html_file)
+        error(f"Ожидалось пять тарифных CTA в онлайн-заявку, найдено: {len(application_links)}", html_file)
         errors += 1
 
     found_labels = {anchor["text"] for anchor in application_links}
@@ -179,8 +180,8 @@ def main() -> int:
         error(f"Сложный сценарий должен использоваться один раз, найдено: {complex_count}", html_file)
         errors += 1
 
-    if etagi_links != 1:
-        error(f"Ссылка на отдельные условия «ЭТАЖИ» должна быть одна, найдено: {etagi_links}", html_file)
+    if len(etagi_links) != 1:
+        error(f"Целевая кнопка отдельных условий «ЭТАЖИ» должна быть одна, найдено: {len(etagi_links)}", html_file)
         errors += 1
     for marker in (
         "До начала платной работы согласуются задача, состав действий и стоимость.",
