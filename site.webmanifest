@@ -2,7 +2,7 @@
   "id": "/",
   "name": "Ипотечный брокер Татьяна Стерликова",
   "short_name": "Татьяна Стерликова",
-  "description": "Подбор ипотеки и сопровождение заявок в Борисоглебске, Грибановском и Поворино.",
+  "description": "Онлайн-консультации и сопровождение ипотечных заявок из любого города, локально — Борисоглебск, Грибановский район и Поворино.",
   "lang": "ru",
   "dir": "ltr",
   "start_url": "/",
@@ -14,6 +14,24 @@
   "categories": ["finance", "business", "productivity"],
   "prefer_related_applications": false,
   "icons": [
+    {
+      "src": "/assets/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
     {
       "src": "/assets/img/favicon.svg",
       "sizes": "any",

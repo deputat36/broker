@@ -46,7 +46,7 @@ class ResourceParser(HTMLParser):
 
         if tag == "link":
             rel = {item.lower() for item in data.get("rel", "").split()}
-            if rel.intersection({"stylesheet", "icon", "manifest", "preload"}) and data.get("href"):
+            if rel.intersection({"stylesheet", "icon", "apple-touch-icon", "manifest", "preload"}) and data.get("href"):
                 self.add_resource(data["href"], page_load="manifest" not in rel)
             return
 
@@ -160,6 +160,30 @@ def check_file_limits(
             errors.append(f"{label} {path.name}: {size} байт при лимите {limit}")
 
 
+def add_manifest_references(site_dir: Path, referenced: Counter[str], errors: list[str]) -> None:
+    manifest_path = site_dir / "site.webmanifest"
+    if not manifest_path.is_file():
+        return
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError) as error:
+        errors.append(f"Не удалось прочитать manifest для графа ресурсов: {error}")
+        return
+
+    icons = manifest.get("icons", [])
+    if not isinstance(icons, list):
+        errors.append("Manifest icons должен быть массивом для графа ресурсов")
+        return
+
+    for icon in icons:
+        if not isinstance(icon, dict) or not isinstance(icon.get("src"), str):
+            continue
+        resource = local_path(site_dir, icon["src"])
+        if resource is None:
+            continue
+        referenced[resource.relative_to(site_dir).as_posix()] += 1
+
+
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     if not site_dir.is_dir():
@@ -228,6 +252,8 @@ def main() -> int:
                 f"Страница {relative_html}: локальная загрузка {page_weight} байт "
                 f"при лимите {config['max_page_local_bytes']}"
             )
+
+    add_manifest_references(site_dir, referenced, errors)
 
     p95 = percentile([weight for _, weight in page_weights], 0.95)
     check_budget(
