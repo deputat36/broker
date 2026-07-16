@@ -75,11 +75,11 @@ def main() -> int:
         "utm_source: current.utm_source || ''",
         "utm_medium: current.utm_medium || ''",
         "tracking_json: JSON.stringify(tracking)",
-        "fields_json: JSON.stringify(payload, null, 2)",
     )
     forbidden_markers = (
         "page_url: window.location.href",
         "referrer: document.referrer || ''",
+        "fields_json",
     )
     errors += require(source_app, implementation_markers, SOURCE_APP, "Исходный payload")
     errors += require(built_app_text, implementation_markers, built_app, "Собранный payload")

@@ -210,7 +210,6 @@ def validate_script_source() -> int:
         "completed_labels",
         "remaining_questions",
         "preparation_json",
-        "fields.preparation = data",
         "payload.preparation = data",
         "payload.message = appendPreparationToApplicationText",
         "navigator.clipboard.writeText",
@@ -235,6 +234,8 @@ def validate_script_source() -> int:
         "commentField.value =",
         "Комментарий клиента:",
         "MAX_COMBINED_COMMENT_LENGTH",
+        "fields_json",
+        "fields.preparation = data",
     )
     for marker in forbidden_markers:
         if marker in source:
@@ -260,7 +261,7 @@ def main() -> int:
     print(
         "Аудит контекста подготовки заявки успешно завершен: "
         f"проверено сложных входов {len(expected_complex_pages())}, сценариев {len(SCENARIOS)}, "
-        "отметок 4, Web3Forms/preparation JSON и сводка для резервных каналов"
+        "отметок 4, отдельные поля Web3Forms, preparation JSON и сводка для резервных каналов"
     )
     return 0
 

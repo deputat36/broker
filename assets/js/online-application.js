@@ -395,7 +395,6 @@
       form_fill_ms: String(payload.form_fill_ms || 0),
       submitted_at: payload.submitted_at,
       tracking_json: JSON.stringify(tracking),
-      fields_json: JSON.stringify(payload, null, 2),
       message: preparedText
     };
     const response = await fetch(leadConfig.web3formsEndpoint, {
