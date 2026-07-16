@@ -9,9 +9,10 @@ from pathlib import Path
 
 APPLICATION_URL = "/online-zayavka/"
 PHONE_SCRIPT = "/assets/js/application-inputs.js"
-CONSENT_SCRIPT = "/assets/js/application-consent-validation.js"
 APPLICATION_SCRIPT = "/assets/js/online-application.js"
 APPLICATION_STYLE = "/assets/css/online-application.css"
+CONSENT_INLINE_MARKER = "<script data-application-consent-validation>"
+LEGACY_CONSENT_SCRIPT = "/assets/js/application-consent-validation.js"
 
 REQUIRED_VISIBLE_FIELDS = {"client_name", "phone", "city", "scenario", "consent"}
 OPTIONAL_DETAIL_FIELDS = {
@@ -100,8 +101,9 @@ def main() -> int:
         error("Не найдена собранная страница онлайн-заявки", html_file)
         return 1
 
+    html_text = html_file.read_text(encoding="utf-8", errors="ignore")
     parser = ApplicationParser()
-    parser.feed(html_file.read_text(encoding="utf-8", errors="ignore"))
+    parser.feed(html_text)
     errors = 0
 
     if parser.details_count != 1:
@@ -146,19 +148,21 @@ def main() -> int:
         error("Согласие должно оставаться обязательным checkbox-полем", html_file)
         errors += 1
 
-    for marker in ("data-application-more", "data-phone-input"):
+    for marker in ("data-application-more", "data-phone-input", "data-application-consent-validation"):
         if marker not in parser.markers:
             error(f"На странице отсутствует UX-маркер: {marker}", html_file)
             errors += 1
 
     for script_path, label in (
         (PHONE_SCRIPT, "скрипт телефонного поля"),
-        (CONSENT_SCRIPT, "валидация согласия"),
         (APPLICATION_SCRIPT, "основной скрипт заявки"),
     ):
         if script_path not in parser.scripts:
             error(f"Не подключён {label}: {script_path}", html_file)
             errors += 1
+    if LEGACY_CONSENT_SCRIPT in parser.scripts:
+        error("Отдельный скрипт согласия не должен загружаться после перехода на inline-проверку", html_file)
+        errors += 1
     if APPLICATION_STYLE not in parser.styles:
         error(f"Не подключены стили заявки: {APPLICATION_STYLE}", html_file)
         errors += 1
@@ -181,19 +185,26 @@ def main() -> int:
             error("UX-скрипт не должен сохранять имя или телефон в браузере", phone_script_file)
             errors += 1
 
-    consent_script_file = site_dir / CONSENT_SCRIPT.lstrip("/")
-    if not consent_script_file.is_file():
-        error("Не найден собранный скрипт согласия", consent_script_file)
+    legacy_consent_file = site_dir / LEGACY_CONSENT_SCRIPT.lstrip("/")
+    if legacy_consent_file.exists():
+        error("Standalone-файл согласия должен быть удалён из Pages-артефакта", legacy_consent_file)
+        errors += 1
+
+    if CONSENT_INLINE_MARKER not in html_text:
+        error("На странице отсутствует inline-валидация согласия", html_file)
         errors += 1
     else:
-        consent_script = consent_script_file.read_text(encoding="utf-8", errors="ignore")
-        for marker in ("namedItem('consent')", "aria-invalid", "addEventListener('submit'", "addEventListener('change'"):
+        consent_script = html_text.split(CONSENT_INLINE_MARKER, 1)[1].split("</script>", 1)[0]
+        for marker in (
+            "DOMContentLoaded", "namedItem('consent')", "aria-invalid",
+            "addEventListener('submit'", "addEventListener('change'",
+        ):
             if marker not in consent_script:
-                error(f"В скрипте согласия отсутствует маркер: {marker}", consent_script_file)
+                error(f"В inline-валидации согласия отсутствует маркер: {marker}", html_file)
                 errors += 1
         for forbidden in ("localStorage", "sessionStorage", "fetch(", "sendBeacon", "preparation_check"):
             if forbidden in consent_script:
-                error(f"Скрипт согласия не должен использовать {forbidden}", consent_script_file)
+                error(f"Inline-валидация согласия не должна использовать {forbidden}", html_file)
                 errors += 1
 
     style_file = site_dir / APPLICATION_STYLE.lstrip("/")
@@ -213,7 +224,7 @@ def main() -> int:
         print(f"UX-аудит онлайн-заявки завершён с ошибками: {errors}")
         return 1
 
-    print("UX-аудит онлайн-заявки успешно завершён: короткий сценарий, телефон и согласие подтверждены")
+    print("UX-аудит онлайн-заявки успешно завершён: короткий сценарий, телефон и inline-согласие подтверждены")
     return 0
 
 
