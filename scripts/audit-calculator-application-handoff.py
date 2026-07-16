@@ -9,12 +9,16 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+INDEX_SOURCE = REPO_ROOT / "index.md"
 CALCULATOR_SOURCE = REPO_ROOT / "assets/js/mortgage-calculator.js"
 PREFILL_SOURCE = REPO_ROOT / "assets/js/calculator-application-prefill.js"
 APPLICATION_SOURCE = REPO_ROOT / "online-zayavka.md"
 MAIN_SOURCE = REPO_ROOT / "assets/js/main.js"
 PREFILL_ASSET = "/assets/js/calculator-application-prefill.js"
 PARAMETERS = ("calc_amount", "calc_down", "calc_rate", "calc_years")
+LEGACY_DIRECT_LABEL = "Передать расчёт в заявке"
+DIRECT_LABEL = "Открыть онлайн-заявку"
+TRANSFER_LABEL = "Перенести этот расчёт в заявку"
 
 
 class ScriptParser(HTMLParser):
@@ -45,6 +49,7 @@ def require_markers(path: Path, text: str, markers: tuple[str, ...]) -> int:
 
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
+    built_index = site_dir / "index.html"
     built_calculator = site_dir / "assets/js/mortgage-calculator.js"
     built_prefill = site_dir / PREFILL_ASSET.lstrip("/")
     built_main = site_dir / "assets/js/main.js"
@@ -52,10 +57,12 @@ def main() -> int:
     errors = 0
 
     required_files = (
+        INDEX_SOURCE,
         CALCULATOR_SOURCE,
         PREFILL_SOURCE,
         APPLICATION_SOURCE,
         MAIN_SOURCE,
+        built_index,
         built_calculator,
         built_prefill,
         built_main,
@@ -68,10 +75,12 @@ def main() -> int:
     if errors:
         return 1
 
+    index_source = INDEX_SOURCE.read_text(encoding="utf-8")
     calculator_source = CALCULATOR_SOURCE.read_text(encoding="utf-8")
     prefill_source = PREFILL_SOURCE.read_text(encoding="utf-8")
     application_source = APPLICATION_SOURCE.read_text(encoding="utf-8")
     main_source = MAIN_SOURCE.read_text(encoding="utf-8")
+    built_index_text = built_index.read_text(encoding="utf-8-sig", errors="ignore")
     built_calculator_text = built_calculator.read_text(encoding="utf-8-sig", errors="ignore")
     built_prefill_text = built_prefill.read_text(encoding="utf-8-sig", errors="ignore")
     built_main_text = built_main.read_text(encoding="utf-8-sig", errors="ignore")
@@ -80,10 +89,7 @@ def main() -> int:
         "const APPLICATION_PATH = '/online-zayavka/'",
         "data-calc-application-action",
         "data-calc-application-link",
-        "normalizeDirectApplicationAction",
-        "Передать расчёт в заявке",
-        "Открыть онлайн-заявку",
-        "Перенести этот расчёт в заявку",
+        TRANSFER_LABEL,
         "calculator_application_click",
         "new URLSearchParams",
         *PARAMETERS,
@@ -110,6 +116,33 @@ def main() -> int:
     errors += require_markers(built_calculator, built_calculator_text, calculator_markers)
     errors += require_markers(PREFILL_SOURCE, prefill_source, prefill_markers)
     errors += require_markers(built_prefill, built_prefill_text, prefill_markers)
+
+    source_direct_marker = (
+        '<a class="btn btn-light" href="{{ \'/online-zayavka/\' | relative_url }}">'
+        f"{DIRECT_LABEL}</a>"
+    )
+    built_direct_marker = f'<a class="btn btn-light" href="/online-zayavka/">{DIRECT_LABEL}</a>'
+    if index_source.count(source_direct_marker) != 1:
+        fail(INDEX_SOURCE, "Прямая ссылка без переноса должна быть честно подписана в исходном HTML")
+        errors += 1
+    if built_index_text.count(built_direct_marker) != 1:
+        fail(built_index, "Прямая ссылка без переноса должна быть честно подписана в собранной главной")
+        errors += 1
+
+    for path, text in (
+        (INDEX_SOURCE, index_source),
+        (built_index, built_index_text),
+        (CALCULATOR_SOURCE, calculator_source),
+        (built_calculator, built_calculator_text),
+    ):
+        if LEGACY_DIRECT_LABEL in text:
+            fail(path, f"Найдена устаревшая вводящая в заблуждение подпись: {LEGACY_DIRECT_LABEL}")
+            errors += 1
+
+    for path, text in ((CALCULATOR_SOURCE, calculator_source), (built_calculator, built_calculator_text)):
+        if "normalizeDirectApplicationAction" in text or ".closest('.calc-section')" in text:
+            fail(path, "Статическую подпись нельзя исправлять runtime-кодом")
+            errors += 1
 
     script_marker = "{{ '/assets/js/calculator-application-prefill.js' | relative_url }}"
     if application_source.count(script_marker) != 1:
@@ -158,8 +191,8 @@ def main() -> int:
 
     print(
         "Передача расчёта в заявку подтверждена: "
-        f"{len(html_files)} HTML-страниц, модуль только на /online-zayavka/, "
-        "четыре ограниченных неперсональных параметра"
+        f"{len(html_files)} HTML-страниц, честная статическая ссылка без JavaScript, "
+        "модуль только на /online-zayavka/, четыре ограниченных неперсональных параметра"
     )
     return 0
 
