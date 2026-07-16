@@ -89,6 +89,7 @@ node scripts/test-mortgage-calculator-application-action.js "$SITE_DIR/assets/js
 node --check "$SITE_DIR/assets/js/calculator-application-prefill.js"
 node scripts/test-calculator-application-prefill.js "$SITE_DIR/assets/js/calculator-application-prefill.js"
 python3 scripts/audit-time-sensitive-content.py "$SITE_DIR"
+python3 scripts/audit-calculator-rate-transparency.py "$SITE_DIR"
 python3 scripts/audit-useful-content-quality.py "$SITE_DIR"
 python3 scripts/audit-accessibility-structure.py "$SITE_DIR"
 python3 scripts/audit-mobile-sticky-contacts.py "$SITE_DIR"
