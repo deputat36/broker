@@ -175,6 +175,16 @@
   accent-color: var(--red);
 }
 
+.application-consent input[aria-invalid="true"] {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+.application-consent input[aria-invalid="true"] + span {
+  color: var(--red-dark);
+  font-weight: 700;
+}
+
 .application-consent a,
 .application-aside a,
 .application-result a { color: var(--red-dark); font-weight: 900; }
