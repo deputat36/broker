@@ -154,6 +154,13 @@ assert.ok(result.innerHTML.includes('Примерный ежемесячный �
 applicationLink.onclick();
 assert.deepStrictEqual(goals, ['calculator_application_click']);
 
+inputs.rate.value = '';
+inputListener();
+assert.strictEqual(applicationContainer.hidden, true);
+assert.ok(result.innerHTML.includes('Укажите предполагаемую ставку от 0 до 100%'));
+assert.strictEqual(inputs.rate.getAttribute('aria-invalid'), 'true');
+
+inputs.rate.value = '18';
 inputs.down.value = '4000000';
 inputListener();
 assert.strictEqual(applicationContainer.hidden, true);
