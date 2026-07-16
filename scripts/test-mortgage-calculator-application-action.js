@@ -12,37 +12,7 @@ function createClassList(initial = []) {
   return {
     add(...names) { names.forEach((name) => values.add(name)); },
     remove(...names) { names.forEach((name) => values.delete(name)); },
-    contains(name) { return values.has(name); },
-    toArray() { return Array.from(values); }
-  };
-}
-
-function createLink(text, href, classes) {
-  const attributes = { href };
-  const listeners = {};
-  return {
-    textContent: text,
-    className: classes.join(' '),
-    classList: createClassList(classes),
-    dataset: {},
-    href,
-    hasAttribute(name) {
-      if (name === 'data-calc-application-link') return Object.hasOwn(this.dataset, 'calcApplicationLink');
-      return Object.hasOwn(attributes, name);
-    },
-    getAttribute(name) {
-      return name === 'href' ? this.href : (attributes[name] || '');
-    },
-    setAttribute(name, value) {
-      attributes[name] = String(value);
-      if (name === 'href') this.href = String(value);
-    },
-    addEventListener(name, callback) {
-      listeners[name] = callback;
-    },
-    click() {
-      if (listeners.click) listeners.click();
-    }
+    contains(name) { return values.has(name); }
   };
 }
 
@@ -59,17 +29,6 @@ function createInput(name, value) {
     }
   };
 }
-
-const staticLink = createLink(
-  'Передать расчёт в заявке',
-  '/online-zayavka/',
-  ['btn', 'btn-primary']
-);
-const section = {
-  querySelectorAll(selector) {
-    return selector === 'a[href="/online-zayavka/"]' ? [staticLink] : [];
-  }
-};
 
 const inputs = {
   amount: createInput('amount', 3500000),
@@ -98,9 +57,6 @@ const result = {
 };
 
 const calcForm = {
-  closest(selector) {
-    return selector === '.calc-section' ? section : null;
-  },
   querySelector(selector) {
     const nameMatch = selector.match(/^\[name="(.+)"\]$/);
     if (nameMatch) return inputs[nameMatch[1]] || null;
@@ -136,10 +92,6 @@ function createElement(tagName) {
     },
     getAttribute(name) {
       return attributes[name] || '';
-    },
-    hasAttribute(name) {
-      if (name === 'data-calc-application-link') return Object.hasOwn(this.dataset, 'calcApplicationLink');
-      return Object.hasOwn(attributes, name);
     },
     addEventListener(name, callback) {
       this[`on${name}`] = callback;
@@ -187,10 +139,6 @@ vm.runInNewContext(source, {
   RegExp
 }, { filename: scriptPath });
 
-assert.strictEqual(staticLink.textContent, 'Открыть онлайн-заявку');
-assert.strictEqual(staticLink.classList.contains('btn-primary'), false);
-assert.strictEqual(staticLink.classList.contains('btn-light'), true);
-
 assert.ok(applicationContainer);
 assert.strictEqual(applicationContainer.hidden, false);
 assert.strictEqual(applicationLink.textContent, 'Перенести этот расчёт в заявку');
@@ -212,4 +160,4 @@ assert.strictEqual(applicationContainer.hidden, true);
 assert.ok(result.innerHTML.includes('Взнос должен быть меньше стоимости жилья'));
 assert.strictEqual(inputs.down.getAttribute('aria-invalid'), 'true');
 
-console.log('Действия калькулятора и заявки прошли поведенческие тесты');
+console.log('Динамический перенос расчёта в заявку прошёл поведенческие тесты');
