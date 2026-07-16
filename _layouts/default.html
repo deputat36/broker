@@ -184,7 +184,7 @@
     <p class="disclaimer">Информация на сайте не является публичной офертой. Окончательное решение по ипотеке, ставке и условиям принимает банк.</p>
   </footer>
   <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
-  {% if page.url == '/kalkulyator-ipoteki/' %}
+  {% if page.url == '/' or page.url == '/kalkulyator-ipoteki/' %}
   <script src="{{ '/assets/js/mortgage-calculator.js' | relative_url }}" defer></script>
   {% endif %}
   {% if page.url == '/online-zayavka/' %}
