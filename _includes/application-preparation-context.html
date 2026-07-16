@@ -30,4 +30,17 @@
     </div>
   </div>
 </section>
-<script src="{{ '/assets/js/application-consent-validation.js' | relative_url }}" defer></script>
+<script data-application-consent-validation>
+  document.addEventListener('DOMContentLoaded', function () {
+    var form = document.querySelector('[data-online-application]');
+    if (!form) return;
+    var consent = form.elements.namedItem('consent');
+    if (!consent) return;
+    form.addEventListener('submit', function () {
+      consent.setAttribute('aria-invalid', String(!consent.checked));
+    }, true);
+    consent.addEventListener('change', function () {
+      consent.removeAttribute('aria-invalid');
+    });
+  }, { once: true });
+</script>
