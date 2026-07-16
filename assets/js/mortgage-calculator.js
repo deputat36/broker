@@ -2,6 +2,8 @@
   const calcForms = document.querySelectorAll('[data-mortgage-calc]');
   if (!calcForms.length) return;
 
+  const APPLICATION_PATH = '/online-zayavka/';
+
   function track(goalName) {
     if (typeof window.sendGoal === 'function') window.sendGoal(goalName);
   }
@@ -32,6 +34,60 @@
     }).format(value);
   }
 
+  function normalizePath(pathname) {
+    const normalized = String(pathname || '/')
+      .replace(/\/index\.html$/, '/')
+      .replace(/\/+$/, '/');
+    return normalized || '/';
+  }
+
+  function buildApplicationUrl(amount, down, rate, years) {
+    const url = new URL(APPLICATION_PATH, window.location.origin);
+    url.search = new URLSearchParams({
+      source: normalizePath(window.location.pathname),
+      calc_amount: String(Math.round(amount)),
+      calc_down: String(Math.round(down)),
+      calc_rate: String(rate),
+      calc_years: String(years)
+    }).toString();
+    return `${url.pathname}${url.search}`;
+  }
+
+  function ensureApplicationAction(calcForm, result) {
+    let container = calcForm.querySelector('[data-calc-application-action]');
+    let link = calcForm.querySelector('[data-calc-application-link]');
+
+    if (!container || !link) {
+      container = document.createElement('div');
+      container.className = 'hero-actions';
+      container.dataset.calcApplicationAction = '';
+      container.hidden = true;
+
+      link = document.createElement('a');
+      link.className = 'btn btn-light';
+      link.dataset.calcApplicationLink = '';
+      link.textContent = 'Передать расчёт в заявку';
+      link.setAttribute('aria-label', 'Передать параметры этого расчёта в онлайн-заявку');
+      link.addEventListener('click', () => track('calculator_application_click'));
+
+      container.appendChild(link);
+      result.parentNode.insertBefore(container, result.nextSibling);
+    }
+
+    return { container, link };
+  }
+
+  function hideApplicationAction(calcForm) {
+    const container = calcForm.querySelector('[data-calc-application-action]');
+    if (container) container.hidden = true;
+  }
+
+  function showApplicationAction(calcForm, result, amount, down, rate, years) {
+    const action = ensureApplicationAction(calcForm, result);
+    action.link.href = buildApplicationUrl(amount, down, rate, years);
+    action.container.hidden = false;
+  }
+
   function getCalcNumber(calcForm, fieldName) {
     const input = calcForm.querySelector(`[name="${fieldName}"]`);
     if (!input) return NaN;
@@ -51,6 +107,7 @@
 
   function showCalcMessage(calcForm, result, message, fieldName) {
     setInvalidField(calcForm, fieldName);
+    hideApplicationAction(calcForm);
     result.classList.add('is-error');
     result.innerHTML = `<span>Проверьте данные</span><strong>${message}</strong><small>Измените значение, и расчёт обновится автоматически.</small>`;
   }
@@ -83,6 +140,7 @@
     setInvalidField(calcForm, '');
     result.classList.remove('is-error');
     result.innerHTML = `<span>Примерный ежемесячный платёж</span><strong>${formatRub(payment)}</strong><small>Сумма кредита: ${formatRub(credit)}. Общая выплата: около ${formatRub(total)}. Расчёт предварительный, финальные условия определяет банк.</small>`;
+    showApplicationAction(calcForm, result, amount, down, rate, years);
   }
 
   calcForms.forEach((calcForm) => {
@@ -92,6 +150,7 @@
     if (result) {
       result.setAttribute('aria-live', 'polite');
       result.setAttribute('aria-atomic', 'true');
+      ensureApplicationAction(calcForm, result);
     }
 
     let calcGoalSent = false;
