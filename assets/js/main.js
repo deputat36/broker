@@ -24,8 +24,12 @@ const TRACKING_KEYS = [
   'placement'
 ];
 const TRACKING_STORAGE_KEY = 'sterlikovaMortgageTracking';
+const TRACKING_STORAGE_VERSION = 2;
 const TRACKING_RETENTION_DAYS = 90;
 const TRACKING_RETENTION_MS = TRACKING_RETENTION_DAYS * 24 * 60 * 60 * 1000;
+const TRACKING_CLOCK_SKEW_MS = 5 * 60 * 1000;
+const TRACKING_VALUE_MAX_LENGTH = 300;
+const TRACKING_TITLE_MAX_LENGTH = 200;
 
 function sendGoal(goalName) {
   if (typeof window.ym !== 'function') return;
@@ -41,6 +45,18 @@ function sendGoal(goalName) {
 
 window.sendGoal = sendGoal;
 
+function normalizePath(pathname) {
+  const normalizedPath = String(pathname || '/')
+    .replace(/\/index\.html$/, '/')
+    .replace(/\/+$/, '/');
+
+  return normalizedPath || '/';
+}
+
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
 function safeJsonParse(value, fallback = {}) {
   try {
     return JSON.parse(value) || fallback;
@@ -48,6 +64,56 @@ function safeJsonParse(value, fallback = {}) {
     return fallback;
   }
 }
+
+function sanitizeTrackingValue(value, maxLength = TRACKING_VALUE_MAX_LENGTH) {
+  return String(value || '').trim().slice(0, maxLength);
+}
+
+function sanitizeTrackingMap(value) {
+  const source = isPlainObject(value) ? value : {};
+  const safe = {};
+
+  TRACKING_KEYS.forEach((key) => {
+    const normalized = sanitizeTrackingValue(source[key]);
+    if (normalized) safe[key] = normalized;
+  });
+
+  return safe;
+}
+
+function sanitizePageUrl(value, options = {}) {
+  const raw = String(value || '').trim();
+  if (!raw) return '';
+
+  try {
+    const url = new URL(raw, window.location.origin);
+    if (!['http:', 'https:'].includes(url.protocol)) return '';
+
+    url.username = '';
+    url.password = '';
+    url.search = '';
+    url.hash = '';
+
+    if (options.externalOriginOnly && url.origin !== window.location.origin) {
+      return url.origin;
+    }
+
+    return `${url.origin}${normalizePath(url.pathname)}`;
+  } catch (error) {
+    return '';
+  }
+}
+
+function getSafePageContext() {
+  const pagePath = normalizePath(window.location.pathname);
+  return {
+    page_url: sanitizePageUrl(window.location.href) || `${window.location.origin}${pagePath}`,
+    page_path: pagePath,
+    referrer: sanitizePageUrl(document.referrer, { externalOriginOnly: true })
+  };
+}
+
+window.getSiteSafePageContext = getSafePageContext;
 
 function removeStoredTracking() {
   try {
@@ -57,16 +123,61 @@ function removeStoredTracking() {
   }
 }
 
+function sanitizeStoredSnapshot(value) {
+  if (!isPlainObject(value)) return null;
+
+  const pageUrl = sanitizePageUrl(value.page_url);
+  const parsedCapturedAt = Date.parse(value.captured_at || '');
+  return {
+    page_url: pageUrl,
+    page_path: normalizePath(value.page_path || (pageUrl ? new URL(pageUrl).pathname : '/')),
+    page_title: sanitizeTrackingValue(value.page_title, TRACKING_TITLE_MAX_LENGTH),
+    referrer: sanitizePageUrl(value.referrer, { externalOriginOnly: true }),
+    captured_at: Number.isFinite(parsedCapturedAt) ? new Date(parsedCapturedAt).toISOString() : '',
+    values: sanitizeTrackingMap(value.values)
+  };
+}
+
 function readStoredTracking() {
   try {
-    const stored = safeJsonParse(window.localStorage.getItem(TRACKING_STORAGE_KEY), {});
-    const expiresAt = Date.parse(stored.expires_at || '');
-    if (Number.isFinite(expiresAt) && expiresAt <= Date.now()) {
+    const raw = window.localStorage.getItem(TRACKING_STORAGE_KEY);
+    if (!raw) return {};
+
+    const stored = safeJsonParse(raw, null);
+    const now = Date.now();
+    const storedAt = Date.parse(isPlainObject(stored) ? stored.stored_at || '' : '');
+    const expiresAt = Date.parse(isPlainObject(stored) ? stored.expires_at || '' : '');
+    const invalidLifetime = !Number.isFinite(storedAt)
+      || !Number.isFinite(expiresAt)
+      || storedAt > now + TRACKING_CLOCK_SKEW_MS
+      || now - storedAt > TRACKING_RETENTION_MS + TRACKING_CLOCK_SKEW_MS
+      || expiresAt <= now
+      || expiresAt > storedAt + TRACKING_RETENTION_MS + TRACKING_CLOCK_SKEW_MS;
+
+    if (!isPlainObject(stored)
+      || stored.storage_version !== TRACKING_STORAGE_VERSION
+      || invalidLifetime) {
       removeStoredTracking();
       return {};
     }
-    return stored;
+
+    const firstTouch = sanitizeStoredSnapshot(stored.first_touch);
+    const lastTouch = sanitizeStoredSnapshot(stored.last_touch);
+    if (!firstTouch || !lastTouch) {
+      removeStoredTracking();
+      return {};
+    }
+
+    return {
+      storage_version: TRACKING_STORAGE_VERSION,
+      first_touch: firstTouch,
+      last_touch: lastTouch,
+      current: sanitizeTrackingMap(stored.current),
+      stored_at: new Date(storedAt).toISOString(),
+      expires_at: new Date(expiresAt).toISOString()
+    };
   } catch (error) {
+    removeStoredTracking();
     return {};
   }
 }
@@ -85,23 +196,26 @@ function getTrackingData() {
   const incoming = {};
 
   TRACKING_KEYS.forEach((key) => {
-    const value = params.get(key);
-    if (value) incoming[key] = value.trim().slice(0, 300);
+    const value = sanitizeTrackingValue(params.get(key));
+    if (value) incoming[key] = value;
   });
 
   const nowDate = new Date();
   const now = nowDate.toISOString();
+  const safeContext = getSafePageContext();
+  const current = { ...sanitizeTrackingMap(saved.current), ...incoming };
   const pageSnapshot = {
-    page_url: window.location.href,
-    page_path: window.location.pathname,
-    page_title: document.title,
-    referrer: document.referrer || '',
-    captured_at: now
+    page_url: safeContext.page_url,
+    page_path: safeContext.page_path,
+    page_title: sanitizeTrackingValue(document.title, TRACKING_TITLE_MAX_LENGTH),
+    referrer: safeContext.referrer,
+    captured_at: now,
+    values: current
   };
-  const current = { ...(saved.current || {}), ...incoming };
   const tracking = {
-    first_touch: saved.first_touch || { ...pageSnapshot, values: current },
-    last_touch: { ...pageSnapshot, values: current },
+    storage_version: TRACKING_STORAGE_VERSION,
+    first_touch: saved.first_touch || pageSnapshot,
+    last_touch: pageSnapshot,
     current,
     stored_at: now,
     expires_at: new Date(nowDate.getTime() + TRACKING_RETENTION_MS).toISOString()
@@ -114,14 +228,6 @@ function getTrackingData() {
 window.getSiteTrackingData = getTrackingData;
 window.clearSiteTrackingData = removeStoredTracking;
 getTrackingData();
-
-function normalizePath(pathname) {
-  const normalizedPath = String(pathname || '/')
-    .replace(/\/index\.html$/, '/')
-    .replace(/\/+$/, '/');
-
-  return normalizedPath || '/';
-}
 
 function enhanceExternalLinks() {
   document.querySelectorAll('a[href^="http://"], a[href^="https://"]').forEach((link) => {
