@@ -227,3 +227,4 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
 <script src="{{ '/assets/js/application-delivery-keepalive.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/application-inputs.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/application-preparation.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/calculator-application-prefill.js' | relative_url }}" defer></script>
