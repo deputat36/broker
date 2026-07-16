@@ -1,0 +1,36 @@
+name: Apply Web3Forms data minimization
+
+on:
+  push:
+    branches: ["privacy/minimize-web3forms-payload"]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: privacy/minimize-web3forms-payload
+          fetch-depth: 0
+          show-progress: false
+      - name: Apply and validate minimization
+        run: |
+          python3 scripts/apply-web3forms-data-minimization.py
+          node --check assets/js/online-application.js
+          node --check assets/js/application-preparation.js
+          git diff --check
+      - name: Commit minimization
+        run: |
+          git add assets/js/online-application.js assets/js/application-preparation.js policy.md docs/preparation-context-contract.md
+          if git diff --cached --quiet; then
+            echo "Web3Forms payload is already minimized"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Минимизировать данные Web3Forms email"
+          git push origin HEAD:privacy/minimize-web3forms-payload
