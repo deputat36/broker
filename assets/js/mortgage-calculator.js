@@ -47,7 +47,6 @@
     section.querySelectorAll('a[href="/online-zayavka/"]').forEach((link) => {
       if (link.textContent.trim() !== 'Передать расчёт в заявке') return;
       link.textContent = 'Открыть онлайн-заявку';
-      link.setAttribute('aria-label', 'Открыть онлайн-заявку без переноса расчёта');
       link.classList.remove('btn-primary');
       link.classList.add('btn-light');
     });
@@ -79,7 +78,6 @@
       link.className = 'btn btn-primary';
       link.dataset.calcApplicationLink = '';
       link.textContent = 'Перенести этот расчёт в заявку';
-      link.setAttribute('aria-label', 'Перенести параметры этого расчёта в онлайн-заявку');
       link.addEventListener('click', () => track('calculator_application_click'));
 
       container.appendChild(link);
