@@ -41,17 +41,6 @@
     return normalized || '/';
   }
 
-  function normalizeDirectApplicationAction(calcForm) {
-    const section = calcForm.closest('.calc-section');
-    if (!section) return;
-    section.querySelectorAll('a[href="/online-zayavka/"]').forEach((link) => {
-      if (link.textContent.trim() !== 'Передать расчёт в заявке') return;
-      link.textContent = 'Открыть онлайн-заявку';
-      link.classList.remove('btn-primary');
-      link.classList.add('btn-light');
-    });
-  }
-
   function buildApplicationUrl(amount, down, rate, years) {
     const url = new URL(APPLICATION_PATH, window.location.origin);
     url.search = new URLSearchParams({
@@ -156,7 +145,6 @@
   calcForms.forEach((calcForm) => {
     const result = calcForm.querySelector('[data-calc-result]');
     enhanceCalculatorInputs(calcForm);
-    normalizeDirectApplicationAction(calcForm);
 
     if (result) {
       result.setAttribute('aria-live', 'polite');
