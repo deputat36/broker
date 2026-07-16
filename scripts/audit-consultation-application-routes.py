@@ -96,7 +96,7 @@ def validate_built(path: Path) -> int:
     for anchor in anchors:
         parsed = urlsplit(anchor["href"])
         query = parse_qs(parsed.query, keep_blank_values=True)
-        if parsed.path == APPLICATION_URL and ("source" in query or "scenario" in query):
+        if parsed.path == APPLICATION_URL and "source" in query and "scenario" in query:
             routes.append(anchor)
 
     if len(routes) != 4:
