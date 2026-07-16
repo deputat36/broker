@@ -86,6 +86,7 @@ fi
 python3 scripts/audit-time-sensitive-content.py "$SITE_DIR"
 python3 scripts/audit-useful-content-quality.py "$SITE_DIR"
 python3 scripts/audit-accessibility-structure.py "$SITE_DIR"
+python3 scripts/audit-mobile-sticky-contacts.py "$SITE_DIR"
 node scripts/test-tracking-privacy.js "$SITE_DIR/assets/js/main.js"
 python3 scripts/audit-tracking-privacy-disclosure.py "$SITE_DIR"
 python3 scripts/audit-application-payload-privacy.py "$SITE_DIR"
