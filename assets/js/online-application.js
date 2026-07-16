@@ -198,6 +198,18 @@
     return String(value || '').replace(/[^\d+]/g, '');
   }
 
+  function getSafePageContext() {
+    if (typeof window.getSiteSafePageContext === 'function') return window.getSiteSafePageContext();
+    const normalizedPath = String(window.location.pathname || '/')
+      .replace(/\/index\.html$/, '/')
+      .replace(/\/+$/, '/') || '/';
+    return {
+      page_url: `${window.location.origin}${normalizedPath}`,
+      page_path: normalizedPath,
+      referrer: ''
+    };
+  }
+
   function getTrackingData() {
     if (typeof window.getSiteTrackingData === 'function') return window.getSiteTrackingData();
     return { first_touch: {}, last_touch: {}, current: {} };
@@ -224,6 +236,7 @@
 
   function buildLeadPayload() {
     const startedAt = Number(rawFieldValue('form_started_at'));
+    const pageContext = getSafePageContext();
     const payload = {
       schema_version: 1,
       request_id: fieldValue('request_id'),
@@ -231,9 +244,9 @@
       submitted_at: new Date().toISOString(),
       form_fill_ms: Number.isFinite(startedAt) ? Math.max(0, Date.now() - startedAt) : null,
       source_page: fieldValue('source_page', 'Прямой переход на форму'),
-      page_url: window.location.href,
+      page_url: pageContext.page_url,
       page_title: document.title,
-      referrer: document.referrer || '',
+      referrer: pageContext.referrer,
       tracking: getTrackingData(),
       client: {
         name: fieldValue('client_name'),
