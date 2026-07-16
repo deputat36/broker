@@ -1,0 +1,117 @@
+name: Apply tracking privacy context
+
+on:
+  push:
+    branches: ["privacy/sanitize-attribution-context"]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: privacy/sanitize-attribution-context
+          fetch-depth: 0
+          show-progress: false
+      - name: Apply exact privacy replacements
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          app = Path('assets/js/online-application.js')
+          text = app.read_text(encoding='utf-8')
+          old = '''  function getTrackingData() {
+            if (typeof window.getSiteTrackingData === 'function') return window.getSiteTrackingData();
+            return { first_touch: {}, last_touch: {}, current: {} };
+          }'''
+          new = '''  function getSafePageContext() {
+            if (typeof window.getSiteSafePageContext === 'function') return window.getSiteSafePageContext();
+            return {
+              page_url: `${window.location.origin}${window.location.pathname}`,
+              page_path: window.location.pathname,
+              referrer: ''
+            };
+          }
+
+          function getTrackingData() {
+            if (typeof window.getSiteTrackingData === 'function') return window.getSiteTrackingData();
+            return { first_touch: {}, last_touch: {}, current: {} };
+          }'''
+          if new not in text:
+              if text.count(old) != 1:
+                  raise SystemExit('Tracking helper marker not found exactly once')
+              text = text.replace(old, new, 1)
+
+          old = '''    const startedAt = Number(rawFieldValue('form_started_at'));
+              const payload = {'''
+          new = '''    const startedAt = Number(rawFieldValue('form_started_at'));
+              const pageContext = getSafePageContext();
+              const payload = {'''
+          if new not in text:
+              if text.count(old) != 1:
+                  raise SystemExit('Payload preamble marker not found exactly once')
+              text = text.replace(old, new, 1)
+
+          old = '''      page_url: window.location.href,
+                page_title: document.title,
+                referrer: document.referrer || '',
+                tracking: getTrackingData(),'''
+          new = '''      page_url: pageContext.page_url,
+                page_title: document.title,
+                referrer: pageContext.referrer,
+                tracking: getTrackingData(),'''
+          if new not in text:
+              if text.count(old) != 1:
+                  raise SystemExit('Unsafe payload context marker not found exactly once')
+              text = text.replace(old, new, 1)
+          app.write_text(text, encoding='utf-8')
+
+          readme = Path('README.md')
+          text = readme.read_text(encoding='utf-8')
+          old = '''- URL, заголовок страницы и referrer.
+
+          Срок локальной рекламной атрибуции — 90 дней с последнего посещения.'''
+          new = '''- безопасный URL страницы без query-параметров и fragment;
+          - заголовок страницы;
+          - внутренний referrer без query/fragment либо только origin внешнего сайта.
+
+          UTM-метки и рекламные click ID сохраняются отдельно только по фиксированному allowlist. Произвольные параметры URL, включая возможные контактные данные, в атрибуцию не попадают.
+
+          Срок локальной рекламной атрибуции — 90 дней с последнего посещения. Legacy, повреждённая запись, запись без корректного срока либо с неподдерживаемой версией удаляется и не наследуется.'''
+          if new not in text:
+              if text.count(old) != 1:
+                  raise SystemExit('README attribution marker not found exactly once')
+              text = text.replace(old, new, 1)
+          readme.write_text(text, encoding='utf-8')
+
+          policy = Path('policy.md')
+          text = policy.read_text(encoding='utf-8')
+          old = '''    <p>Сайт может сохранять в браузере первое и последнее рекламное касание: UTM-метки, идентификаторы рекламных переходов, страницу входа, referrer и страницу перед открытием формы. Эти сведения добавляются к заявке, чтобы определить источник обращения.</p>
+              <p>Срок хранения рекламной атрибуции в браузере ограничен 90 днями с момента последнего посещения. Запись получает техническое поле <code>expires_at</code> и удаляется при следующем открытии сайта после истечения срока. Пользователь также может удалить её раньше через очистку данных сайта в настройках браузера.</p>'''
+          new = '''    <p>Сайт может сохранять в браузере первое и последнее рекламное касание: UTM-метки и идентификаторы рекламных переходов только из фиксированного списка, безопасный адрес страницы без query-параметров и fragment, заголовок страницы и сокращённый referrer. Для внешнего referrer сохраняется только origin сайта, для внутреннего — адрес без query и fragment. Эти сведения добавляются к заявке, чтобы определить источник обращения.</p>
+              <p>Произвольные параметры URL не сохраняются в рекламной атрибуции. Это снижает риск попадания в localStorage случайно переданных в ссылке телефона, имени, номера обращения или других данных.</p>
+              <p>Срок хранения рекламной атрибуции в браузере ограничен 90 днями с момента последнего посещения. Запись имеет версию формата, <code>stored_at</code> и <code>expires_at</code>. Legacy, повреждённая запись, запись без корректного срока либо с неподдерживаемой версией удаляется при следующем открытии сайта. Пользователь также может удалить её раньше через кнопку ниже или очистку данных сайта в настройках браузера.</p>'''
+          if new not in text:
+              if text.count(old) != 1:
+                  raise SystemExit('Policy attribution marker not found exactly once')
+              text = text.replace(old, new, 1)
+          policy.write_text(text, encoding='utf-8')
+          PY
+          node --check assets/js/main.js
+          node --check assets/js/online-application.js
+          git diff --check
+      - name: Commit privacy changes
+        run: |
+          git add assets/js/online-application.js README.md policy.md
+          if git diff --cached --quiet; then
+            echo "Privacy replacements are already present"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Санитизировать контекст онлайн-заявки"
+          git push origin HEAD:privacy/sanitize-attribution-context
