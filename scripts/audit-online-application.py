@@ -488,7 +488,6 @@ def main() -> int:
             "website",
             "qualification",
             "tracking_json",
-            "fields_json",
             "expires_at",
             "normalizeHttpsUrl",
             "AbortController",
@@ -504,6 +503,9 @@ def main() -> int:
             if marker not in script_text:
                 annotation(f"В скрипте онлайн-заявки отсутствует маркер: {marker}", script_file)
                 errors += 1
+        if "fields_json" in script_text:
+            annotation("Web3Forms email не должен содержать дублирующий full payload fields_json", script_file)
+            errors += 1
         if INLINE_UUID_PATTERN.findall(script_text):
             annotation("Web3Forms access key не должен быть жёстко зашит в JavaScript", script_file)
             errors += 1

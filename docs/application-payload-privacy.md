@@ -9,7 +9,7 @@
 - полный `window.location.href`;
 - полный `document.referrer`.
 
-Из-за этого случайные значения могли попасть в Web3Forms email, `fields_json` или будущий серверный канал вместе с заявкой.
+Из-за этого случайные значения могли попасть в Web3Forms email, существовавшую тогда дублирующую полную JSON-копию заявки или будущий серверный канал вместе с заявкой.
 
 ## Явный payload онлайн-заявки
 
@@ -55,4 +55,5 @@ python3 scripts/audit-application-payload-privacy.py ./_site
 ```text
 page_url: window.location.href
 referrer: document.referrer || ''
+fields_json
 ```
