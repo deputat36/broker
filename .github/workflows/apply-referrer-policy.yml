@@ -1,0 +1,45 @@
+name: Apply referrer policy
+
+on:
+  push:
+    branches: ["privacy/explicit-referrer-policy"]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: privacy/explicit-referrer-policy
+          fetch-depth: 0
+          show-progress: false
+      - name: Add explicit referrer policy
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('_layouts/default.html')
+          text = path.read_text(encoding='utf-8')
+          old = '  <meta name="robots" content="{{ page.robots | default: \'index, follow, max-image-preview:large\' }}">\n'
+          new = old + '  <meta name="referrer" content="strict-origin-when-cross-origin">\n'
+          if new not in text:
+              if text.count(old) != 1:
+                  raise SystemExit('Expected robots meta marker was not found exactly once')
+              path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+          git diff --check
+      - name: Commit layout change
+        run: |
+          git add _layouts/default.html
+          if git diff --cached --quiet; then
+            echo "Referrer policy is already present"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Добавить явную referrer policy"
+          git push origin HEAD:privacy/explicit-referrer-policy
