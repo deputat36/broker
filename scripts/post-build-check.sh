@@ -91,6 +91,7 @@ node scripts/test-calculator-application-prefill.js "$SITE_DIR/assets/js/calcula
 node scripts/test-application-consent-validation.js "$SITE_DIR/online-zayavka/index.html"
 python3 scripts/audit-time-sensitive-content.py "$SITE_DIR"
 python3 scripts/audit-calculator-rate-transparency.py "$SITE_DIR"
+python3 scripts/audit-calculator-cost-disclosure.py "$SITE_DIR"
 python3 scripts/audit-useful-content-quality.py "$SITE_DIR"
 python3 scripts/audit-accessibility-structure.py "$SITE_DIR"
 python3 scripts/audit-mobile-sticky-contacts.py "$SITE_DIR"
