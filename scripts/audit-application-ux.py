@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет короткий мобильный сценарий онлайн-заявки и телефонное поле."""
+"""Проверяет короткий мобильный сценарий онлайн-заявки, телефон и согласие."""
 
 from __future__ import annotations
 
@@ -28,6 +28,7 @@ class ApplicationParser(HTMLParser):
         self.required_fields: set[str] = set()
         self.form_version = ""
         self.phone_attrs: dict[str, str] = {}
+        self.consent_attrs: dict[str, str] = {}
         self.details_count = 0
         self.details_open = False
         self.summary_parts: list[str] = []
@@ -64,6 +65,8 @@ class ApplicationParser(HTMLParser):
                 self.form_version = attrs_map.get("value", "")
             if name == "phone":
                 self.phone_attrs = attrs_map
+            if name == "consent":
+                self.consent_attrs = attrs_map
 
     def handle_endtag(self, tag: str) -> None:
         tag = tag.lower()
@@ -137,6 +140,11 @@ def main() -> int:
         error("Для телефона должны быть inputmode=tel и autocomplete=tel", html_file)
         errors += 1
 
+    consent = parser.consent_attrs
+    if consent.get("type") != "checkbox" or "required" not in consent:
+        error("Согласие должно оставаться обязательным checkbox-полем", html_file)
+        errors += 1
+
     for marker in ("data-application-more", "data-phone-input"):
         if marker not in parser.markers:
             error(f"На странице отсутствует UX-маркер: {marker}", html_file)
@@ -161,6 +169,8 @@ def main() -> int:
         for marker in (
             "normalizeRussianPhone", "formatRussianPhone", "setCustomValidity",
             "stopImmediatePropagation", "online_application_phone_error",
+            "setConsentValidity", "online_application_consent_error",
+            "Подтвердите согласие на обработку данных",
             "online_application_more_open", "addEventListener('submit'",
         ):
             if marker not in script:
@@ -175,6 +185,8 @@ def main() -> int:
         styles = style_file.read_text(encoding="utf-8", errors="ignore")
         for marker in (
             ".application-more", ".application-field-hint", ".application-step-label",
+            ".application-consent input[aria-invalid=\"true\"]",
+            ".application-consent input[aria-invalid=\"true\"] + span",
             ".application-submit", "@media (max-width: 760px)",
         ):
             if marker not in styles:
@@ -185,7 +197,7 @@ def main() -> int:
         print(f"UX-аудит онлайн-заявки завершён с ошибками: {errors}")
         return 1
 
-    print("UX-аудит онлайн-заявки успешно завершён: короткий сценарий, подробности и телефон подтверждены")
+    print("UX-аудит онлайн-заявки успешно завершён: короткий сценарий, телефон и согласие подтверждены")
     return 0
 
 
