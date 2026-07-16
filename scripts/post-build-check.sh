@@ -84,6 +84,8 @@ if [[ "$legacy_count" != "0" ]]; then
   exit 1
 fi
 
+node --check "$SITE_DIR/assets/js/mortgage-calculator.js"
+node scripts/test-mortgage-calculator-application-action.js "$SITE_DIR/assets/js/mortgage-calculator.js"
 node --check "$SITE_DIR/assets/js/calculator-application-prefill.js"
 node scripts/test-calculator-application-prefill.js "$SITE_DIR/assets/js/calculator-application-prefill.js"
 python3 scripts/audit-time-sensitive-content.py "$SITE_DIR"
