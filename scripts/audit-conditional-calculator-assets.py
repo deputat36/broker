@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет, что код ипотечного калькулятора загружается только на его странице."""
+"""Проверяет, что код ипотечного калькулятора загружается только там, где есть форма."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 
-CALCULATOR_PAGE = "kalkulyator-ipoteki/index.html"
+CALCULATOR_PAGES = {"index.html", "kalkulyator-ipoteki/index.html"}
 SCRIPT_MARKER = '<script src="/assets/js/mortgage-calculator.js" defer></script>'
 FORM_MARKER = "data-mortgage-calc"
 FALLBACK_MARKER = "Если результат не появился, обновите страницу или свяжитесь с Татьяной напрямую."
@@ -19,12 +19,16 @@ def fail(path: Path, message: str) -> None:
 
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
-    calculator_path = site_dir / CALCULATOR_PAGE
     main_js_path = site_dir / "assets/js/main.js"
     calculator_js_path = site_dir / "assets/js/mortgage-calculator.js"
     errors = 0
 
-    required_files = (calculator_path, main_js_path, calculator_js_path)
+    required_files = (
+        site_dir / "index.html",
+        site_dir / "kalkulyator-ipoteki/index.html",
+        main_js_path,
+        calculator_js_path,
+    )
     for path in required_files:
         if not path.is_file() or path.stat().st_size == 0:
             fail(path, "Обязательный файл отсутствует или пуст")
@@ -51,7 +55,7 @@ def main() -> int:
         if form_count:
             form_pages.append(relative)
 
-        if relative == CALCULATOR_PAGE:
+        if relative in CALCULATOR_PAGES:
             if script_count != 1:
                 fail(path, f"Скрипт калькулятора встречается {script_count} раз, ожидался один")
                 errors += 1
@@ -67,8 +71,15 @@ def main() -> int:
                 fail(path, "main.js должен загружаться раньше модуля калькулятора")
                 errors += 1
         elif script_count or form_count:
-            fail(path, "Код или форма калькулятора присутствуют вне страницы калькулятора")
+            fail(path, "Код или форма калькулятора присутствуют вне двух разрешённых страниц")
             errors += 1
+
+    if set(script_pages) != CALCULATOR_PAGES:
+        fail(site_dir, f"Неверный набор страниц со скриптом: {script_pages}")
+        errors += 1
+    if set(form_pages) != CALCULATOR_PAGES:
+        fail(site_dir, f"Неверный набор страниц с формой: {form_pages}")
+        errors += 1
 
     main_js = main_js_path.read_text(encoding="utf-8-sig", errors="ignore")
     for forbidden in (
@@ -101,7 +112,7 @@ def main() -> int:
 
     print(
         "Условная загрузка калькулятора подтверждена: "
-        f"HTML {len(html_files)}, скрипт — {script_pages}, форма — {form_pages}"
+        f"HTML {len(html_files)}, скрипт и форма только на {sorted(CALCULATOR_PAGES)}"
     )
     return 0
 
