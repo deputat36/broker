@@ -90,8 +90,14 @@ def validate_source(path: Path) -> int:
 
 def validate_built(path: Path) -> int:
     anchors = parse_anchors(path)
-    routes = [anchor for anchor in anchors if anchor["text"] in ROUTE_LABELS]
+    routes: list[dict[str, str]] = []
     errors = 0
+
+    for anchor in anchors:
+        parsed = urlsplit(anchor["href"])
+        query = parse_qs(parsed.query, keep_blank_values=True)
+        if parsed.path == APPLICATION_URL and ("source" in query or "scenario" in query):
+            routes.append(anchor)
 
     if len(routes) != 4:
         fail(path, f"Ожидалось четыре целевых CTA, найдено: {len(routes)}")
@@ -99,8 +105,12 @@ def validate_built(path: Path) -> int:
 
     found_labels = {anchor["text"] for anchor in routes}
     missing_labels = ROUTE_LABELS - found_labels
+    extra_labels = found_labels - ROUTE_LABELS
     if missing_labels:
         fail(path, "Отсутствуют CTA: " + ", ".join(sorted(missing_labels)))
+        errors += 1
+    if extra_labels:
+        fail(path, "Найдены неожиданные целевые CTA: " + ", ".join(sorted(extra_labels)))
         errors += 1
 
     for anchor in routes:
@@ -109,9 +119,6 @@ def validate_built(path: Path) -> int:
         source = query.get("source", [""])[0]
         scenario = query.get("scenario", [""])[0]
 
-        if parsed.path != APPLICATION_URL:
-            fail(path, f"CTA «{anchor['text']}» ведёт на неверный путь: {parsed.path or 'пусто'}")
-            errors += 1
         if source != PAGE_URL:
             fail(path, f"CTA «{anchor['text']}» передаёт неверный источник: {source or 'пусто'}")
             errors += 1
