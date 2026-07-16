@@ -67,7 +67,7 @@ const staticLink = createLink(
 );
 const section = {
   querySelectorAll(selector) {
-    return selector === 'a[href]' ? [staticLink] : [];
+    return selector === 'a[href="/online-zayavka/"]' ? [staticLink] : [];
   }
 };
 
@@ -192,7 +192,7 @@ assert.strictEqual(staticLink.classList.contains('btn-primary'), false);
 assert.strictEqual(staticLink.classList.contains('btn-light'), true);
 assert.strictEqual(
   staticLink.getAttribute('aria-label'),
-  'Открыть онлайн-заявку без переноса параметров расчёта'
+  'Открыть онлайн-заявку без переноса расчёта'
 );
 
 assert.ok(applicationContainer);
