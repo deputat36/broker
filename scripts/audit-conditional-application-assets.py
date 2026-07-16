@@ -11,8 +11,9 @@ from urllib.parse import urlsplit
 
 CSS_PATH = "/assets/css/online-application.css"
 JS_PATH = "/assets/js/online-application.js"
-CONSENT_JS_PATH = "/assets/js/application-consent-validation.js"
+LEGACY_CONSENT_JS_PATH = "/assets/js/application-consent-validation.js"
 FORM_MARKER = "data-online-application"
+INLINE_CONSENT_MARKER = "data-application-consent-validation"
 
 
 class ResourceParser(HTMLParser):
@@ -21,13 +22,17 @@ class ResourceParser(HTMLParser):
         self.stylesheets: list[str] = []
         self.scripts: list[str] = []
         self.has_form = False
+        self.has_inline_consent = False
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = {name: value or "" for name, value in attrs}
         if tag == "link" and "stylesheet" in values.get("rel", "").split():
             self.stylesheets.append(values.get("href", ""))
-        elif tag == "script" and values.get("src"):
-            self.scripts.append(values["src"])
+        elif tag == "script":
+            if values.get("src"):
+                self.scripts.append(values["src"])
+            if INLINE_CONSENT_MARKER in values:
+                self.has_inline_consent = True
         if FORM_MARKER in values:
             self.has_form = True
 
@@ -52,13 +57,17 @@ def main() -> int:
     required_assets = (
         site_dir / CSS_PATH.lstrip("/"),
         site_dir / JS_PATH.lstrip("/"),
-        site_dir / CONSENT_JS_PATH.lstrip("/"),
     )
     errors = 0
     for asset in required_assets:
         if not asset.is_file() or asset.stat().st_size == 0:
             fail("Ресурс онлайн-заявки отсутствует или пуст", asset)
             errors += 1
+
+    legacy_asset = site_dir / LEGACY_CONSENT_JS_PATH.lstrip("/")
+    if legacy_asset.exists():
+        fail("Standalone-валидация согласия не должна оставаться в Pages-артефакте", legacy_asset)
+        errors += 1
 
     pages = sorted(site_dir.rglob("*.html"))
     application_page = site_dir / "online-zayavka" / "index.html"
@@ -73,8 +82,12 @@ def main() -> int:
 
         css_count = sum(path_only(value) == CSS_PATH for value in parser.stylesheets)
         js_count = sum(path_only(value) == JS_PATH for value in parser.scripts)
-        consent_js_count = sum(path_only(value) == CONSENT_JS_PATH for value in parser.scripts)
+        legacy_consent_count = sum(path_only(value) == LEGACY_CONSENT_JS_PATH for value in parser.scripts)
         is_application_page = page == application_page
+
+        if legacy_consent_count:
+            fail("Страница не должна подключать удалённый standalone-скрипт согласия", page)
+            errors += 1
 
         if is_application_page:
             if css_count != 1:
@@ -83,8 +96,8 @@ def main() -> int:
             if js_count != 1:
                 fail(f"JavaScript анкеты подключён {js_count} раз вместо одного", page)
                 errors += 1
-            if consent_js_count != 1:
-                fail(f"Валидация согласия подключена {consent_js_count} раз вместо одного", page)
+            if not parser.has_inline_consent:
+                fail("Inline-валидация согласия отсутствует на странице заявки", page)
                 errors += 1
             if not parser.has_form:
                 fail("Страница онлайн-заявки не содержит форму", page)
@@ -96,13 +109,13 @@ def main() -> int:
             if js_count:
                 fail("JavaScript анкеты загружается вне страницы онлайн-заявки", page)
                 errors += 1
-            if consent_js_count:
-                fail("Валидация согласия загружается вне страницы онлайн-заявки", page)
+            if parser.has_inline_consent:
+                fail("Inline-валидация согласия обнаружена вне страницы заявки", page)
                 errors += 1
             if parser.has_form:
                 fail("Форма онлайн-заявки обнаружена на неожиданной странице", page)
                 errors += 1
-            if not css_count and not js_count and not consent_js_count:
+            if not css_count and not js_count:
                 pages_without_assets += 1
 
     if errors:
@@ -112,7 +125,7 @@ def main() -> int:
     print(
         "Аудит условных ресурсов анкеты успешно завершён: "
         f"HTML-страниц {len(pages)}, без ресурсов анкеты {pages_without_assets}, "
-        "страниц с ресурсами анкеты 1"
+        "страниц с ресурсами анкеты 1, согласие встроено без отдельного запроса"
     )
     return 0
 
