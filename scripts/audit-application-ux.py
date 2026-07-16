@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет короткий мобильный сценарий онлайн-заявки и телефонное поле."""
+"""Проверяет короткий мобильный сценарий онлайн-заявки, телефон и согласие."""
 
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ from pathlib import Path
 
 APPLICATION_URL = "/online-zayavka/"
 PHONE_SCRIPT = "/assets/js/application-inputs.js"
+CONSENT_SCRIPT = "/assets/js/application-consent-validation.js"
 APPLICATION_SCRIPT = "/assets/js/online-application.js"
 APPLICATION_STYLE = "/assets/css/online-application.css"
 
@@ -28,6 +29,7 @@ class ApplicationParser(HTMLParser):
         self.required_fields: set[str] = set()
         self.form_version = ""
         self.phone_attrs: dict[str, str] = {}
+        self.consent_attrs: dict[str, str] = {}
         self.details_count = 0
         self.details_open = False
         self.summary_parts: list[str] = []
@@ -64,6 +66,8 @@ class ApplicationParser(HTMLParser):
                 self.form_version = attrs_map.get("value", "")
             if name == "phone":
                 self.phone_attrs = attrs_map
+            if name == "consent":
+                self.consent_attrs = attrs_map
 
     def handle_endtag(self, tag: str) -> None:
         tag = tag.lower()
@@ -137,17 +141,24 @@ def main() -> int:
         error("Для телефона должны быть inputmode=tel и autocomplete=tel", html_file)
         errors += 1
 
+    consent = parser.consent_attrs
+    if consent.get("type") != "checkbox" or "required" not in consent:
+        error("Согласие должно оставаться обязательным checkbox-полем", html_file)
+        errors += 1
+
     for marker in ("data-application-more", "data-phone-input"):
         if marker not in parser.markers:
             error(f"На странице отсутствует UX-маркер: {marker}", html_file)
             errors += 1
 
-    if PHONE_SCRIPT not in parser.scripts:
-        error(f"Не подключён скрипт телефонного поля: {PHONE_SCRIPT}", html_file)
-        errors += 1
-    if APPLICATION_SCRIPT not in parser.scripts:
-        error(f"Не подключён основной скрипт заявки: {APPLICATION_SCRIPT}", html_file)
-        errors += 1
+    for script_path, label in (
+        (PHONE_SCRIPT, "скрипт телефонного поля"),
+        (CONSENT_SCRIPT, "валидация согласия"),
+        (APPLICATION_SCRIPT, "основной скрипт заявки"),
+    ):
+        if script_path not in parser.scripts:
+            error(f"Не подключён {label}: {script_path}", html_file)
+            errors += 1
     if APPLICATION_STYLE not in parser.styles:
         error(f"Не подключены стили заявки: {APPLICATION_STYLE}", html_file)
         errors += 1
@@ -170,11 +181,28 @@ def main() -> int:
             error("UX-скрипт не должен сохранять имя или телефон в браузере", phone_script_file)
             errors += 1
 
+    consent_script_file = site_dir / CONSENT_SCRIPT.lstrip("/")
+    if not consent_script_file.is_file():
+        error("Не найден собранный скрипт согласия", consent_script_file)
+        errors += 1
+    else:
+        consent_script = consent_script_file.read_text(encoding="utf-8", errors="ignore")
+        for marker in ("namedItem('consent')", "aria-invalid", "addEventListener('submit'", "addEventListener('change'"):
+            if marker not in consent_script:
+                error(f"В скрипте согласия отсутствует маркер: {marker}", consent_script_file)
+                errors += 1
+        for forbidden in ("localStorage", "sessionStorage", "fetch(", "sendBeacon", "preparation_check"):
+            if forbidden in consent_script:
+                error(f"Скрипт согласия не должен использовать {forbidden}", consent_script_file)
+                errors += 1
+
     style_file = site_dir / APPLICATION_STYLE.lstrip("/")
     if style_file.is_file():
         styles = style_file.read_text(encoding="utf-8", errors="ignore")
         for marker in (
             ".application-more", ".application-field-hint", ".application-step-label",
+            ".application-consent input[aria-invalid=\"true\"]",
+            ".application-consent input[aria-invalid=\"true\"] + span",
             ".application-submit", "@media (max-width: 760px)",
         ):
             if marker not in styles:
@@ -185,7 +213,7 @@ def main() -> int:
         print(f"UX-аудит онлайн-заявки завершён с ошибками: {errors}")
         return 1
 
-    print("UX-аудит онлайн-заявки успешно завершён: короткий сценарий, подробности и телефон подтверждены")
+    print("UX-аудит онлайн-заявки успешно завершён: короткий сценарий, телефон и согласие подтверждены")
     return 0
 
 

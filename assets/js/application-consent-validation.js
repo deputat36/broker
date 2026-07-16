@@ -1,0 +1,1 @@
+(()=>{const f=document.querySelector('[data-online-application]');if(!f)return;const c=f.elements.namedItem('consent');if(!c)return;f.addEventListener('submit',()=>c.setAttribute('aria-invalid',String(!c.checked)),true);c.addEventListener('change',()=>c.removeAttribute('aria-invalid'))})();
