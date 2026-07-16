@@ -14,6 +14,7 @@ required_files=(
   "$SITE_DIR/assets/css/online-application.css"
   "$SITE_DIR/assets/js/main.js"
   "$SITE_DIR/assets/js/mortgage-calculator.js"
+  "$SITE_DIR/assets/js/calculator-application-prefill.js"
   "$SITE_DIR/assets/js/online-application.js"
   "$SITE_DIR/assets/img/favicon.svg"
   "$SITE_DIR/assets/img/apple-touch-icon.png"
@@ -83,6 +84,8 @@ if [[ "$legacy_count" != "0" ]]; then
   exit 1
 fi
 
+node --check "$SITE_DIR/assets/js/calculator-application-prefill.js"
+node scripts/test-calculator-application-prefill.js "$SITE_DIR/assets/js/calculator-application-prefill.js"
 python3 scripts/audit-time-sensitive-content.py "$SITE_DIR"
 python3 scripts/audit-useful-content-quality.py "$SITE_DIR"
 python3 scripts/audit-accessibility-structure.py "$SITE_DIR"
@@ -94,6 +97,7 @@ python3 scripts/audit-web3forms-data-minimization.py "$SITE_DIR"
 python3 scripts/audit-referrer-policy.py "$SITE_DIR"
 python3 scripts/audit-installable-site.py "$SITE_DIR"
 python3 scripts/audit-conditional-calculator-assets.py "$SITE_DIR"
+python3 scripts/audit-calculator-application-handoff.py "$SITE_DIR"
 python3 scripts/audit-performance-budget.py "$SITE_DIR"
 python3 scripts/audit-conditional-application-assets.py "$SITE_DIR"
 python3 scripts/audit-application-runtime-fallback.py "$SITE_DIR"
