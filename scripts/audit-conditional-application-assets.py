@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет, что тяжёлые ресурсы анкеты загружаются только на её странице."""
+"""Проверяет, что ресурсы анкеты загружаются только на её странице."""
 
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ from urllib.parse import urlsplit
 
 CSS_PATH = "/assets/css/online-application.css"
 JS_PATH = "/assets/js/online-application.js"
+CONSENT_JS_PATH = "/assets/js/application-consent-validation.js"
 FORM_MARKER = "data-online-application"
 
 
@@ -51,6 +52,7 @@ def main() -> int:
     required_assets = (
         site_dir / CSS_PATH.lstrip("/"),
         site_dir / JS_PATH.lstrip("/"),
+        site_dir / CONSENT_JS_PATH.lstrip("/"),
     )
     errors = 0
     for asset in required_assets:
@@ -71,6 +73,7 @@ def main() -> int:
 
         css_count = sum(path_only(value) == CSS_PATH for value in parser.stylesheets)
         js_count = sum(path_only(value) == JS_PATH for value in parser.scripts)
+        consent_js_count = sum(path_only(value) == CONSENT_JS_PATH for value in parser.scripts)
         is_application_page = page == application_page
 
         if is_application_page:
@@ -79,6 +82,9 @@ def main() -> int:
                 errors += 1
             if js_count != 1:
                 fail(f"JavaScript анкеты подключён {js_count} раз вместо одного", page)
+                errors += 1
+            if consent_js_count != 1:
+                fail(f"Валидация согласия подключена {consent_js_count} раз вместо одного", page)
                 errors += 1
             if not parser.has_form:
                 fail("Страница онлайн-заявки не содержит форму", page)
@@ -90,10 +96,13 @@ def main() -> int:
             if js_count:
                 fail("JavaScript анкеты загружается вне страницы онлайн-заявки", page)
                 errors += 1
+            if consent_js_count:
+                fail("Валидация согласия загружается вне страницы онлайн-заявки", page)
+                errors += 1
             if parser.has_form:
                 fail("Форма онлайн-заявки обнаружена на неожиданной странице", page)
                 errors += 1
-            if not css_count and not js_count:
+            if not css_count and not js_count and not consent_js_count:
                 pages_without_assets += 1
 
     if errors:
