@@ -1,4 +1,3 @@
-# Второй push запускает workflow после его появления в ветке.
 name: Apply Web3Forms data minimization
 
 on:
@@ -21,17 +20,19 @@ jobs:
       - name: Apply and validate minimization
         run: |
           python3 scripts/apply-web3forms-data-minimization.py
+          python3 scripts/apply-web3forms-audit-minimization.py
           node --check assets/js/online-application.js
           node --check assets/js/application-preparation.js
+          python3 -m py_compile scripts/audit-online-application.py scripts/audit-application-payload-privacy.py
           git diff --check
       - name: Commit minimization
         run: |
-          git add assets/js/online-application.js assets/js/application-preparation.js policy.md docs/preparation-context-contract.md
+          git add assets/js/online-application.js assets/js/application-preparation.js policy.md docs/preparation-context-contract.md docs/application-payload-privacy.md scripts/audit-online-application.py scripts/audit-application-payload-privacy.py
           if git diff --cached --quiet; then
-            echo "Web3Forms payload is already minimized"
+            echo "Web3Forms payload and audits are already minimized"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Минимизировать данные Web3Forms email"
+          git commit -m "Закрепить минимизацию данных Web3Forms"
           git push origin HEAD:privacy/minimize-web3forms-payload
