@@ -184,15 +184,6 @@
       payload.preparation_completed = data.completed_labels.join('; ');
       payload.remaining_questions = data.remaining_questions;
       payload.preparation_json = JSON.stringify(data, null, 2);
-      if (payload.fields_json) {
-        try {
-          const fields = JSON.parse(payload.fields_json);
-          fields.preparation = data;
-          payload.fields_json = JSON.stringify(fields, null, 2);
-        } catch (error) {
-          // fields_json остаётся исходным, отдельные поля всё равно передаются.
-        }
-      }
       payload.message = appendPreparationToApplicationText(payload.message);
     }
 
