@@ -3,6 +3,8 @@
   if (!calcForms.length) return;
 
   const APPLICATION_PATH = '/online-zayavka/';
+  const DIRECT_APPLICATION_LABEL = 'Открыть онлайн-заявку';
+  const HANDOFF_APPLICATION_LABEL = 'Перенести этот расчёт в заявку';
 
   function track(goalName) {
     if (typeof window.sendGoal === 'function') window.sendGoal(goalName);
@@ -41,6 +43,33 @@
     return normalized || '/';
   }
 
+  function normalizeDirectApplicationActions(calcForm) {
+    const section = typeof calcForm.closest === 'function' ? calcForm.closest('.calc-section') : null;
+    if (!section || typeof section.querySelectorAll !== 'function') return;
+
+    section.querySelectorAll('a[href]').forEach((link) => {
+      if (link.hasAttribute('data-calc-application-link')) return;
+
+      let url;
+      try {
+        url = new URL(link.getAttribute('href'), window.location.origin);
+      } catch (error) {
+        return;
+      }
+
+      const label = String(link.textContent || '').trim();
+      const isLegacyTransferLabel = label === 'Передать расчёт в заявке' || label === 'Передать расчёт в заявку';
+      if (normalizePath(url.pathname) !== APPLICATION_PATH || !isLegacyTransferLabel) return;
+
+      link.textContent = DIRECT_APPLICATION_LABEL;
+      link.setAttribute('aria-label', 'Открыть онлайн-заявку без переноса параметров расчёта');
+      if (link.classList) {
+        link.classList.remove('btn-primary');
+        link.classList.add('btn-light');
+      }
+    });
+  }
+
   function buildApplicationUrl(amount, down, rate, years) {
     const url = new URL(APPLICATION_PATH, window.location.origin);
     url.search = new URLSearchParams({
@@ -64,10 +93,10 @@
       container.hidden = true;
 
       link = document.createElement('a');
-      link.className = 'btn btn-light';
+      link.className = 'btn btn-primary';
       link.dataset.calcApplicationLink = '';
-      link.textContent = 'Передать расчёт в заявку';
-      link.setAttribute('aria-label', 'Передать параметры этого расчёта в онлайн-заявку');
+      link.textContent = HANDOFF_APPLICATION_LABEL;
+      link.setAttribute('aria-label', 'Перенести параметры этого расчёта в онлайн-заявку');
       link.addEventListener('click', () => track('calculator_application_click'));
 
       container.appendChild(link);
@@ -146,6 +175,7 @@
   calcForms.forEach((calcForm) => {
     const result = calcForm.querySelector('[data-calc-result]');
     enhanceCalculatorInputs(calcForm);
+    normalizeDirectApplicationActions(calcForm);
 
     if (result) {
       result.setAttribute('aria-live', 'polite');
