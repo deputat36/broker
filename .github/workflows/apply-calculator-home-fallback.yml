@@ -17,29 +17,38 @@ jobs:
           ref: perf/conditional-calculator-script
           fetch-depth: 0
           show-progress: false
-      - name: Apply exact fallback marker
+      - name: Apply exact calculator markers
         run: |
           python3 - <<'PY'
           from pathlib import Path
 
-          path = Path('index.md')
-          text = path.read_text(encoding='utf-8')
+          index = Path('index.md')
+          text = index.read_text(encoding='utf-8')
           old = '<div class="calc-result" data-calc-result></div>'
           new = '<div class="calc-result is-error" data-calc-result><span>Калькулятор загружается</span><strong>Введите параметры для предварительного расчёта</strong><small>Если результат не появился, обновите страницу или свяжитесь с Татьяной напрямую.</small></div>'
           if new not in text:
               if text.count(old) != 1:
                   raise SystemExit('Expected home calculator result marker was not found exactly once')
-              path.write_text(text.replace(old, new, 1), encoding='utf-8')
+              index.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          layout = Path('_layouts/default.html')
+          text = layout.read_text(encoding='utf-8')
+          old = "{% if page.url == '/kalkulyator-ipoteki/' %}"
+          new = "{% if page.url == '/' or page.url == '/kalkulyator-ipoteki/' %}"
+          if new not in text:
+              if text.count(old) != 1:
+                  raise SystemExit('Expected calculator layout condition was not found exactly once')
+              layout.write_text(text.replace(old, new, 1), encoding='utf-8')
           PY
           git diff --check
-      - name: Commit fallback
+      - name: Commit calculator markers
         run: |
-          git add index.md
+          git add index.md _layouts/default.html
           if git diff --cached --quiet; then
-            echo "Home calculator fallback is already present"
+            echo "Home calculator markers are already present"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Добавить fallback калькулятора на главной"
+          git commit -m "Подключить модуль калькулятора на главной"
           git push origin HEAD:perf/conditional-calculator-script
