@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import re
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
@@ -11,7 +12,10 @@ APPLICATION_URL = "/online-zayavka/"
 PHONE_SCRIPT = "/assets/js/application-inputs.js"
 APPLICATION_SCRIPT = "/assets/js/online-application.js"
 APPLICATION_STYLE = "/assets/css/online-application.css"
-CONSENT_INLINE_MARKER = "<script data-application-consent-validation>"
+CONSENT_INLINE_PATTERN = re.compile(
+    r"<script[^>]*\bdata-application-consent-validation\b[^>]*>(.*?)</script>",
+    re.IGNORECASE | re.DOTALL,
+)
 LEGACY_CONSENT_SCRIPT = "/assets/js/application-consent-validation.js"
 
 REQUIRED_VISIBLE_FIELDS = {"client_name", "phone", "city", "scenario", "consent"}
@@ -190,11 +194,12 @@ def main() -> int:
         error("Standalone-файл согласия должен быть удалён из Pages-артефакта", legacy_consent_file)
         errors += 1
 
-    if CONSENT_INLINE_MARKER not in html_text:
+    consent_match = CONSENT_INLINE_PATTERN.search(html_text)
+    if not consent_match:
         error("На странице отсутствует inline-валидация согласия", html_file)
         errors += 1
     else:
-        consent_script = html_text.split(CONSENT_INLINE_MARKER, 1)[1].split("</script>", 1)[0]
+        consent_script = consent_match.group(1)
         for marker in (
             "DOMContentLoaded", "namedItem('consent')", "aria-invalid",
             "addEventListener('submit'", "addEventListener('change'",
