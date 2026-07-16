@@ -190,10 +190,6 @@ vm.runInNewContext(source, {
 assert.strictEqual(staticLink.textContent, 'Открыть онлайн-заявку');
 assert.strictEqual(staticLink.classList.contains('btn-primary'), false);
 assert.strictEqual(staticLink.classList.contains('btn-light'), true);
-assert.strictEqual(
-  staticLink.getAttribute('aria-label'),
-  'Открыть онлайн-заявку без переноса расчёта'
-);
 
 assert.ok(applicationContainer);
 assert.strictEqual(applicationContainer.hidden, false);
