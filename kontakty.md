@@ -13,7 +13,7 @@ schema: '{"@context":"https://schema.org","@type":"ContactPage","name":"Конт
   <h1>Контакты ипотечного брокера</h1>
   <p class="lead">Обратиться за первичной консультацией можно из любого города. Заполните онлайн-заявку либо свяжитесь с Татьяной Стерликовой по телефону, через MAX или ВКонтакте.</p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}">Заполнить онлайн-заявку</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}">Заполнить онлайн-заявку</a>
     <a class="btn btn-light" href="tel:+79030250807">Позвонить: 8 903 025-08-07</a>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">Написать ВКонтакте</a>
     <button class="btn btn-light" type="button" data-copy-phone>MAX: скопировать телефон</button>
@@ -27,7 +27,7 @@ schema: '{"@context":"https://schema.org","@type":"ContactPage","name":"Конт
       <h2>Место проживания не ограничивает первичный онлайн-разбор</h2>
       <p>В анкете можно указать любой населённый пункт. Возможность дальнейшего сопровождения определяется после разбора и зависит от банка, региона, объекта и необходимого объёма работы.</p>
     </div>
-    <a class="btn btn-dark" href="{{ '/online-zayavka/' | relative_url }}">Перейти к анкете</a>
+    <a class="btn btn-dark" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}">Перейти к анкете</a>
   </div>
 </section>
 
@@ -38,7 +38,7 @@ schema: '{"@context":"https://schema.org","@type":"ContactPage","name":"Конт
     <p>Для первичного разбора достаточно коротко описать вашу ситуацию. Консультация бесплатная и не обязывает оформлять сопровождение.</p>
   </div>
   <div class="intent-grid">
-    <a class="intent-card featured" href="{{ '/online-zayavka/' | relative_url }}">
+    <a class="intent-card featured" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}">
       <strong>Онлайн-заявка</strong>
       <span>Подходит, если удобнее последовательно указать город, объект, взнос, доход и историю обращений в банки.</span>
       <em>Заполнить анкету</em>
@@ -72,7 +72,7 @@ schema: '{"@context":"https://schema.org","@type":"ContactPage","name":"Конт
       <p><strong>Здравствуйте, Татьяна. Нужна консультация по ипотеке.</strong></p>
       <p>Город: ___. Объект: квартира / дом / новостройка / строительство. Стоимость примерно: ___ ₽. Первоначальный взнос: ___ ₽. Доход: официальный / ИП / самозанятость / другой. Маткапитал: да / нет. Были отказы: да / нет.</p>
     </div>
-    <a class="btn btn-dark" href="{{ '/online-zayavka/' | relative_url }}">Заполнить форму вместо сообщения</a>
+    <a class="btn btn-dark" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}">Заполнить форму вместо сообщения</a>
   </div>
 </section>
 
@@ -121,7 +121,7 @@ schema: '{"@context":"https://schema.org","@type":"ContactPage","name":"Конт
     <p>Эти страницы учитывают местные типы объектов и поисковые запросы, но не ограничивают общую географию онлайн-консультаций.</p>
   </div>
   <div class="grid cards-4">
-    <a class="location-card" href="{{ '/online-zayavka/' | relative_url }}"><strong>Другой город</strong><span>Заполните дистанционную заявку с вашим населённым пунктом</span></a>
+    <a class="location-card" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}"><strong>Другой город</strong><span>Заполните дистанционную заявку с вашим населённым пунктом</span></a>
     <a class="location-card" href="{{ '/geo/borisoglebsk/' | relative_url }}"><strong>Борисоглебск</strong><span>город и Борисоглебский городской округ</span></a>
     <a class="location-card" href="{{ '/geo/gribanovskiy/' | relative_url }}"><strong>Грибановский район</strong><span>пгт Грибановский и район</span></a>
     <a class="location-card" href="{{ '/geo/povorino/' | relative_url }}"><strong>Поворино</strong><span>город Поворино и район</span></a>
@@ -135,7 +135,7 @@ schema: '{"@context":"https://schema.org","@type":"ContactPage","name":"Конт
     <p>Опишите город, объект, доход, первоначальный взнос и предыдущие обращения в банки.</p>
   </div>
   <div class="cta-actions">
-    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}">Онлайн-заявка</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}">Онлайн-заявка</a>
     <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a>
