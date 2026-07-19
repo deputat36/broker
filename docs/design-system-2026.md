@@ -2,7 +2,7 @@
 
 Figma-файл: https://www.figma.com/design/Sz62KR5VogV6KAGJfeHCZi
 
-Статус Figma: отдельный файл создан. Дальнейшее редактирование canvas временно ограничено лимитом Figma MCP Starter. Источником истины для внедрённой версии до восстановления доступа является этот документ и `assets/css/premium-redesign.css`.
+Статус Figma: отдельный файл создан. Дальнейшее редактирование canvas временно ограничено лимитом Figma MCP Starter. Источником истины для внедрённой версии до восстановления доступа является этот документ и дизайн-слой в `assets/css/nav-state.css`.
 
 ## 1. Концепция
 
@@ -151,7 +151,7 @@ Inter, "Segoe UI", Arial, sans-serif
 
 | Figma / дизайн | Код |
 |---|---|
-| Foundations | `assets/css/premium-redesign.css:root` |
+| Foundations | `assets/css/nav-state.css:root` |
 | Header | `_layouts/default.html`, `.site-header`, `.main-nav` |
 | Hero | `index.md`, `.hero`, `.hero-card-photo` |
 | Buttons | `.btn`, `.btn-primary`, `.btn-secondary`, `.btn-light` |
