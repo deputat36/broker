@@ -33,7 +33,7 @@
   <meta name="twitter:description" content="{{ page.description | default: site.description }}">
   <meta name="twitter:image" content="{{ page.og_image | default: '/assets/img/tatyana-social.jpg' | absolute_url }}">
   <meta name="twitter:image:alt" content="{{ page.og_image_alt | default: 'Ипотечный брокер Татьяна Стерликова' }}">
-  <meta name="theme-color" content="#b5121b">
+  <meta name="theme-color" content="#17283d">
   <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/seo.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/accessibility.css' | relative_url }}">
@@ -166,7 +166,7 @@
     {% endif %}
   </main>
   <div class="sticky-contacts" aria-label="Быстрая связь с ипотечным брокером"><a class="sticky-action sticky-apply" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}">Заявка</a><a class="sticky-action sticky-call" href="tel:+79030250807">Позвонить</a><button class="sticky-action" type="button" data-copy-phone>MAX</button><a class="sticky-action" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
-  <footer class="site-footer">
+  <footer class="site-footer{% if page.url == '/online-zayavka/' %} site-footer-compact{% endif %}">
     <div class="footer-brand">
       <a class="footer-person" href="{{ '/o-brokere/' | relative_url }}">
         <img class="footer-avatar" src="{{ '/assets/img/tatyana-avatar.webp' | relative_url }}" alt="" width="76" height="76" loading="lazy" decoding="async">
@@ -176,11 +176,16 @@
       <a class="footer-about-link" href="{{ '/o-brokere/' | relative_url }}">Подробнее о подходе к работе →</a><br>
       <a class="footer-phone" href="tel:+79030250807">8 903 025-08-07</a>
     </div>
-    <nav class="footer-grid" aria-label="Навигация в подвале сайта">
+    <nav class="footer-grid{% if page.url == '/online-zayavka/' %} footer-grid-compact{% endif %}" aria-label="Навигация в подвале сайта">
+      {% if page.url == '/online-zayavka/' %}
+      <div class="footer-col"><strong>Перед отправкой</strong><a href="{{ '/policy/' | relative_url }}">Политика обработки данных</a><a href="{{ '/o-brokere/' | relative_url }}">О брокере</a><a href="{{ '/kontakty/' | relative_url }}">Контакты</a></div>
+      <div class="footer-col"><strong>Помощь и связь</strong><a href="{{ '/faq/' | relative_url }}">Частые вопросы</a><a href="tel:+79030250807">Позвонить Татьяне</a><a href="https://vk.com/tatyanasterlikova" rel="noopener">Написать ВКонтакте</a></div>
+      {% else %}
       <div class="footer-col"><strong>Услуги</strong><a href="{{ '/uslugi/' | relative_url }}">Все услуги</a><a href="{{ '/uslugi/podbor-ipoteki/' | relative_url }}">Подбор ипотеки</a><a href="{{ '/uslugi/refinansirovanie-ipoteki/' | relative_url }}">Рефинансирование</a><a href="{{ '/uslugi/ipoteka-na-novostroyku/' | relative_url }}">Новостройка</a><a href="{{ '/uslugi/ipoteka-na-vtorichnoe-zhile/' | relative_url }}">Вторичное жилье</a><a href="{{ '/uslugi/ipoteka-pri-prodazhe-starogo-zhilya/' | relative_url }}">Продажа старого жилья</a><a href="{{ '/uslugi/ipoteka-na-stroitelstvo-doma/' | relative_url }}">Строительство дома</a><a href="{{ '/uslugi/semeynaya-ipoteka/' | relative_url }}">Семейная ипотека</a><a href="{{ '/uslugi/ipoteka-dlya-molodoy-semi/' | relative_url }}">Молодая семья</a><a href="{{ '/uslugi/ipoteka-dlya-pensionerov/' | relative_url }}">Пенсионеры</a><a href="{{ '/uslugi/materinskiy-kapital/' | relative_url }}">Материнский капитал</a><a href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">Отказали в ипотеке</a></div>
       <div class="footer-col"><strong>Сложные случаи</strong><a href="{{ '/uslugi/slozhnaya-ipoteka/' | relative_url }}">Сложная ипотека</a><a href="{{ '/uslugi/ipoteka-s-sozaemshchikom/' | relative_url }}">Созаемщик</a><a href="{{ '/uslugi/ipoteka-bez-oficialnogo-dohoda/' | relative_url }}">Без официального дохода</a><a href="{{ '/uslugi/ipoteka-bez-pervonachalnogo-vznosa/' | relative_url }}">Без первоначального взноса</a><a href="{{ '/uslugi/ipoteka-dlya-ip-samozanyatyh/' | relative_url }}">ИП и самозанятые</a><a href="{{ '/uslugi/ipoteka-s-plohoy-kreditnoy-istoriey/' | relative_url }}">Кредитная история</a><a href="{{ '/uslugi/ipoteka-na-dom/' | relative_url }}">Ипотека на дом</a></div>
       <div class="footer-col"><strong>География</strong><a href="{{ '/online-zayavka/' | relative_url }}">Онлайн из любого города</a><a href="{{ '/geo/' | relative_url }}">Все районы</a><a href="{{ '/geo/borisoglebsk/' | relative_url }}">Борисоглебск</a><a href="{{ '/geo/borisoglebsk/ipoteka-na-kvartiru/' | relative_url }}">Квартира в Борисоглебске</a><a href="{{ '/geo/gribanovskiy/' | relative_url }}">Грибановский район</a><a href="{{ '/geo/povorino/' | relative_url }}">Поворино и район</a><a href="{{ '/etagi/' | relative_url }}">Клиентам «ЭТАЖИ»</a></div>
       <div class="footer-col"><strong>Информация</strong><a href="{{ '/online-zayavka/' | relative_url }}">Онлайн-заявка</a><a href="{{ '/o-brokere/' | relative_url }}">О брокере</a><a href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Калькулятор</a><a href="{{ '/konsultaciya/' | relative_url }}">Консультация</a><a href="{{ '/stoimost/' | relative_url }}">Стоимость</a><a href="{{ '/polezno/' | relative_url }}">Полезно</a><a href="{{ '/faq/' | relative_url }}">FAQ</a><a href="{{ '/kontakty/' | relative_url }}">Контакты</a><a href="{{ '/policy/' | relative_url }}">Политика</a><a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a></div>
+      {% endif %}
     </nav>
     <p class="disclaimer">Информация на сайте не является публичной офертой. Окончательное решение по ипотеке, ставке и условиям принимает банк.</p>
   </footer>
