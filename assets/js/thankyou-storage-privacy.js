@@ -24,7 +24,7 @@
       const serialized = JSON.stringify(safeSummary);
       if (serialized !== raw) window.localStorage.setItem(STORAGE_KEY, serialized);
     } catch (_error) {
-      try { window.localStorage.removeItem(STORAGE_KEY); } catch (_storageError) { }
+      try { window.localStorage.removeItem(STORAGE_KEY); } catch (_storageError) { /* Браузер запретил доступ. */ }
     }
   }
   migrateLegacyLastLead();
