@@ -63,6 +63,7 @@ main { background: #fff; }
 }
 
 .hero {
+  min-height: min(860px, calc(100vh - 73px));
   min-height: min(860px, calc(100svh - 73px));
   padding-top: clamp(54px, 7vw, 88px);
   padding-bottom: clamp(54px, 7vw, 88px);
