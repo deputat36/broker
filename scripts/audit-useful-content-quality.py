@@ -268,6 +268,35 @@ def check_article(
     return failures, metrics
 
 
+def weakest_summary(rows: list[tuple[str, str, dict[str, int | bool]]]) -> str:
+    article_rows = [row for row in rows if row[1] == "article"]
+    if not article_rows:
+        return ""
+
+    shortest = sorted(
+        article_rows,
+        key=lambda row: (int(row[2]["words"]), row[0]),
+    )[:5]
+    least_linked = sorted(
+        article_rows,
+        key=lambda row: (
+            int(row[2]["internal_links"]),
+            int(row[2]["unique_internal_links"]),
+            row[0],
+        ),
+    )[:5]
+
+    shortest_text = "; ".join(
+        f"{permalink} — {int(metrics['words'])} слов"
+        for permalink, _, metrics in shortest
+    )
+    links_text = "; ".join(
+        f"{permalink} — {int(metrics['internal_links'])} ссылок/{int(metrics['unique_internal_links'])} уникальных"
+        for permalink, _, metrics in least_linked
+    )
+    return f"Самые короткие: {shortest_text}. Минимальная перелинковка: {links_text}."
+
+
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     if not site_dir.is_dir():
@@ -283,6 +312,7 @@ def main() -> int:
 
     word_counts: list[int] = []
     link_counts: list[int] = []
+    rows: list[tuple[str, str, dict[str, int | bool]]] = []
     hub_count = 0
     for source, permalink, profile_name in articles:
         profile = profiles.get(profile_name)
@@ -295,6 +325,7 @@ def main() -> int:
         if metrics:
             word_counts.append(int(metrics["words"]))
             link_counts.append(int(metrics["internal_links"]))
+            rows.append((permalink, profile_name, metrics))
 
     if failures:
         print(f"Аудит качества материалов завершён с ошибками: {failures}")
@@ -304,7 +335,8 @@ def main() -> int:
         "Аудит качества материалов успешно завершён: "
         f"материалов {len(articles)}, хабов {hub_count}, "
         f"слов min/median {min(word_counts)}/{int(statistics.median(word_counts))}, "
-        f"внутренних ссылок min/median {min(link_counts)}/{int(statistics.median(link_counts))}"
+        f"внутренних ссылок min/median {min(link_counts)}/{int(statistics.median(link_counts))}. "
+        + weakest_summary(rows)
     )
     return 0
 
