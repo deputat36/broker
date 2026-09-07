@@ -1,20 +1,106 @@
 ---
 layout: "default"
 title: "Первоначальный взнос по ипотеке | Как подготовить деньги"
-description: "Что важно знать о первоначальном взносе по ипотеке: источники средств, материнский капитал, подтверждение денег, оценка ниже цены, дополнительные расходы и подготовка к заявке."
+description: "Как подготовить первоначальный взнос по ипотеке: собственные средства, маткапитал, продажа имущества, финансовый резерв, оценка объекта и расходы на сделку."
 permalink: "/polezno/pervonachalnyy-vznos-po-ipoteke/"
 og_type: "article"
 schema: '{"@context":"https://schema.org","@type":"Article","headline":"Первоначальный взнос по ипотеке: что важно знать","author":{"@type":"Person","name":"Татьяна Стерликова"},"about":"Первоначальный взнос по ипотеке"}'
 ---
 
-<section class="page-hero section"><div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / <a href="{{ '/polezno/' | relative_url }}">Полезно</a> / Первоначальный взнос</div><p class="eyebrow">Подготовка к покупке</p><h1>Первоначальный взнос по ипотеке: что важно знать</h1><p class="lead">Размер взноса влияет на сумму кредита и платеж, но важна не только цифра. Нужно заранее понимать источник денег, требования банка, возможную оценку объекта и расходы, которые останутся помимо взноса.</p><div class="hero-actions"><a class="btn btn-primary" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Рассчитать платеж</a><a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Разобрать ситуацию</a></div></section>
+<section class="page-hero section">
+  <div class="breadcrumbs"><a href="{{ '/' | relative_url }}">Главная</a> / <a href="{{ '/polezno/' | relative_url }}">Полезно</a> / Первоначальный взнос</div>
+  <p class="eyebrow">Подготовка к покупке</p>
+  <h1>Первоначальный взнос по ипотеке: что важно знать</h1>
+  <p class="lead">Первоначальный взнос влияет на сумму кредита и будущий платеж, но подготовка не сводится к одной цифре. Важно заранее разделить деньги на взнос, расходы по сделке и резерв, понять источник средств и учесть риск, что оценка объекта окажется ниже цены продавца.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Сравнить платежи</a>
+    <a class="btn btn-secondary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=down_payment_hero">Разобрать взнос онлайн</a>
+  </div>
+</section>
 
-<section class="section"><div class="section-head"><p class="eyebrow">Главное</p><h2>Не направляйте на взнос все имеющиеся деньги</h2><p>После сделки могут понадобиться средства на оценку, страхование, регистрацию, переезд, ремонт и непредвиденные расходы. Комфортная ипотека начинается с финансового резерва, а не только с минимально допустимого взноса.</p></div><div class="grid cards-4"><article class="card"><h3>Собственные накопления</h3><p>Заранее подготовьте понятную историю происхождения и движения средств.</p></article><article class="card"><h3>Материнский капитал</h3><p>Порядок использования зависит от сделки, объекта и требований банка.</p></article><article class="card"><h3>Продажа имущества</h3><p>Учитывайте сроки расчетов и документы, подтверждающие получение денег.</p></article><article class="card"><h3><a href="{{ '/polezno/ocenka-nizhe-ceny-prodavca/' | relative_url }}">Оценка ниже цены</a></h3><p>Если оценка меньше цены покупки, собственных средств может понадобиться больше.</p></article></div></section>
+<section class="section">
+  <div class="section-head">
+    <p class="eyebrow">Главное</p>
+    <h2>Не направляйте на взнос все имеющиеся деньги</h2>
+    <p>После покупки могут понадобиться средства на оценку, страхование, регистрацию, переезд, ремонт и непредвиденные расходы. Поэтому полезно заранее определить не максимальную сумму, которую можно отдать продавцу, а сумму, после которой у семьи останется рабочий финансовый резерв.</p>
+  </div>
+  <div class="grid cards-4">
+    <article class="card"><h3>Собственные накопления</h3><p>Отделите сумму для сделки от повседневного резерва и ближайших обязательных расходов.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/matkapital-kak-pervonachalnyy-vznos-po-ipoteke/' | relative_url }}">Материнский капитал</a></h3><p>Заранее разберите порядок его использования, сроки и требования к конкретной сделке.</p></article>
+    <article class="card"><h3>Продажа имущества</h3><p>Сопоставьте сроки получения денег со сроками аванса, ипотеки и основной сделки.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/ocenka-nizhe-ceny-prodavca/' | relative_url }}">Оценка ниже цены</a></h3><p>Если оценочная стоимость меньше цены покупки, собственных средств может понадобиться больше.</p></article>
+  </div>
+</section>
 
-<section class="section muted"><div class="section-head"><p class="eyebrow">Перед заявкой</p><h2>Что нужно проверить</h2></div><div class="checklist"><div><strong>1</strong><span>Определите реальную стоимость объекта и сумму, которую готовы внести без потери резерва.</span></div><div><strong>2</strong><span>Посчитайте платеж при нескольких вариантах взноса и срока.</span></div><div><strong>3</strong><span>Уточните источник средств и документы, которые может запросить банк.</span></div><div><strong>4</strong><span>Отдельно заложите расходы на оформление сделки и период после покупки.</span></div><div><strong>5</strong><span>Проверьте, что будет с суммой кредита, если оценка окажется ниже цены продавца.</span></div></div></section>
+<section class="section content-layout">
+  <article class="content-main">
+    <h2>Сначала разделите деньги на три части</h2>
+    <p>Удобно считать бюджет покупки тремя отдельными суммами: первоначальный взнос, расходы на оформление и резерв после сделки. Такое разделение помогает не получить ситуацию, когда ипотека уже одобрена, но на оценку, страхование, регистрацию или переезд приходится занимать деньги.</p>
+    <p>Список возможных сопутствующих затрат есть в материале <a class="text-link" href="{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | relative_url }}">расходы при оформлении ипотеки</a>.</p>
 
-<section class="section"><div class="section-head"><p class="eyebrow">Частая ошибка</p><h2>Большой взнос не исправляет все слабые места заявки</h2><p>Банк одновременно оценивает доход, долговую нагрузку, кредитную историю, занятость и объект. Поэтому до перевода аванса за недвижимость лучше проверить всю ситуацию целиком.</p></div><div class="grid cards-3"><article class="card"><h3><a href="{{ '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' | relative_url }}">Кредитная история</a></h3><p>Проверьте кредиты, карты, просрочки, ошибки и недавние заявки.</p></article><article class="card"><h3><a href="{{ '/polezno/ocenka-nizhe-ceny-prodavca/' | relative_url }}">Оценка и цена</a></h3><p>Разберите, хватит ли взноса, если банк посчитает кредит от меньшей суммы.</p></article><article class="card"><h3><a href="{{ '/uslugi/ipoteka-bez-pervonachalnogo-vznosa/' | relative_url }}">Если взноса недостаточно</a></h3><p>Разберите законные варианты и риски до выбора объекта и подачи заявки.</p></article></div></section>
+    <h2>Сравните несколько вариантов взноса</h2>
+    <p>Не всегда разумно автоматически вносить максимум накоплений. Сравните несколько сценариев: меньший взнос с большим резервом и больший взнос с меньшей суммой кредита. Для каждого варианта посмотрите ориентировочный платеж и оцените, какой сценарий лучше выдерживает обычные семейные расходы.</p>
+    <p><a class="text-link" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Ипотечный калькулятор</a> помогает сравнить такие варианты без привязки к обещанию конкретного банка. Финальные условия всё равно определяются после проверки заявки и объекта.</p>
 
-<section class="section compact-section"><div class="notice"><div><p class="eyebrow">Нужен расчет</p><h2>Сравните несколько сценариев</h2><p>Проверьте, как меняется платеж при разном взносе, а затем уточните требования банка по вашей ситуации.</p></div><a class="btn btn-dark" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Открыть калькулятор</a></div></section>
+    <h2>Учитывайте источник первоначального взноса</h2>
+    <p>Собственные накопления, материнский капитал и деньги от продажи другого имущества требуют разного планирования по срокам. Если взнос появится только после другой сделки, важно не обещать продавцу слишком короткий срок и не передавать аванс, пока вся последовательность действий не понятна.</p>
+    <p>Если покупка зависит от продажи старого объекта, полезно заранее изучить <a class="text-link" href="{{ '/polezno/kak-kupit-novoe-zhile-esli-prodaesh-staroe/' | relative_url }}">как связать продажу старого и покупку нового жилья</a>.</p>
 
-<section class="section cta-section"><div><p class="eyebrow">До выбора объекта</p><h2>Обсудите взнос и комфортный платеж</h2><p>Первичная консультация бесплатная. Подготовьте стоимость объекта, накопления, доход и текущие кредиты.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
+    <h2>Оставьте запас на разницу между ценой и оценкой</h2>
+    <p>Цена, которую согласовали покупатель и продавец, и оценочная стоимость для ипотечной сделки могут отличаться. Если оценка окажется ниже, структура финансирования может измениться, и собственных средств понадобится больше. Поэтому особенно рискованно отдавать весь доступный резерв в качестве аванса до оценки.</p>
+
+    <h2>Не передавайте аванс только ради фиксации объекта</h2>
+    <p>До передачи денег полезно понять, готова ли ипотечная часть сделки, подходят ли сроки продавца и что произойдет при проблеме с объектом или решением банка. Для этого есть отдельный материал <a class="text-link" href="{{ '/polezno/avans-zadatok-i-ipoteka/' | relative_url }}">аванс, задаток и ипотека</a>.</p>
+
+    <h2>Большой взнос не исправляет все слабые места заявки</h2>
+    <p>Банк одновременно оценивает доход, долговую нагрузку, кредитную историю, занятость и объект. Поэтому даже при хорошем взносе стоит проверить всю ситуацию. Начать можно со статьи <a class="text-link" href="{{ '/polezno/kak-podgotovitsya-k-ipoteke/' | relative_url }}">как подготовиться к ипотеке перед заявкой</a>.</p>
+  </article>
+
+  <aside class="sidebar">
+    <div class="seo-panel">
+      <h3>Что подготовить</h3>
+      <ul>
+        <li>примерную цену объекта;</li>
+        <li>сумму собственных средств;</li>
+        <li>источник взноса;</li>
+        <li>желаемый финансовый резерв;</li>
+        <li>комфортный ежемесячный платеж.</li>
+      </ul>
+      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=down_payment_sidebar">Разобрать ситуацию</a>
+    </div>
+    <div class="seo-panel">
+      <h3>Связанные материалы</h3>
+      <ul>
+        <li><a href="{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | relative_url }}">Расходы на оформление</a></li>
+        <li><a href="{{ '/polezno/matkapital-kak-pervonachalnyy-vznos-po-ipoteke/' | relative_url }}">Маткапитал как взнос</a></li>
+        <li><a href="{{ '/polezno/ocenka-nizhe-ceny-prodavca/' | relative_url }}">Оценка ниже цены</a></li>
+        <li><a href="{{ '/polezno/avans-zadatok-i-ipoteka/' | relative_url }}">Аванс и ипотека</a></li>
+        <li><a href="{{ '/uslugi/ipoteka-bez-pervonachalnogo-vznosa/' | relative_url }}">Если взноса недостаточно</a></li>
+      </ul>
+    </div>
+  </aside>
+</section>
+
+<section class="section muted">
+  <div class="section-head"><p class="eyebrow">Перед заявкой</p><h2>Короткий чек-лист по взносу</h2></div>
+  <div class="checklist">
+    <div><strong>1</strong><span>Определите сумму, которую можно внести без потери финансового резерва.</span></div>
+    <div><strong>2</strong><span>Сравните платеж при нескольких вариантах взноса и срока.</span></div>
+    <div><strong>3</strong><span>Проверьте источник средств и реальные сроки их получения.</span></div>
+    <div><strong>4</strong><span>Отдельно заложите расходы на оформление и период после покупки.</span></div>
+    <div><strong>5</strong><span>Оставьте запас на случай, если оценка окажется ниже цены продавца.</span></div>
+  </div>
+</section>
+
+<section class="section cta-section">
+  <div>
+    <p class="eyebrow">До выбора объекта</p>
+    <h2>Сравните взнос, резерв и будущий платеж</h2>
+    <p>Первичная консультация бесплатная. Для начала достаточно примерной цены объекта, накоплений, формата дохода и текущих кредитов.</p>
+  </div>
+  <div class="cta-actions">
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=down_payment_footer">Онлайн-заявка</a>
+    <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
+    <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
+  </div>
+</section>
