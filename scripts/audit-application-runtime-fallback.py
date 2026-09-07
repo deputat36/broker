@@ -55,7 +55,6 @@ def main() -> int:
             f'href="sms:{PHONE}"',
             f'href="{VK_URL}"',
             "<noscript>",
-            "form.dataset.applicationReady === 'true'",
             "Форма не загрузилась. Используйте резервный способ обращения выше.",
             "data-application-submit",
             "disabled",
@@ -63,6 +62,15 @@ def main() -> int:
             "Загружаем форму…",
         ),
     )
+
+    # Watchdog может быть минифицирован, поэтому проверяем выражение по смыслу,
+    # а не по точному форматированию пробелов в JavaScript.
+    if not re.search(
+        r"form\.dataset\.applicationReady\s*===\s*['\"]true['\"]",
+        html,
+    ):
+        fail(page, "Runtime-watchdog не проверяет успешную инициализацию формы")
+        errors += 1
 
     noscript_match = re.search(r"<noscript>(?P<body>.*?)</noscript>", html, re.DOTALL)
     if not noscript_match:
