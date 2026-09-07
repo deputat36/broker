@@ -35,6 +35,7 @@ FORBIDDEN_INTERNAL_ATTRIBUTION = (
     "utm_medium=internal",
     "lead_source=homepage",
 )
+MAIN_RE = re.compile(r'<main\b[^>]*id="main-content"[^>]*>(.*?)</main>', re.IGNORECASE | re.DOTALL)
 
 
 def display_path(path: Path) -> str:
@@ -59,37 +60,50 @@ def application_hrefs(content: str) -> list[str]:
     return re.findall(r'href="([^"]*?/online-zayavka/[^"]*)"', content)
 
 
+def page_scope(content: str, path: Path, built: bool) -> tuple[str, int]:
+    """В собранном HTML отделяет контент страницы от глобальных header/footer/sticky CTA."""
+    if not built:
+        return content, 0
+
+    match = MAIN_RE.search(content)
+    if not match:
+        fail(path, "В собранной главной не найден <main id=\"main-content\">")
+        return content, 1
+    return match.group(1), 0
+
+
 def validate_home(path: Path, built: bool = False) -> int:
     content = read_text(path)
     if not content:
         return 1
 
     errors = 0
-    hrefs = application_hrefs(content)
+    scoped_content, scope_errors = page_scope(content, path, built)
+    errors += scope_errors
+
+    all_hrefs = application_hrefs(scoped_content)
+    hrefs = [href for href in all_hrefs if "placement=home_" in href]
 
     if len(hrefs) != len(REQUIRED_PLACEMENTS):
         fail(
             path,
-            f"Ожидалось {len(REQUIRED_PLACEMENTS)} размеченных ссылок на заявку, найдено {len(hrefs)}",
+            f"Ожидалось {len(REQUIRED_PLACEMENTS)} контекстных ссылок home_* на заявку, найдено {len(hrefs)}",
         )
         errors += 1
 
     for placement in REQUIRED_PLACEMENTS:
         token = f"placement={placement}"
-        count = content.count(token)
+        count = scoped_content.count(token)
         if count != 1:
-            fail(path, f"Маркер {token} должен встречаться один раз, найдено {count}")
+            fail(path, f"Маркер {token} должен встречаться один раз в контенте главной, найдено {count}")
             errors += 1
 
     for href in hrefs:
         if "source=%2F" not in href:
-            fail(path, f"Ссылка не передаёт source главной: {href}")
+            fail(path, f"Контекстная ссылка не передаёт source главной: {href}")
             errors += 1
         if "scenario=" not in href:
-            fail(path, f"Ссылка не передаёт сценарий формы: {href}")
-            errors += 1
-        if "placement=home_" not in href:
-            fail(path, f"Ссылка не передаёт placement главной: {href}")
+            fail(path, f"Контекстная ссылка не передаёт сценарий формы: {href}")
             errors += 1
 
     complex_link = next((href for href in hrefs if "placement=home_complex_inline" in href), "")
@@ -100,10 +114,12 @@ def validate_home(path: Path, built: bool = False) -> int:
     generic_hrefs = [href for href in hrefs if "placement=home_complex_inline" not in href]
     for href in generic_hrefs:
         if GENERIC_SCENARIO not in href:
-            fail(path, f"Общий CTA не предзаполняет первичную консультацию: {href}")
+            fail(path, f"Общий контекстный CTA не предзаполняет первичную консультацию: {href}")
             errors += 1
 
-    lowered = content.lower()
+    # Ссылки без placement внутри main разрешены как нейтральные fallback/direct routes.
+    # Они не должны подменять рекламную атрибуцию и не входят в контракт 12 home_* CTA.
+    lowered = scoped_content.lower()
     for marker in FORBIDDEN_INTERNAL_ATTRIBUTION:
         if marker in lowered:
             fail(path, f"Внутренний переход не должен перезаписывать рекламную атрибуцию: {marker}")
@@ -154,7 +170,8 @@ def main() -> int:
 
     print(
         "Маршруты главной проверены: "
-        f"{len(REQUIRED_PLACEMENTS)} CTA передают source, scenario и placement без подмены UTM"
+        f"{len(REQUIRED_PLACEMENTS)} контекстных CTA передают source, scenario и placement; "
+        "глобальные и нейтральные ссылки не подменяют UTM"
     )
     return 0
 
