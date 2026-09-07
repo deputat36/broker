@@ -46,8 +46,19 @@ class ResourceParser(HTMLParser):
 
         if tag == "link":
             rel = {item.lower() for item in data.get("rel", "").split()}
-            if rel.intersection({"stylesheet", "icon", "apple-touch-icon", "manifest", "preload"}) and data.get("href"):
-                self.add_resource(data["href"], page_load="manifest" not in rel)
+            href = data.get("href")
+            if not href:
+                return
+
+            # В first-load считаем только ресурсы, которые браузер реально запрашивает
+            # при обычном просмотре: CSS, favicon и явный preload. Manifest и
+            # apple-touch-icon остаются в графе ссылок/orphan-аудите, но не
+            # увеличивают бюджет начальной загрузки страницы.
+            if rel.intersection({"stylesheet", "icon", "apple-touch-icon", "manifest", "preload"}):
+                page_load = bool(rel.intersection({"stylesheet", "icon", "preload"}))
+                if "apple-touch-icon" in rel or "manifest" in rel:
+                    page_load = False
+                self.add_resource(href, page_load=page_load)
             return
 
         if tag == "meta":
