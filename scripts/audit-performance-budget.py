@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 import sys
 from collections import Counter
 from html.parser import HTMLParser
@@ -16,6 +17,9 @@ ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = ROOT / "scripts" / "performance-budget.json"
 ASSET_PREFIXES = ("assets/css/", "assets/js/", "assets/img/")
 TRACKED_SUFFIXES = {".html", ".css", ".js", ".jpg", ".jpeg", ".png", ".webp", ".svg"}
+DYNAMIC_ASSET_RE = re.compile(
+    r"(?P<quote>['\"])(?P<path>(?:/)?assets/[A-Za-z0-9_./-]+|[A-Za-z0-9_.-]+\.(?:js|css|png|jpg|jpeg|webp|svg))(?P=quote)"
+)
 
 
 def fail(message: str, path: Path | None = None) -> None:
@@ -50,10 +54,6 @@ class ResourceParser(HTMLParser):
             if not href:
                 return
 
-            # В first-load считаем только ресурсы, которые браузер реально запрашивает
-            # при обычном просмотре: CSS, favicon и явный preload. Manifest и
-            # apple-touch-icon остаются в графе ссылок/orphan-аудите, но не
-            # увеличивают бюджет начальной загрузки страницы.
             if rel.intersection({"stylesheet", "icon", "apple-touch-icon", "manifest", "preload"}):
                 page_load = bool(rel.intersection({"stylesheet", "icon", "preload"}))
                 if "apple-touch-icon" in rel or "manifest" in rel:
@@ -195,6 +195,38 @@ def add_manifest_references(site_dir: Path, referenced: Counter[str], errors: li
         referenced[resource.relative_to(site_dir).as_posix()] += 1
 
 
+def add_dynamic_js_references(site_dir: Path, files: list[Path], referenced: Counter[str]) -> None:
+    """Учитывает asset-файлы, которые JS подгружает после первого HTML-запроса.
+
+    Такие зависимости считаются используемыми для orphan-аудита, но не добавляются
+    к first-load весу страницы до фактического runtime-условия.
+    """
+    for script_path in files:
+        if script_path.suffix.lower() != ".js":
+            continue
+        try:
+            text = script_path.read_text(encoding="utf-8-sig", errors="ignore")
+        except OSError:
+            continue
+        for match in DYNAMIC_ASSET_RE.finditer(text):
+            raw_path = match.group("path")
+            if raw_path.startswith("/"):
+                candidate = local_path(site_dir, raw_path)
+            elif raw_path.startswith("assets/"):
+                candidate = (site_dir / raw_path).resolve()
+            else:
+                candidate = (script_path.parent / raw_path).resolve()
+            if candidate is None or not candidate.is_file():
+                continue
+            try:
+                relative = candidate.relative_to(site_dir).as_posix()
+            except ValueError:
+                continue
+            if candidate == script_path:
+                continue
+            referenced[relative] += 1
+
+
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     if not site_dir.is_dir():
@@ -265,6 +297,7 @@ def main() -> int:
             )
 
     add_manifest_references(site_dir, referenced, errors)
+    add_dynamic_js_references(site_dir, files, referenced)
 
     p95 = percentile([weight for _, weight in page_weights], 0.95)
     check_budget(
