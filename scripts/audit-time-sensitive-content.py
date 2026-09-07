@@ -114,7 +114,13 @@ def client_markdown_files() -> list[Path]:
 
 def source_text(path: Path) -> str:
     text = path.read_text(encoding="utf-8", errors="ignore")
-    return normalize(FENCE_RE.sub(" ", text))
+    text = FENCE_RE.sub(" ", text)
+    text = SCRIPT_STYLE_RE.sub(" ", text)
+    text = COMMENT_RE.sub(" ", text)
+    # Аудируем видимый клиенту текст, а не HTML-атрибуты. Иначе URL-кодирование
+    # вроде %D0%B8 воспринимается регулярным выражением как «числовой процент».
+    text = TAG_RE.sub(" ", text)
+    return normalize(html.unescape(text))
 
 
 def html_text(path: Path) -> str:
