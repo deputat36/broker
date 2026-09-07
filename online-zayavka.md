@@ -207,22 +207,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
 
 <section class="section cta-section"><div><p class="eyebrow">Нужен быстрый ответ?</p><h2>Можно не заполнять анкету</h2><p>Позвоните или напишите кратко: ваш город, цель и были ли обращения в банки.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
 
-<script>
-  (function () {
-    var form = document.querySelector('[data-online-application]');
-    if (!form) return;
-    window.setTimeout(function () {
-      if (form.dataset.applicationReady === 'true') return;
-      var fallback = document.querySelector('[data-application-runtime-fallback]');
-      var status = form.querySelector('[data-application-status]');
-      if (fallback) fallback.hidden = false;
-      if (status) {
-        status.textContent = 'Форма не загрузилась. Используйте резервный способ обращения выше.';
-        status.classList.add('is-error');
-      }
-    }, 5000);
-  })();
-</script>
+<script>(function(){var form=document.querySelector('[data-online-application]');if(!form)return;window.setTimeout(function(){if(form.dataset.applicationReady==='true')return;var fallback=document.querySelector('[data-application-runtime-fallback]'),status=form.querySelector('[data-application-status]');if(fallback)fallback.hidden=false;if(status){status.textContent='Форма не загрузилась. Используйте резервный способ обращения выше.';status.classList.add('is-error');}},5000);})();</script>
 <script src="{{ '/assets/js/thankyou-storage-privacy.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/application-delivery-keepalive.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/application-inputs.js' | relative_url }}" defer></script>
