@@ -3,10 +3,11 @@
 
 from __future__ import annotations
 
+import re
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlsplit
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 INDEX_SOURCE = REPO_ROOT / "index.md"
@@ -19,6 +20,10 @@ PARAMETERS = ("calc_amount", "calc_down", "calc_rate", "calc_years")
 LEGACY_DIRECT_LABEL = "Передать расчёт в заявке"
 DIRECT_LABEL = "Открыть онлайн-заявку"
 TRANSFER_LABEL = "Перенести этот расчёт в заявку"
+SOURCE_DIRECT_RE = re.compile(
+    r'<a\s+class="btn btn-light"\s+href="\{\{\s*\'/online-zayavka/\'\s*\|\s*relative_url\s*\}\}'
+    r'(?P<query>\?[^\"]*)?">Открыть онлайн-заявку</a>'
+)
 
 
 class ScriptParser(HTMLParser):
@@ -34,6 +39,35 @@ class ScriptParser(HTMLParser):
             self.scripts.append(values["src"])
 
 
+class DirectApplicationLinkParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.current: dict[str, str] | None = None
+        self.current_text: list[str] = []
+        self.links: list[tuple[str, set[str], str]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag.lower() != "a":
+            return
+        values = {name.lower(): value or "" for name, value in attrs}
+        self.current = values
+        self.current_text = []
+
+    def handle_data(self, data: str) -> None:
+        if self.current is not None:
+            self.current_text.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag.lower() != "a" or self.current is None:
+            return
+        label = " ".join("".join(self.current_text).split())
+        href = self.current.get("href", "")
+        classes = set(self.current.get("class", "").split())
+        self.links.append((href, classes, label))
+        self.current = None
+        self.current_text = []
+
+
 def fail(path: Path, message: str) -> None:
     print(f"::error file={path.as_posix()}::{message}")
 
@@ -45,6 +79,49 @@ def require_markers(path: Path, text: str, markers: tuple[str, ...]) -> int:
             fail(path, f"Отсутствует обязательный маркер: {marker}")
             errors += 1
     return errors
+
+
+def validate_direct_source_link(source: str) -> int:
+    matches = list(SOURCE_DIRECT_RE.finditer(source))
+    if len(matches) != 1:
+        fail(
+            INDEX_SOURCE,
+            "На главной должна быть одна честно подписанная прямая ссылка «Открыть онлайн-заявку»",
+        )
+        return 1
+
+    href_fragment = matches[0].group(0)
+    for parameter in PARAMETERS:
+        if parameter in href_fragment:
+            fail(INDEX_SOURCE, f"Прямая ссылка не должна переносить параметр калькулятора {parameter}")
+            return 1
+    return 0
+
+
+def validate_direct_built_link(html_text: str, path: Path) -> int:
+    parser = DirectApplicationLinkParser()
+    parser.feed(html_text)
+    candidates = [
+        (href, classes)
+        for href, classes, label in parser.links
+        if label == DIRECT_LABEL and "btn-light" in classes
+    ]
+    if len(candidates) != 1:
+        fail(path, "В собранной главной должна быть одна прямая ссылка «Открыть онлайн-заявку»")
+        return 1
+
+    href, _classes = candidates[0]
+    parsed = urlsplit(href)
+    if parsed.path != "/online-zayavka/":
+        fail(path, f"Прямая ссылка ведёт не на /online-zayavka/: {href}")
+        return 1
+
+    query = parse_qs(parsed.query, keep_blank_values=True)
+    leaked = [parameter for parameter in PARAMETERS if parameter in query]
+    if leaked:
+        fail(path, f"Прямая ссылка ошибочно переносит параметры калькулятора: {leaked}")
+        return 1
+    return 0
 
 
 def main() -> int:
@@ -117,17 +194,8 @@ def main() -> int:
     errors += require_markers(PREFILL_SOURCE, prefill_source, prefill_markers)
     errors += require_markers(built_prefill, built_prefill_text, prefill_markers)
 
-    source_direct_marker = (
-        '<a class="btn btn-light" href="{{ \'/online-zayavka/\' | relative_url }}">'
-        f"{DIRECT_LABEL}</a>"
-    )
-    built_direct_marker = f'<a class="btn btn-light" href="/online-zayavka/">{DIRECT_LABEL}</a>'
-    if index_source.count(source_direct_marker) != 1:
-        fail(INDEX_SOURCE, "Прямая ссылка без переноса должна быть честно подписана в исходном HTML")
-        errors += 1
-    if built_index_text.count(built_direct_marker) != 1:
-        fail(built_index, "Прямая ссылка без переноса должна быть честно подписана в собранной главной")
-        errors += 1
+    errors += validate_direct_source_link(index_source)
+    errors += validate_direct_built_link(built_index_text, built_index)
 
     for path, text in (
         (INDEX_SOURCE, index_source),
@@ -191,7 +259,7 @@ def main() -> int:
 
     print(
         "Передача расчёта в заявку подтверждена: "
-        f"{len(html_files)} HTML-страниц, честная статическая ссылка без JavaScript, "
+        f"{len(html_files)} HTML-страниц, честная прямая ссылка допускает только безопасную атрибуцию, "
         "модуль только на /online-zayavka/, четыре ограниченных неперсональных параметра"
     )
     return 0
