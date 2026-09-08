@@ -65,7 +65,8 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Дейс
     <p>Позвоните или напишите: доход, действующие кредиты, платежи, кредитные карты, взнос и объект покупки. Татьяна поможет понять следующий шаг.</p>
   </div>
   <div class="cta-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Действующие кредиты перед ипотекой' | url_encode }}">Онлайн-заявка</a>
+    <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
