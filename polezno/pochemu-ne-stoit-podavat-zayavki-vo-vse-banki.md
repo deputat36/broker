@@ -34,15 +34,32 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Поче
     </ul>
 
     <h2>Как действовать аккуратнее</h2>
-    <p>Лучше сначала разобрать доход, кредитную нагрузку, первоначальный взнос, объект, кредитную историю и цель покупки. После этого уже выбирать банки и программы, где у заявки больше логики.</p>
+    <p>Лучше сначала разобрать доход, <a class="text-link" href="{{ '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' | relative_url }}">кредитную нагрузку</a>, первоначальный взнос, объект, <a class="text-link" href="{{ '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' | relative_url }}">кредитную историю</a> и цель покупки. После этого уже выбирать банки и программы, где у заявки больше логики.</p>
     <p>Подробнее о критериях выбора банка можно посмотреть в отдельном материале: <a class="text-link" href="{{ '/polezno/kak-vybrat-bank-dlya-ipoteki/' | relative_url }}">как выбрать банк для ипотеки</a>.</p>
+
+    <h2>Что значит «маршрут заявки»</h2>
+    <p>Это последовательность действий до обращения в банк: понять бюджет, проверить слабые места, определить тип объекта, подготовить подтверждение дохода и только затем выбрать подходящий вариант подачи. Такой порядок не гарантирует одобрение, но помогает не смешивать сразу несколько проблем и решений.</p>
+    <p>Например, если платеж уже получается напряженным, сначала полезнее проверить бюджет и нагрузку. Если вопрос в объекте — разобраться с документами и требованиями к недвижимости. Если уже был отказ — не повторять анкету автоматически, а сначала понять, что могло повлиять на прошлое решение.</p>
+
+    <h2>Что сравнить до первой заявки</h2>
+    <ul>
+      <li>подходит ли ваш формат дохода и занятости;</li>
+      <li>как текущие кредиты и карты влияют на нагрузку;</li>
+      <li>достаточен ли первоначальный взнос для выбранного сценария;</li>
+      <li>подходит ли конкретный тип объекта под ипотечную сделку;</li>
+      <li>есть ли особенности: маткапитал, созаемщик, прошлые просрочки или отказ;</li>
+      <li>какой платеж остается комфортным для бюджета после сделки.</li>
+    </ul>
+
+    <h2>Если предварительное решение уже есть</h2>
+    <p>Даже положительный предварительный ответ не означает, что согласован конкретный объект и все условия сделки. Перед авансом полезно отдельно понять, что означает <a class="text-link" href="{{ '/polezno/predvaritelnoe-odobrenie-ipoteki/' | relative_url }}">предварительное одобрение ипотеки</a> и какие проверки еще могут быть впереди.</p>
 
     <h2>Когда особенно важно не спешить</h2>
     <p>Не стоит подавать заявки подряд, если уже был отказ, есть просрочки, много кредитов, доход нестандартный, планируется материнский капитал, покупка дома, созаемщик или сделка зависит от продажи старого жилья.</p>
   </article>
   <aside class="sidebar">
     <div class="seo-panel"><h3>Перед подачей</h3><p>Опишите доход, взнос, объект, кредиты и прошлые заявки. Так проще выбрать следующий шаг.</p><a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Бесплатная консультация</a></div>
-    <div class="seo-panel"><h3>Связанные темы</h3><ul><li><a href="{{ '/polezno/kak-vybrat-bank-dlya-ipoteki/' | relative_url }}">Как выбрать банк</a></li><li><a href="{{ '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' | relative_url }}">Проверить кредитную историю</a></li><li><a href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">Если уже был отказ</a></li><li><a href="{{ '/uslugi/slozhnaya-ipoteka/' | relative_url }}">Сложная ипотека</a></li></ul></div>
+    <div class="seo-panel"><h3>Связанные темы</h3><ul><li><a href="{{ '/polezno/kak-vybrat-bank-dlya-ipoteki/' | relative_url }}">Как выбрать банк</a></li><li><a href="{{ '/polezno/kak-proverit-kreditnuyu-istoriyu-pered-ipotekoy/' | relative_url }}">Проверить кредитную историю</a></li><li><a href="{{ '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' | relative_url }}">Кредитная нагрузка</a></li><li><a href="{{ '/polezno/predvaritelnoe-odobrenie-ipoteki/' | relative_url }}">Предварительное одобрение</a></li><li><a href="{{ '/uslugi/otkazali-v-ipoteke/' | relative_url }}">Если уже был отказ</a></li><li><a href="{{ '/uslugi/slozhnaya-ipoteka/' | relative_url }}">Сложная ипотека</a></li></ul></div>
   </aside>
 </section>
 
@@ -54,6 +71,10 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Поче
     <div><strong>3</strong><span>Оценить объект: квартира, дом, новостройка, строительство или вторичка.</span></div>
     <div><strong>4</strong><span>Выбрать банк и программу под ситуацию, а не отправлять заявку наугад.</span></div>
   </div>
+</section>
+
+<section class="section compact-section">
+  <div class="notice"><div><p class="eyebrow">Можно начать дистанционно</p><h2>Соберите вводные до обращения в банк</h2><p>Короткая онлайн-заявка помогает сначала описать объект, доход, взнос и прошлые обращения, а уже затем определить следующий шаг.</p></div><a class="btn btn-dark" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Fpochemu-ne-stoit-podavat-zayavki-vo-vse-banki%2F">Заполнить онлайн-заявку</a></div>
 </section>
 
 <section class="section cta-section">
