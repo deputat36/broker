@@ -14,6 +14,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Пред
   <p class="lead">Предварительное одобрение помогает понять ориентир по сумме и платежу, но не означает автоматическую сделку. Банк отдельно проверяет объект, документы, финальные условия и актуальные данные заемщика.</p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Разобрать заявку</a>
+    <a class="btn btn-secondary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Предварительное одобрение ипотеки' | url_encode }}">Онлайн-заявка</a>
     <a class="btn btn-secondary" href="tel:+79030250807">Позвонить Татьяне</a>
   </div>
 </section>
@@ -46,9 +47,17 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Пред
       <li>сроки сделки, аванс, расчеты и регистрацию;</li>
       <li>материнский капитал, созаемщика или продажу старого жилья, если они участвуют в сделке.</li>
     </ul>
+    <p>Отдельно стоит понимать, <a class="text-link" href="{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | relative_url }}">почему банк может не согласовать конкретный объект</a>, даже если заемщик уже получил предварительное решение.</p>
+
+    <h2>Как оценка может изменить расчет</h2>
+    <p>Если оценочная стоимость окажется ниже цены продавца, банк может рассчитывать кредит от меньшей величины. В результате собственных средств понадобится больше. Разберите заранее <a class="text-link" href="{{ '/polezno/ocenka-nedvizhimosti-dlya-ipoteki/' | relative_url }}">как проходит оценка недвижимости</a> и что делать, если <a class="text-link" href="{{ '/polezno/ocenka-nizhe-ceny-prodavca/' | relative_url }}">оценка ниже цены продавца</a>.</p>
 
     <h2>Почему нельзя сразу расслабляться</h2>
     <p>Иногда клиент получает предварительное одобрение и сразу передает аванс, не проверив объект и условия возврата денег. Это рискованно: объект может не пройти банк, оценка может отличаться от цены, а срок сделки может оказаться слишком коротким.</p>
+    <p>До передачи денег полезно проверить <a class="text-link" href="{{ '/polezno/avans-zadatok-i-ipoteka/' | relative_url }}">условия аванса или задатка</a> и оценить, <a class="text-link" href="{{ '/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/' | relative_url }}">сколько времени может занять весь ипотечный маршрут</a>.</p>
+
+    <h2>Какие расходы еще проверить</h2>
+    <p>Кроме первоначального взноса могут быть расходы на оценку, страхование, регистрацию и другие действия по сделке. Полезно заранее посмотреть <a class="text-link" href="{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | relative_url }}">расходы при оформлении ипотеки</a> и <a class="text-link" href="{{ '/polezno/strahovanie-pri-ipoteke/' | relative_url }}">условия страхования</a>.</p>
 
     <h2>Что делать после одобрения</h2>
     <p>Нужно спокойно сверить сумму, платеж, срок действия решения, требования к объекту, расходы, документы и порядок выхода на сделку. Если есть сомнения, лучше обсудить их до подписания соглашений с продавцом.</p>
@@ -64,6 +73,8 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Пред
       <h3>Связанные материалы</h3>
       <ul>
         <li><a href="{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | relative_url }}">Почему банк не принимает объект</a></li>
+        <li><a href="{{ '/polezno/ocenka-nedvizhimosti-dlya-ipoteki/' | relative_url }}">Оценка недвижимости</a></li>
+        <li><a href="{{ '/polezno/strahovanie-pri-ipoteke/' | relative_url }}">Страхование</a></li>
         <li><a href="{{ '/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/' | relative_url }}">Сроки оформления ипотеки</a></li>
         <li><a href="{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | relative_url }}">Расходы при ипотеке</a></li>
         <li><a href="{{ '/kak-prohodit-rabota/' | relative_url }}">Как проходит работа</a></li>
@@ -83,16 +94,27 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Пред
   </div>
 </section>
 
+<section class="section related-section">
+  <div class="section-head"><p class="eyebrow">После решения банка</p><h2>Следующие проверки до сделки</h2></div>
+  <div class="grid cards-4">
+    <article class="card"><h3><a href="{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | relative_url }}">Проверка объекта</a></h3><p>Почему одобренный заемщик еще не означает автоматически одобренный объект.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/ocenka-nedvizhimosti-dlya-ipoteki/' | relative_url }}">Оценка недвижимости</a></h3><p>Как оценочная стоимость влияет на сумму кредита и собственные средства.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/strahovanie-pri-ipoteke/' | relative_url }}">Страхование</a></h3><p>Что учитывать в расходах и условиях банка до сделки.</p></article>
+    <article class="card"><h3><a href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Есть предварительное одобрение' | url_encode }}">Онлайн-заявка</a></h3><p>Передайте основные параметры решения банка и выбранного объекта.</p></article>
+  </div>
+</section>
+
 <section class="section compact-section"><div class="notice"><div><p class="eyebrow">Клиентам «ЭТАЖИ»</p><h2>Условия подтверждаются до начала работы</h2><p>Если покупка проводится через компанию «ЭТАЖИ», состав ипотечного сопровождения и порядок оплаты зависят от действующих условий компании и параметров конкретной сделки. До начала работы уточните, какие действия входят в услугу и предусмотрена ли отдельная оплата.</p></div><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Уточнить условия</a></div></section>
 
 <section class="section cta-section">
   <div>
     <p class="eyebrow">Нужно понять следующий шаг?</p>
     <h2>Разберите одобрение, объект и сроки до аванса</h2>
-    <p>Позвоните или напишите Татьяне: какой банк дал решение, какой объект выбран, какая цена, взнос, срок и есть ли условия продавца.</p>
+    <p>Позвоните, напишите или заполните онлайн-заявку: какой банк дал решение, какой объект выбран, какая цена, взнос, срок и есть ли условия продавца.</p>
   </div>
   <div class="cta-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Предварительное одобрение ипотеки' | url_encode }}">Онлайн-заявка</a>
+    <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
