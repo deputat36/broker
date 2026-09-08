@@ -1,8 +1,8 @@
 {
   "article": {
-    "min_words": 270,
-    "min_internal_links": 6,
-    "min_unique_internal_links": 4,
+    "min_words": 350,
+    "min_internal_links": 7,
+    "min_unique_internal_links": 6,
     "min_section_headings": 4
   },
   "hub": {
