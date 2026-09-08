@@ -14,7 +14,6 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Каки
   <p class="lead">Хорошая консультация начинается не с обещания одобрения, а с понятного разбора вашей ситуации: дохода, взноса, кредитов, объекта, сроков и возможных рисков перед заявкой.</p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Записаться на консультацию</a>
-    <a class="btn btn-secondary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Вопросы по ипотеке' | url_encode }}">Онлайн-заявка</a>
     <a class="btn btn-secondary" href="tel:+79030250807">Позвонить Татьяне</a>
   </div>
 </section>
@@ -41,7 +40,6 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Каки
   <article class="content-main">
     <h2>Что подготовить перед разговором</h2>
     <p>Для первичного разбора обычно достаточно коротко описать город, тип объекта, примерную цену, первоначальный взнос, доход, занятость, кредиты, кредитные карты, состав семьи и были ли уже заявки в банки.</p>
-    <p>Если хотите подготовить сообщение заранее, используйте материал <a class="text-link" href="{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | relative_url }}">что написать ипотечному брокеру</a>. Для первого контакта не нужно отправлять лишние персональные документы.</p>
 
     <h2>Какие вопросы лучше не откладывать</h2>
     <ul>
@@ -52,12 +50,6 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Каки
       <li>как не испортить заявку частыми обращениями в банки;</li>
       <li>что прописать перед авансом или задатком.</li>
     </ul>
-
-    <h2>Что спросить про банк и решение</h2>
-    <p>Полезно отдельно уточнить, почему предлагается конкретный банк, что сравнивается кроме ставки и какие условия могут измениться после проверки объекта. Для самостоятельной подготовки посмотрите <a class="text-link" href="{{ '/polezno/kak-vybrat-bank-dlya-ipoteki/' | relative_url }}">как выбрать банк для ипотеки</a> и чем <a class="text-link" href="{{ '/polezno/predvaritelnoe-odobrenie-ipoteki/' | relative_url }}">предварительное одобрение</a> отличается от финального согласования сделки.</p>
-
-    <h2>Что спросить про платеж</h2>
-    <p>Не ограничивайтесь вопросом «сколько банк даст». Лучше спросить, какой платеж выглядит комфортным после обязательных расходов и какой запас останется после сделки. Перед разговором можно сделать собственный ориентировочный расчет в <a class="text-link" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">ипотечном калькуляторе</a>.</p>
 
     <h2>Что брокер не должен обещать</h2>
     <p>Ипотечный брокер не принимает решение за банк и не может честно гарантировать одобрение. Задача специалиста — разобрать ситуацию, подготовить заявку, подобрать более логичный маршрут и помочь избежать очевидных ошибок.</p>
@@ -70,15 +62,13 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Каки
     <div class="seo-panel">
       <h3>Коротко напишите Татьяне</h3>
       <p>Город, объект, цена, взнос, доход, кредиты, карты, были ли отказы и какой вопрос нужно решить первым.</p>
-      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Вопросы ипотечному брокеру' | url_encode }}">Онлайн-заявка</a>
+      <a class="btn btn-primary" href="{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | relative_url }}">Что написать брокеру</a>
     </div>
     <div class="seo-panel">
       <h3>Связанные материалы</h3>
       <ul>
         <li><a href="{{ '/konsultaciya/' | relative_url }}">Консультация</a></li>
         <li><a href="{{ '/kak-prohodit-rabota/' | relative_url }}">Как проходит работа</a></li>
-        <li><a href="{{ '/polezno/kak-vybrat-bank-dlya-ipoteki/' | relative_url }}">Как выбрать банк</a></li>
-        <li><a href="{{ '/polezno/predvaritelnoe-odobrenie-ipoteki/' | relative_url }}">Предварительное одобрение</a></li>
         <li><a href="{{ '/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/' | relative_url }}">Сроки оформления</a></li>
         <li><a href="{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | relative_url }}">Расходы при ипотеке</a></li>
       </ul>
@@ -97,27 +87,16 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Каки
   </div>
 </section>
 
-<section class="section related-section">
-  <div class="section-head"><p class="eyebrow">Подготовка к консультации</p><h2>Полезные шаги до разговора</h2></div>
-  <div class="grid cards-4">
-    <article class="card"><h3><a href="{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | relative_url }}">Что написать брокеру</a></h3><p>Короткий шаблон первого сообщения без лишних документов.</p></article>
-    <article class="card"><h3><a href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Посчитать платеж</a></h3><p>Получить ориентир по сумме кредита и ежемесячному платежу.</p></article>
-    <article class="card"><h3><a href="{{ '/polezno/predvaritelnoe-odobrenie-ipoteki/' | relative_url }}">Разобраться в одобрении</a></h3><p>Понять, что предварительное решение банка еще не означает финальную сделку.</p></article>
-    <article class="card"><h3><a href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Консультация по ипотеке' | url_encode }}">Онлайн-заявка</a></h3><p>Передать основные вводные для первичного разбора.</p></article>
-  </div>
-</section>
-
 <section class="section compact-section"><div class="notice"><div><p class="eyebrow">Клиентам «ЭТАЖИ»</p><h2>Условия подтверждаются до начала работы</h2><p>Если покупка проводится через компанию «ЭТАЖИ», состав ипотечного сопровождения и порядок оплаты зависят от действующих условий компании и параметров конкретной сделки. До начала работы уточните, какие действия входят в услугу и предусмотрена ли отдельная оплата.</p></div><a class="btn btn-dark" href="{{ '/etagi/' | relative_url }}">Уточнить условия</a></div></section>
 
 <section class="section cta-section">
   <div>
     <p class="eyebrow">Готовы задать вопросы?</p>
     <h2>Начните с короткого описания ситуации</h2>
-    <p>Позвоните, напишите или заполните короткую онлайн-заявку: город, объект, взнос, доход, кредиты и главный вопрос по ипотеке.</p>
+    <p>Позвоните или напишите Татьяне: город, объект, взнос, доход, кредиты и главный вопрос по ипотеке.</p>
   </div>
   <div class="cta-actions">
-    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Вопросы ипотечному брокеру' | url_encode }}">Онлайн-заявка</a>
-    <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
+    <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
