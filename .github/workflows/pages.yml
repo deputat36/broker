@@ -32,6 +32,8 @@ jobs:
         run: |
           node --check assets/js/main.js
           node --check assets/js/mortgage-calculator.js
+          node --check assets/js/calculator-application-prefill.js
+          node --check assets/js/calculator-application-prefill-runtime.js
           node --check assets/js/application-delivery-keepalive.js
           node --check assets/js/application-inputs.js
           node --check assets/js/application-preparation.js
@@ -58,6 +60,7 @@ jobs:
             fi
           }
 
+          run_audit "JavaScript module composition" python3 scripts/audit-js-composition.py
           run_audit "Supabase backend v2 source" python3 scripts/audit-supabase-backend.py
           run_audit "Supabase function security config" python3 scripts/audit-supabase-function-config.py
           run_audit "Protected notification retry" python3 scripts/audit-notification-retry.py
