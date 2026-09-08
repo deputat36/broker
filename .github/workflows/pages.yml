@@ -102,6 +102,8 @@ jobs:
         with:
           source: ./
           destination: ./_site
+      - name: Make built site writable
+        run: sudo chown -R "$(id -u):$(id -g)" ./_site
       - name: Compact built HTML
         run: python3 scripts/compact-built-html.py ./_site
       - name: Run post-build audit suite
