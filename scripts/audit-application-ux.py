@@ -215,14 +215,24 @@ def main() -> int:
     style_file = site_dir / APPLICATION_STYLE.lstrip("/")
     if style_file.is_file():
         styles = style_file.read_text(encoding="utf-8", errors="ignore")
-        for marker in (
-            ".application-more", ".application-field-hint", ".application-step-label",
-            ".application-consent input[aria-invalid=\"true\"]",
-            ".application-consent input[aria-invalid=\"true\"] + span",
-            ".application-submit", "@media (max-width: 760px)",
-        ):
-            if marker not in styles:
-                error(f"В стилях короткой формы отсутствует маркер: {marker}", style_file)
+        style_patterns = (
+            (r"\.application-more\b", ".application-more"),
+            (r"\.application-field-hint\b", ".application-field-hint"),
+            (r"\.application-step-label\b", ".application-step-label"),
+            (
+                r"\.application-consent\s+input\[aria-invalid=[\"']true[\"']\]",
+                '.application-consent input[aria-invalid="true"]',
+            ),
+            (
+                r"\.application-consent\s+input\[aria-invalid=[\"']true[\"']\]\s*\+\s*span",
+                '.application-consent input[aria-invalid="true"] + span',
+            ),
+            (r"\.application-submit\b", ".application-submit"),
+            (r"@media\s*\(\s*max-width\s*:\s*760px\s*\)", "@media (max-width: 760px)"),
+        )
+        for pattern, label in style_patterns:
+            if not re.search(pattern, styles):
+                error(f"В стилях короткой формы отсутствует маркер: {label}", style_file)
                 errors += 1
 
     if errors:
