@@ -175,9 +175,10 @@
     }
 
     function trackCategory(category) {
-      track('online_application_endpoint_error');
+      if (typeof window.sendGoal !== 'function') return;
+      window.sendGoal('online_application_endpoint_error');
       const allowed = ['validation', 'rate_limit', 'rejected', 'backend', 'request'];
-      if (allowed.includes(category)) track(`online_application_endpoint_error_${category}`);
+      if (allowed.includes(category)) window.sendGoal(`online_application_endpoint_error_${category}`);
     }
 
     function captureEndpointError(payload) {
