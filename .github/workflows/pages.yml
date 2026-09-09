@@ -61,6 +61,7 @@ jobs:
 
           run_audit "JavaScript module composition" python3 scripts/audit-js-composition.py
           run_audit "Immutable GitHub Action pins" python3 scripts/audit-workflow-action-pins.py
+          run_audit "Online application scenario values" python3 scripts/audit-application-scenario-values.py
           run_audit "Supabase backend v2 source" python3 scripts/audit-supabase-backend.py
           run_audit "Supabase function security config" python3 scripts/audit-supabase-function-config.py
           run_audit "Protected notification retry" python3 scripts/audit-notification-retry.py
