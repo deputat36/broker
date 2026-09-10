@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Убирает только незначимые отступы перед HTML-тегами в собранном Pages-артефакте.
+"""Убирает незначимые пробелы из собранного Pages-артефакта.
 
-Текстовое содержимое, переносы строк, script/style/pre/code/textarea и атрибуты не
-изменяются. Скрипт нужен, чтобы не тратить performance budget на отступы шаблонов,
-которые повторяются на всех страницах.
+Вне script/style/pre/code/textarea удаляются отступы перед HTML-тегами, хвостовые
+пробелы и пустые строки. Текстовое содержимое, непустые переносы строк, атрибуты
+и whitespace-sensitive блоки не изменяются. Это возвращает performance headroom,
+не меняя смысл и структуру страниц.
 """
 
 from __future__ import annotations
@@ -14,6 +15,7 @@ from pathlib import Path
 
 
 TAG_INDENT_RE = re.compile(r"^[\t ]+(?=<)")
+TRAILING_WS_RE = re.compile(r"[\t ]+(?=\r?\n$)")
 PROTECTED_OPEN_RE = re.compile(r"<\s*(script|style|pre|code|textarea)\b", re.I)
 PROTECTED_CLOSE_RE = re.compile(r"<\s*/\s*(script|style|pre|code|textarea)\s*>", re.I)
 
@@ -29,7 +31,11 @@ def compact_html(path: Path) -> tuple[int, int]:
             open_match = PROTECTED_OPEN_RE.search(line)
             if open_match and not PROTECTED_CLOSE_RE.search(line):
                 protected = open_match.group(1).lower()
+
             line = TAG_INDENT_RE.sub("", line)
+            line = TRAILING_WS_RE.sub("", line)
+            if not line.strip():
+                continue
         else:
             close_match = PROTECTED_CLOSE_RE.search(line)
             if close_match and close_match.group(1).lower() == protected:
