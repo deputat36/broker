@@ -11,11 +11,11 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
 <section class="page-hero section">
   <p class="eyebrow">Для жителей районов</p>
   <h1>Как начать ипотеку дистанционно из района</h1>
-  <p class="lead">Первичный разбор ипотечной ситуации можно начать по телефону, в MAX или ВКонтакте. Это удобно, если вы живете в Грибановском районе, Поворино, Поворинском районе, Борисоглебском городском округе или временно находитесь в другом городе.</p>
+  <p class="lead">Первичный разбор ипотечной ситуации можно начать онлайн или по телефону. Это удобно, если вы живете в Грибановском районе, Поворино, Поворинском районе, Борисоглебском городском округе или временно находитесь в другом городе.</p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a>
-    <button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button>
-    <a class="btn btn-light" href="{{ '/konsultaciya/' | relative_url }}">Как проходит консультация</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=district_remote_hero">Начать онлайн</a>
+    <a class="btn btn-light" href="tel:+79030250807">Позвонить Татьяне</a>
+    <a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Как проходит консультация</a>
   </div>
 </section>
 
@@ -40,7 +40,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
 <section class="section content-layout">
   <article class="content-main">
     <h2>Что написать в первом сообщении</h2>
-    <p>Лучше отправить не просто «хочу ипотеку», а короткое описание ситуации. Так консультация будет предметной, а не превратится в длинную переписку с уточнениями.</p>
+    <p>Лучше отправить не просто «хочу ипотеку», а короткое описание ситуации. Так консультация будет предметной, а не превратится в длинную переписку с уточнениями. Готовый шаблон есть в материале <a class="text-link" href="{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | relative_url }}">«Что написать ипотечному брокеру»</a>.</p>
     <ul>
       <li>из какого вы города или района;</li>
       <li>что хотите купить: квартиру, дом, новостройку, вторичное жилье или строительство;</li>
@@ -56,7 +56,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
     <p>Не стоит присылать паспорт, СНИЛС, справки, выписки и другие персональные документы в открытые комментарии, неизвестные аккаунты или чаты без понимания, кому и зачем они передаются. На первом этапе чаще достаточно описания ситуации. Если понадобятся документы, порядок передачи лучше согласовать отдельно.</p>
 
     <h2>Когда дистанционного разбора достаточно</h2>
-    <p>Удаленно можно понять примерный порядок действий, какие данные уточнить, какие риски есть по доходу, нагрузке, взносу, объекту и предыдущим заявкам. Также можно подготовиться к общению с банком или к выбору объекта.</p>
+    <p>Удаленно можно понять примерный порядок действий, какие данные уточнить, какие риски есть по доходу, нагрузке, взносу, объекту и предыдущим заявкам. Также можно подготовиться к общению с банком или к выбору объекта. Этапы работы описаны на странице <a class="text-link" href="{{ '/kak-prohodit-rabota/' | relative_url }}">«Как проходит работа»</a>.</p>
 
     <h2>Когда может понадобиться личная встреча</h2>
     <p>Личная встреча или визит в офис может понадобиться, когда нужно подробно разобрать документы, согласовать сопровождение, связать ипотеку с покупкой конкретного объекта или обсудить сделку через компанию «ЭТАЖИ». Часть этапов все равно зависит от банка, объекта, продавца и формата сделки.</p>
@@ -65,8 +65,8 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
   <aside class="sidebar">
     <div class="seo-panel">
       <h3>Первичный разбор</h3>
-      <p>Подготовьте город, объект, цену, взнос, доход, кредиты и главный вопрос.</p>
-      <a class="btn btn-primary" href="{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | relative_url }}">Что написать брокеру</a>
+      <p>Подготовьте город, объект, цену, взнос, доход, кредиты и главный вопрос. Документы на первом шаге не нужны.</p>
+      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=district_remote_sidebar">Передать вводные</a>
     </div>
     <div class="seo-panel">
       <h3>Локальные страницы</h3>
@@ -82,7 +82,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
 </section>
 
 <section class="section muted">
-  <div class="section-head"><p class="eyebrow">Мини-чек-лист</p><h2>Перед звонком или сообщением</h2></div>
+  <div class="section-head"><p class="eyebrow">Мини-чек-лист</p><h2>Перед дистанционным обращением</h2></div>
   <div class="checklist">
     <div><strong>1</strong><span>Определите, что хотите купить и где находится объект.</span></div>
     <div><strong>2</strong><span>Запишите примерную цену, взнос и комфортный платеж.</span></div>
@@ -97,11 +97,12 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
 <section class="section cta-section">
   <div>
     <p class="eyebrow">Можно начать удаленно</p>
-    <h2>Позвоните или напишите Татьяне</h2>
-    <p>Коротко опишите город, объект, взнос, доход, кредиты и главный вопрос по ипотеке.</p>
+    <h2>Передайте вводные без поездки в офис</h2>
+    <p>Укажите город, объект, взнос, доход, кредиты и главный вопрос. Паспортные данные и документы в первичной форме не требуются.</p>
   </div>
   <div class="cta-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=district_remote_footer">Начать онлайн</a>
+    <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
