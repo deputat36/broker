@@ -13,8 +13,9 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оцен
   <h1>Оценка недвижимости для ипотеки: зачем она нужна</h1>
   <p class="lead">При ипотеке банк смотрит не только на заемщика, но и на объект. Оценка помогает банку понять стоимость залога, а покупателю заранее увидеть риски по сумме кредита, первоначальному взносу и сделке.</p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Разобрать объект</a>
-    <a class="btn btn-secondary" href="tel:+79030250807">Позвонить Татьяне</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=appraisal_hero">Разобрать объект онлайн</a>
+    <a class="btn btn-light" href="tel:+79030250807">Позвонить Татьяне</a>
+    <a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Консультация</a>
   </div>
 </section>
 
@@ -52,17 +53,17 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оцен
     </ul>
 
     <h2>Что делать до передачи аванса</h2>
-    <p>Если объект уже выбран, лучше заранее понять, какие требования к нему предъявляет банк и что будет с авансом, если оценка окажется ниже цены или объект не пройдет проверку.</p>
+    <p>Если объект уже выбран, лучше заранее понять, какие требования к нему предъявляет банк и что будет с авансом, если оценка окажется ниже цены или объект не пройдет проверку. Отдельно проверьте <a class="text-link" href="{{ '/polezno/avans-zadatok-i-ipoteka/' | relative_url }}">аванс и задаток при ипотеке</a>.</p>
 
     <h2>Чем помогает брокер</h2>
-    <p>Ипотечный брокер не заменяет оценщика, юриста или технического специалиста. Но он помогает заранее сопоставить объект, программу, требования банка, сроки и ипотечный маршрут, чтобы не подавать заявку вслепую.</p>
+    <p>Ипотечный брокер не заменяет оценщика, юриста или технического специалиста. Но он помогает заранее сопоставить объект, программу, требования банка, сроки и ипотечный маршрут, чтобы не подавать заявку вслепую. Если банк уже сделал замечание по недвижимости, используйте разбор <a class="text-link" href="{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | relative_url }}">причин несогласования объекта</a>.</p>
   </article>
 
   <aside class="sidebar">
     <div class="seo-panel">
       <h3>Объект уже выбран?</h3>
-      <p>Подготовьте тип объекта, город, цену, взнос и известные документы. Это поможет понять, где могут быть риски.</p>
-      <a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Консультация</a>
+      <p>Подготовьте тип объекта, город, цену, взнос и известные документы. Паспортные данные в первичной форме не нужны.</p>
+      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=appraisal_sidebar">Передать вводные</a>
     </div>
     <div class="seo-panel">
       <h3>Связанные материалы</h3>
@@ -94,10 +95,11 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Оцен
   <div>
     <p class="eyebrow">Проверить объект до заявки</p>
     <h2>Разберите оценку, взнос и ипотечный маршрут заранее</h2>
-    <p>Позвоните или напишите Татьяне: какой объект выбран, цена, взнос, город, банк и есть ли уже предварительное решение.</p>
+    <p>Укажите объект, цену, взнос, город, банк и есть ли уже предварительное решение.</p>
   </div>
   <div class="cta-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=appraisal_footer">Разобрать объект</a>
+    <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
