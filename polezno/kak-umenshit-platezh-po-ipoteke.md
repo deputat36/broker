@@ -14,14 +14,15 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
   <p class="lead">Если платеж кажется тяжелым, не всегда нужно сразу отказываться от покупки. Иногда помогает другой срок, больший первоначальный взнос, другой объект, созаемщик, подготовка кредитной нагрузки или более аккуратный выбор банка.</p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Посчитать платеж</a>
-    <a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Разобрать ситуацию</a>
+    <a class="btn btn-secondary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=lower_payment_hero">Передать параметры онлайн</a>
+    <a class="btn btn-light" href="{{ '/konsultaciya/' | relative_url }}">Консультация</a>
   </div>
 </section>
 
 <section class="section content-layout">
   <article class="content-main">
     <h2>Почему платеж может оказаться выше ожиданий</h2>
-    <p>Платеж зависит не только от стоимости жилья. На него влияют сумма кредита, срок, ставка, первоначальный взнос, программа, требования банка, страховка и дополнительные расходы по сделке.</p>
+    <p>Платеж зависит не только от стоимости жилья. На него влияют сумма кредита, срок, ставка, первоначальный взнос, программа, требования банка, <a class="text-link" href="{{ '/polezno/strahovanie-pri-ipoteke/' | relative_url }}">страхование</a> и <a class="text-link" href="{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | relative_url }}">дополнительные расходы по сделке</a>.</p>
     <p>Поэтому перед покупкой важно считать не только “сколько одобрит банк”, но и “какой платеж будет комфортным после сделки”.</p>
 
     <h2>Способы снизить будущий платеж</h2>
@@ -31,7 +32,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
       <li>выбрать объект дешевле или пересмотреть требования к площади и району;</li>
       <li>сравнить банки и программы, а не подавать заявку наугад;</li>
       <li>снизить кредитную нагрузку до подачи заявки;</li>
-      <li>проверить, нужен ли созаемщик и помогает ли он в конкретной ситуации;</li>
+      <li>проверить, нужен ли <a class="text-link" href="{{ '/polezno/sozaemshchik-po-ipoteke/' | relative_url }}">созаемщик</a> и помогает ли он в конкретной ситуации;</li>
       <li>заранее учесть страховку, оценку, ремонт, переезд и резерв после сделки.</li>
     </ul>
 
@@ -51,8 +52,9 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
   <aside class="sidebar">
     <div class="seo-panel">
       <h3>Быстрый расчет</h3>
-      <p>Сначала посчитайте ориентир в калькуляторе, затем обсудите с Татьяной, насколько платеж реалистичен для вашей ситуации.</p>
+      <p>Сначала посчитайте ориентир в калькуляторе, затем передайте стоимость объекта, взнос, доход, кредиты и желаемый платеж.</p>
       <a class="btn btn-primary" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Открыть калькулятор</a>
+      <a class="btn btn-secondary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=lower_payment_sidebar">Передать расчет</a>
     </div>
     <div class="seo-panel">
       <h3>Связанные материалы</h3>
@@ -96,11 +98,12 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
 <section class="section cta-section">
   <div>
     <p class="eyebrow">Платеж кажется высоким?</p>
-    <h2>Разберите варианты до подачи заявки</h2>
-    <p>Позвоните или напишите Татьяне: стоимость объекта, взнос, доход, кредиты и желаемый платеж.</p>
+    <h2>Передайте параметры для разбора</h2>
+    <p>Укажите стоимость объекта, взнос, доход, кредиты и желаемый платеж. Конкретное решение по заявке принимает банк.</p>
   </div>
   <div class="cta-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=lower_payment_footer">Разобрать варианты</a>
+    <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
