@@ -14,7 +14,8 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Расх
   <p class="lead">Ежемесячный платеж — не единственная сумма, которую нужно планировать. До сделки важно заранее посчитать первоначальный взнос, оценку, страхование, оформление документов, аванс и финансовый резерв после покупки.</p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Посчитать платеж</a>
-    <a class="btn btn-secondary" href="tel:+79030250807">Позвонить Татьяне</a>
+    <a class="btn btn-secondary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=mortgage_costs_hero">Передать бюджет онлайн</a>
+    <a class="btn btn-light" href="tel:+79030250807">Позвонить Татьяне</a>
   </div>
 </section>
 
@@ -25,14 +26,14 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Расх
     <p>Точный список зависит от банка, объекта, программы и схемы сделки. Ниже — расходы, которые стоит проверить до подачи заявки и передачи аванса.</p>
   </div>
   <div class="grid cards-4">
-    <article class="card"><h3>Первоначальный взнос</h3><p>Собственные средства, материнский капитал или другая понятная схема внесения денег.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/pervonachalnyy-vznos-po-ipoteke/' | relative_url }}">Первоначальный взнос</a></h3><p>Собственные средства, материнский капитал или другая понятная схема внесения денег.</p></article>
     <article class="card"><h3><a href="{{ '/polezno/ocenka-nedvizhimosti-dlya-ipoteki/' | relative_url }}">Оценка объекта</a></h3><p>Банку может потребоваться отчет об оценке квартиры, дома или другого объекта.</p></article>
     <article class="card"><h3><a href="{{ '/polezno/strahovanie-pri-ipoteke/' | relative_url }}">Страхование</a></h3><p>Условия зависят от банка, программы, объекта и выбранного набора страховой защиты.</p></article>
     <article class="card"><h3>Регистрация и документы</h3><p>Госпошлины, справки, нотариальные действия или дополнительные документы по ситуации.</p></article>
     <article class="card"><h3>Услуги специалистов</h3><p>Юрист, оценщик, технический специалист или кадастровый инженер могут понадобиться при сложном объекте.</p></article>
-    <article class="card"><h3>Аванс или задаток</h3><p>Перед передачей денег важно понимать, что будет при отказе банка или проблеме с объектом.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/avans-zadatok-i-ipoteka/' | relative_url }}">Аванс или задаток</a></h3><p>Перед передачей денег важно понимать, что будет при отказе банка или проблеме с объектом.</p></article>
     <article class="card"><h3>Переезд и ремонт</h3><p>После сделки часто появляются расходы, которые не видны в ипотечном расчете.</p></article>
-    <article class="card"><h3>Финансовый резерв</h3><p>Лучше не отдавать весь запас в сделку, если после покупки не остается денег на жизнь.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/' | relative_url }}">Финансовый резерв</a></h3><p>Лучше не отдавать весь запас в сделку, если после покупки не остается денег на жизнь.</p></article>
   </div>
 </section>
 
@@ -54,8 +55,9 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Расх
   <aside class="sidebar">
     <div class="seo-panel">
       <h3>Быстрый расчет</h3>
-      <p>Калькулятор поможет прикинуть платеж, но дополнительные расходы лучше обсуждать по конкретной сделке.</p>
+      <p>Сначала посчитайте платеж, затем передайте город, стоимость объекта, взнос, доход и кредиты. Точные дополнительные расходы зависят от конкретной сделки.</p>
       <a class="btn btn-primary" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Ипотечный калькулятор</a>
+      <a class="btn btn-secondary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=mortgage_costs_sidebar">Передать бюджет</a>
     </div>
     <div class="seo-panel">
       <h3>Связанные материалы</h3>
@@ -87,11 +89,12 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Расх
 <section class="section cta-section">
   <div>
     <p class="eyebrow">Хотите понять бюджет сделки?</p>
-    <h2>Разберите платеж и дополнительные расходы заранее</h2>
-    <p>Позвоните или напишите Татьяне: город, стоимость объекта, взнос, доход, кредиты и выбранный тип жилья.</p>
+    <h2>Передайте платеж и основные расходы для разбора</h2>
+    <p>Укажите город, стоимость объекта, взнос, доход, кредиты и выбранный тип жилья. Точный бюджет зависит от банка, объекта и схемы сделки.</p>
   </div>
   <div class="cta-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=mortgage_costs_footer">Разобрать бюджет</a>
+    <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
