@@ -14,7 +14,8 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Скол
   <p class="lead">Универсальной зарплаты “для одобрения ипотеки” нет. Банк смотрит не только доход, но и платеж, кредиты, состав семьи, первоначальный взнос, объект и выбранную программу.</p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Посчитать платеж</a>
-    <a class="btn btn-secondary" href="tel:+79030250807">Позвонить Татьяне</a>
+    <a class="btn btn-secondary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=income_readiness_hero">Передать вводные онлайн</a>
+    <a class="btn btn-light" href="tel:+79030250807">Позвонить Татьяне</a>
   </div>
 </section>
 
@@ -25,10 +26,10 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Скол
     <p>Один и тот же доход может выглядеть по-разному: у одного заемщика нет кредитов и большой взнос, у другого есть кредитные карты, рассрочки, алименты или несколько иждивенцев.</p>
   </div>
   <div class="grid cards-4">
-    <article class="card"><h3>Доход</h3><p>Официальная зарплата, ИП, самозанятость, смешанный доход или дополнительные поступления.</p></article>
-    <article class="card"><h3>Кредиты</h3><p>Платежи по кредитам, рассрочкам и кредитным картам уменьшают запас для ипотеки.</p></article>
-    <article class="card"><h3>Взнос</h3><p>Чем больше первоначальный взнос, тем меньше сумма кредита и будущий платеж.</p></article>
-    <article class="card"><h3>Объект</h3><p>Квартира, дом, новостройка или строительство могут иметь разные требования банка.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/ipoteka-s-malenkoy-oficialnoy-zarplatoy/' | relative_url }}">Доход</a></h3><p>Официальная зарплата, ИП, самозанятость, смешанный доход или дополнительные поступления.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/kreditnaya-nagruzka-pered-ipotekoy/' | relative_url }}">Кредиты</a></h3><p>Платежи по кредитам, рассрочкам и кредитным картам уменьшают запас для ипотеки.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/pervonachalnyy-vznos-po-ipoteke/' | relative_url }}">Взнос</a></h3><p>Чем больше первоначальный взнос, тем меньше сумма кредита и будущий платеж.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | relative_url }}">Объект</a></h3><p>Квартира, дом, новостройка или строительство могут иметь разные требования банка.</p></article>
   </div>
 </section>
 
@@ -58,8 +59,9 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Скол
   <aside class="sidebar">
     <div class="seo-panel">
       <h3>Нужен расчет по доходу?</h3>
-      <p>Подготовьте доход, кредиты, взнос, город и примерную стоимость жилья. Первичный разбор бесплатный.</p>
-      <a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Консультация</a>
+      <p>Подготовьте доход, кредиты, взнос, город и примерную стоимость жилья. Документы в первичной форме не нужны.</p>
+      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=income_readiness_sidebar">Передать вводные</a>
+      <a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Консультация</a>
     </div>
     <div class="seo-panel">
       <h3>Связанные материалы</h3>
@@ -90,11 +92,12 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Скол
 <section class="section cta-section">
   <div>
     <p class="eyebrow">Хотите понять реальный платеж?</p>
-    <h2>Разберите доход и нагрузку до заявки</h2>
-    <p>Позвоните или напишите Татьяне: доход, кредиты, взнос, стоимость жилья, город и были ли заявки в банки.</p>
+    <h2>Передайте доход и нагрузку до заявки</h2>
+    <p>Укажите доход, кредиты, взнос, стоимость жилья, город и были ли заявки в банки. Универсальной суммы дохода, гарантирующей решение банка, нет.</p>
   </div>
   <div class="cta-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=income_readiness_footer">Разобрать вводные</a>
+    <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
