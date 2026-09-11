@@ -13,7 +13,8 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Каки
   <h1>Какие вопросы задать ипотечному брокеру</h1>
   <p class="lead">Хорошая консультация начинается не с обещания одобрения, а с понятного разбора вашей ситуации: дохода, взноса, кредитов, объекта, сроков и возможных рисков перед заявкой.</p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Записаться на консультацию</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=broker_questions_hero">Задать вопросы онлайн</a>
+    <a class="btn btn-light" href="{{ '/konsultaciya/' | relative_url }}">Как проходит консультация</a>
     <a class="btn btn-secondary" href="tel:+79030250807">Позвонить Татьяне</a>
   </div>
 </section>
@@ -26,13 +27,13 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Каки
   </div>
   <div class="grid cards-4">
     <article class="card"><h3>Какие у меня слабые места?</h3><p>Доход, кредитная нагрузка, история, взнос, объект или прошлые заявки.</p></article>
-    <article class="card"><h3>Какие банки смотреть?</h3><p>Банк выбирают под заемщика, объект и программу, а не только по рекламной ставке.</p></article>
-    <article class="card"><h3>Какой платеж будет комфортным?</h3><p>Важно считать не только максимум банка, но и реальный семейный бюджет.</p></article>
-    <article class="card"><h3>Какие документы подготовить?</h3><p>Список зависит от занятости, дохода, семейной ситуации, объекта и программы.</p></article>
-    <article class="card"><h3>Подходит ли объект?</h3><p>Квартира, дом, участок или новостройка могут проверяться банком по-разному.</p></article>
-    <article class="card"><h3>Сколько времени займет процесс?</h3><p>Срок зависит от банка, документов, объекта, оценки, страховки и сделки.</p></article>
-    <article class="card"><h3>Какие расходы учесть?</h3><p>Первоначальный взнос, оценка, страхование, документы, аванс и резерв после сделки.</p></article>
-    <article class="card"><h3>Что делать после отказа?</h3><p>Не стоит сразу подавать новую заявку, пока не понятна возможная причина отказа.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/kak-vybrat-bank-dlya-ipoteki/' | relative_url }}">Какие банки смотреть?</a></h3><p>Банк выбирают под заемщика, объект и программу, а не только по рекламной ставке.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/kak-ponyat-komfortnyy-platezh-po-ipoteke/' | relative_url }}">Какой платеж будет комфортным?</a></h3><p>Важно считать не только максимум банка, но и реальный семейный бюджет.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/dokumenty-dlya-ipoteki/' | relative_url }}">Какие документы подготовить?</a></h3><p>Список зависит от занятости, дохода, семейной ситуации, объекта и программы.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/pochemu-bank-ne-odobryaet-obekt-ipoteki/' | relative_url }}">Подходит ли объект?</a></h3><p>Квартира, дом, участок или новостройка могут проверяться банком по-разному.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/' | relative_url }}">Сколько времени займет процесс?</a></h3><p>Срок зависит от банка, документов, объекта, оценки, страховки и сделки.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | relative_url }}">Какие расходы учесть?</a></h3><p>Первоначальный взнос, оценка, страхование, документы, аванс и резерв после сделки.</p></article>
+    <article class="card"><h3><a href="{{ '/polezno/chto-delat-posle-otkaza/' | relative_url }}">Что делать после отказа?</a></h3><p>Не стоит сразу подавать новую заявку, пока не понятна возможная причина отказа.</p></article>
   </div>
 </section>
 
@@ -60,14 +61,14 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Каки
 
   <aside class="sidebar">
     <div class="seo-panel">
-      <h3>Коротко напишите Татьяне</h3>
+      <h3>Коротко опишите ситуацию</h3>
       <p>Город, объект, цена, взнос, доход, кредиты, карты, были ли отказы и какой вопрос нужно решить первым.</p>
-      <a class="btn btn-primary" href="{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | relative_url }}">Что написать брокеру</a>
+      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=broker_questions_sidebar">Передать вводные</a>
     </div>
     <div class="seo-panel">
       <h3>Связанные материалы</h3>
       <ul>
-        <li><a href="{{ '/konsultaciya/' | relative_url }}">Консультация</a></li>
+        <li><a href="{{ '/polezno/chto-napisat-ipotechnomu-brokeru/' | relative_url }}">Что написать брокеру</a></li>
         <li><a href="{{ '/kak-prohodit-rabota/' | relative_url }}">Как проходит работа</a></li>
         <li><a href="{{ '/polezno/skolko-vremeni-zanimaet-oformlenie-ipoteki/' | relative_url }}">Сроки оформления</a></li>
         <li><a href="{{ '/polezno/rashody-pri-oformlenii-ipoteki/' | relative_url }}">Расходы при ипотеке</a></li>
@@ -93,7 +94,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Каки
   <div>
     <p class="eyebrow">Готовы задать вопросы?</p>
     <h2>Начните с короткого описания ситуации</h2>
-    <p>Позвоните или напишите Татьяне: город, объект, взнос, доход, кредиты и главный вопрос по ипотеке.</p>
+    <p>Укажите город, объект, взнос, доход, кредиты и главный вопрос по ипотеке.</p>
   </div>
   <div class="cta-actions">
     <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=broker_questions_footer">Онлайн-заявка</a>
