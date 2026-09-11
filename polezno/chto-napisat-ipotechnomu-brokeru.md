@@ -13,8 +13,9 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Что �
   <h1>Что написать ипотечному брокеру</h1>
   <p class="lead">Чтобы первичный разбор прошел быстрее, лучше сразу кратко описать задачу: что хотите купить, где, какой взнос есть, какой доход, есть ли кредиты и были ли заявки в банки.</p>
   <div class="hero-actions">
-    <button class="btn btn-primary" type="button" data-copy-phone>Скопировать телефон для MAX</button>
-    <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">Написать ВКонтакте</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=first_message_hero">Передать вводные онлайн</a>
+    <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
+    <a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a>
   </div>
 </section>
 
@@ -64,9 +65,9 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Что �
 
   <aside class="sidebar">
     <div class="seo-panel">
-      <h3>Контакты</h3>
-      <p>Телефон и MAX: 8 903 025-08-07. Можно также написать на страницу ВКонтакте.</p>
-      <div class="hero-actions"><button class="btn btn-primary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
+      <h3>Передать вводные</h3>
+      <p>Город, объект, цена, взнос, доход, кредиты, карты, прошлые заявки и главный вопрос. Документы на первом шаге не нужны.</p>
+      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=first_message_sidebar">Заполнить короткую форму</a>
     </div>
     <div class="seo-panel">
       <h3>Связанные темы</h3>
@@ -110,12 +111,13 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Что �
 
 <section class="section cta-section">
   <div>
-    <p class="eyebrow">Готовы написать?</p>
-    <h2>Отправьте вводные Татьяне</h2>
-    <p>Для первичного разговора достаточно коротко описать ситуацию по шаблону выше.</p>
+    <p class="eyebrow">Готовы передать вводные?</p>
+    <h2>Заполните короткую онлайн-заявку</h2>
+    <p>Для первичного разбора достаточно описания ситуации по шаблону выше. Паспортные данные и документы в форме не требуются.</p>
   </div>
   <div class="cta-actions">
-    <a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=first_message_footer">Передать вводные</a>
+    <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
     <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
