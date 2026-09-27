@@ -80,6 +80,7 @@ def main() -> int:
         "request_id: payload.request_id",
         "tracking_json: JSON.stringify(tracking)",
         "message: preparedText",
+        "placement: current.placement || ''",
         "utm_source: current.utm_source || ''",
         "personal_data_consent: payload.personal_data_consent",
         "body: JSON.stringify(emailPayload)",

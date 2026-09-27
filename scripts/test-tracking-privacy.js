@@ -167,7 +167,7 @@ const validStored = {
     captured_at: new Date(now - DAY_MS).toISOString(),
     values: { utm_source: 'vk' }
   },
-  current: { utm_source: 'vk', unknown_key: 'drop-me' },
+  current: { utm_source: 'vk', placement: 'stale_cta', unknown_key: 'drop-me' },
   stored_at: new Date(now - DAY_MS).toISOString(),
   expires_at: new Date(now - DAY_MS + 90 * DAY_MS).toISOString()
 };
@@ -181,12 +181,21 @@ const validVisit = runBrowser({
 assert(validVisit.tracking.first_touch.page_title === 'Первый визит', 'Корректный first_touch не сохранён');
 assert(validVisit.tracking.current.utm_source === 'vk', 'Сохранённая allowlist UTM потеряна');
 assert(validVisit.tracking.current.utm_medium === 'retarget', 'Новая allowlist UTM не объединена');
+assert(!Object.hasOwn(validVisit.tracking.current, 'placement'), 'Старый placement ошибочно унаследован без текущей CTA-метки');
 assert(!Object.hasOwn(validVisit.tracking.current, 'unknown_key'), 'Неизвестный ключ пережил санитизацию');
 assert(
   validVisit.tracking.last_touch.referrer === 'https://sterlikova-ipoteka.ru/uslugi/',
   'Внутренний referrer должен сохранять только origin+path'
 );
 assertNoSecrets(validVisit, ['79995555555', 'client=private', '#fragment', 'drop-me'], 'Корректная запись');
+
+const placementVisit = runBrowser({
+  href: 'https://sterlikova-ipoteka.ru/online-zayavka/?placement=contacts_hero',
+  storedTracking: validVisit.tracking
+});
+
+assert(placementVisit.tracking.current.utm_source === 'vk', 'Долгосрочная UTM потеряна при новом CTA-переходе');
+assert(placementVisit.tracking.current.placement === 'contacts_hero', 'Текущий placement CTA не сохранён');
 
 const farFutureVisit = runBrowser({
   href: 'https://sterlikova-ipoteka.ru/?utm_campaign=fresh',
