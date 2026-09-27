@@ -363,7 +363,7 @@
     const current = tracking.current || {};
     const emailPayload = {
       access_key: leadConfig.web3formsAccessKey,
-      subject: `Новая заявка ипотечному брокеру — ${payload.mortgage.scenario}`,
+      subject: `Новая заявка ипотечному брокеру — ${payload.qualification.priority} — ${payload.mortgage.scenario}`,
       from_name: 'Сайт ипотечного брокера Татьяны Стерликовой',
       name: payload.client.name,
       phone: payload.client.phone,
