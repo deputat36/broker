@@ -11,7 +11,7 @@ og_type: "article"
   <h1>Материнский капитал в ипотеке: что важно знать до сделки</h1>
   <p class="lead">Маткапитал может стать частью ипотечного маршрута, но его нельзя рассматривать отдельно от банка, объекта, продавца, документов семьи и будущего оформления долей.</p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Fmatkapital-v-ipoteke%2F&amp;scenario=Материнский%20капитал">Разобрать свой сценарий</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Fmatkapital-v-ipoteke%2F&amp;scenario=Материнский%20капитал&amp;placement=matcapital_guide_hero">Разобрать свой сценарий</a>
     <a class="btn btn-secondary" href="tel:+79030250807">Позвонить Татьяне</a>
   </div>
 </section>
@@ -75,7 +75,7 @@ og_type: "article"
     <div class="seo-panel">
       <h3>Что сообщить Татьяне</h3>
       <p>Город, объект, семейная ситуация, сертификат, собственные средства, доход и действующие кредиты.</p>
-      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Fmatkapital-v-ipoteke%2F&amp;scenario=Материнский%20капитал">Онлайн-заявка</a>
+      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Fmatkapital-v-ipoteke%2F&amp;scenario=Материнский%20капитал&amp;placement=matcapital_guide_sidebar">Онлайн-заявка</a>
     </div>
     <div class="seo-panel">
       <h3>Связанные маршруты</h3>
