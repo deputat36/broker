@@ -12,7 +12,7 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
   <p class="eyebrow">Ответы ипотечного брокера</p>
   <h1>Частые вопросы по ипотеке</h1>
   <p class="lead">Стоимость сопровождения, документы, доход, первоначальный взнос, ошибки подготовки, отказы банков и условия для клиентов компании «ЭТАЖИ».</p>
-  <div class="hero-actions"><a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}">Заполнить онлайн-заявку</a><a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Получить консультацию</a><a class="btn btn-secondary" href="tel:+79030250807">Позвонить Татьяне</a></div>
+  <div class="hero-actions"><a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=faq_hero">Заполнить онлайн-заявку</a><a class="btn btn-secondary" href="{{ '/konsultaciya/' | relative_url }}">Получить консультацию</a><a class="btn btn-secondary" href="tel:+79030250807">Позвонить Татьяне</a></div>
 </section>
 
 <section class="section">
@@ -35,5 +35,5 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
 
 <section class="section cta-section">
   <div><p class="eyebrow">Нужен ответ по вашей ситуации?</p><h2>Передайте вводные Татьяне</h2><p>Заполните короткую анкету или свяжитесь напрямую. Первичная консультация бесплатная.</p></div>
-  <div class="cta-actions"><a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}">Онлайн-заявка</a><a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
+  <div class="cta-actions"><a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=faq_footer">Онлайн-заявка</a><a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
 </section>
