@@ -13,7 +13,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ошиб
   <h1>Ошибки при подготовке к ипотеке</h1>
   <p class="lead">Большинство проблем начинается не в момент решения банка, а раньше: при хаотичных заявках, новых кредитах, неподходящем объекте, поспешном задатке или неполных вводных.</p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Foshibki-pri-podgotovke-k-ipoteke%2F&amp;scenario=Первичная%20консультация%20и%20подбор%20ипотеки">Проверить готовность</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Foshibki-pri-podgotovke-k-ipoteke%2F&amp;scenario=Первичная%20консультация%20и%20подбор%20ипотеки&amp;placement=preparation_errors_hero">Проверить готовность</a>
     <a class="btn btn-secondary" href="tel:+79030250807">Позвонить Татьяне</a>
   </div>
 </section>
@@ -76,14 +76,14 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Ошиб
 
     <h2>Чем помогает брокер</h2>
     <p>Ипотечный брокер не гарантирует одобрение и не принимает решение вместо банка. Он помогает собрать вводные, выявить противоречия, выбрать порядок действий и не потерять важные проверки между заемщиком, объектом и сделкой.</p>
-    <p>Для первичного разбора можно заполнить <a class="text-link" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Foshibki-pri-podgotovke-k-ipoteke%2F&amp;scenario=Первичная%20консультация%20и%20подбор%20ипотеки">структурированную онлайн-заявку</a>.</p>
+    <p>Для первичного разбора можно заполнить <a class="text-link" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Foshibki-pri-podgotovke-k-ipoteke%2F&amp;scenario=Первичная%20консультация%20и%20подбор%20ипотеки&amp;placement=preparation_errors_body">структурированную онлайн-заявку</a>.</p>
   </article>
 
   <aside class="sidebar">
     <div class="seo-panel">
       <h3>Начните с вводных</h3>
       <p>Объект, город, собственные средства, доход, кредиты, карты и прошлые обращения.</p>
-      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Foshibki-pri-podgotovke-k-ipoteke%2F&amp;scenario=Первичная%20консультация%20и%20подбор%20ипотеки">Проверить готовность</a>
+      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Foshibki-pri-podgotovke-k-ipoteke%2F&amp;scenario=Первичная%20консультация%20и%20подбор%20ипотеки&amp;placement=preparation_errors_sidebar">Проверить готовность</a>
     </div>
     <div class="seo-panel">
       <h3>Связанные темы</h3>

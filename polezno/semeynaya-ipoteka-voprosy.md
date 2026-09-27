@@ -11,7 +11,7 @@ og_type: "article"
   <h1>Семейная ипотека: что уточнить до подачи заявки</h1>
   <p class="lead">Подходить по семейной ситуации недостаточно. Нужно отдельно проверить заемщиков, выбранный объект, собственные средства, документы и актуальные правила программы.</p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Fsemeynaya-ipoteka-voprosy%2F&amp;scenario=Семейная%20ипотека">Проверить свой сценарий</a>
+    <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Fsemeynaya-ipoteka-voprosy%2F&amp;scenario=Семейная%20ипотека&amp;placement=family_questions_hero">Проверить свой сценарий</a>
     <a class="btn btn-secondary" href="tel:+79030250807">Позвонить Татьяне</a>
   </div>
 </section>
@@ -66,7 +66,7 @@ og_type: "article"
     <div class="seo-panel">
       <h3>Проверить семейный сценарий</h3>
       <p>Укажите состав семьи, город, объект, доход, кредиты и собственные средства.</p>
-      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Fsemeynaya-ipoteka-voprosy%2F&amp;scenario=Семейная%20ипотека">Онлайн-заявка</a>
+      <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source=%2Fpolezno%2Fsemeynaya-ipoteka-voprosy%2F&amp;scenario=Семейная%20ипотека&amp;placement=family_questions_sidebar">Онлайн-заявка</a>
     </div>
     <div class="seo-panel">
       <h3>Связанные страницы</h3>
