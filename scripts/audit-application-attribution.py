@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Проверяет атрибуцию контекстных переходов в онлайн-заявку."""
+"""Проверяет атрибуцию переходов в онлайн-заявку после сборки сайта."""
 
 from __future__ import annotations
 
@@ -11,7 +11,6 @@ from urllib.parse import parse_qs, urlsplit
 
 
 APPLICATION_PATH = "/online-zayavka/"
-REQUIRED_PARAMS = ("source", "scenario", "placement")
 PLACEMENT_RE = re.compile(r"^[a-z0-9][a-z0-9_-]{1,63}$")
 
 
@@ -42,6 +41,13 @@ def page_url(site_dir: Path, page: Path) -> str:
     return "/" + relative.as_posix()
 
 
+def one_nonempty(params: dict[str, list[str]], name: str) -> str:
+    values = params.get(name, [])
+    if len(values) != 1:
+        return ""
+    return values[0].strip()
+
+
 def main() -> int:
     site_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
     if not site_dir.is_dir():
@@ -49,9 +55,10 @@ def main() -> int:
         return 1
 
     failures = 0
-    contextual_links = 0
     neutral_links = 0
-    pages_with_contextual_links = 0
+    source_prefill_links = 0
+    explicit_links = 0
+    pages_with_explicit_links = 0
 
     for page in sorted(site_dir.rglob("*.html")):
         try:
@@ -65,70 +72,81 @@ def main() -> int:
         parser.feed(raw_html)
         current_url = page_url(site_dir, page)
         placements: set[str] = set()
-        page_has_context = False
+        page_has_explicit = False
 
         for link in parser.links:
             parsed = urlsplit(link)
             if parsed.path.rstrip("/") + "/" != APPLICATION_PATH:
                 continue
 
-            # Обычные навигационные ссылки на анкету могут оставаться без атрибуции.
             if not parsed.query:
                 neutral_links += 1
                 continue
 
-            contextual_links += 1
-            page_has_context = True
             params = parse_qs(parsed.query, keep_blank_values=True)
+            source = one_nonempty(params, "source")
+            if not source:
+                annotation(page, f"Query-маршрут онлайн-заявки должен передавать один непустой source: {link}")
+                failures += 1
+            elif source != current_url:
+                annotation(
+                    page,
+                    f"source не соответствует текущей странице: ожидалось {current_url}, получено {source}",
+                )
+                failures += 1
 
-            for name in REQUIRED_PARAMS:
-                values = params.get(name, [])
-                if len(values) != 1 or not values[0].strip():
-                    annotation(
-                        page,
-                        f"Контекстный CTA должен передавать один непустой параметр {name}: {link}",
-                    )
-                    failures += 1
+            scenario = one_nonempty(params, "scenario")
+            placement = one_nonempty(params, "placement")
+            has_scenario = "scenario" in params
+            has_placement = "placement" in params
 
-            source_values = params.get("source", [])
-            if len(source_values) == 1 and source_values[0].strip():
-                source = source_values[0].strip()
-                if source != current_url:
-                    annotation(
-                        page,
-                        f"source не соответствует текущей странице: ожидалось {current_url}, получено {source}",
-                    )
-                    failures += 1
+            # Поддерживаемый prefill-маршрут может передавать только source
+            # и служебные параметры (journey/stage/city/contact). Сценарий
+            # в этом случае определяется формой по source slug.
+            if not has_scenario and not has_placement:
+                source_prefill_links += 1
+                continue
 
-            placement_values = params.get("placement", [])
-            if len(placement_values) == 1 and placement_values[0].strip():
-                placement = placement_values[0].strip()
-                if not PLACEMENT_RE.fullmatch(placement):
-                    annotation(
-                        page,
-                        f"Некорректный placement {placement!r}; допустимы lowercase a-z, цифры, _ и -",
-                    )
-                    failures += 1
-                if placement in placements:
-                    annotation(page, f"Дублируется placement внутри страницы: {placement}")
-                    failures += 1
-                placements.add(placement)
+            # Явная аналитическая атрибуция всегда должна быть полной парой:
+            # scenario + placement. Половинчатая разметка создаёт ложные данные.
+            if not scenario:
+                annotation(page, f"CTA с явной атрибуцией должен передавать один непустой scenario: {link}")
+                failures += 1
+            if not placement:
+                annotation(page, f"CTA с явной атрибуцией должен передавать один непустой placement: {link}")
+                failures += 1
+            if not scenario or not placement:
+                continue
 
-        if page_has_context:
-            pages_with_contextual_links += 1
+            explicit_links += 1
+            page_has_explicit = True
+
+            if not PLACEMENT_RE.fullmatch(placement):
+                annotation(
+                    page,
+                    f"Некорректный placement {placement!r}; допустимы lowercase a-z, цифры, _ и -",
+                )
+                failures += 1
+            if placement in placements:
+                annotation(page, f"Дублируется placement внутри страницы: {placement}")
+                failures += 1
+            placements.add(placement)
+
+        if page_has_explicit:
+            pages_with_explicit_links += 1
 
     if failures:
         print(
             "Аудит атрибуции CTA завершён с ошибками: "
-            f"{failures}; контекстных ссылок {contextual_links}, "
+            f"{failures}; явных CTA {explicit_links}, source-prefill {source_prefill_links}, "
             f"нейтральных ссылок {neutral_links}"
         )
         return 1
 
     print(
         "Атрибуция CTA согласована: "
-        f"страниц с контекстными ссылками {pages_with_contextual_links}, "
-        f"контекстных ссылок {contextual_links}, нейтральных ссылок {neutral_links}"
+        f"страниц с явными CTA {pages_with_explicit_links}, явных CTA {explicit_links}, "
+        f"source-prefill {source_prefill_links}, нейтральных ссылок {neutral_links}"
     )
     return 0
 
