@@ -73,6 +73,7 @@ def main() -> int:
     built_policy_text = built_policy.read_text(encoding="utf-8-sig", errors="ignore")
 
     app_markers = (
+        "subject: `Новая заявка ипотечному брокеру — ${payload.qualification.priority} — ${payload.mortgage.scenario}`",
         "name: payload.client.name",
         "phone: payload.client.phone",
         "city: payload.client.city",
