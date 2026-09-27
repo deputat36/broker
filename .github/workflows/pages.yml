@@ -138,6 +138,7 @@ jobs:
           run_audit "Built HTML, links and structured data" python3 scripts/audit-built-site.py ./_site
           run_audit "District materials cluster" python3 scripts/audit-district-materials.py ./_site
           run_audit "Conversion pages and CTA" python3 scripts/audit-conversion-pages.py ./_site
+          run_audit "Application CTA attribution" python3 scripts/audit-application-attribution.py ./_site
           run_audit "Unconfirmed ETAGI terms" python3 scripts/audit-etagi-terms.py ./_site
           run_audit "ETAGI terms in useful materials" python3 scripts/audit-etagi-content-pages.py ./_site
           run_audit "SEO of service pages" python3 scripts/audit-service-seo.py ./_site
