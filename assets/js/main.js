@@ -170,6 +170,7 @@ function getTrackingData() {
   const now = nowDate.toISOString();
   const safeContext = getSafePageContext();
   const current = { ...sanitizeTrackingMap(saved.current), ...incoming };
+  if (!incoming.placement) delete current.placement;
   const pageSnapshot = {
     page_url: safeContext.page_url,
     page_path: safeContext.page_path,
