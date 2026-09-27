@@ -384,6 +384,7 @@
       qualification_status: payload.qualification.status,
       qualification_score: String(payload.qualification.score),
       qualification_priority: payload.qualification.priority,
+      placement: current.placement || '',
       utm_source: current.utm_source || '',
       utm_medium: current.utm_medium || '',
       utm_campaign: current.utm_campaign || '',
