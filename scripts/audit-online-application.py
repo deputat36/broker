@@ -533,7 +533,7 @@ def main() -> int:
     errors += validate_support_page(
         site_dir,
         THANK_YOU_URL,
-        ("заявка отправлена", "номер обращения", "expires_at", "lead_thankyou_view"),
+        ("заявка принята сервисом", "номер обращения", "фактическое получение email отдельно не подтверждено", "expires_at", "lead_thankyou_view"),
         {"lead-id"},
     )
     errors += validate_support_page(
