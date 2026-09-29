@@ -17,7 +17,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
     <a class="btn btn-light" href="tel:+79030250807">Позвонить</a>
     <a class="btn btn-light" href="{{ '/konsultaciya/' | relative_url }}">Как проходит консультация</a>
   </div>
-  <ul class="trust-list"><li>Можно обратиться из любого города</li><li>Обязательных полей немного</li><li>Решение принимает банк</li></ul>
+  <ul class="trust-list"><li>Можно обратиться из любого города</li><li>Обязательных полей немного</li><li>Без загрузки документов</li></ul>
 </section>
 
 <section class="section application-layout" id="application-form">
@@ -25,7 +25,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
     <div class="section-head">
       <p class="eyebrow">Короткая анкета</p>
       <h2>Подготовьте обращение за несколько минут</h2>
-      <p>Заполните основные поля. Дополнительные вводные помогут быстрее разобрать ситуацию, но не обязательны для отправки.</p>
+      <p>Заполните основные поля. Сначала увидите готовый текст и сможете проверить его; отправка начнётся только после отдельного подтверждения. Дополнительные вводные необязательны. Окончательное решение принимает банк.</p>
     </div>
 
     {% include application-runtime-fallback.html runtime=true %}
@@ -153,7 +153,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
         <span>Я согласен на обработку и передачу указанных сведений для рассмотрения заявки и обратной связи, ознакомился с <a href="{{ '/policy/' | relative_url }}">политикой обработки данных</a> и <a href="{{ '/personal-data-consent/' | relative_url }}">текстом согласия</a>.</span>
       </label>
 
-      <p class="application-privacy">После проверки и нажатия «Отправить заявку онлайн» сведения передаются через сервис Web3Forms в настроенный email-канал. Не указывайте паспортные данные, СНИЛС, реквизиты карт, коды подтверждения и не прикладывайте документы.</p>
+      <p class="application-privacy">Сначала сайт подготовит текст — на этом шаге ничего не отправляется. Передача через Web3Forms начнётся только после отдельного нажатия «Отправить заявку онлайн». Не указывайте паспортные данные, СНИЛС, реквизиты карт, коды подтверждения и не прикладывайте документы.</p>
       <button class="btn btn-primary application-submit" type="submit" data-application-submit disabled aria-busy="true">Проверить и подготовить заявку</button>
       <p class="application-status" data-application-status aria-live="polite">Загружаем форму…</p>
     </form>
