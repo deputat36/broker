@@ -12,6 +12,8 @@ SOURCE_PREPARATION = ROOT / "assets/js/application-preparation.js"
 SOURCE_POLICY = ROOT / "policy.md"
 PREPARATION_CONTRACT = ROOT / "docs/preparation-context-contract.md"
 TECHNICAL_DOC = ROOT / "docs/web3forms-data-minimization.md"
+ANALYTICS_DOC = ROOT / "docs/analytics-events.md"
+COMPLEX_SMOKE = ROOT / "docs/complex-application-smoke.md"
 POST_BUILD = ROOT / "scripts/post-build-check.sh"
 
 
@@ -48,6 +50,8 @@ def main() -> int:
         SOURCE_POLICY,
         PREPARATION_CONTRACT,
         TECHNICAL_DOC,
+        ANALYTICS_DOC,
+        COMPLEX_SMOKE,
         POST_BUILD,
         built_app,
         built_preparation,
@@ -67,6 +71,8 @@ def main() -> int:
     source_policy = SOURCE_POLICY.read_text(encoding="utf-8")
     contract = PREPARATION_CONTRACT.read_text(encoding="utf-8")
     documentation = TECHNICAL_DOC.read_text(encoding="utf-8")
+    analytics_documentation = ANALYTICS_DOC.read_text(encoding="utf-8")
+    complex_smoke = COMPLEX_SMOKE.read_text(encoding="utf-8")
     post_build = POST_BUILD.read_text(encoding="utf-8")
     built_app_text = built_app.read_text(encoding="utf-8-sig", errors="ignore")
     built_preparation_text = built_preparation.read_text(encoding="utf-8-sig", errors="ignore")
@@ -128,6 +134,22 @@ def main() -> int:
         "audit-web3forms-data-minimization.py",
     )
     errors += require(documentation, documentation_markers, TECHNICAL_DOC, "Документация")
+
+    analytics_markers = (
+        "Полная JSON-копия `fields_json` не отправляется",
+        "`preparation_json`",
+        "разделом в `message`",
+    )
+    errors += require(analytics_documentation, analytics_markers, ANALYTICS_DOC, "Документация аналитики")
+    errors += forbid(analytics_documentation, ("разделом в `fields_json`",), ANALYTICS_DOC, "Документация аналитики")
+
+    complex_smoke_markers = (
+        "`fields_json` отсутствует",
+        "`preparation_json`",
+        "раздел в `message`",
+    )
+    errors += require(complex_smoke, complex_smoke_markers, COMPLEX_SMOKE, "Complex smoke")
+    errors += forbid(complex_smoke, ("в `fields_json` присутствует раздел `preparation`",), COMPLEX_SMOKE, "Complex smoke")
 
     audit_command = 'python3 scripts/audit-web3forms-data-minimization.py "$SITE_DIR"'
     if audit_command not in post_build:
