@@ -236,13 +236,14 @@
 
   function buildLeadPayload() {
     const startedAt = Number(rawFieldValue('form_started_at'));
+    const formFillMs = Number.isFinite(startedAt) ? Math.max(0, Date.now() - startedAt) : null;
     const pageContext = getSafePageContext();
     const payload = {
       schema_version: 1,
       request_id: fieldValue('request_id'),
       form_version: fieldValue('form_version', '1'),
       submitted_at: new Date().toISOString(),
-      form_fill_ms: Number.isFinite(startedAt) ? Math.max(0, Date.now() - startedAt) : null,
+      form_fill_ms: formFillMs,
       source_page: fieldValue('source_page', 'Прямой переход на форму'),
       page_url: pageContext.page_url,
       page_title: document.title,
@@ -268,7 +269,7 @@
       consent: true,
       spam_check: {
         honeypot_empty: !rawFieldValue('website'),
-        form_fill_ms: Number.isFinite(startedAt) ? Math.max(0, Date.now() - startedAt) : null,
+        form_fill_ms: formFillMs,
         likely_bot: Boolean(rawFieldValue('website'))
       }
     };
@@ -281,6 +282,9 @@
     return [
       'ОНЛАЙН-ЗАЯВКА С САЙТА sterlikova-ipoteka.ru',
       `Номер заявки: ${payload.request_id}`,
+      `Приоритет обработки: ${qualification.priority}`,
+      `Квалификация: ${qualification.status}, ${qualification.score} баллов`,
+      `Почему приоритет: ${(qualification.reasons || []).join(', ')}`,
       `Источник обращения: ${payload.source_page}`,
       '',
       `Имя: ${payload.client.name}`,
@@ -296,8 +300,6 @@
       '',
       `Заявки, одобрения или отказы банков: ${payload.mortgage.bank_history}`,
       `Комментарий: ${payload.mortgage.comment}`,
-      `Квалификация: ${qualification.status}, ${qualification.score} баллов, ${qualification.priority}`,
-      `Причины квалификации: ${(qualification.reasons || []).join(', ')}`,
       '',
       'Прошу связаться со мной для первичного разбора ситуации. Понимаю, что окончательное решение по ипотеке принимает банк.'
     ].join('\n');
