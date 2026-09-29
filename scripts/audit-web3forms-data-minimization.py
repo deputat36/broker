@@ -81,6 +81,8 @@ def main() -> int:
         "request_id: payload.request_id",
         "tracking_json: JSON.stringify(tracking)",
         "message: preparedText",
+        "`Приоритет обработки: ${qualification.priority}`",
+        "`Почему приоритет: ${(qualification.reasons || []).join(', ')}`",
         "placement: current.placement || ''",
         "utm_source: current.utm_source || ''",
         "personal_data_consent: payload.personal_data_consent",
