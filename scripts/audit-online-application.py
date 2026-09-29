@@ -412,7 +412,7 @@ def main() -> int:
         annotation(f"Canonical онлайн-заявки должен быть {BASE_URL + APPLICATION_URL}", application_file)
         errors += 1
 
-    for required_text in ("из любого города", "web3forms", "email", "решение принимает банк", "отправить заявку онлайн", "ничего не отправляется", "без загрузки документов"):
+    for required_text in ("из любого города", "web3forms", "email", "решение принимает банк", "отправить заявку онлайн", "ничего не отправляется", "без загрузки документов", "успешного технического ответа сервиса"):
         if normalize(required_text) not in application.text:
             annotation(f"На онлайн-заявке отсутствует обязательный текст: {required_text}", application_file)
             errors += 1
@@ -533,7 +533,7 @@ def main() -> int:
     errors += validate_support_page(
         site_dir,
         THANK_YOU_URL,
-        ("заявка отправлена", "номер обращения", "expires_at", "lead_thankyou_view"),
+        ("заявка принята сервисом", "номер обращения", "фактическое получение email отдельно не подтверждено", "expires_at", "lead_thankyou_view"),
         {"lead-id"},
     )
     errors += validate_support_page(
