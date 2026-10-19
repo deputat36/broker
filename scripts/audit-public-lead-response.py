@@ -161,8 +161,8 @@ def main() -> int:
         "sendCustomLead",
         "responsePayload.ok === false",
         "responsePayload.success === false",
-        "buildThankYouUrl(preparedPayload)",
-        "saveLastLead(preparedPayload)",
+        "buildThankYouUrl(payload)",
+        "saveLastLead(payload)",
     ):
         if marker not in client:
             error(f"Не подтверждена клиентская совместимость минимального ответа: {marker}", CLIENT)
