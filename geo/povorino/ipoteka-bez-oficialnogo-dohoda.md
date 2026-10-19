@@ -72,5 +72,5 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
 
 <section class="section cta-section">
   <div><p class="eyebrow">Поворино и район</p><h2>Разберите доход до подачи заявки</h2><p>Позвоните или напишите Татьяне: какой доход есть, что хотите купить, какой взнос и были ли уже отказы.</p></div>
-  <div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
+  <div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>Номер для MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
 </section>

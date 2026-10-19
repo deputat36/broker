@@ -69,5 +69,5 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Как �
 
 <section class="section cta-section">
   <div><p class="eyebrow">Перед новой заявкой</p><h2>Получите первичный разбор бесплатно</h2><p>Расскажите, были ли просрочки и отказы, какие кредиты действуют сейчас, какой доход и первоначальный взнос.</p></div>
-  <div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
+  <div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>Номер для MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
 </section>

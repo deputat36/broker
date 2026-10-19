@@ -157,8 +157,20 @@ assert.deepStrictEqual(goals, ['calculator_application_click']);
 inputs.rate.value = '';
 inputListener();
 assert.strictEqual(applicationContainer.hidden, true);
+assert.ok(result.innerHTML.includes('Введите ставку для расчёта'));
+assert.strictEqual(result.classList.contains('is-error'), false);
+assert.strictEqual(inputs.rate.getAttribute('aria-invalid'), 'false');
+
+inputs.rate.value = '101';
+inputListener();
+assert.strictEqual(applicationContainer.hidden, true);
 assert.ok(result.innerHTML.includes('Укажите предполагаемую ставку от 0 до 100%'));
 assert.strictEqual(inputs.rate.getAttribute('aria-invalid'), 'true');
+
+inputs.rate.value = '0';
+inputListener();
+assert.strictEqual(applicationContainer.hidden, false);
+assert.strictEqual(result.classList.contains('is-error'), false);
 
 inputs.rate.value = '18';
 inputs.down.value = '4000000';

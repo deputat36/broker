@@ -130,7 +130,7 @@ def check_application_js(text: str, file: Path, label: str) -> int:
             f"{label}: redirect",
         )
 
-    errors += require(text, ("saveLastLead(preparedPayload);",), file, f"{label}: вызов сохранения")
+    errors += require(text, ("saveLastLead(payload);",), file, f"{label}: вызов сохранения")
     errors += forbid(
         text,
         ("saveLastLead(preparedPayload, channels);",),
@@ -323,7 +323,7 @@ def main() -> int:
             "window.history.replaceState(null, document.title, window.location.pathname)",
             "window.dataLayer.push({ event: 'lead_thankyou_view' });",
             'id="lead-id"',
-            "Хотя бы один настроенный канал принял обращение",
+            "Фактическое получение email отдельно не подтверждено",
         ),
         built_page,
         "Собранная страница благодарности",

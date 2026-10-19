@@ -8,24 +8,17 @@ og_type: "website"
 schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистанционная консультация ипотечного брокера","description":"Первичный разбор ипотечной ситуации и подготовка дальнейшего маршрута в дистанционном формате.","provider":{"@type":"Person","name":"Татьяна Стерликова","telephone":"+79030250807"},"areaServed":{"@type":"Country","name":"Россия"},"serviceType":"Онлайн-консультация и сопровождение по ипотеке","url":"https://sterlikova-ipoteka.ru/online-zayavka/"}'
 ---
 
-<section class="page-hero section">
-  <p class="eyebrow">Дистанционно из любого города</p>
-  <h1>Онлайн-заявка ипотечному брокеру</h1>
-  <p class="lead">Для первого обращения достаточно имени, телефона, города и задачи. Стоимость объекта, взнос, доход и историю обращений в банки можно добавить по желанию.</p>
-  <div class="hero-actions">
-    <a class="btn btn-primary" href="#application-form">Заполнить короткую заявку</a>
-    <a class="btn btn-light" href="tel:+79030250807">Позвонить</a>
-    <a class="btn btn-light" href="{{ '/konsultaciya/' | relative_url }}">Как проходит консультация</a>
-  </div>
-  <ul class="trust-list"><li>Можно обратиться из любого города</li><li>Обязательных полей немного</li><li>Без загрузки документов</li></ul>
+<section class="page-hero section application-intro">
+  <p class="eyebrow">Первичная консультация бесплатно</p>
+  <h1>Заявка на консультацию</h1>
+  <p class="lead">Имя, телефон, город и задача. Остальное — по желанию. Из любого города, без загрузки документов.</p>
 </section>
 
 <section class="section application-layout" id="application-form">
   <div>
     <div class="section-head">
-      <p class="eyebrow">Короткая анкета</p>
-      <h2>Подготовьте обращение за несколько минут</h2>
-      <p>Заполните основные поля. Сначала увидите готовый текст и сможете проверить его; отправка начнётся только после отдельного подтверждения. Дополнительные вводные необязательны. Окончательное решение принимает банк.</p>
+      <h2>Короткая заявка</h2>
+      <p>Заполните поля, затем проверьте текст и подтвердите отправку. Решение принимает банк.</p>
     </div>
 
     {% include application-runtime-fallback.html runtime=true %}
@@ -169,7 +162,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
         <a class="btn btn-secondary" href="#" data-application-sms>Отправить SMS</a>
         <button class="btn btn-light" type="button" data-application-copy>Скопировать текст</button>
         <a class="btn btn-light" href="https://vk.com/tatyanasterlikova" target="_blank" rel="noopener" data-application-vk>Открыть ВКонтакте</a>
-        <button class="btn btn-light" type="button" data-copy-phone>Скопировать номер для MAX</button>
+        <button class="btn btn-light" type="button" data-copy-phone>Номер для MAX</button>
       </div>
       <p class="application-hint">После успешной онлайн-отправки откроется страница подтверждения с номером обращения. Резервные способы остаются доступны до перехода.</p>
     </section>
@@ -181,9 +174,9 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
       <p>Для первого контакта нужны имя, телефон, город и задача. Остальные сведения можно уточнить во время разговора.</p>
     </div>
     <div class="seo-panel">
-      <h3>Что произойдёт после отправки</h3>
+      <h3>Как отправить обращение</h3>
       <ol>
-        <li>После успешного технического ответа сервиса откроется страница с номером обращения.</li>
+        <li>После успешного технического ответа сервиса Web3Forms откроется страница с номером обращения. Доставка email проверяется отдельно.</li>
         <li>Сохраните номер — он поможет отличить подтверждённую отправку от повторного перехода.</li>
         <li>Если важно отдельно подтвердить получение, свяжитесь с Татьяной напрямую.</li>
         <li>После установления контакта можно уточнить вводные и согласовать следующий шаг.</li>
@@ -205,7 +198,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
   </div>
 </section>
 
-<section class="section cta-section"><div><p class="eyebrow">Нужен быстрый ответ?</p><h2>Можно не заполнять анкету</h2><p>Позвоните или напишите кратко: ваш город, цель и были ли обращения в банки.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
+<section class="section cta-section"><div><p class="eyebrow">Нужен быстрый ответ?</p><h2>Можно не заполнять анкету</h2><p>Позвоните или напишите кратко: ваш город, цель и были ли обращения в банки.</p></div><div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>Номер для MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div></section>
 
 <script>(function(){var form=document.querySelector('[data-online-application]');if(!form)return;window.setTimeout(function(){if(form.dataset.applicationReady==='true')return;var fallback=document.querySelector('[data-application-runtime-fallback]'),status=form.querySelector('[data-application-status]');if(fallback)fallback.hidden=false;if(status){status.textContent='Форма не загрузилась. Используйте резервный способ обращения выше.';status.classList.add('is-error');}},5000);})();</script>
 <script src="{{ '/assets/js/thankyou-storage-privacy.js' | relative_url }}" defer></script>

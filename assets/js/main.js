@@ -256,7 +256,7 @@ if (navToggle && mainNav) {
     }
   });
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 1120) closeMainNav();
+    if (window.innerWidth > 1200) closeMainNav();
   });
 }
 document.addEventListener('click', (event) => {

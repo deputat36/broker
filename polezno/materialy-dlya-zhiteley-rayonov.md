@@ -61,7 +61,7 @@ og_type: "article"
   <div class="cta-actions">
     <a class="btn btn-primary" href="{{ '/konsultaciya/' | relative_url }}">Консультация</a>
     <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
-    <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
+    <button class="btn btn-secondary" type="button" data-copy-phone>Номер для MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a>
   </div>
 </section>

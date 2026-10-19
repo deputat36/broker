@@ -106,7 +106,7 @@ schema: '{"@context":"https://schema.org","@type":"Article","headline":"Что �
   <div class="cta-actions">
     <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=approval_factors_footer">Проверить вводные</a>
     <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
-    <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
+    <button class="btn btn-secondary" type="button" data-copy-phone>Номер для MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a>
   </div>
 </section>
