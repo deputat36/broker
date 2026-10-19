@@ -132,6 +132,7 @@ async function fill(page) {
     await page.locator('[name="consent"]').check();
     await page.locator('[data-application-submit]').click();
     assert.equal(requests.length, 0, 'Preparation must not send');
+    assert.ok(!(await page.locator('[data-application-output]').inputValue()).includes('Квалификация:'), 'Keep internal priority out of client preview');
     await page.locator('[name="city"]').fill('Новый тестовый город');
     assert.equal(await page.locator('[data-application-result]').isVisible(), false, 'Edited data invalidates preview');
     await page.locator('[data-application-submit]').click();
@@ -151,6 +152,7 @@ async function fill(page) {
       assert.deepEqual(Object.keys(last).sort(), ['expires_at', 'request_id']);
       assert.equal(last.request_id, requests[0].request_id);
       assert.equal(requests[0].placement, 'browser_smoke');
+      assert.ok(requests[0].message.includes('Квалификация:'), 'Email retains internal triage');
       assert.equal(requests[0].fields_json, undefined);
     } else {
       await page.waitForFunction(() => document.querySelector('[data-application-delivery-note]').classList.contains('is-error'), null, { timeout: 12000 });

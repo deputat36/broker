@@ -86,7 +86,7 @@ def main() -> int:
         "scenario: payload.mortgage.scenario",
         "request_id: payload.request_id",
         "tracking_json: JSON.stringify(tracking)",
-        "message: preparedText",
+        "message: buildApplicationText(payload)",
         "`Приоритет обработки: ${qualification.priority}`",
         "`Почему приоритет: ${(qualification.reasons || []).join(', ')}`",
         "placement: current.placement || ''",

@@ -146,7 +146,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
         <span>Я согласен на обработку и передачу указанных сведений для рассмотрения заявки и обратной связи, ознакомился с <a href="{{ '/policy/' | relative_url }}">политикой обработки данных</a> и <a href="{{ '/personal-data-consent/' | relative_url }}">текстом согласия</a>.</span>
       </label>
 
-      <p class="application-privacy">Сначала сайт подготовит текст — на этом шаге ничего не отправляется. Передача через Web3Forms начнётся только после отдельного нажатия «Отправить заявку онлайн». Не указывайте паспортные данные, СНИЛС, реквизиты карт, коды подтверждения и не прикладывайте документы.</p>
+      <p class="application-privacy">При подготовке ничего не отправляется. Отправка через Web3Forms — отдельной кнопкой ниже. Не указывайте паспортные данные, СНИЛС, реквизиты карт и коды подтверждения.</p>
       <button class="btn btn-primary application-submit" type="submit" data-application-submit disabled aria-busy="true">Проверить и подготовить заявку</button>
       <p class="application-status" data-application-status aria-live="polite">Загружаем форму…</p>
     </form>
@@ -171,7 +171,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Дистан
   <aside class="application-aside">
     <div class="seo-panel">
       <h3>Короткой заявки достаточно</h3>
-      <p>Для первого контакта нужны имя, телефон, город и задача. Остальные сведения можно уточнить во время разговора.</p>
+      <p>Для первого контакта нужны имя, телефон, город и задача. Остальные сведения можно уточнить во время разговора.</p><p><a href="{{ '/konsultaciya/' | relative_url }}">Как проходит консультация →</a></p>
     </div>
     <div class="seo-panel">
       <h3>Как отправить обращение</h3>

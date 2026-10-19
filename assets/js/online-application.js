@@ -278,15 +278,17 @@
     return payload;
   }
 
-  function buildApplicationText(payload) {
+  function buildApplicationText(payload, internal = true) {
     const qualification = payload.qualification || {};
     return [
       'ОНЛАЙН-ЗАЯВКА С САЙТА sterlikova-ipoteka.ru',
       `Номер заявки: ${payload.request_id}`,
-      `Приоритет обработки: ${qualification.priority}`,
-      `Квалификация: ${qualification.status}, ${qualification.score} баллов`,
-      `Почему приоритет: ${(qualification.reasons || []).join(', ')}`,
-      `Источник обращения: ${payload.source_page}`,
+      ...(internal ? [
+        `Приоритет обработки: ${qualification.priority}`,
+        `Квалификация: ${qualification.status}, ${qualification.score} баллов`,
+        `Почему приоритет: ${(qualification.reasons || []).join(', ')}`,
+        `Источник обращения: ${payload.source_page}`
+      ] : []),
       '',
       `Имя: ${payload.client.name}`,
       `Телефон: ${payload.client.phone}`,
@@ -399,7 +401,7 @@
       form_fill_ms: String(payload.form_fill_ms || 0),
       submitted_at: payload.submitted_at,
       tracking_json: JSON.stringify(tracking),
-      message: preparedText
+      message: buildApplicationText(payload)
     };
     const response = await fetch(leadConfig.web3formsEndpoint, {
       method: 'POST',
@@ -542,7 +544,7 @@
       return;
     }
     preparedPayload = buildLeadPayload();
-    preparedText = buildApplicationText(preparedPayload);
+    preparedText = buildApplicationText(preparedPayload, false);
     if (output) output.value = preparedText;
     if (smsLink) smsLink.href = `sms:+79030250807?body=${encodeURIComponent(preparedText)}`;
     if (result) result.hidden = false;
