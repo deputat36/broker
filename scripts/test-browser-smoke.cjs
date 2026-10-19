@@ -108,8 +108,10 @@ async function fill(page) {
         assert.equal(await page.locator('.hero .hero-actions a').count(), 2);
         assert.match(await page.locator('[data-calc-result]').innerText(), /Введите ставку для расчёта/);
         assert.equal(await page.locator('[name="rate"]').getAttribute('aria-invalid'), 'false');
+        assert.equal(await page.locator('[data-calc-application-action]').isVisible(), false, 'No action before valid calculation');
         await page.locator('[name="rate"]').fill('6');
         assert.match(await page.locator('[data-calc-result]').innerText(), /Примерный ежемесячный платёж/);
+        assert.equal(await page.locator('[data-calc-application-action]').isVisible(), true);
         assert.ok((await page.locator('[data-calc-application-link]').getAttribute('href')).includes('calc_rate=6'));
       }
       if (['/', '/online-zayavka/'].includes(pathname)) {
