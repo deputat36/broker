@@ -172,10 +172,11 @@
         <img class="footer-avatar" src="{{ '/assets/img/tatyana-avatar.webp' | relative_url }}" alt="" width="76" height="76" loading="lazy" decoding="async">
         <span class="footer-person-copy"><span class="footer-person-name">Татьяна Стерликова</span><span class="footer-person-role">ипотечный брокер</span></span>
       </a>
-      <p>Онлайн-консультации из любого города. Локальные материалы: Борисоглебск, Грибановский район и Поворино.</p>
+      <p>Борисоглебск, Грибановский район, Поворино. Онлайн — из любого города.</p>
       <a class="footer-about-link" href="{{ '/o-brokere/' | relative_url }}">Подробнее о подходе к работе →</a><br>
       <a class="footer-phone" href="tel:+79030250807">8 903 025-08-07</a>
     </div>
+    {% if page.url != '/online-zayavka/' %}<details class="footer-directory"><summary>Все разделы сайта</summary>{% endif %}
     <nav class="footer-grid{% if page.url == '/online-zayavka/' %} footer-grid-compact{% endif %}" aria-label="Навигация в подвале сайта">
       {% if page.url == '/online-zayavka/' %}
       <div class="footer-col"><strong>Перед отправкой</strong><a href="{{ '/policy/' | relative_url }}">Политика обработки данных</a><a href="{{ '/o-brokere/' | relative_url }}">О брокере</a><a href="{{ '/kontakty/' | relative_url }}">Контакты</a></div>
@@ -187,7 +188,8 @@
       <div class="footer-col"><strong>Информация</strong><a href="{{ '/online-zayavka/' | relative_url }}">Онлайн-заявка</a><a href="{{ '/o-brokere/' | relative_url }}">О брокере</a><a href="{{ '/kalkulyator-ipoteki/' | relative_url }}">Калькулятор</a><a href="{{ '/konsultaciya/' | relative_url }}">Консультация</a><a href="{{ '/stoimost/' | relative_url }}">Стоимость</a><a href="{{ '/polezno/' | relative_url }}">Полезно</a><a href="{{ '/faq/' | relative_url }}">FAQ</a><a href="{{ '/kontakty/' | relative_url }}">Контакты</a><a href="{{ '/policy/' | relative_url }}">Политика</a><a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a></div>
       {% endif %}
     </nav>
-    <p class="disclaimer">Информация на сайте не является публичной офертой. Окончательное решение по ипотеке, ставке и условиям принимает банк.</p>
+    {% if page.url != '/online-zayavka/' %}</details>{% endif %}
+    <p class="disclaimer">Информация на сайте не является публичной офертой. Окончательное решение по ипотеке, ставке и условиям принимает банк. <a href="{{ '/policy/' | relative_url }}">Политика обработки данных</a>.</p>
   </footer>
   <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
   {% if page.url == '/' or page.url == '/kalkulyator-ipoteki/' %}

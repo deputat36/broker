@@ -72,5 +72,5 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Разбор
 
 <section class="section cta-section">
   <div><p class="eyebrow">Борисоглебск</p><h2>Разберите отказ до новой заявки</h2><p>Позвоните или напишите Татьяне: какой банк отказал, когда была заявка, какой доход, взнос, объект и кредиты.</p></div>
-  <div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
+  <div class="cta-actions"><a class="btn btn-primary" href="tel:+79030250807">8 903 025-08-07</a><button class="btn btn-secondary" type="button" data-copy-phone>Номер для MAX</button><a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВК</a></div>
 </section>

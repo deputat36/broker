@@ -208,8 +208,8 @@ def main() -> int:
         (
             "Promise.allSettled(tasks)",
             "if (!successful.length)",
-            "saveLastLead(preparedPayload)",
-            "window.location.assign(buildThankYouUrl(preparedPayload))",
+            "saveLastLead(payload)",
+            "window.location.assign(buildThankYouUrl(payload))",
         ),
         ONLINE,
         "Основной transport",

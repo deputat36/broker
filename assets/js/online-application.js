@@ -20,6 +20,7 @@
   let preparedPayload = null;
   let startGoalSent = false;
   let deliveryCompleted = false;
+  let deliveryPending = false;
 
   const SCENARIO_BY_SLUG = {
     'podbor-ipoteki': 'Первичная консультация и подбор ипотеки',
@@ -277,15 +278,17 @@
     return payload;
   }
 
-  function buildApplicationText(payload) {
+  function buildApplicationText(payload, internal = true) {
     const qualification = payload.qualification || {};
     return [
       'ОНЛАЙН-ЗАЯВКА С САЙТА sterlikova-ipoteka.ru',
       `Номер заявки: ${payload.request_id}`,
-      `Приоритет обработки: ${qualification.priority}`,
-      `Квалификация: ${qualification.status}, ${qualification.score} баллов`,
-      `Почему приоритет: ${(qualification.reasons || []).join(', ')}`,
-      `Источник обращения: ${payload.source_page}`,
+      ...(internal ? [
+        `Приоритет обработки: ${qualification.priority}`,
+        `Квалификация: ${qualification.status}, ${qualification.score} баллов`,
+        `Почему приоритет: ${(qualification.reasons || []).join(', ')}`,
+        `Источник обращения: ${payload.source_page}`
+      ] : []),
       '',
       `Имя: ${payload.client.name}`,
       `Телефон: ${payload.client.phone}`,
@@ -398,7 +401,7 @@
       form_fill_ms: String(payload.form_fill_ms || 0),
       submitted_at: payload.submitted_at,
       tracking_json: JSON.stringify(tracking),
-      message: preparedText
+      message: buildApplicationText(payload)
     };
     const response = await fetch(leadConfig.web3formsEndpoint, {
       method: 'POST',
@@ -461,7 +464,7 @@
   }
 
   async function sendDirectly() {
-    if (!preparedPayload || !preparedText || !directDeliveryEnabled || deliveryCompleted) return;
+    if (!preparedPayload || !preparedText || !directDeliveryEnabled || deliveryCompleted || deliveryPending) return;
     const spamReason = getSpamReason();
     if (spamReason) {
       setDeliveryNote('Не удалось подтвердить корректность формы. Используйте SMS, MAX, ВКонтакте или копирование текста.', 'error');
@@ -469,6 +472,8 @@
       return;
     }
     const controller = new AbortController();
+    const payload = preparedPayload;
+    deliveryPending = form.inert = true;
     const timeoutId = window.setTimeout(() => controller.abort(), leadConfig.timeoutMs);
     directSendButton.disabled = true;
     directSendButton.setAttribute('aria-busy', 'true');
@@ -476,14 +481,14 @@
     setDeliveryNote('Передаём заявку. Не закрывайте страницу до подтверждения.');
     try {
       track('online_application_direct_attempt');
-      const channels = await sendLead(preparedPayload, controller.signal);
+      const channels = await sendLead(payload, controller.signal);
       deliveryCompleted = true;
-      saveLastLead(preparedPayload);
+      saveLastLead(payload);
       setDeliveryNote('Заявка отправлена. Переходим на страницу подтверждения.', 'success');
       directSendButton.textContent = 'Заявка отправлена';
       track('online_application_direct_success');
       track('lead_submit');
-      window.setTimeout(() => window.location.assign(buildThankYouUrl(preparedPayload)), 350);
+      window.setTimeout(() => window.location.assign(buildThankYouUrl(payload)), 350);
     } catch (error) {
       const timedOut = error && error.name === 'AbortError';
       setDeliveryNote(
@@ -497,6 +502,8 @@
       directSendButton.textContent = 'Повторить отправку';
       track(timedOut ? 'online_application_direct_timeout' : 'online_application_direct_error');
     } finally {
+      deliveryPending = false;
+      form.inert = deliveryCompleted;
       window.clearTimeout(timeoutId);
       if (deliveryCompleted) {
         directSendButton.disabled = true;
@@ -537,7 +544,7 @@
       return;
     }
     preparedPayload = buildLeadPayload();
-    preparedText = buildApplicationText(preparedPayload);
+    preparedText = buildApplicationText(preparedPayload, false);
     if (output) output.value = preparedText;
     if (smsLink) smsLink.href = `sms:+79030250807?body=${encodeURIComponent(preparedText)}`;
     if (result) result.hidden = false;

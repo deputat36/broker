@@ -30,7 +30,7 @@ def check_application() -> int:
     errors = 0
     required = (
         "function saveLastLead(payload) {",
-        "saveLastLead(preparedPayload);",
+        "saveLastLead(payload);",
         "url.hash = new URLSearchParams({ id: payload.request_id }).toString();",
         "request_id: payload.request_id",
         "expires_at: new Date(Date.now() + LAST_LEAD_RETENTION_MS).toISOString()",
@@ -106,7 +106,7 @@ def check_audit_marker(relative: str) -> int:
     if not text:
         return 1
     errors = 0
-    if "saveLastLead(preparedPayload)" not in text:
+    if "saveLastLead(payload)" not in text:
         fail(path, "Аудит не ожидает канонический вызов saveLastLead")
         errors += 1
     if "saveLastLead(preparedPayload, channels)" in text:

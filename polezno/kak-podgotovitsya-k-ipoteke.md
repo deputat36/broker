@@ -97,6 +97,6 @@ og_type: "article"
   <div class="cta-actions">
     <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=article_footer">Заполнить заявку</a>
     <a class="btn btn-secondary" href="tel:+79030250807">8 903 025-08-07</a>
-    <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
+    <button class="btn btn-secondary" type="button" data-copy-phone>Номер для MAX</button>
   </div>
 </section>

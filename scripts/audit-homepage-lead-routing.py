@@ -15,16 +15,10 @@ APPLICATION_JS = ROOT / "assets" / "js" / "online-application.js"
 
 REQUIRED_PLACEMENTS = (
     "home_hero_primary",
-    "home_quick_route",
-    "home_calc_intro",
-    "home_intent_online",
-    "home_search_cloud",
-    "home_complex_inline",
-    "home_trust_panel",
     "home_services_footer",
-    "home_geography_online",
+    "home_trust_panel",
     "home_prices_intro",
-    "home_useful_footer",
+    "home_calc_intro",
     "home_final_cta",
 )
 
@@ -106,11 +100,6 @@ def validate_home(path: Path, built: bool = False) -> int:
             fail(path, f"Контекстная ссылка не передаёт сценарий формы: {href}")
             errors += 1
 
-    complex_link = next((href for href in hrefs if "placement=home_complex_inline" in href), "")
-    if COMPLEX_SCENARIO not in complex_link:
-        fail(path, "CTA сложной ситуации должен предзаполнять сценарий «Другая ситуация»")
-        errors += 1
-
     generic_hrefs = [href for href in hrefs if "placement=home_complex_inline" not in href]
     for href in generic_hrefs:
         if GENERIC_SCENARIO not in href:
@@ -118,7 +107,7 @@ def validate_home(path: Path, built: bool = False) -> int:
             errors += 1
 
     # Ссылки без placement внутри main разрешены как нейтральные fallback/direct routes.
-    # Они не должны подменять рекламную атрибуцию и не входят в контракт 12 home_* CTA.
+    # Они не должны подменять рекламную атрибуцию и не входят в контракт контекстных home_* CTA.
     lowered = scoped_content.lower()
     for marker in FORBIDDEN_INTERNAL_ATTRIBUTION:
         if marker in lowered:

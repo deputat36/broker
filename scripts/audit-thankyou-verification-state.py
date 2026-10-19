@@ -95,7 +95,7 @@ def main() -> int:
 
     visible_page = " ".join(parser.visible_text)
     for forbidden in (
-        "Спасибо, обращение передано",
+        "Обращение технически принято",
         "Заявка отправлена",
         "Найдено ранее подтверждённое обращение",
         "Передача Подтверждена",
@@ -148,7 +148,7 @@ def main() -> int:
     else:
         current = state_split.group("current")
         restored = state_split.group("restored")
-        for marker in ("Спасибо, обращение передано", "trackVerifiedView(contextRequestId)"):
+        for marker in ("Обращение технически принято", "trackVerifiedView(contextRequestId)"):
             if marker not in current:
                 fail(page_path, f"В текущем redirect-состоянии отсутствует маркер: {marker}")
                 errors += 1

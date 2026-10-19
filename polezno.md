@@ -155,7 +155,7 @@ og_type: "article"
   </div>
   <div class="cta-actions">
     <a class="btn btn-primary" href="tel:+79030250807">Позвонить</a>
-    <button class="btn btn-secondary" type="button" data-copy-phone>MAX</button>
+    <button class="btn btn-secondary" type="button" data-copy-phone>Номер для MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a>
   </div>
 </section>

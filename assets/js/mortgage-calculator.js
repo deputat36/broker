@@ -101,6 +101,13 @@
     if (!Number.isFinite(amount) || amount <= 0) return showCalcMessage(calcForm, result, 'Укажите стоимость жилья', 'amount');
     if (!Number.isFinite(down) || down < 0) return showCalcMessage(calcForm, result, 'Укажите корректный первоначальный взнос', 'down');
     if (down >= amount) return showCalcMessage(calcForm, result, 'Взнос должен быть меньше стоимости жилья', 'down');
+    if (!calcForm.querySelector('[name="rate"]').value.trim()) {
+      setInvalidField(calcForm, '');
+      hideApplicationAction(calcForm);
+      result.classList.remove('is-error');
+      result.innerHTML = '<span>Предварительный расчёт</span><strong>Введите ставку для расчёта</strong><small>Используйте ставку из предложения банка или свой сценарий.</small>';
+      return;
+    }
     if (!Number.isFinite(rate) || rate < 0 || rate > 100) return showCalcMessage(calcForm, result, 'Укажите предполагаемую ставку от 0 до 100%', 'rate');
     if (!Number.isFinite(years) || years < 1 || years > 30) return showCalcMessage(calcForm, result, 'Укажите срок от 1 до 30 лет', 'years');
     const credit = amount - down;
