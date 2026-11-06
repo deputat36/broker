@@ -537,10 +537,14 @@
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     setFieldValidity();
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      setStatus('Заполните обязательные поля и подтвердите согласие.', 'error');
-      track('online_application_validation_error');
+    const invalidField = form.querySelector('input:invalid, select:invalid, textarea:invalid');
+    if (invalidField) {
+      invalidField.focus({ preventScroll: true });
+      invalidField.scrollIntoView({ behavior: 'instant', block: 'center' });
+      invalidField.reportValidity();
+      const phoneError = invalidField.name === 'phone';
+      setStatus(phoneError ? invalidField.validationMessage : 'Заполните обязательные поля и подтвердите согласие.', 'error');
+      track(phoneError ? 'online_application_phone_error' : 'online_application_validation_error');
       return;
     }
     preparedPayload = buildLeadPayload();

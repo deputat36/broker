@@ -20,7 +20,6 @@
   const phone = form.querySelector('[data-phone-input]');
   const phoneHint = document.getElementById('application-phone-hint');
   const moreDetails = form.querySelector('[data-application-more]');
-  const formStatus = form.querySelector('[data-application-status]');
   const documentLinks = form.querySelectorAll('.application-consent a');
 
   function parseRussianPhone(value) {
@@ -60,26 +59,21 @@
     if (state) phoneHint.classList.add(`is-${state}`);
   }
 
-  function setPhoneValidity(showMessage = false) {
-    if (!phone) return true;
+  function setPhoneValidity(submitting = false) {
+    if (!phone) return;
     const parsed = parseRussianPhone(phone.value);
     const normalized = parsed.overflow ? '' : parsed.normalized;
-    const valid = Boolean(normalized);
-    const hasValue = Boolean(phone.value.trim());
+    const invalid = !normalized && (submitting || Boolean(phone.value.trim()) || phone.getAttribute('aria-invalid') === 'true');
     const message = parsed.overflow
       ? 'В номере больше 10 цифр после +7. Удалите лишнюю цифру.'
       : 'Введите российский номер из 10 цифр после +7.';
 
-    phone.setCustomValidity(valid || !hasValue ? '' : message);
-    phone.setAttribute('aria-invalid', String(!valid && hasValue));
+    phone.setCustomValidity(invalid ? message : '');
+    phone.setAttribute('aria-invalid', String(invalid));
 
-    if (valid) setPhoneHint(`Номер для связи: ${formatRussianPhone(normalized)}`, 'success');
-    else setPhoneHint(
-      parsed.overflow ? message : 'Введите 10 цифр российского номера. Подойдут форматы +7 или 8.',
-      showMessage && hasValue ? 'error' : ''
-    );
-
-    return valid;
+    if (normalized) setPhoneHint(`Номер для связи: ${formatRussianPhone(normalized)}`, 'success');
+    else if (invalid) setPhoneHint(message, 'error');
+    else setPhoneHint('Введите 10 цифр российского номера. Подойдут форматы +7 или 8.');
   }
 
   documentLinks.forEach((link) => {
@@ -108,23 +102,11 @@
     phone.addEventListener('blur', () => {
       const normalized = normalizeRussianPhone(phone.value);
       if (normalized) phone.value = formatRussianPhone(normalized);
-      setPhoneValidity(true);
+      setPhoneValidity();
     });
   }
 
-  form.addEventListener('submit', (event) => {
-    if (setPhoneValidity(true)) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    if (formStatus) {
-      formStatus.textContent = 'Проверьте номер телефона: нужно указать ровно 10 цифр после +7.';
-      formStatus.classList.remove('is-success');
-      formStatus.classList.add('is-error');
-    }
-    phone.focus();
-    phone.reportValidity();
-    track('online_application_phone_error');
-  }, true);
+  form.addEventListener('submit', () => setPhoneValidity(true), true);
 
   if (moreDetails) {
     moreDetails.addEventListener('toggle', () => {

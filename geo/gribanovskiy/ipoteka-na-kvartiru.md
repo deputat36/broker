@@ -15,7 +15,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
   <p class="lead">Перед покупкой квартиры важно заранее сопоставить доход, кредитную нагрузку, первоначальный взнос, объект и требования банка. Это помогает не подавать заявки хаотично и не терять время на неподходящий маршрут.</p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a>
-    <button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button>
+    <button class="btn btn-secondary" type="button" data-copy-phone>Скопировать номер для MAX</button>
     <a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a>
   </div>
 </section>

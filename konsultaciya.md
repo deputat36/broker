@@ -15,7 +15,7 @@ schema: '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@typ
   <div class="hero-actions">
     <a class="btn btn-primary" href="{{ '/online-zayavka/' | relative_url }}?source={{ page.url | url_encode }}&amp;scenario={{ 'Первичная консультация и подбор ипотеки' | url_encode }}&amp;placement=consultation_hero">Заполнить онлайн-заявку</a>
     <a class="btn btn-light" href="tel:+79030250807">Позвонить</a>
-    <button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button>
+    <button class="btn btn-secondary" type="button" data-copy-phone>Скопировать номер для MAX</button>
     <a class="btn btn-secondary" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a>
   </div>
 </section>

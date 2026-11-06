@@ -94,6 +94,7 @@ class AccessibilityParser(HTMLParser):
                 "target": data.get("target", "").strip(),
                 "rel": set(data.get("rel", "").split()),
                 "type": data.get("type", "").strip(),
+                "copy_phone": "data-copy-phone" in data,
             }
             self.interactive_stack.append(item)
 
@@ -225,6 +226,9 @@ def check_page(path: Path) -> tuple[int, dict[str, int]]:
             button_type = str(interactive["type"])
             if button_type not in {"button", "submit", "reset"}:
                 error(f"Кнопка без явного корректного type: {button_type or '[пусто]'}", path)
+                failures += 1
+            if interactive["copy_phone"] and re.search(r"\b(?:написать|открыть|перейти)\b", text.casefold()):
+                error(f"Кнопка копирования номера обещает переход в мессенджер: {text}", path)
                 failures += 1
 
     return failures, {

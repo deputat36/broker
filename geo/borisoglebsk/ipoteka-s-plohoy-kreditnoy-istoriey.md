@@ -13,7 +13,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
   <p class="eyebrow">Борисоглебск и городской округ</p>
   <h1>Ипотека с плохой кредитной историей в Борисоглебске</h1>
   <p class="lead">Если были просрочки, отказы банков, много кредитов или кредитных карт, сначала нужно понять, что именно мешает заявке. Новые обращения лучше делать после разбора.</p>
-  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
+  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Скопировать номер для MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
 </section>
 
 <section class="section">

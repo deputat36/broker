@@ -13,7 +13,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
   <p class="eyebrow">Борисоглебск и городской округ</p>
   <h1>Ипотека для ИП и самозанятых в Борисоглебске</h1>
   <p class="lead">Если доход идет от бизнеса, самозанятости, договоров или нескольких источников, заявку лучше готовить заранее: банк оценивает не только сумму поступлений, но и стабильность, документы, нагрузку и объект.</p>
-  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
+  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Скопировать номер для MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
 </section>
 
 <section class="section">
