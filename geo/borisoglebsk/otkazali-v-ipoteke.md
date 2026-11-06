@@ -13,7 +13,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Разбор
   <p class="eyebrow">После отказа банка</p>
   <h1>Отказали в ипотеке в Борисоглебске: что делать дальше</h1>
   <p class="lead">Если банк отказал, не стоит сразу отправлять новые заявки во все банки. Сначала важно понять возможные причины: доход, кредитная нагрузка, кредитная история, объект, первоначальный взнос или порядок подачи.</p>
-  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
+  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Скопировать номер для MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
 </section>
 
 <section class="section">

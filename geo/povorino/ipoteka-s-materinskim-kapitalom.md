@@ -13,7 +13,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Ипотек
   <p class="eyebrow">Поворино и Поворинский район</p>
   <h1>Ипотека с материнским капиталом в Поворино</h1>
   <p class="lead">При выборе между квартирой в городе и домом в районе важно не только посчитать материнский капитал, но и проверить конкретный объект, недостающую сумму, сроки продавца и готовность семьи к ипотечной заявке.</p>
-  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
+  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Скопировать номер для MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
 </section>
 
 <section class="section">

@@ -13,7 +13,7 @@ schema: '{"@context":"https://schema.org","@type":"Service","name":"Семейн
   <p class="eyebrow">Поворино и Поворинский район</p>
   <h1>Семейная ипотека в Поворино и Поворинском районе</h1>
   <p class="lead">Семейную ипотеку лучше разбирать до заявки: важны состав семьи, объект, первоначальный взнос, материнский капитал, подтверждение дохода и требования банка.</p>
-  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Написать в MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
+  <div class="hero-actions"><a class="btn btn-primary" href="tel:+79030250807">Позвонить Татьяне</a><button class="btn btn-secondary" type="button" data-copy-phone>Скопировать номер для MAX</button><a class="btn btn-light" href="https://vk.com/tatyanasterlikova" rel="noopener">ВКонтакте</a></div>
 </section>
 
 <section class="section">

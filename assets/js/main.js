@@ -274,8 +274,8 @@ copyPhoneButtons.forEach((button) => {
   let resetTimer;
   button.setAttribute('aria-live', 'polite');
   button.setAttribute('aria-atomic', 'true');
-  button.setAttribute('aria-label', 'Скопировать номер телефона для MAX');
-  button.setAttribute('title', 'Скопировать номер телефона для MAX');
+  button.setAttribute('aria-label', 'Скопировать номер для MAX');
+  button.setAttribute('title', 'Скопировать номер для MAX');
   button.addEventListener('click', async () => {
     window.clearTimeout(resetTimer);
     sendGoal('max_copy');

@@ -50,6 +50,17 @@ async function fill(page) {
   await page.locator('[name="city"]').fill('Тестовый город');
   await page.locator('[name="consent"]').check();
 }
+async function assertValidationFocus(page, name, width) {
+  const field = page.locator(`[name="${name}"]`);
+  assert.equal(await field.getAttribute('aria-invalid'), 'true', `${width}: ${name} is invalid`);
+  const focusedAndVisible = await field.evaluate(element => {
+    const rect = element.getBoundingClientRect();
+    const headerBottom = document.querySelector('.site-header').getBoundingClientRect().bottom;
+    return element === document.activeElement && rect.top >= headerBottom && rect.bottom <= window.innerHeight;
+  });
+  assert.ok(focusedAndVisible, `${width}: ${name} must be focused below the sticky header`);
+  assert.equal(await page.locator('[data-application-result]').isVisible(), false);
+}
 (async () => {
   if (process.env.BROKER_SITE_DIR) {
     const root = path.resolve(process.env.BROKER_SITE_DIR);
@@ -118,6 +129,15 @@ async function fill(page) {
         await page.evaluate(() => window.scrollTo({top:0,behavior:'instant'}));
         await page.screenshot({ path: path.join(output, `${width}-${pathname === '/' ? 'home' : 'form'}.png`), fullPage: false });
       }
+      if (pathname === '/online-zayavka/') {
+        const submit = page.locator('[data-application-submit]');
+        await submit.click();
+        await assertValidationFocus(page, 'client_name', width);
+        await page.locator('[name="client_name"]').fill('Тест интерфейса');
+        await submit.click();
+        await assertValidationFocus(page, 'phone', width);
+        assert.match(await page.locator('#application-phone-hint').innerText(), /номер из 10 цифр/);
+      }
       checks.push({ width, pathname, overflow: false });
     }
     assert.deepEqual(errors, [], `${width}: JavaScript errors`); await context.close();
@@ -130,7 +150,7 @@ async function fill(page) {
     await fill(page);
     await page.locator('[name="consent"]').uncheck();
     await page.locator('[data-application-submit]').click();
-    assert.equal(await page.locator('[data-application-result]').isVisible(), false);
+    await assertValidationFocus(page, 'consent', 390);
     await page.locator('[name="consent"]').check();
     await page.locator('[data-application-submit]').click();
     assert.equal(requests.length, 0, 'Preparation must not send');

@@ -179,7 +179,6 @@ def main() -> int:
         script = phone_script_file.read_text(encoding="utf-8", errors="ignore")
         for marker in (
             "normalizeRussianPhone", "formatRussianPhone", "setCustomValidity",
-            "stopImmediatePropagation", "online_application_phone_error",
             "online_application_more_open", "addEventListener('submit'",
         ):
             if marker not in script:
@@ -188,6 +187,13 @@ def main() -> int:
         if "localStorage" in script or "sessionStorage" in script:
             error("UX-скрипт не должен сохранять имя или телефон в браузере", phone_script_file)
             errors += 1
+    application_script_file = site_dir / APPLICATION_SCRIPT.lstrip("/")
+    if application_script_file.is_file():
+        application_script = application_script_file.read_text(encoding="utf-8")
+        for goal in ("online_application_phone_error", "online_application_validation_error"):
+            if goal not in application_script:
+                error(f"Отсутствует цель ошибок формы: {goal}", application_script_file)
+                errors += 1
 
     legacy_consent_file = site_dir / LEGACY_CONSENT_SCRIPT.lstrip("/")
     if legacy_consent_file.exists():
