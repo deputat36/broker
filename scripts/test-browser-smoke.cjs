@@ -10,7 +10,7 @@ let server;
 assert.ok(['localhost', '127.0.0.1'].includes(new URL(base).hostname), 'Use a local build');
 const output = process.argv[3] || '/tmp/broker-browser-smoke';
 fs.mkdirSync(output, { recursive: true });
-const pages = ['/', '/online-zayavka/', '/kalkulyator-ipoteki/', '/stoimost/', '/uslugi/otkazali-v-ipoteke/', '/kontakty/'];
+const pages = ['/', '/online-zayavka/', '/kalkulyator-ipoteki/', '/stoimost/', '/uslugi/otkazali-v-ipoteke/', '/kontakty/', '/etagi/'];
 const widths = [360, 390, 430, 768, 1440];
 const checks = [];
 let browser;
@@ -92,13 +92,21 @@ async function assertValidationFocus(page, name, width) {
         await directory.locator('summary').click();
         assert.notEqual(await directory.getAttribute('open'), null);
         await directory.locator('summary').click();
-        await page.evaluate(() => window.scrollTo({top:0,behavior:'instant'}));
       }
+      for (const image of await page.locator('img[loading="lazy"]').all()) {
+        await image.scrollIntoViewIfNeeded();
+        await image.evaluate(element => element.decode());
+      }
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
       const layout = await page.evaluate(() => ({ width: innerWidth, content: document.documentElement.scrollWidth,
         h1: document.querySelectorAll('h1').length, brokenImages: [...document.images].filter(i => !i.complete || !i.naturalWidth).map(i => i.src) }));
       assert.equal(layout.h1, 1, pathname + ': H1');
       assert.ok(layout.content <= layout.width + 1, `${width} ${pathname}: horizontal overflow ${layout.content}`);
       assert.deepEqual(layout.brokenImages, [], pathname + ': images');
+      if (pathname === '/etagi/') {
+        const maxButton = page.locator('main [data-copy-phone]').first();
+        assert.equal(await maxButton.innerText(), 'Скопировать номер для MAX');
+      }
       if (pathname === '/online-zayavka/') {
         const y = await page.locator('[name="client_name"]').evaluate(e => e.getBoundingClientRect().top);
         assert.ok(y < 650, `${width}: first field too low (${y})`);
